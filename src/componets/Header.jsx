@@ -10,7 +10,10 @@ const Header = () => {
                         <Link to="/">HOME</Link>
                     </li>
                     <li className='px-4'>
-                        <Link to="/map">지역 인구 분포도</Link>
+                        <Link to="/info">행정 구역 별 맵</Link>
+                    </li>
+                    <li className='px-4'>
+                        <Link to="/monthPop">월별 인구 크롤링</Link>
                     </li>
                     <li className='px-4'>
                         <Link to="/commercial">상권분석</Link>
