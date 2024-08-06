@@ -1,15 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import locData from '../../../data/loc.json';
 
-const Local = () => {
-  const [year, setYear] = useState('2020');
+const Local = ({ selectedRegion }) => {
   const [admCd, setAdmCd] = useState('');
   const [lowSearch, setLowSearch] = useState(1);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = async () => {
+  useEffect(() => {
+    if (selectedRegion) {
+      console.log(`Selected Region: ${selectedRegion}`);
+      const region = locData.find(item => item.loc === selectedRegion);
+      if (region) {
+        setAdmCd(region.adcode.toString());
+        fetchData(region.adcode.toString());
+      }
+    }
+  }, [selectedRegion]);
+
+  const fetchData = async (admCd) => {
     setLoading(true);
     setError(null);
 
@@ -23,13 +34,18 @@ const Local = () => {
 
       const { accessToken } = authResponse.data.result;
 
+      const populationParams = {
+        accessToken: accessToken,
+        year: 2022,
+        low_search: lowSearch
+      };
+
+      if (admCd) {
+        populationParams.adm_cd = admCd;
+      }
+
       const populationResponse = await axios.get('https://sgisapi.kostat.go.kr/OpenAPI3/stats/population.json', {
-        params: {
-          accessToken: accessToken,
-          year: year,
-          adm_cd: admCd || 'non',
-          low_search: lowSearch
-        }
+        params: populationParams
       });
 
       const filteredData = populationResponse.data.result.map(item => ({
@@ -54,12 +70,7 @@ const Local = () => {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">인구 데이터</h1>
-      <div className="mb-4">
-        <label className="block mb-2">
-          Year:
-          <input type="text" value={year} onChange={(e) => setYear(e.target.value)} className="border p-1 rounded" />
-        </label>
-      </div>
+      
       <div className="mb-4">
         <label className="block mb-2">
           Admin Code:
@@ -72,21 +83,44 @@ const Local = () => {
           <input type="number" value={lowSearch} onChange={(e) => setLowSearch(e.target.value)} className="border p-1 rounded" />
         </label>
       </div>
-      <button onClick={fetchData} className="bg-blue-500 text-white p-2 rounded">Fetch Data</button>
+      <button onClick={() => fetchData(admCd)} className="bg-blue-500 text-white p-2 rounded">Fetch Data</button>
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">Error: {error.message}</p>}
       {data && (
         <div className="mt-4">
           <h2 className="text-xl font-semibold mb-2">Filtered Data:</h2>
-          <ul>
-            {data.map((item, index) => (
-              <li key={index} className="mb-2">
-                <strong>행정동 코드:</strong> {item.adm_cd}, <strong>행정구역명:</strong> {item.adm_nm}, <strong>총인구:</strong> {item.tot_ppltn}, <strong>평균나이(세):</strong> {item.avg_age}, 
-                <strong>인구밀도(명/㎢):</strong> {item.ppltn_dnsty}, <strong>총가구:</strong> {item.tot_family}, 
-                <strong>평균가구원수:</strong> {item.avg_fmember_cnt}, <strong>종업원수(전체 사업체):</strong> {item.employee_cnt}, <strong>사업체수(전체 사업체):</strong> {item.corp_cnt}
-              </li>
-            ))}
-          </ul>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-200">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 border">행정동 코드</th>
+                  <th className="px-4 py-2 border">행정구역명</th>
+                  <th className="px-4 py-2 border">총인구</th>
+                  <th className="px-4 py-2 border">평균나이(세)</th>
+                  <th className="px-4 py-2 border">인구밀도(명/㎢)</th>
+                  <th className="px-4 py-2 border">총가구</th>
+                  <th className="px-4 py-2 border">평균가구원수</th>
+                  <th className="px-4 py-2 border">종업원수(전체 사업체)</th>
+                  <th className="px-4 py-2 border">사업체수(전체 사업체)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((item, index) => (
+                  <tr key={index} className="border-t">
+                    <td className="px-4 py-2 border">{item.adm_cd}</td>
+                    <td className="px-4 py-2 border">{item.adm_nm}</td>
+                    <td className="px-4 py-2 border">{item.tot_ppltn}</td>
+                    <td className="px-4 py-2 border">{item.avg_age}</td>
+                    <td className="px-4 py-2 border">{item.ppltn_dnsty}</td>
+                    <td className="px-4 py-2 border">{item.tot_family}</td>
+                    <td className="px-4 py-2 border">{item.avg_fmember_cnt}</td>
+                    <td className="px-4 py-2 border">{item.employee_cnt}</td>
+                    <td className="px-4 py-2 border">{item.corp_cnt}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import MapComponent from './MapComponent';
 import BoundaryHandler from './BoundaryHandler';
 
-const Map = () => {
+const Map = ({ onRegionSelect }) => {
   const [map, setMap] = useState(null);
 
   return (
@@ -12,7 +12,7 @@ const Map = () => {
         옵션 선택
       </div>
       <MapComponent onMapLoad={setMap} />
-      {map && <BoundaryHandler map={map} />}
+      {map && <BoundaryHandler map={map} onRegionSelect={onRegionSelect} />}
     </div>
   );
 };

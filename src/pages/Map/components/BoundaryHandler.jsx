@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import sidoBoundaries from '../../../data/country_province_boundaries.json';
 import sigBoundaries from '../../../data/city_district_boundaries.json';
 
-const BoundaryHandler = ({ map }) => {
+const BoundaryHandler = ({ map, onRegionSelect }) => {
   useEffect(() => {
     if (!map) return;
 
@@ -58,7 +58,7 @@ const BoundaryHandler = ({ map }) => {
         return {
           name: unit.properties.SIG_KOR_NM,
           path: path,
-          center: calculateCenter(coordinates), // Calculate the center
+          center: calculateCenter(coordinates),
           location: unit.properties.SIG_CD,
         };
       });
@@ -90,9 +90,12 @@ const BoundaryHandler = ({ map }) => {
       });
 
       window.kakao.maps.event.addListener(polygon, 'click', function (mouseEvent) {
+        const latlng = mouseEvent.latLng;
+        console.log(`Clicked area: ${area.name}`);
+        console.log(`Clicked location: ${latlng.getLat()}, ${latlng.getLng()}`);
+        onRegionSelect(area.name, latlng.getLat(), latlng.getLng()); // Set the selected region and coordinates
         if (!detailMode) {
           map.setLevel(10);
-          const latlng = mouseEvent.latLng;
           map.panTo(latlng);
         } else {
           // 클릭 이벤트 함수
