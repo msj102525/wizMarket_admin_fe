@@ -11,6 +11,9 @@ const Header = () => {
                 <li>
                     <Link to="/info">행정 구역 별 맵</Link>
                 </li>
+                <li>
+                    <Link to="/monthPop">월별 인구 크롤링</Link>
+                </li>
             </ul>
         </div>
     );
