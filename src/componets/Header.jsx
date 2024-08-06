@@ -9,10 +9,7 @@ const Header = () => {
                     <Link to="/">Go to main</Link>
                 </li>
                 <li>
-                    <Link to="/map">지역 인구 분포도</Link>
-                </li>
-                <li>
-                    <Link to="/main3">Go to main3</Link>
+                    <Link to="/info">행정 구역 별 맵</Link>
                 </li>
             </ul>
         </div>
