@@ -14,15 +14,9 @@ export default function PopulationData() {
     setError(null);
 
     try {
-      // Step 1: Get accessToken
-      const tokenResponse = await axios.get('http://127.0.0.1:8000/api/get-token');
-      const accessToken = tokenResponse.data.result.accessToken;
-      console.log('Access Token:', accessToken); // 토큰 값을 콘솔에 출력
-
-      // Step 2: Fetch population data
       const populationResponse = await axios.get('https://sgisapi.kostat.go.kr/OpenAPI3/stats/population.json', {
         params: {
-          accessToken: accessToken,
+          accessToken: process.env.REACT_APP_SGIS_POPULATION_API_KEY,
           year: year,
           adm_cd: admCd || 'non', // admCd가 비어있을 경우 'non'으로 설정
           low_search: lowSearch
