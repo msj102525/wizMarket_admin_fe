@@ -6,7 +6,7 @@ const Main = () => {
         <div>
             <Header />
             <h1 className="text-3xl font-bold underline">
-                Hello world!!
+                Wiz
             </h1>
         </div>
     );

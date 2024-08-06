@@ -4,17 +4,23 @@ import { Link } from 'react-router-dom';
 const Header = () => {
     return (
         <div>
-            <ul>
-                <li>
-                    <Link to="/">Go to main</Link>
-                </li>
-                <li>
-                    <Link to="/map">지역 인구 분포도</Link>
-                </li>
-                <li>
-                    <Link to="/main3">Go to main3</Link>
-                </li>
-            </ul>
+            <nav>
+                <ul className='flex p-4'>
+                    <li className='px-4'>
+                        <Link to="/">HOME</Link>
+                    </li>
+                    <li className='px-4'>
+                        <Link to="/map">지역 인구 분포도</Link>
+                    </li>
+                    <li className='px-4'>
+                        <Link to="/commercial">상권분석</Link>
+                    </li>
+                    <li className='px-4'>
+                        <Link to="/commercial2">상권분석2</Link>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     );
 };
