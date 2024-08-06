@@ -4,7 +4,7 @@ import Main from "./pages/Main/Main";
 import Main2 from "./pages/Main2/Main2";
 import Main3 from "./pages/Main3/Main3";
 import Local from  './pages/Population/Local'
-import Map from './pages/Population/Map'
+import Map from './pages/Map/Map'
 
 const Router = () => {
   return (
