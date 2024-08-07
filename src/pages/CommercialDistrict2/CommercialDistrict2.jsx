@@ -1,4 +1,4 @@
-import Header from '../../componets/Header';
+import Header from '../../components/Header';
 import KakaoMap from './components/KakaoMap';
 // import CommercialDistrictList2 from './components/CommercialDistrictList2';
 

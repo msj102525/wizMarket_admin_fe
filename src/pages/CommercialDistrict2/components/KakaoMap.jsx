@@ -4,7 +4,7 @@ const KakaoMap = () => {
     useEffect(() => {
         const script = document.createElement('script');
         script.async = true;
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_API_KEY}&autoload=false`;
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_API_KEY}&autoload=false&libraries=services`;
         document.head.appendChild(script);
 
         script.onload = () => {
@@ -18,7 +18,55 @@ const KakaoMap = () => {
                             level: 3,
                         };
 
-                        new window.kakao.maps.Map(container, options);
+                        const map = new window.kakao.maps.Map(container, options);
+
+                        // 주소-좌표 변환 객체를 생성합니다
+                        const geocoder = new window.kakao.maps.services.Geocoder();
+                        const marker = new window.kakao.maps.Marker();
+                        const infowindow = new window.kakao.maps.InfoWindow({ zindex: 1 });
+
+                        const searchAddrFromCoords = (coords, callback) => {
+                            geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+                        };
+
+                        const searchDetailAddrFromCoords = (coords, callback) => {
+                            geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+                        };
+
+                        const displayCenterInfo = (result, status) => {
+                            if (status === window.kakao.maps.services.Status.OK) {
+                                const infoDiv = document.getElementById('centerAddr');
+                                for (let i = 0; i < result.length; i++) {
+                                    if (result[i].region_type === 'H') {
+                                        infoDiv.innerHTML = result[i].address_name;
+                                        break;
+                                    }
+                                }
+                            }
+                        };
+
+                        searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+
+                        window.kakao.maps.event.addListener(map, 'click', (mouseEvent) => {
+                            searchDetailAddrFromCoords(mouseEvent.latLng, (result, status) => {
+                                if (status === window.kakao.maps.services.Status.OK) {
+                                    let detailAddr = result[0].road_address ? `<div>도로명주소 : ${result[0].road_address.address_name}</div>` : '';
+                                    detailAddr += `<div>지번 주소 : ${result[0].address.address_name}</div>`;
+
+                                    const content = `<div class="bAddr"><span class="title">법정동 주소정보</span>${detailAddr}</div>`;
+
+                                    marker.setPosition(mouseEvent.latLng);
+                                    marker.setMap(map);
+
+                                    infowindow.setContent(content);
+                                    infowindow.open(map, marker);
+                                }
+                            });
+                        });
+
+                        window.kakao.maps.event.addListener(map, 'idle', () => {
+                            searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+                        });
                     } else {
                         console.error('지도 컨테이너를 찾을 수 없습니다');
                     }
@@ -38,7 +86,12 @@ const KakaoMap = () => {
     }, []);
 
     return (
-        <div id='map' className='w-[500px] h-[500px]'>
+        <div className="map_wrap w-[500px] h-[500px] relative">
+            <div id="map" className="w-full h-full"></div>
+            <div className="hAddr absolute left-2 top-2 rounded bg-white bg-opacity-80 z-10 p-2">
+                <span className="title font-bold">지도중심기준 행정동 주소정보</span>
+                <span id="centerAddr" className="block mt-1 font-normal"></span>
+            </div>
         </div>
     );
 };
