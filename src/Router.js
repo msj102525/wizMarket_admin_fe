@@ -5,6 +5,7 @@ import Info from './pages/Map/Info'
 import MonthPop from './pages/Month/MonthPop'
 import CommercialDistrict from "./pages/CommercialDistrict/CommercialDistrict";
 import CommercialDistrict2 from "./pages/CommercialDistrict2/CommercialDistrict2";
+import FastAPIRequest from "./pages/FastAPI/FastAPIRequest";
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
         <Route path="/monthpop" element={<MonthPop />} />
         <Route path="/commercial" element={<CommercialDistrict />} />
         <Route path="/commercial2" element={<CommercialDistrict2 />} />
+        <Route path="/fastAPITest" element={<FastAPIRequest />} />
       </Routes>
     </BrowserRouter>
   );
