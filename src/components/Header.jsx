@@ -13,7 +13,13 @@ const Header = () => {
                         <Link to="/info">행정 구역 별 맵</Link>
                     </li>
                     <li className='px-4'>
-                        <Link to="/monthPop">월별 인구 크롤링</Link>
+                        <Link to="/monthPop">월별 인구 DB 저장</Link>
+                    </li>
+                    <li className='px-4'>
+                        <Link to="/getPop">월별 인구 DB 보기</Link>
+                    </li>
+                    <li className='px-4'>
+                        <Link to="/testOpenUp">오픈업 크롤링 테스트</Link>
                     </li>
                     <li className='px-4'>
                         <Link to="/commercial">상권분석</Link>
