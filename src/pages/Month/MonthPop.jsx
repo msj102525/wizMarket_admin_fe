@@ -1,42 +1,140 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import * as XLSX from 'xlsx';
+import admmCdData from '../../data/admmCdData.xlsx'; 
 
-const TableDataComponent = () => {
-  const [loading, setLoading] = useState(false);
+const PopulationDataRequest = () => {
+  const [formData, setFormData] = useState({
+    srchFrYm: '202210',
+    srchToYm: '202210'
+  });
+
+  const [admmCdList, setAdmmCdList] = useState([]);
   const [error, setError] = useState(null);
-  const [tableHtml, setTableHtml] = useState('');
 
-  const handleFetchData = async () => {
-    setLoading(true);
-    setError(null);
+  useEffect(() => {
+    const fetchAdmmCdData = async () => {
+      try {
+        const response = await fetch(admmCdData);
+        const arrayBuffer = await response.arrayBuffer();
+        const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        const admmCdList = jsonData.map(row => ({ admmCd: row[0], lv: row[1] }));
+        setAdmmCdList(admmCdList);
+      } catch (error) {
+        console.error('Error reading the Excel file:', error);
+      }
+    };
+
+    fetchAdmmCdData();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const incrementMonth = (ym) => {
+    let year = parseInt(ym.substring(0, 4), 10);
+    let month = parseInt(ym.substring(4), 10);
+
+    if (month === 12) {
+      year += 1;
+      month = 1;
+    } else {
+      month += 1;
+    }
+
+    return `${year}${month < 10 ? '0' + month : month}`;
+  };
+
+  const fetchPopulationData = async () => {
+    const url = 'https://apis.data.go.kr/1741000/admmSexdAgePpltn/selectAdmmSexdAgePpltn';
+    const serviceKey = '1jueoVRRiok5ir7CFXToGLdKxxO8VbivsiTBpHUYLYBa+AISMUtKyXEXemXk1a275576TI/ai1e2yMlI+RNCWA=='; // 실제 서비스 키로 변경 필요
+
+    let currentYm = formData.srchFrYm;
+
     try {
-      const response = await axios.get('http://127.0.0.1:8000/test-chrome');
-      setTableHtml(response.data); // 서버에서 HTML을 직접 받음
+      while (parseInt(currentYm) <= 202407) {
+        for (const { admmCd, lv } of admmCdList) {
+          const params = {
+            ...formData,
+            admmCd,
+            lv,
+            serviceKey,
+            regSeCd: '1',
+            type: 'JSON',
+            numOfRows: '100',
+            pageNo: '1'
+          };
+
+          const response = await axios.get(url, { params });
+          const items = response.data.Response.items.item;
+          console.log(items);
+
+          // 데이터를 FastAPI 서버로 전송
+          await sendItemsToServer(items);
+        }
+        currentYm = incrementMonth(currentYm);
+        setFormData((prevData) => ({
+          ...prevData,
+          srchFrYm: currentYm,
+          srchToYm: currentYm,
+        }));
+      }
+      setError(null);
     } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
+      console.error('Error fetching data:', error);
+      setError('Error fetching data');
     }
   };
 
-  
+  const sendItemsToServer = async (items) => {
+    try {
+      const response = await axios.post('http://localhost:8000/receive-items', {
+        items: items
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('Server response:', response.data);
+    } catch (error) {
+      console.error('Error sending data to server:', error);
+    }
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-6">옵션별 조회 결과</h1>
-      <button
-        onClick={handleFetchData}
-        className="mt-4 w-2lg bg-indigo-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >
-        조회
-      </button>
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error.message}</div>}
-      <div className="overflow-x-auto max-w-6xl max-h-96 overflow-y-auto">
-        <div dangerouslySetInnerHTML={{ __html: tableHtml }} />
-      </div>
+    <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+      <h1 className="text-2xl font-bold mb-6 text-center">Population Data Request</h1>
+      <form className="space-y-4">
+        
+        <div>
+          <label className="block font-semibold">Search From (YYYYMM):</label>
+          <input
+            type="text"
+            name="srchFrYm"
+            value={formData.srchFrYm}
+            onChange={handleChange}
+            className="mt-1 p-2 w-full border rounded-md"
+          />
+        </div>
+        <button
+          type="button"
+          onClick={fetchPopulationData}
+          className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
+        >
+          Fetch Data
+        </button>
+        
+      </form>
+      
     </div>
   );
 };
 
-export default TableDataComponent;
+export default PopulationDataRequest;
