@@ -2,7 +2,7 @@ import axios from 'axios';
 import Header from '../../components/Header';
 import { useEffect, useState, useCallback } from 'react';
 import CommercialDistrictList from './components/CommercialDistrictList';
-import KakaoMap from '../CommercialDistrict2/components/KakaoMap';
+import KakaoMap from '../../components/KakaoMap';
 
 const CommercialDistrict = () => {
     const [data, setData] = useState([]);
