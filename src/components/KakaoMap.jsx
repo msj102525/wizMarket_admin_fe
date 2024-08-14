@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setRoadAddress } from '../stores/addressSlice';
 
-const KakaoMap = ({ onAddressChange }) => {
+const KakaoMap = () => {
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const script = document.createElement('script');
         script.async = true;
@@ -19,7 +23,6 @@ const KakaoMap = ({ onAddressChange }) => {
                         };
 
                         const map = new window.kakao.maps.Map(container, options);
-
                         const geocoder = new window.kakao.maps.services.Geocoder();
                         const marker = new window.kakao.maps.Marker();
                         const infowindow = new window.kakao.maps.InfoWindow({ zindex: 1 });
@@ -38,6 +41,8 @@ const KakaoMap = ({ onAddressChange }) => {
                                 for (let i = 0; i < result.length; i++) {
                                     if (result[i].region_type === 'H') {
                                         infoDiv.innerHTML = result[i].address_name;
+                                        // 주소 상태를 Redux로 디스패치
+                                        dispatch(setRoadAddress(result[i].address_name));
                                         break;
                                     }
                                 }
@@ -59,10 +64,8 @@ const KakaoMap = ({ onAddressChange }) => {
                                     infowindow.setContent(content);
                                     infowindow.open(map, marker);
 
-                                    // 부모 컴포넌트에 주소 전달
-                                    if (onAddressChange) {
-                                        onAddressChange(address);
-                                    }
+                                    // 클릭한 위치의 주소를 Redux 상태로 디스패치
+                                    dispatch(setRoadAddress(address));
                                 }
                             });
                         });
@@ -86,8 +89,7 @@ const KakaoMap = ({ onAddressChange }) => {
         return () => {
             document.head.removeChild(script);
         };
-    // }, [onAddressChange]);
-    }, [onAddressChange]);
+    }, [dispatch]);
 
     return (
         <div className="map_wrap w-[500px] h-[500px] relative">

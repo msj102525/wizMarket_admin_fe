@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import KakaoMap from '../../components/KakaoMap';
 
 const CommercialDistrict2 = () => {
-    const [address, setAddress] = useState("");
+    const roadAddress = useSelector((state) => state.address.roadAddress);
 
-    const handleAddressChange = (newAddress) => {
-        setAddress(newAddress);
-    };
+    useEffect(() => {
+        
+    }, [])
 
     return (
         <div>
             <Header />
-            <div>Selected Address: {address}</div>
-            <KakaoMap onAddressChange={handleAddressChange} />
-
+            <div>Selected Address: {roadAddress}</div>
+            <KakaoMap />
         </div>
     );
 };
