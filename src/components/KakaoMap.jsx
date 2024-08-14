@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const KakaoMap = () => {
+const KakaoMap = ({ onAddressChange }) => {
     useEffect(() => {
         const script = document.createElement('script');
         script.async = true;
@@ -20,7 +20,6 @@ const KakaoMap = () => {
 
                         const map = new window.kakao.maps.Map(container, options);
 
-                        // 주소-좌표 변환 객체를 생성합니다
                         const geocoder = new window.kakao.maps.services.Geocoder();
                         const marker = new window.kakao.maps.Marker();
                         const infowindow = new window.kakao.maps.InfoWindow({ zindex: 1 });
@@ -50,16 +49,20 @@ const KakaoMap = () => {
                         window.kakao.maps.event.addListener(map, 'click', (mouseEvent) => {
                             searchDetailAddrFromCoords(mouseEvent.latLng, (result, status) => {
                                 if (status === window.kakao.maps.services.Status.OK) {
-                                    let detailAddr = result[0].road_address ? `<div>도로명주소 : ${result[0].road_address.address_name}</div>` : '';
-                                    detailAddr += `<div>지번 주소 : ${result[0].address.address_name}</div>`;
-
-                                    const content = `<div class="bAddr"><span class="title">법정동 주소정보</span>${detailAddr}</div>`;
+                                    const detailAddr = result[0].road_address ? `<div>도로명주소 : ${result[0].road_address.address_name}</div>` : '';
+                                    const address = result[0].address.address_name;
+                                    const content = `<div class="bAddr"><span class="title">법정동 주소정보</span>${detailAddr}<div>지번 주소 : ${address}</div></div>`;
 
                                     marker.setPosition(mouseEvent.latLng);
                                     marker.setMap(map);
 
                                     infowindow.setContent(content);
                                     infowindow.open(map, marker);
+
+                                    // 부모 컴포넌트에 주소 전달
+                                    if (onAddressChange) {
+                                        onAddressChange(address);
+                                    }
                                 }
                             });
                         });
@@ -83,7 +86,8 @@ const KakaoMap = () => {
         return () => {
             document.head.removeChild(script);
         };
-    }, []);
+    // }, [onAddressChange]);
+    }, [onAddressChange]);
 
     return (
         <div className="map_wrap w-[500px] h-[500px] relative">
