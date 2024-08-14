@@ -1,29 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import TestOpenComponent from './components/TestOpenComponent';
 
-const CustomSearch = () => {
-  const handleClick = async () => {
+const TestOpenUp = () => {
+  const [keyword, setKeyword] = useState('');
+  const [data, setData] = useState(null);
+
+  const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/testopenup');
-      console.log(response.data);
-      alert("Input field clicked successfully!");
+      const response = await axios.post('http://localhost:8000/enter-keyword', { keyword });
+      setData(response.data.data);
+      console.log(response.data.data); // 데이터 확인
     } catch (error) {
-      console.error(error);
-      alert("Failed to click input field.");
+      console.error('Error:', error);
     }
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold mb-6 text-center">Custom Search</h1>
-      <button
-        onClick={handleClick}
-        className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
-      >
-        Click Search Input on Openub
-      </button>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
+      <div className="mb-4">
+        <input 
+          type="text" 
+          value={keyword} 
+          onChange={(e) => setKeyword(e.target.value)} 
+          placeholder="키워드를 입력하세요"
+          className="px-4 py-2 border rounded shadow"
+        />
+        <button 
+          onClick={handleSubmit}
+          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-700"
+        >
+          전송
+        </button>
+      </div>
+      {data && <TestOpenComponent data={data} />}
     </div>
   );
 };
 
-export default CustomSearch;
+export default TestOpenUp;

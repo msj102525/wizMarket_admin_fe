@@ -5,8 +5,8 @@ import admmCdData from '../../data/admmCdData.xlsx';
 
 const PopulationDataRequest = () => {
   const [formData, setFormData] = useState({
-    srchFrYm: '202210',
-    srchToYm: '202210'
+    srchFrYm: new Date().toISOString().slice(0, 7).replace('-', ''),  // 현재 년월로 설정
+    srchToYm: new Date().toISOString().slice(0, 7).replace('-', '')  // 현재 년월로 설정
   });
 
   const [admmCdList, setAdmmCdList] = useState([]);
@@ -38,53 +38,29 @@ const PopulationDataRequest = () => {
     }));
   };
 
-  const incrementMonth = (ym) => {
-    let year = parseInt(ym.substring(0, 4), 10);
-    let month = parseInt(ym.substring(4), 10);
-
-    if (month === 12) {
-      year += 1;
-      month = 1;
-    } else {
-      month += 1;
-    }
-
-    return `${year}${month < 10 ? '0' + month : month}`;
-  };
-
   const fetchPopulationData = async () => {
     const url = 'https://apis.data.go.kr/1741000/admmSexdAgePpltn/selectAdmmSexdAgePpltn';
     const serviceKey = '1jueoVRRiok5ir7CFXToGLdKxxO8VbivsiTBpHUYLYBa+AISMUtKyXEXemXk1a275576TI/ai1e2yMlI+RNCWA=='; // 실제 서비스 키로 변경 필요
 
-    let currentYm = formData.srchFrYm;
-
     try {
-      while (parseInt(currentYm) <= 202407) {
-        for (const { admmCd, lv } of admmCdList) {
-          const params = {
-            ...formData,
-            admmCd,
-            lv,
-            serviceKey,
-            regSeCd: '1',
-            type: 'JSON',
-            numOfRows: '100',
-            pageNo: '1'
-          };
+      for (const { admmCd, lv } of admmCdList) {
+        const params = {
+          ...formData,
+          admmCd,
+          lv,
+          serviceKey,
+          regSeCd: '1',
+          type: 'JSON',
+          numOfRows: '100',
+          pageNo: '1'
+        };
 
-          const response = await axios.get(url, { params });
-          const items = response.data.Response.items.item;
-          console.log(items);
+        const response = await axios.get(url, { params });
+        const items = response.data.Response.items.item;
+        console.log(items);
 
-          // 데이터를 FastAPI 서버로 전송
-          await sendItemsToServer(items);
-        }
-        currentYm = incrementMonth(currentYm);
-        setFormData((prevData) => ({
-          ...prevData,
-          srchFrYm: currentYm,
-          srchToYm: currentYm,
-        }));
+        // 데이터를 FastAPI 서버로 전송
+        await sendItemsToServer(items);
       }
       setError(null);
     } catch (error) {

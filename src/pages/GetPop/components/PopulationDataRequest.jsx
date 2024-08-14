@@ -33,7 +33,7 @@ const PopulationDataRequest = ({ onFetchData }) => {
 
   const generateDateOptions = () => {
     const startYear = 2022;
-    const startMonth = 10;
+    const startMonth = 4;
     const endYear = 2024;
     const endMonth = 7;
     const options = [];
