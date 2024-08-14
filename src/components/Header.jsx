@@ -25,7 +25,7 @@ const Header = () => {
                         <Link to="/commercial">상권분석</Link>
                     </li>
                     <li className='px-4'>
-                        <Link to="/commercial2">상권분석2</Link>
+                        <Link to="/commercial2">뜨는 업종</Link>
                     </li>
                 </ul>
             </nav>
