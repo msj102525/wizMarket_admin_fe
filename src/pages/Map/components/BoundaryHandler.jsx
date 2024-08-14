@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import sidoBoundaries from '../../../data/country_province_boundaries.json';
 import sigBoundaries from '../../../data/city_district_boundaries.json';
 
 const BoundaryHandler = ({ map, onRegionSelect }) => {
+  // onRegionSelect를 useCallback으로 감싸기
+  const memoizedOnRegionSelect = useCallback(onRegionSelect, [onRegionSelect]);
+
   useEffect(() => {
     if (!map) return;
 
@@ -93,7 +96,7 @@ const BoundaryHandler = ({ map, onRegionSelect }) => {
         const latlng = mouseEvent.latLng;
         console.log(`Clicked area: ${area.name}`);
         console.log(`Clicked location: ${latlng.getLat()}, ${latlng.getLng()}`);
-        onRegionSelect(area.name, latlng.getLat(), latlng.getLng()); // Set the selected region and coordinates
+        memoizedOnRegionSelect(area.name, latlng.getLat(), latlng.getLng()); // Set the selected region and coordinates
         if (!detailMode) {
           map.setLevel(10);
           map.panTo(latlng);
@@ -116,7 +119,7 @@ const BoundaryHandler = ({ map, onRegionSelect }) => {
 
       overlays.push(overlay);
     }
-  }, [map]);
+  }, [map, memoizedOnRegionSelect]);
 
   return null;
 };

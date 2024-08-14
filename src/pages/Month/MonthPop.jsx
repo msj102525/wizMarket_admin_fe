@@ -10,7 +10,7 @@ const PopulationDataRequest = () => {
   });
 
   const [admmCdList, setAdmmCdList] = useState([]);
-  const [error, setError] = useState(null);
+  const setError = useState(null);
 
   useEffect(() => {
     const fetchAdmmCdData = async () => {

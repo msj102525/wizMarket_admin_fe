@@ -3,8 +3,8 @@ import axios from 'axios';
 
 const PopulationDataRequest = ({ onFetchData }) => {
   const [formData, setFormData] = useState({
-    srchFrYm: '202210',
-    srchToYm: '202210',
+    srchFrYm: '202204',
+    srchToYm: '202204',
     region: '',
     subRegion: ''
   });

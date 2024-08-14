@@ -8,10 +8,13 @@ const TestOpenUp = () => {
 
   const handleSubmit = async () => {
     try {
+      // response 변수를 선언하고 axios 요청을 통해 데이터를 받음
       const response = await axios.post('http://localhost:8000/enter-keyword', { keyword });
+      // 데이터 설정
       setData(response.data.data);
       console.log(response.data.data); // 데이터 확인
     } catch (error) {
+      // 에러 발생 시 콘솔에 에러 로그 출력
       console.error('Error:', error);
     }
   };

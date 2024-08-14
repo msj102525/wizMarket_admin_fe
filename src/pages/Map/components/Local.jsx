@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import locData from '../../../data/loc.json';
 
@@ -9,18 +9,7 @@ const Local = ({ selectedRegion }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (selectedRegion) {
-      console.log(`Selected Region: ${selectedRegion}`);
-      const region = locData.find(item => item.loc === selectedRegion);
-      if (region) {
-        setAdmCd(region.adcode.toString());
-        fetchData(region.adcode.toString());
-      }
-    }
-  }, [selectedRegion]);
-
-  const fetchData = async (admCd) => {
+  const fetchData = useCallback(async (admCd) => {
     setLoading(true);
     setError(null);
 
@@ -65,7 +54,18 @@ const Local = ({ selectedRegion }) => {
       setError(err);
     }
     setLoading(false);
-  };
+  }, [lowSearch]);
+
+  useEffect(() => {
+    if (selectedRegion) {
+      console.log(`Selected Region: ${selectedRegion}`);
+      const region = locData.find(item => item.loc === selectedRegion);
+      if (region) {
+        setAdmCd(region.adcode.toString());
+        fetchData(region.adcode.toString());
+      }
+    }
+  }, [selectedRegion, fetchData]);
 
   return (
     <div className="p-4">
