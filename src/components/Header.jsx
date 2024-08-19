@@ -19,7 +19,7 @@ const Header = () => {
                         <Link to="/getPop">월별 인구 DB 보기</Link>
                     </li>
                     <li className='px-4'>
-                        <Link to="/testOpenUp">오픈업 크롤링 테스트</Link>
+                        <Link to="/testOpenUp">동별 상권 정보(유동인구, 매출, 세대수 등)</Link>
                     </li>
                     <li className='px-4'>
                         <Link to="/commercial">상권분석</Link>

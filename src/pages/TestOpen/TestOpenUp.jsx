@@ -1,37 +1,14 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+// src/pages/TestOpen/TestOpen.jsx
+import React from 'react';
+import CrawlForm from './components/CrawlForm';
 
-const TestOpenUp = () => {
-  const [message, setMessage] = useState('');
-
-  const handleCrawl = async () => {
-    try {
-      // 크롤링 시작 요청
-      await axios.post('http://localhost:8000/start-crawl');
-      setMessage('크롤링이 성공적으로 완료되었습니다.');
-    } catch (error) {
-      console.error('Error:', error);
-      setMessage('크롤링에 실패했습니다.');
-    }
-  };
-
+function TestOpen() {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
-      <div className="mb-4">
-        <button 
-          onClick={handleCrawl}
-          className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-700"
-        >
-          크롤링 시작
-        </button>
-      </div>
-      {message && (
-        <div className={`p-4 ${message.includes('성공') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'} rounded shadow-md`}>
-          {message}
-        </div>
-      )}
+    <div>
+      <h1 className="text-2xl font-bold text-center mb-6">DB 조회 페이지</h1>
+      <CrawlForm />
     </div>
   );
-};
+}
 
-export default TestOpenUp;
+export default TestOpen;
