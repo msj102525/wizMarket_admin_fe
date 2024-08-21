@@ -18,7 +18,7 @@ const KakaoMap = () => {
 
                     if (container) {
                         const options = {
-                            center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
+                            center: new window.kakao.maps.LatLng(37.48197916687, 127.057489994874),
                             level: 3,
                         };
 

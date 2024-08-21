@@ -2,7 +2,6 @@ import axios from 'axios';
 import Header from '../../components/Header';
 import { useEffect, useState, useCallback } from 'react';
 import CommercialDistrictList from './components/CommercialDistrictList';
-import KakaoMap from '../../components/KakaoMap';
 
 const CommercialDistrict = () => {
     const [data, setData] = useState([]);
@@ -49,7 +48,7 @@ const CommercialDistrict = () => {
             <h1 className="text-3xl font-bold underline">
                 상권분석
             </h1>
-            <KakaoMap />
+            {/* <KakaoMap /> */}
             <CommercialDistrictList data={data} />
         </div>
     );

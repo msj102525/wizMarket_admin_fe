@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import KakaoMap from '../../components/KakaoMap';
 import axios from 'axios';
-import CommercialDistrictList2 from './components/CommercialDistrictList2'; // 리스트 컴포넌트 가져오기
+import RisingBusinessList from './components/RisingBusinessList';
 
-const CommercialDistrict2 = () => {
+const RisingBusiness = () => {
     const administrativeAddress = useSelector((state) => state.address.administrativeAddress);
     const roadAddress = useSelector((state) => state.address.roadAddress);
 
@@ -27,14 +27,14 @@ const CommercialDistrict2 = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (!administrativeAddress) return;
-
+            
             setLoading(true);
             setError(null);
 
-            const subDistrict = extractSubDistrict(administrativeAddress);
+            const subDistrict = await extractSubDistrict(administrativeAddress);
 
             try {
-                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial`, {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/rising`, {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                     },
@@ -50,7 +50,9 @@ const CommercialDistrict2 = () => {
             }
         };
 
-        fetchData();
+        if (administrativeAddress) {
+            fetchData();
+        }
     }, [administrativeAddress]);
 
     return (
@@ -65,11 +67,11 @@ const CommercialDistrict2 = () => {
                         <KakaoMap />
                     </div>
                     <div className="">
-                        <p>지도중심기준 상권분석</p>
+                        <p>지도중심기준 지역 뜨는 업종</p>
                         {loading && <p>Loading...</p>}
                         {error && <p>Error: {error}</p>}
                         {data && !loading && !error && (
-                            <CommercialDistrictList2 data={data} />
+                            <RisingBusinessList data={data} />
                         )}
                     </div>
                 </div>
@@ -78,4 +80,4 @@ const CommercialDistrict2 = () => {
     );
 };
 
-export default CommercialDistrict2;
+export default RisingBusiness;
