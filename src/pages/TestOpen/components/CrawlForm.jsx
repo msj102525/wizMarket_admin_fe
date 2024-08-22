@@ -12,7 +12,7 @@ function CrawlForm() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8000/getmovepop', {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/getmovepop`, {
         srchFrYm: startYearMonth.replace('-', ''),
         srchToYm: endYearMonth.replace('-', ''),
         region: location,
@@ -28,6 +28,7 @@ function CrawlForm() {
   const renderData = (item) => {
     return (
       <div key={item.keyword} className="bg-white shadow rounded-lg p-6 mb-4">
+        <p><span className="font-bold">주소:</span> {item.keyword.trim()}</p>
         <p><span className="font-bold">업소:</span> {item.business.trim()}</p>
         <p><span className="font-bold">유동인구:</span> {item.person.trim()}</p>
         <p><span className="font-bold">매출:</span> {item.price.trim()}</p>
