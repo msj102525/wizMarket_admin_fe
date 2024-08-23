@@ -5,6 +5,8 @@ import KakaoMap from '../../components/KakaoMap';
 import axios from 'axios';
 import RisingBusinessList from './components/RisingBusinessList';
 
+
+
 const RisingBusiness = () => {
     const administrativeAddress = useSelector((state) => state.address.administrativeAddress);
     const roadAddress = useSelector((state) => state.address.roadAddress);
@@ -13,32 +15,48 @@ const RisingBusiness = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const extractSubDistrict = (address) => {
+    const subStringAdress = (address) => {
+        console.log(address);
         const parts = address.split(' ');
-        if (parts.length > 2) {
-            if (parts.length > 3) {
-                return parts.slice(3).join(' ');
-            }
-            return parts.slice(2).join(' ');
+
+        let city = '';
+        let subDistrict = '';
+
+        if (parts.length >= 3) {
+            city = parts[0];
+            subDistrict = parts.slice(2).join(' ');
+        } else if (parts.length === 2) {
+            city = parts[0];
+            subDistrict = parts[2];
         }
-        return '';
+
+        return {
+            city,
+            subDistrict
+        };
     };
+
+
 
     useEffect(() => {
         const fetchData = async () => {
             if (!administrativeAddress) return;
-            
+
             setLoading(true);
             setError(null);
 
-            const subDistrict = await extractSubDistrict(administrativeAddress);
+            const { city, subDistrict } = subStringAdress(administrativeAddress);
+            console.log(city, subDistrict);
 
             try {
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/rising`, {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                     },
-                    params: { sub_district: subDistrict },
+                    params: {
+                        city: city,
+                        sub_district: subDistrict,
+                    },
                 });
                 console.log(response);
                 setData(response.data);
