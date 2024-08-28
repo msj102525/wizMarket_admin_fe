@@ -3,10 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const addressSlice = createSlice({
     name: 'address',
     initialState: {
+        kakaoAddressResult: '',
         roadAddress: '',
         administrativeAddress: '',
     },
     reducers: {
+        setKakaoAddressResult: (state, action) => {
+            state.kakaoAddressResult = action.payload;
+        },
         setRoadAddress: (state, action) => {
             state.roadAddress = action.payload;
         },
@@ -16,6 +20,6 @@ const addressSlice = createSlice({
     },
 });
 
-export const { setRoadAddress, setAdministrativeAddress } = addressSlice.actions;
+export const { setRoadAddress, setAdministrativeAddress, setKakaoAddressResult } = addressSlice.actions;
 
 export default addressSlice.reducer;

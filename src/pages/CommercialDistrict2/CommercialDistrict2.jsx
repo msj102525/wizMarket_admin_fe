@@ -6,41 +6,24 @@ import axios from 'axios';
 import CommercialDistrictList2 from './components/CommercialDistrictList2'; // 리스트 컴포넌트 가져오기
 
 const CommercialDistrict2 = () => {
-    const administrativeAddress = useSelector((state) => state.address.administrativeAddress);
-    const roadAddress = useSelector((state) => state.address.roadAddress);
+    const roadAddress = useSelector((state) => state.address.roadAddress)
+    const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult)
+    // console.log(kakaoAddressResult)
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const parseAddress = (address) => {
-        const parts = address.split(' ');
 
-        let city, district, sub_district;
-
-        if (parts.length === 4) {
-            city = parts[0];
-            district = parts[1];
-            sub_district = parts.slice(3).join('');
-        } else if (parts.length >= 3) {
-            city = parts[0];
-            district = parts[1];
-            sub_district = parts.slice(2).join('');
-        } else {
-            return { city: '', district: '', sub_district: '' };
-        }
-
-        return { city, district, sub_district };
-    };
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!administrativeAddress) return;
+            if (!kakaoAddressResult) return;
 
             setLoading(true);
             setError(null);
 
-            const { city, district, sub_district } = parseAddress(administrativeAddress);
+            const { region_1depth_name: city, region_2depth_name: district, region_3depth_name: sub_district } = kakaoAddressResult;
 
             try {
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial`, {
@@ -49,7 +32,6 @@ const CommercialDistrict2 = () => {
                     },
                     params: { city, district, sub_district },
                 });
-                console.log(response);
                 setData(response.data);
             } catch (error) {
                 console.error('Error fetching data from FastAPI', error);
@@ -60,14 +42,14 @@ const CommercialDistrict2 = () => {
         };
 
         fetchData();
-    }, [administrativeAddress]);
+    }, [kakaoAddressResult]);
 
     return (
         <div>
             <Header />
             <div className="px-6">
                 <div>도로명 주소: {roadAddress}</div>
-                <div>행정동 주소: {administrativeAddress}</div>
+                <div>행정동 주소: {kakaoAddressResult.region_1depth_name} {kakaoAddressResult.region_2depth_name} {kakaoAddressResult.region_3depth_name}</div>
 
                 <div className="flex gap-2">
                     <div className="">

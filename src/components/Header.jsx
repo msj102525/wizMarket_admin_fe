@@ -27,6 +27,9 @@ const Header = () => {
                     <li className='px-4'>
                         <Link to="/rising">뜨는 업종</Link>
                     </li>
+                    <li className='px-4'>
+                        <Link to="/weather">날씨</Link>
+                    </li>
                 </ul>
             </nav>
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setRoadAddress, setAdministrativeAddress } from '../stores/addressSlice';
+import { setRoadAddress, setAdministrativeAddress, setKakaoAddressResult } from '../stores/addressSlice';
 
 const KakaoMap = () => {
     const dispatch = useDispatch();
@@ -43,6 +43,7 @@ const KakaoMap = () => {
                                         infoDiv.innerHTML = result[i].address_name;
                                         // 주소 상태를 Redux로 디스패치
                                         dispatch(setAdministrativeAddress(result[i].address_name));
+                                        dispatch(setKakaoAddressResult(result[i]))
                                         // console.log(result[i])
                                         break;
                                     }
