@@ -8,161 +8,77 @@ const CommercialDistrictList2 = ({ data }) => {
             ) : (
                 <div className="flex flex-wrap gap-6">
                     {data.map((item) => (
-                        <div key={item.id} className="border border-gray-300 rounded-lg p-4 bg-white w-full sm:w-80 shadow-md">
-                            <h2 className="text-lg font-semibold mb-3">
-                                {item.city} {item.district} {item.sub_district}
-                            </h2>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">카테고리:</span> {item.main_category} &gt; {item.sub_category} &gt; {item.detail_category}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">전국 밀도:</span> {item.national_density || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">시/도 밀도:</span> {item.city_density || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">시/군/구 밀도:</span> {item.district_density || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">읍/면/동 밀도:</span> {item.sub_district_density || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">시장 규모:</span> {item.market_size || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">평균 매출:</span> {item.average_sales || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">영업 비용:</span> {item.average_operating_cost || 'N/A'}만원
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">식재료비:</span> {item.average_food || 'N/A'}만원
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">고용인 인건비:</span> {item.average_employee || 'N/A'}만원
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">임차료:</span> {item.average_rental || 'N/A'}만원
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">세금:</span> {item.average_tax || 'N/A'}만원
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">가족 종사자 인건비:</span> {item.average_family_employee || 'N/A'}만원
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">대표자 인건비:</span> {item.average_ceo || 'N/A'}만원
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">ETC 금액:</span> {item.average_etc || 'N/A'}만원
-                            </p>
+                        <div key={item.commercial_district_id} className="border border-gray-300 rounded-lg p-4 bg-white w-full sm:w-80 shadow-md">
+                            <h2 className="text-lg font-semibold mb-2">상권 ID: {item.commercial_district_id}</h2>
 
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">평균 결제 금액:</span> {item.average_payment_cost || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">이용 건수:</span> {item.usage_count || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">평균 수익:</span> {item.average_profit_amount || 'N/A'} ({item.average_profit_percent || 'N/A'})
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">가장 수익성 높은 요일:</span> {item.most_profitable_day || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">요일별 매출 비율:</span> {item.day_percent || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">월요일 매출:</span> {item.sales_monday || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">화요일 매출:</span> {item.sales_tuesday || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">수요일 매출:</span> {item.sales_wednesday || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">목요일 매출:</span> {item.sales_thursday || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">금요일 매출:</span> {item.sales_friday || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">토요일 매출:</span> {item.sales_saturday || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">일요일 매출:</span> {item.sales_sunday || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">가장 수익성 높은 시간대:</span> {item.most_profitable_time || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">시간대별 매출 비율:</span> {item.time_percent || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">06-09시 매출:</span> {item.sales_06_09 || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">09-12시 매출:</span> {item.sales_09_12 || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">12-15시 매출:</span> {item.sales_12_15 || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">15-18시 매출:</span> {item.sales_15_18 || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">18-21시 매출:</span> {item.sales_18_21 || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">21-24시 매출:</span> {item.sales_21_24 || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">24-06시 매출:</span> {item.sales_24_06 || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">주 이용 성별:</span> {item.dominant_gender || 'N/A'} ({item.dominant_gender_percent || 'N/A'}%)
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">주 이용 연령대:</span> {item.dominant_age_group || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">주 이용자 연령:</span> {item.most_visitor_age || 'N/A'}
-                            </p>
-                            <p className="text-sm text-gray-700 mb-2">
-                                <span className="font-medium">총남자:</span> {item.total_male_percent || 'N/A'}
-                            </p>
-                            <div className="mb-4">
-                                <h3 className="text-lg font-semibold mb-2">성별 연령대 비율</h3>
-                                <ul className="list-disc list-inside text-sm text-gray-700 flex">
-                                    <li><span className="font-medium">총 남자:</span> {item.total_male_percent || 'N/A'}</li>
-                                    <li><span className="font-medium">20대 남자:</span> {item.male_20s || 'N/A'}</li>
-                                    <li><span className="font-medium">30대 남자:</span> {item.male_30s || 'N/A'}</li>
-                                    <li><span className="font-medium">40대 남자:</span> {item.male_40s || 'N/A'}</li>
-                                    <li><span className="font-medium">50대 남자:</span> {item.male_50s || 'N/A'}</li>
-                                    <li><span className="font-medium">60대 이상 남자:</span> {item.male_60s || 'N/A'}</li>
-                                </ul>
-                                <ul className="list-disc list-inside text-sm text-gray-700 flex">
-                                    <li><span className="font-medium">총 여자:</span> {item.total_female_percent || 'N/A'}</li>
-                                    <li><span className="font-medium">20대 여자:</span> {item.female_20s || 'N/A'}</li>
-                                    <li><span className="font-medium">30대 여자:</span> {item.female_30s || 'N/A'}</li>
-                                    <li><span className="font-medium">40대 여자:</span> {item.female_40s || 'N/A'}</li>
-                                    <li><span className="font-medium">50대 여자:</span> {item.female_50s || 'N/A'}</li>
-                                    <li><span className="font-medium">60대 이상 여자:</span> {item.female_60s || 'N/A'}</li>
-                                </ul>
-                            </div>
-                            <div className="mt-3">
-                                <span className="font-medium text-sm">뜨는 메뉴:</span>
-                                <ul className="list-disc list-inside text-sm text-gray-700 mt-1">
-                                    {item.top_menu_1 ? <li>{item.top_menu_1}</li> : null}
-                                    {item.top_menu_2 ? <li>{item.top_menu_2}</li> : null}
-                                    {item.top_menu_3 ? <li>{item.top_menu_3}</li> : null}
-                                    {item.top_menu_4 ? <li>{item.top_menu_4}</li> : null}
-                                    {item.top_menu_5 ? <li>{item.top_menu_5}</li> : null}
-                                </ul>
-                            </div>
-                            <div className="text-xs text-gray-500 mt-2">
+                            <p><strong>시/도:</strong> {item.city_name}</p>
+                            <p><strong>시/군/구:</strong> {item.district_name}</p>
+                            <p><strong>읍/면/동:</strong> {item.sub_district_name}</p>
+
+                            <h3 className="text-md font-semibold mt-4">비즈니스 카테고리</h3>
+                            <p><strong>주요 카테고리:</strong> {item.biz_main_category_name}</p>
+                            <p><strong>서브 카테고리:</strong> {item.biz_sub_category_name}</p>
+                            <p><strong>상세 카테고리:</strong> {item.biz_detail_category_name}</p>
+
+                            <h3 className="text-md font-semibold mt-4">밀도 정보</h3>
+                            <p><strong>전국 밀도:</strong> {item.national_density}</p>
+                            <p><strong>도시 밀도:</strong> {item.city_density}</p>
+                            <p><strong>구 밀도:</strong> {item.district_density}</p>
+                            <p><strong>행정동 밀도:</strong> {item.sub_district_density}</p>
+
+                            <h3 className="text-md font-semibold mt-4">시장 정보</h3>
+                            <p><strong>시장 크기:</strong> {item.market_size}</p>
+                            <p><strong>평균 결제금액:</strong> {item.average_payment}</p>
+                            <p><strong>이용 횟수:</strong> {item.usage_count}</p>
+                            <p><strong>평균 매출:</strong> {item.average_sales}</p>
+
+                            <h3 className="text-md font-semibold mt-4">운영 비용</h3>
+                            <p><strong>운영 비용:</strong> {item.operating_cost}</p>
+                            <p><strong>식재료 비용:</strong> {item.food_cost}</p>
+                            <p><strong>직원 비용:</strong> {item.employee_cost}</p>
+                            <p><strong>임대 비용:</strong> {item.rental_cost}</p>
+                            <p><strong>세금 비용:</strong> {item.tax_cost}</p>
+                            <p><strong>가족 직원 비용:</strong> {item.family_employee_cost}</p>
+                            <p><strong>CEO 비용:</strong> {item.ceo_cost}</p>
+                            <p><strong>기타 비용:</strong> {item.etc_cost}</p>
+
+                            <h3 className="text-md font-semibold mt-4">수익 정보</h3>
+                            <p><strong>평균 수익:</strong> {item.average_profit}</p>
+                            <p><strong>월요일 평균 수익:</strong> {item.avg_profit_per_mon}</p>
+                            <p><strong>화요일 평균 수익:</strong> {item.avg_profit_per_tue}</p>
+                            <p><strong>수요일 평균 수익:</strong> {item.avg_profit_per_wed}</p>
+                            <p><strong>목요일 평균 수익:</strong> {item.avg_profit_per_thu}</p>
+                            <p><strong>금요일 평균 수익:</strong> {item.avg_profit_per_fri}</p>
+                            <p><strong>토요일 평균 수익:</strong> {item.avg_profit_per_sat}</p>
+                            <p><strong>일요일 평균 수익:</strong> {item.avg_profit_per_sun}</p>
+                            <p><strong>06-09시 평균 수익:</strong> {item.avg_profit_per_06_09}</p>
+                            <p><strong>09-12시 평균 수익:</strong> {item.avg_profit_per_09_12}</p>
+                            <p><strong>12-15시 평균 수익:</strong> {item.avg_profit_per_12_15}</p>
+                            <p><strong>15-18시 평균 수익:</strong> {item.avg_profit_per_15_18}</p>
+                            <p><strong>18-21시 평균 수익:</strong> {item.avg_profit_per_18_21}</p>
+                            <p><strong>21-24시 평균 수익:</strong> {item.avg_profit_per_21_24}</p>
+                            <p><strong>24-06시 평균 수익:</strong> {item.avg_profit_per_24_06}</p>
+
+                            <h3 className="text-md font-semibold mt-4">고객 정보</h3>
+                            <p><strong>20대 남성 평균 고객 수:</strong> {item.avg_client_per_m_20}</p>
+                            <p><strong>30대 남성 평균 고객 수:</strong> {item.avg_client_per_m_30}</p>
+                            <p><strong>40대 남성 평균 고객 수:</strong> {item.avg_client_per_m_40}</p>
+                            <p><strong>50대 남성 평균 고객 수:</strong> {item.avg_client_per_m_50}</p>
+                            <p><strong>60대 남성 평균 고객 수:</strong> {item.avg_client_per_m_60}</p>
+                            <p><strong>20대 여성 평균 고객 수:</strong> {item.avg_client_per_f_20}</p>
+                            <p><strong>30대 여성 평균 고객 수:</strong> {item.avg_client_per_f_30}</p>
+                            <p><strong>40대 여성 평균 고객 수:</strong> {item.avg_client_per_f_40}</p>
+                            <p><strong>50대 여성 평균 고객 수:</strong> {item.avg_client_per_f_50}</p>
+                            <p><strong>60대 여성 평균 고객 수:</strong> {item.avg_client_per_f_60}</p>
+
+                            <h3 className="text-md font-semibold mt-4">인기 메뉴</h3>
+                            <p><strong>메뉴 1:</strong> {item.top_menu_1}</p>
+                            <p><strong>메뉴 2:</strong> {item.top_menu_2}</p>
+                            <p><strong>메뉴 3:</strong> {item.top_menu_3}</p>
+                            <p><strong>메뉴 4:</strong> {item.top_menu_4}</p>
+                            <p><strong>메뉴 5:</strong> {item.top_menu_5}</p>
+
+                            <div className="text-xs text-gray-500 mt-4">
                                 <p>작성일: {new Date(item.created_at).toLocaleDateString()}</p>
                                 <p>수정일: {new Date(item.updated_at).toLocaleDateString()}</p>
                             </div>

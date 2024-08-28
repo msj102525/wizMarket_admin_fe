@@ -43,6 +43,7 @@ const KakaoMap = () => {
                                         infoDiv.innerHTML = result[i].address_name;
                                         // 주소 상태를 Redux로 디스패치
                                         dispatch(setAdministrativeAddress(result[i].address_name));
+                                        // console.log(result[i])
                                         break;
                                     }
                                 }

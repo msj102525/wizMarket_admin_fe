@@ -13,15 +13,24 @@ const CommercialDistrict2 = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const extractSubDistrict = (address) => {
+    const parseAddress = (address) => {
         const parts = address.split(' ');
-        if (parts.length > 2) {
-            if (parts.length > 3) {
-                return parts.slice(3).join(' ');
-            }
-            return parts.slice(2).join(' ');
+
+        let city, district, sub_district;
+
+        if (parts.length === 4) {
+            city = parts[0];
+            district = parts[1];
+            sub_district = parts.slice(3).join('');
+        } else if (parts.length >= 3) {
+            city = parts[0];
+            district = parts[1];
+            sub_district = parts.slice(2).join('');
+        } else {
+            return { city: '', district: '', sub_district: '' };
         }
-        return '';
+
+        return { city, district, sub_district };
     };
 
     useEffect(() => {
@@ -31,14 +40,14 @@ const CommercialDistrict2 = () => {
             setLoading(true);
             setError(null);
 
-            const subDistrict = extractSubDistrict(administrativeAddress);
+            const { city, district, sub_district } = parseAddress(administrativeAddress);
 
             try {
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial`, {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                     },
-                    params: { sub_district: subDistrict },
+                    params: { city, district, sub_district },
                 });
                 console.log(response);
                 setData(response.data);
