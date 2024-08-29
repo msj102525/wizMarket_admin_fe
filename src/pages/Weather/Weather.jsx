@@ -3,6 +3,9 @@ import Header from '../../components/Header';
 import KakaoMap from '../../components/KakaoMap';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import WeatherList from './components/WeatherList';
+import dfs_xy_conv from '../../utils/transCoordinateKMA';
+import getCurrentDate from '../../utils/getCurrentDate';
 
 const Weather = () => {
     const [data, setData] = useState(null);
@@ -18,28 +21,17 @@ const Weather = () => {
             setLoading(true);
             setError(null);
 
-            // const { lon, lat } = kakaoAddressResult;
+            const { x, y } = kakaoAddressResult;
+            const rs = dfs_xy_conv("toXY", y, x);
+            // console.log(rs)
 
-            // API URL 및 파라미터 설정
-            // const apiUrl = 'https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
-            const apiUrl = 'https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst?serviceKey=dhpm4WohQbiHxw1ohB5lcjV0cLv%2F7SvJ86NTOy4fN%2FGFCwgNhlmj3Hbq%2B2Q7slHN70mQ4DzvKPz9FV4pQr8Ryg%3D%3D&pageNo=1&numOfRows=1000&dataType=json&base_date=20240827&base_time=0630&nx=55&ny=127';
-            // const params = {
-            //     serviceKey: 'dhpm4WohQbiHxw1ohB5lcjV0cLv%2F7SvJ86NTOy4fN%2FGFCwgNhlmj3Hbq%2B2Q7slHN70mQ4DzvKPz9FV4pQr8Ryg%3D%3D',
-            //     numOfRows: 1000,
-            //     pageNo: 1,
-            //     dataType: 'json',
-            //     base_date: '20240827',
-            //     base_time: '0500',
-            //     nx: 55,
-            //     ny: 127
-            // };
-
+            const formaCurrentDate = getCurrentDate();
+            const apiUrl = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${process.env.REACT_APP_DATA_GO_KR_API_KEY}&pageNo=1&numOfRows=1000&dataType=json&base_date=${formaCurrentDate}&base_time=0200&nx=${rs.x}&ny=${rs.y}`;
 
             try {
-                // const response = await axios.get(apiUrl, { params });
                 const response = await axios.get(apiUrl);
-                console.log(response.data); // 응답 데이터 확인
-                setData(response.data);
+                console.log(response)
+                setData(response.data.response.body.items.item);
             } catch (error) {
                 console.error('Error fetching weather data', error);
                 setError('Failed to fetch weather data');
@@ -51,34 +43,21 @@ const Weather = () => {
         fetchData();
     }, [kakaoAddressResult]);
 
-    // 데이터 가공 및 표시
-    const renderWeatherData = () => {
-        if (!data) return null;
-
-        // API 응답 구조에 맞게 데이터 가공
-        const weatherItems = data.response?.body?.items?.item || [];
-        return (
-            <div>
-                {weatherItems.map((item, index) => (
-                    <div key={index}>
-                        <p>Category: {item.category}</p>
-                        <p>Value: {item.obsrValue}</p>
-                    </div>
-                ))}
-            </div>
-        );
-    };
-
     return (
         <div>
             <Header />
-            <div>
-                <KakaoMap />
-            </div>
-            <div>
-                {loading && <p>Loading weather data...</p>}
-                {error && <p>Error: {error}</p>}
-                {renderWeatherData()}
+            <div className='flex gap-10 p-4'>
+                <div className='1/3'>
+                    <KakaoMap />
+                </div>
+                <div className='w-2/3'>
+                    <p className="text-lg font-semibold mb-4">지도 중심 기준 날씨</p>
+                    {loading && <p>Loading...</p>}
+                    {error && <p className="text-red-500">Error: {error}</p>}
+                    {data && !loading && !error && (
+                        <WeatherList data={data} />
+                    )}
+                </div>
             </div>
         </div>
     );
