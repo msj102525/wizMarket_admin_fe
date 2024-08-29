@@ -1,13 +1,13 @@
 // components/WeatherList.js
 import React from 'react';
 
-const WeatherList = ({ data }) => {
-    if (!data || data.length === 0) {
+const WeatherList = ({ weahterData }) => {
+    if (!weahterData || weahterData.length === 0) {
         return <p className="text-center text-gray-500">데이터가 없습니다.</p>;
     }
 
     // 날짜별로 그룹화
-    const groupedByDate = data.reduce((acc, item) => {
+    const groupedByDate = weahterData.reduce((acc, item) => {
         if (!acc[item.fcstDate]) {
             acc[item.fcstDate] = [];
         }

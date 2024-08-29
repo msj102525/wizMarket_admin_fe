@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import KakaoMap from '../../components/KakaoMap';
@@ -8,7 +8,7 @@ import CommercialDistrictList2 from './components/CommercialDistrictList2'; // ë
 const CommercialDistrict2 = () => {
     const roadAddress = useSelector((state) => state.address.roadAddress)
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult)
-    // console.log(kakaoAddressResult)
+    const prevKakaoAddressResult = useRef(null);
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -41,7 +41,16 @@ const CommercialDistrict2 = () => {
             }
         };
 
-        fetchData();
+        if (
+            !prevKakaoAddressResult.current ||
+            prevKakaoAddressResult.current.region_3depth_name !== kakaoAddressResult.region_3depth_name ||
+            prevKakaoAddressResult.current.x !== kakaoAddressResult.x ||
+            prevKakaoAddressResult.current.y !== kakaoAddressResult.y
+        ) {
+            fetchData();
+        }
+
+        prevKakaoAddressResult.current = kakaoAddressResult;
     }, [kakaoAddressResult]);
 
     return (
