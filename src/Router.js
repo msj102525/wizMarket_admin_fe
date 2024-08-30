@@ -8,6 +8,7 @@ import LocInfo from "./pages/LocInfo/LocInfo"
 import RisingBusiness from "./pages/RisingBusiness/RisingBusiness";
 import Population from "./pages/Population/Population"
 import LocContext from "./pages/LocContext/LocContext";
+import LocStore from "./pages/LocStore/LocStore";
 
 const Router = () => {
   return (
@@ -19,6 +20,7 @@ const Router = () => {
         <Route path="/rising" element={<RisingBusiness />} />
         <Route path="/fastAPITest" element={<FastAPIRequest />} />
         <Route path="/LocInfo" element={<LocInfo />} />
+        <Route path="/LocStore" element={<LocStore />} />
         <Route path="/population" element={<Population />} />
         <Route path="/location/context" element={<LocContext />} />
       </Routes>
