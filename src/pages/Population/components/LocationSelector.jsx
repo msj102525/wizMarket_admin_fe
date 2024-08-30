@@ -9,11 +9,12 @@ function LocationSelector() {
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [subDistricts, setSubDistricts] = useState([]);
   const [selectedSubDistrict, setSelectedSubDistrict] = useState('');
+  const [startMonth, setStartMonth] = useState('1');
 
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/population/get_cities`);
+        const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/population/get_cities`);
         setCities(response.data);
       } catch (error) {
         console.error('Error fetching cities:', error);
@@ -31,7 +32,7 @@ function LocationSelector() {
 
     if (city_name) {
       try {
-        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/population/get_districts`, { city_name });
+        const response = await axios.post(`${process.env.REACT_APP_FASTAPI_BASE_URL}/population/get_districts`, { city_name });
         setDistricts(response.data);
       } catch (error) {
         console.error('Error fetching districts:', error);
@@ -48,7 +49,7 @@ function LocationSelector() {
 
     if (district_name) {
       try {
-        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/population/get_sub_districts`, { district_name });
+        const response = await axios.post(`${process.env.REACT_APP_FASTAPI_BASE_URL}/population/get_sub_districts`, { district_name });
         setSubDistricts(response.data);
       } catch (error) {
         console.error('Error fetching sub-districts:', error);
@@ -62,9 +63,22 @@ function LocationSelector() {
     setSelectedSubDistrict(event.target.value);
   };
 
+  const handleStartMonthChange = (event) => {
+    setStartMonth(event.target.value);
+  };
+
+
+  const getLastDayOfMonth = (year, month) => {
+    return new Date(year, month, 0).getDate(); // 월을 1 증가시켜서 전달해야 합니다.
+  };
+
+  const formatYearMonthDay = (year, month) => {
+    const lastDay = getLastDayOfMonth(year, month);
+    return `${year}-${String(month).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`;
+  };
+
   return (
-    <div className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-6 text-center">Location Selector</h1>
+    <div className="max-w-6xl mx-auto p-4 bg-white shadow-md rounded-lg">
 
       <div className="mb-4">
         <label className="block text-lg font-medium text-gray-700 mb-2">시/도:</label>
@@ -73,7 +87,7 @@ function LocationSelector() {
           onChange={handleCityChange}
           className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="">Select City</option>
+          <option value="">-</option>
           {cities.map((city) => (
             <option key={city} value={city}>
               {city}
@@ -90,7 +104,7 @@ function LocationSelector() {
           disabled={!selectedCity}
           className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
         >
-          <option value="">Select District</option>
+          <option value="">-</option>
           {districts.map((district) => (
             <option key={district} value={district}>
               {district}
@@ -107,7 +121,7 @@ function LocationSelector() {
           disabled={!selectedDistrict}
           className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
         >
-          <option value="">Select Sub-District</option>
+          <option value="">-</option>
           {subDistricts.map((sub_district) => (
             <option key={sub_district} value={sub_district}>
               {sub_district}
@@ -116,11 +130,26 @@ function LocationSelector() {
         </select>
       </div>
 
+      <div className="mb-4">
+        <label className="block text-lg font-medium text-gray-700 mb-2">월:</label>
+        <select
+          value={startMonth}
+          onChange={handleStartMonthChange}
+          className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          {[...Array(7).keys()].map(month => (
+            <option key={month + 1} value={month + 1}>{month + 1}월</option>
+          ))}
+        </select>
+      </div>
+
+
       {selectedSubDistrict && (
         <PopulationData 
           city_name={selectedCity}
           district_name={selectedDistrict}
-          sub_district_name={selectedSubDistrict} 
+          sub_district_name={selectedSubDistrict}
+          start_year_month={formatYearMonthDay(2024, startMonth)}
         />
       )}
     </div>
