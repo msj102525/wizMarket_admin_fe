@@ -1,8 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const KakaoMapSemin = ({ onLocationChange }) => {
   const [map, setMap] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // updateLocationName을 useCallback으로 래핑하여 재정의되지 않도록 함
+  const updateLocationName = useCallback((coords, isInitialLoad = false) => {
+    const geocoder = new window.kakao.maps.services.Geocoder();
+
+    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), (result, status) => {
+      if (status === window.kakao.maps.services.Status.OK) {
+        const address = result.find((region) => region.region_type === 'H');
+        if (address) {
+          onLocationChange(address.address_name); // 위치 정보를 상위 컴포넌트로 전달
+          if (!isInitialLoad) {
+            // 지도의 중심이 변경될 때마다 위치 정보 업데이트
+            onLocationChange(address.address_name);
+          }
+        }
+      }
+    });
+  }, [onLocationChange]);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -13,7 +31,7 @@ const KakaoMapSemin = ({ onLocationChange }) => {
     script.onload = () => {
       window.kakao.maps.load(() => {
         const container = document.getElementById('map');
-        
+
         const initializeMap = (position) => {
           const options = {
             center: new window.kakao.maps.LatLng(position.coords.latitude, position.coords.longitude),
@@ -48,27 +66,14 @@ const KakaoMapSemin = ({ onLocationChange }) => {
       });
     };
 
+    script.onerror = () => {
+      console.error('Kakao Maps script could not be loaded.');
+    };
+
     return () => {
       script.remove(); // 컴포넌트 언마운트 시 스크립트 제거
     };
-  }, []);
-
-  const updateLocationName = (coords, isInitialLoad = false) => {
-    const geocoder = new window.kakao.maps.services.Geocoder();
-
-    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), (result, status) => {
-      if (status === window.kakao.maps.services.Status.OK) {
-        const address = result.find((region) => region.region_type === 'H');
-        if (address) {
-          onLocationChange(address.address_name); // 위치 정보를 상위 컴포넌트로 전달
-          if (!isInitialLoad) {
-            // 지도의 중심이 변경될 때마다 위치 정보 업데이트
-            onLocationChange(address.address_name); 
-          }
-        }
-      }
-    });
-  };
+  }, [updateLocationName]); // updateLocationName을 의존성으로 추가
 
   const handleInputChange = (event) => {
     setSearchQuery(event.target.value);
