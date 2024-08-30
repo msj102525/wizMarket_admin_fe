@@ -7,39 +7,59 @@ import WeatherList from './components/WeatherList';
 import dfs_xy_conv from '../../utils/transCoordinateKMA';
 import getCurrentDate from '../../utils/getCurrentDate';
 import CAIApiList from './components/CAIApiList';
+import RiseList from './components/RiseList';
 
 const Weather = () => {
     const [weahterData, setWeatherData] = useState(null);
     const [caiData, setCaiData] = useState(null);
+    const [riseData, setRiseData] = useState(null);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const prevKakaoAddressResult = useRef(null);
 
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
+    const { region_2depth_name: fullDistrict, region_3depth_name: subDistrict } = kakaoAddressResult;
+
+    let district = ""
+    if (fullDistrict) {
+        district = fullDistrict.split(' ')[0];
+    }
+
 
     useEffect(() => {
-        const fetchWeaherData = async () => {
-            if (!kakaoAddressResult) return;
+        if (!kakaoAddressResult) return;
 
-            const { x, y } = kakaoAddressResult;
+        let { x, y } = kakaoAddressResult;
+        const formatCurrentDate = getCurrentDate();
+
+        const fetchWeaherData = async () => {
             const rs = dfs_xy_conv("toXY", y, x);
-            const formaCurrentDate = getCurrentDate();
-            const weatherApiUrl = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${process.env.REACT_APP_DATA_GO_KR_API_KEY}&pageNo=1&numOfRows=1000&dataType=json&base_date=${formaCurrentDate}&base_time=0200&nx=${rs.x}&ny=${rs.y}`;
+            const weatherApiUrl = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${process.env.REACT_APP_DATA_GO_KR_API_KEY}&pageNo=1&numOfRows=1000&dataType=json&base_date=${formatCurrentDate}&base_time=0200&nx=${rs.x}&ny=${rs.y}`;
 
             try {
                 const response = await axios.get(weatherApiUrl);
-                console.log(response);
-                setWeatherData(response.data.response.body.items.item);
+                if (response.status === 200) {
+                    const { body } = response.data.response;
+                    if (body && body.items && body.items.item) {
+                        setWeatherData(body.items.item);
+                    } else {
+                        console.warn('API 응답에 예상된 데이터 구조가 없습니다.');
+                        setWeatherData([]);
+                    }
+                } else {
+                    setWeatherData([]);
+                }
             } catch (error) {
                 console.error('Error fetching weather data', error);
                 setError('Failed to fetch weather data');
             } finally {
                 setLoading(false);
             }
+
         };
 
         const fetchCAIData = async () => {
-            if (!kakaoAddressResult) return;
 
             let caseCity = kakaoAddressResult.region_1depth_name;
 
@@ -104,15 +124,65 @@ const Weather = () => {
 
             try {
                 const response = await axios.get(caiApiUrl);
-                // console.log(`CAI` + JSON.stringify(response.data.response.body.items));
-                setCaiData(response.data.response.body.items)
+                if (response.status === 200) {
+                    const { body } = response.data.response;
+                    if (body && body.items && body.items) {
+                        setCaiData(body.items);
+                    } else {
+                        console.warn('API 응답에 예상된 데이터 구조가 없습니다.');
+                        setCaiData([]);
+                    }
+                } else {
+                    setCaiData([]);
+                }
             } catch (error) {
-                console.error('Error fetching CAI data', error);
-                setError('Failed to fetch CAI data');
+                console.error('Error fetching weather data', error);
+                setError('Failed to fetch weather data');
             } finally {
                 setLoading(false);
             }
         };
+
+        const fetchRiseData = async () => {
+
+            let city = kakaoAddressResult.region_1depth_name;
+
+            console.log("위도 : " + y)
+            console.log("경도 : " + x)
+            console.log(formatCurrentDate)
+
+            if (city === "서울특별시") {
+                x = 127.01337714858089
+                y = 37.53462985578658
+            }
+
+            const riseApiUrl = `http://apis.data.go.kr/B090041/openapi/service/RiseSetInfoService/getLCRiseSetInfo?serviceKey=${process.env.REACT_APP_DATA_GO_KR_API_KEY}&locdate=${formatCurrentDate}&longitude=${x}&latitude=${y}&dnYn=Y`;
+
+            try {
+                const response = await axios.get(riseApiUrl);
+                console.log(response)
+
+                if (response.status === 200) {
+                    const { body } = response.data.response;
+                    if (body && body.items && body.items.item) {
+                        setRiseData(body.items.item);
+                    } else {
+                        console.warn('API 응답에 예상된 데이터 구조가 없습니다.');
+                        setRiseData("");
+                    }
+                } else {
+                    setRiseData("");
+                }
+            } catch (error) {
+                console.error('Error fetching weather data', error);
+                setError('Failed to fetch weather data');
+            } finally {
+                setLoading(false);
+            }
+
+        }
+
+
 
         if (
             !prevKakaoAddressResult.current ||
@@ -121,6 +191,7 @@ const Weather = () => {
             prevKakaoAddressResult.current.y !== kakaoAddressResult.y
         ) {
             fetchWeaherData();
+            fetchRiseData()
         }
 
         if (
@@ -134,6 +205,7 @@ const Weather = () => {
 
     }, [kakaoAddressResult]);
 
+
     return (
         <div>
             <Header />
@@ -141,7 +213,7 @@ const Weather = () => {
                 <div className='1/3'>
                     <KakaoMap />
                 </div>
-                <div className='w-1/3'>
+                <div className='w-1/4'>
                     <div className="pb-10">
                         <p className="text-lg font-semibold mb-4">지도 중심 기준 날씨</p>
                         {loading && <p>Loading...</p>}
@@ -151,13 +223,23 @@ const Weather = () => {
                         )}
                     </div>
                 </div>
-                <div className='w-1/3'>
+                <div className='w-1/4'>
                     <div className="pb-10">
                         <p className="text-lg font-semibold mb-4">시/도 CAI 데이터</p>
                         {loading && <p>Loading...</p>}
                         {error && <p className="text-red-500">Error: {error}</p>}
                         {weahterData && !loading && !error && (
-                            <CAIApiList caiData={caiData} />
+                            <CAIApiList caiData={caiData} district={district} subDistrict={subDistrict} />
+                        )}
+                    </div>
+                </div>
+                <div className='w-1/4'>
+                    <div className="pb-10">
+                        <p className="text-lg font-semibold mb-4">위치별 해달 출몰시각</p>
+                        {loading && <p>Loading...</p>}
+                        {error && <p className="text-red-500">Error: {error}</p>}
+                        {weahterData && !loading && !error && (
+                            <RiseList riseData={riseData} />
                         )}
                     </div>
                 </div>

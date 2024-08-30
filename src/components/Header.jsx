@@ -25,7 +25,7 @@ const Header = () => {
                         <Link to="/rising">뜨는 업종</Link>
                     </li>
                     <li className='px-4'>
-                        <Link to="/weather">날씨</Link>
+                        <Link to="/location/context">지역 상황정보(날씨, 환경, 일출몰)</Link>
                     </li>
                 </ul>
             </nav>

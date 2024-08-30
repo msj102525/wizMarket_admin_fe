@@ -1,5 +1,6 @@
 // components/WeatherList.js
 import React from 'react';
+import formatTime from '../../../utils/formatTime';
 
 const WeatherList = ({ weahterData }) => {
     if (!weahterData || weahterData.length === 0) {
@@ -56,12 +57,12 @@ const WeatherList = ({ weahterData }) => {
                     <h2 className="text-xl font-semibold mb-4">날짜: {date}</h2>
                     {categoryOrder.map((category) => (
                         <div key={category} className="mb-4">
-                            <h3 className="text-lg font-semibold mb-2">{categoryLabels[category] || category}</h3>
+                            <h3 className="text-md font-semibold mb-2">{categoryLabels[category] || category}</h3>
                             <div className="flex flex-col gap-4">
                                 {groupedByDate[date].filter(item => item.category === category).map((item, index) => (
-                                    <div key={index} className="border border-gray-300 rounded-lg p-4 bg-gray-50 shadow-sm">
-                                        <p><strong>시간:</strong> {item.fcstTime}</p>
-                                        <p><strong>값:</strong> {item.fcstValue}</p>
+                                    <div key={index} className="border border-gray-300 rounded-lg p-2  shadow-sm">
+                                        <p>{formatTime(item.fcstTime)}</p>
+                                        <p>값: {item.fcstValue}</p>
                                     </div>
                                 ))}
                             </div>

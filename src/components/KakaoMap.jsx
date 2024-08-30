@@ -89,14 +89,12 @@ const KakaoMap = () => {
                     });
                 };
 
-                // 검색 버튼 이벤트 리스너
                 const searchButton = document.getElementById('search-button');
                 searchButton.addEventListener('click', () => {
                     const keyword = document.getElementById('search-input').value;
                     searchAddress(keyword);
                 });
 
-                // Enter 키 이벤트 리스너
                 const searchInput = document.getElementById('search-input');
                 searchInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {

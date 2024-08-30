@@ -23,9 +23,6 @@ const CommercialDistrict2 = () => {
 
             const { region_1depth_name: city, region_2depth_name: fullDistrict, region_3depth_name: sub_district } = kakaoAddressResult;
             const district = fullDistrict.split(' ')[0];
-            console.log(city);
-            console.log(district);
-            console.log(sub_district);
 
             try {
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial`, {
