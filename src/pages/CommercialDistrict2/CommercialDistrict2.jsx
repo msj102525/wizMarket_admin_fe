@@ -6,15 +6,13 @@ import axios from 'axios';
 import CommercialDistrictList2 from './components/CommercialDistrictList2'; // 리스트 컴포넌트 가져오기
 
 const CommercialDistrict2 = () => {
-    const roadAddress = useSelector((state) => state.address.roadAddress)
-    const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult)
+    const roadAddress = useSelector((state) => state.address.roadAddress);
+    const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
     const prevKakaoAddressResult = useRef(null);
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,7 +21,11 @@ const CommercialDistrict2 = () => {
             setLoading(true);
             setError(null);
 
-            const { region_1depth_name: city, region_2depth_name: district, region_3depth_name: sub_district } = kakaoAddressResult;
+            const { region_1depth_name: city, region_2depth_name: fullDistrict, region_3depth_name: sub_district } = kakaoAddressResult;
+            const district = fullDistrict.split(' ')[0];
+            console.log(city);
+            console.log(district);
+            console.log(sub_district);
 
             try {
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial`, {
