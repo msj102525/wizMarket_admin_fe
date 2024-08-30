@@ -7,6 +7,7 @@ import FastAPIRequest from "./pages/FastAPI/FastAPIRequest";
 import LocInfo from "./pages/LocInfo/LocInfo"
 import RisingBusiness from "./pages/RisingBusiness/RisingBusiness";
 import Population from "./pages/Population/Population"
+import Weather from "./pages/Weather/Weather";
 
 const Router = () => {
   return (
@@ -19,6 +20,7 @@ const Router = () => {
         <Route path="/fastAPITest" element={<FastAPIRequest />} />
         <Route path="/LocInfo" element={<LocInfo />} />
         <Route path="/population" element={<Population />} />
+        <Route path="/weather" element={<Weather />} />
       </Routes>
     </BrowserRouter>
   );
