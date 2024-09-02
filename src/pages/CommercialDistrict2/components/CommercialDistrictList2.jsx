@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const CommercialDistrictList2 = ({ data }) => {
     return (
@@ -88,6 +89,68 @@ const CommercialDistrictList2 = ({ data }) => {
             )}
         </div>
     );
+};
+
+CommercialDistrictList2.propTypes = {
+    data: PropTypes.arrayOf(
+        PropTypes.shape({
+            commercial_district_id: PropTypes.number.isRequired,
+            city_name: PropTypes.string.isRequired,
+            district_name: PropTypes.string.isRequired,
+            sub_district_name: PropTypes.string.isRequired,
+            biz_main_category_name: PropTypes.string.isRequired,
+            biz_sub_category_name: PropTypes.string.isRequired,
+            biz_detail_category_name: PropTypes.string.isRequired,
+            national_density: PropTypes.number.isRequired,
+            city_density: PropTypes.number.isRequired,
+            district_density: PropTypes.number.isRequired,
+            sub_district_density: PropTypes.number.isRequired,
+            market_size: PropTypes.number.isRequired,
+            average_payment: PropTypes.number.isRequired,
+            usage_count: PropTypes.number.isRequired,
+            average_sales: PropTypes.number.isRequired,
+            operating_cost: PropTypes.number.isRequired,
+            food_cost: PropTypes.number.isRequired,
+            employee_cost: PropTypes.number.isRequired,
+            rental_cost: PropTypes.number.isRequired,
+            tax_cost: PropTypes.number.isRequired,
+            family_employee_cost: PropTypes.number.isRequired,
+            ceo_cost: PropTypes.number.isRequired,
+            etc_cost: PropTypes.number.isRequired,
+            average_profit: PropTypes.number.isRequired,
+            avg_profit_per_mon: PropTypes.number.isRequired,
+            avg_profit_per_tue: PropTypes.number.isRequired,
+            avg_profit_per_wed: PropTypes.number.isRequired,
+            avg_profit_per_thu: PropTypes.number.isRequired,
+            avg_profit_per_fri: PropTypes.number.isRequired,
+            avg_profit_per_sat: PropTypes.number.isRequired,
+            avg_profit_per_sun: PropTypes.number.isRequired,
+            avg_profit_per_06_09: PropTypes.number.isRequired,
+            avg_profit_per_09_12: PropTypes.number.isRequired,
+            avg_profit_per_12_15: PropTypes.number.isRequired,
+            avg_profit_per_15_18: PropTypes.number.isRequired,
+            avg_profit_per_18_21: PropTypes.number.isRequired,
+            avg_profit_per_21_24: PropTypes.number.isRequired,
+            avg_profit_per_24_06: PropTypes.number.isRequired,
+            avg_client_per_m_20: PropTypes.number.isRequired,
+            avg_client_per_m_30: PropTypes.number.isRequired,
+            avg_client_per_m_40: PropTypes.number.isRequired,
+            avg_client_per_m_50: PropTypes.number.isRequired,
+            avg_client_per_m_60: PropTypes.number.isRequired,
+            avg_client_per_f_20: PropTypes.number.isRequired,
+            avg_client_per_f_30: PropTypes.number.isRequired,
+            avg_client_per_f_40: PropTypes.number.isRequired,
+            avg_client_per_f_50: PropTypes.number.isRequired,
+            avg_client_per_f_60: PropTypes.number.isRequired,
+            top_menu_1: PropTypes.string.isRequired,
+            top_menu_2: PropTypes.string.isRequired,
+            top_menu_3: PropTypes.string.isRequired,
+            top_menu_4: PropTypes.string.isRequired,
+            top_menu_5: PropTypes.string.isRequired,
+            created_at: PropTypes.string.isRequired,
+            updated_at: PropTypes.string.isRequired,
+        })
+    ).isRequired,
 };
 
 export default CommercialDistrictList2;

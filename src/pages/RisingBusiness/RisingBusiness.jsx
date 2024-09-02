@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import KakaoMap from '../../components/KakaoMap';
@@ -8,45 +8,25 @@ import RisingBusinessList from './components/RisingBusinessList';
 
 
 const RisingBusiness = () => {
-    const administrativeAddress = useSelector((state) => state.address.administrativeAddress);
     const roadAddress = useSelector((state) => state.address.roadAddress);
+    const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
+    const prevKakaoAddressResult = useRef(null);
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const subStringAdress = (address) => {
-        console.log(address);
-        const parts = address.split(' ');
-
-        let city = '';
-        let subDistrict = '';
-
-        if (parts.length >= 3) {
-            city = parts[0];
-            subDistrict = parts.slice(2).join(' ');
-        } else if (parts.length === 2) {
-            city = parts[0];
-            subDistrict = parts[2];
-        }
-
-        return {
-            city,
-            subDistrict
-        };
-    };
-
 
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!administrativeAddress) return;
+            if (!kakaoAddressResult) return;
 
             setLoading(true);
             setError(null);
 
-            const { city, subDistrict } = subStringAdress(administrativeAddress);
-            console.log(city, subDistrict);
+            const { region_1depth_name: city, region_2depth_name: fullDistrict, region_3depth_name: subDistrict } = kakaoAddressResult;
+            const district = fullDistrict.split(' ')[0];
 
             try {
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/rising`, {
@@ -55,10 +35,11 @@ const RisingBusiness = () => {
                     },
                     params: {
                         city: city,
+                        district: district,
                         sub_district: subDistrict,
                     },
                 });
-                console.log(response);
+                // console.log(response);
                 setData(response.data);
             } catch (error) {
                 console.error('Error fetching data from FastAPI', error);
@@ -68,17 +49,24 @@ const RisingBusiness = () => {
             }
         };
 
-        if (administrativeAddress) {
+        if (
+            !prevKakaoAddressResult.current ||
+            prevKakaoAddressResult.current.region_3depth_name !== kakaoAddressResult.region_3depth_name ||
+            prevKakaoAddressResult.current.x !== kakaoAddressResult.x ||
+            prevKakaoAddressResult.current.y !== kakaoAddressResult.y
+        ) {
             fetchData();
+            prevKakaoAddressResult.current = kakaoAddressResult;
         }
-    }, [administrativeAddress]);
+    }, [kakaoAddressResult]);
+
 
     return (
         <div>
             <Header />
             <div className="px-6">
                 <div>도로명 주소: {roadAddress}</div>
-                <div>행정동 주소: {administrativeAddress}</div>
+                <div>행정동 주소: {kakaoAddressResult.region_1depth_name} {kakaoAddressResult.region_2depth_name} {kakaoAddressResult.region_3depth_name}</div>
 
                 <div className="flex gap-2">
                     <div className="">
