@@ -20,12 +20,12 @@ const Aside = () => {
             <aside className='w-72'>
                 <ul className='border'>
                     <li
-                        className="text-2xl p-2 flex justify-between items-center cursor-pointer  leading-10"
+                        className="text-xl p-2 flex justify-between items-center cursor-pointer  leading-10"
                         onClick={() => toggleSection('section1')}
                     >
                         <div className="flex items-center">
                             <div className="w-7 h-7">
-                                <img className='block w-full h-auto' src={require("../assets/aside/aside_common_img.png")} alt="" />
+                                <img className='block w-full h-auto' src={require("../assets/aside/aside_common_img.png")} alt="user-img" />
                             </div>
                             <p className='ml-2'>Common Table</p>
                         </div>
@@ -50,12 +50,12 @@ const Aside = () => {
 
                 <ul className='border'>
                     <li
-                        className="text-2xl p-2 flex justify-between items-center cursor-pointer  leading-10"
+                        className="text-xl p-2 flex justify-between items-center cursor-pointer  leading-10"
                         onClick={() => toggleSection('section2')}
                     >
                         <div className="flex items-center">
                             <div className="w-7 h-7">
-                                <img className='block w-full h-auto' src={require("../assets/aside/aside_contents_img.png")} alt="" />
+                                <img className='block w-full h-auto' src={require("../assets/aside/aside_contents_img.png")} alt="info-img" />
                             </div>
                             <p className='ml-2'>Contents Table</p>
                         </div>
@@ -86,12 +86,12 @@ const Aside = () => {
 
                 <ul className='border'>
                     <li
-                        className="text-2xl p-2 flex justify-between items-center cursor-pointer  leading-10"
+                        className="text-xl p-2 flex justify-between items-center cursor-pointer  leading-10"
                         onClick={() => toggleSection('section3')}
                     >
                         <div className="flex items-center">
                             <div className="w-7 h-7">
-                                <img className='block w-full h-auto' src={require("../assets/aside/aside_demographic_img.png")} alt="" />
+                                <img className='block w-full h-auto' src={require("../assets/aside/aside_demographic_img.png")} alt="users-img" />
                             </div>
                             <p className='ml-2'>Demographic Table</p>
                         </div>
