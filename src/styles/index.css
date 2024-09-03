@@ -30,4 +30,10 @@
  html { 
  font-family: sans-serif; 
  font-weight: 600; 
- } 
+ }
+
+ @layer components {
+    .div-underline {
+      @apply relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:block after:w-full after:h-[2px] after:bg-gray-300;
+    }
+  }
