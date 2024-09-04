@@ -114,8 +114,8 @@ const KakaoMap = () => {
     }, [dispatch]);
 
     return (
-        <div className="map_wrap w-[500px] h-[500px] relative">
-            <div className="search-container absolute top-2 left-2 z-20">
+        <div className="map_wrap w-full h-full relative">
+            <div className="search-container absolute top-2 left-2 z-20 flex">
                 <input
                     id="search-input"
                     type="text"

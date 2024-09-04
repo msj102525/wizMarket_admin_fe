@@ -6,6 +6,7 @@ import KakaoMap from '../../components/KakaoMap';
 import axios from 'axios';
 import RisingBusinessList from './components/RisingBusinessList';
 import RisingSearchForm from './components/RisingSearchForm';
+import SectionHeader from '../../components/SectionHeader';
 
 
 const RisingBusiness = () => {
@@ -15,6 +16,16 @@ const RisingBusiness = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isList, setIsList] = useState(false);
+
+    const handleToggle = () => {
+        setIsList(!isList);
+    };
+
+    useEffect(() => {
+        console.log(isList);
+    }, [isList])
+
 
 
 
@@ -46,6 +57,7 @@ const RisingBusiness = () => {
             } finally {
                 setLoading(false);
             }
+
         };
 
         if (
@@ -66,12 +78,18 @@ const RisingBusiness = () => {
             <div className="flex">
                 <Aside />
                 <main className="gap-2">
-                    <section className="div-underline p-2">
-                        <p>뜨는 업종</p>
+                    <section>
+                        <SectionHeader title="상권분석" isList={isList} handleToggle={handleToggle} />
                     </section>
-                    <section className="flex">
-                        <KakaoMap />
-                        <RisingSearchForm />
+                    <section className="flex gap-4  py-4">
+                        {!isList && (
+                            <div className='flex-1'>
+                                <KakaoMap />
+                            </div>
+                        )}
+                        <div className='flex-1'>
+                            <RisingSearchForm />
+                        </div>
                     </section>
                     <section className="">
                         <p>지도중심기준 지역 뜨는 업종</p>

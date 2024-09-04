@@ -4,6 +4,7 @@ import LocInfoListSearchForm from './LocInfoListSearchForm.jsx'; // 같은 폴�
 const LocInfoList = () => {
     // 리스트 또는 다른 데이터에 대한 상태를 관리하는 경우, 여기서 처리
     const [data, setData] = useState([]);
+    setData("")
 
     return (
         <div>

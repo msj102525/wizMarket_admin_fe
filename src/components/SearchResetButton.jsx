@@ -2,19 +2,23 @@ import React from 'react';
 
 const SearchResetButtons = ({ onSearch, onReset }) => {
     return (
-        <div className="flex gap-4">
-            <button
-                onClick={onSearch}
-                className="bg-blue-500 text-white p-2 rounded"
-            >
-                검색
-            </button>
-            <button
-                onClick={onReset}
-                className="bg-gray-500 text-white p-2 rounded"
-            >
-                초기화
-            </button>
+        <div className="flex gap-4 justify-center">
+            <div className="w-20 h-10">
+                <button
+                    onClick={onReset}
+                    className="w-full h-full border bg-[#ffffff] text-black rounded  text-xs"
+                >
+                    초기화
+                </button>
+            </div>
+            <div className="w-20 h-10">
+                <button
+                    onClick={onSearch}
+                    className="w-full h-full border bg-[#000000] text-white rounded  text-xs"
+                >
+                    검색
+                </button>
+            </div>
         </div>
     );
 };
