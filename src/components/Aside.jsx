@@ -70,10 +70,10 @@ const Aside = () => {
                             <Link to="/commercial2">상권분석</Link>
                         </li>
                         <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
-                            <Link to="/LocInfo">동별 상권 정보(유동인구, 매출, 세대수 등)</Link>
+                            <Link to="/LocInfo">입지분석</Link>
                         </li>
                         <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
-                            <Link to="/LocStore">지역 별 매장 정보</Link>
+                            <Link to="/LocStore">매장정보</Link>
                         </li>
                         <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                             <Link to="/rising">뜨는 업종</Link>

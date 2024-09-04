@@ -7,7 +7,7 @@ function LocStore() {
     <div>
       <Header />
       <div className="min-h-screen flex justify-center">
-        매장 보기
+        매장 보기wuw56w56i
       </div>
     </div>
   );
