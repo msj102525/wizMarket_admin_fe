@@ -73,125 +73,128 @@ const RisingSearchForm = () => {
     };
 
     return (
-        <div className="p-4 border border-[#DDDDDD] rounded-lg shadow-md w-full bg-[#EDEDED]">
-            <div className="mb-4">
-                <label className="block mb-1 font-medium">업종명을 입력해주세요.</label>
-                <input
-                    type="text"
-                    value={industry}
-                    onChange={(e) => setIndustry(e.target.value)}
-                    className="w-full p-2 border border-[#DDDDDD] rounded"
-                />
-            </div>
-
-            <div className="mb-4">
-                <label className="block mb-1 font-medium">업종 검색</label>
-                <div className="flex gap-4">
-                    <select
-                        value={mainCategory}
-                        onChange={(e) => setMainCategory(e.target.value)}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option value={0}>대분류</option>
-                        <option value={1}>음식</option>
-                        <option value={3}>소매/유통</option>
-                        <option value={4}>생활서비스</option>
-                        <option value={5}>여가/오락</option>
-                        <option value={6}>학문/교육</option>
-                        <option value={7}>의료/건강</option>
-                    </select>
-                    <select
-                        value={subCategory}
-                        onChange={(e) => setSubCategory(e.target.value)}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option>중분류</option>
-                        {subCategories.map(sub => (
-                            <option key={sub.id} value={sub.id}>{sub.name}</option>
-                        ))}
-                    </select>
-                    <select
-                        value={detailCategory}
-                        onChange={(e) => setDetailCategory(e.target.value)}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option>소분류</option>
-                        {/* 소분류 옵션들 */}
-                    </select>
-                </div>
-            </div>
-
-            <div className="mb-4">
-                <label className="block mb-1 font-medium">지역 검색</label>
-                <div className="flex gap-4">
-                    <select
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option>시/도</option>
-                        {/* 시/도 옵션들 */}
-                    </select>
-                    <select
-                        value={district}
-                        onChange={(e) => setDistrict(e.target.value)}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option>군/구</option>
-                        {/* 군/구 옵션들 */}
-                    </select>
-                    <select
-                        value={subDistrict}
-                        onChange={(e) => setSubDistrict(e.target.value)}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option>읍/면/동</option>
-                        {/* 읍/면/동 옵션들 */}
-                    </select>
-                </div>
-            </div>
-
-            <div className="mb-4">
-                <label className="block mb-1 font-medium">증가율</label>
-                <div className="flex gap-4">
+        <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
+            <div className="p-4 bg-[#EDEDED]">
+                <div className="mb-4">
+                    <label className="block mb-1 font-medium">업종명을 입력해주세요.</label>
                     <input
-                        type="number"
-                        value={increaseRateMin}
-                        onChange={(e) => setIncreaseRateMin(e.target.value)}
-                        placeholder="이상"
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    />
-                    <input
-                        type="number"
-                        value={increaseRateMax}
-                        onChange={(e) => setIncreaseRateMax(e.target.value)}
-                        placeholder="이하"
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
+                        type="text"
+                        value={industry}
+                        onChange={(e) => setIndustry(e.target.value)}
+                        className="w-full p-2 border border-[#DDDDDD] rounded"
                     />
                 </div>
-            </div>
 
-            <div className="mb-4">
-                <label className="block mb-1 font-medium">순위</label>
-                <div className="flex gap-4">
-                    <input
-                        type="number"
-                        value={rankMin}
-                        onChange={(e) => setRankMin(e.target.value)}
-                        placeholder="이상"
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    />
-                    <input
-                        type="number"
-                        value={rankMax}
-                        onChange={(e) => setRankMax(e.target.value)}
-                        placeholder="이하"
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    />
+                <div className="mb-4">
+                    <label className="block mb-1 font-medium">업종 검색</label>
+                    <div className="flex gap-4">
+                        <select
+                            value={mainCategory}
+                            onChange={(e) => setMainCategory(e.target.value)}
+                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                        >
+                            <option value={0}>대분류</option>
+                            <option value={1}>음식</option>
+                            <option value={3}>소매/유통</option>
+                            <option value={4}>생활서비스</option>
+                            <option value={5}>여가/오락</option>
+                            <option value={6}>학문/교육</option>
+                            <option value={7}>의료/건강</option>
+                        </select>
+                        <select
+                            value={subCategory}
+                            onChange={(e) => setSubCategory(e.target.value)}
+                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                        >
+                            <option>중분류</option>
+                            {subCategories.map(sub => (
+                                <option key={sub.id} value={sub.id}>{sub.name}</option>
+                            ))}
+                        </select>
+                        <select
+                            value={detailCategory}
+                            onChange={(e) => setDetailCategory(e.target.value)}
+                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                        >
+                            <option>소분류</option>
+                            {/* 소분류 옵션들 */}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="mb-4">
+                    <label className="block mb-1 font-medium">지역 검색</label>
+                    <div className="flex gap-4">
+                        <select
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                        >
+                            <option>시/도</option>
+                            {/* 시/도 옵션들 */}
+                        </select>
+                        <select
+                            value={district}
+                            onChange={(e) => setDistrict(e.target.value)}
+                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                        >
+                            <option>군/구</option>
+                            {/* 군/구 옵션들 */}
+                        </select>
+                        <select
+                            value={subDistrict}
+                            onChange={(e) => setSubDistrict(e.target.value)}
+                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                        >
+                            <option>읍/면/동</option>
+                            {/* 읍/면/동 옵션들 */}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="mb-4">
+                    <label className="block mb-1 font-medium">증가율</label>
+                    <div className="flex gap-4">
+                        <input
+                            type="number"
+                            value={increaseRateMin}
+                            onChange={(e) => setIncreaseRateMin(e.target.value)}
+                            placeholder="이상"
+                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                        />
+                        <input
+                            type="number"
+                            value={increaseRateMax}
+                            onChange={(e) => setIncreaseRateMax(e.target.value)}
+                            placeholder="이하"
+                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                        />
+                    </div>
+                </div>
+
+                <div className="mb-4">
+                    <label className="block mb-1 font-medium">순위</label>
+                    <div className="flex gap-4">
+                        <input
+                            type="number"
+                            value={rankMin}
+                            onChange={(e) => setRankMin(e.target.value)}
+                            placeholder="이상"
+                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                        />
+                        <input
+                            type="number"
+                            value={rankMax}
+                            onChange={(e) => setRankMax(e.target.value)}
+                            placeholder="이하"
+                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                        />
+                    </div>
                 </div>
             </div>
-
-            <SearchResetButtons onSearch={handleSearch} onReset={handleReset} />
+            <div className="py-2">
+                <SearchResetButtons onSearch={handleSearch} onReset={handleReset} />
+            </div>
         </div>
     );
 };
