@@ -147,9 +147,9 @@ const Weather = () => {
 
             let city = kakaoAddressResult.region_1depth_name;
 
-            console.log("위도 : " + y)
-            console.log("경도 : " + x)
-            console.log(formatCurrentDate)
+            // console.log("위도 : " + y)
+            // console.log("경도 : " + x)
+            // console.log(formatCurrentDate)
 
             if (city === "서울특별시") {
                 x = 127.01337714858089
@@ -160,7 +160,7 @@ const Weather = () => {
 
             try {
                 const response = await axios.get(riseApiUrl);
-                console.log(response)
+                // console.log(response)
 
                 if (response.status === 200) {
                     const { body } = response.data.response;

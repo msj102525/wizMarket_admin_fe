@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Header = () => {
     return (
         <header className="div-underline">
-            <nav className='flex justify-between px-10'>
+            <div className='flex justify-between px-10'>
                 <div className="w-72 h-24 border">
                     <Link to="/">
                         <h1>
@@ -20,7 +20,7 @@ const Header = () => {
                         <p className='text-2xl'>Logout</p>
                     </div>
                 </div>
-            </nav>
+            </div>
         </header >
     );
 };

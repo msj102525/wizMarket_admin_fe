@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
+import Aside from '../../components/Aside';
 import KakaoMap from '../../components/KakaoMap';
 import axios from 'axios';
 import RisingBusinessList from './components/RisingBusinessList';
-
+import RisingSearchForm from './components/RisingSearchForm';
 
 
 const RisingBusiness = () => {
-    const roadAddress = useSelector((state) => state.address.roadAddress);
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
     const prevKakaoAddressResult = useRef(null);
 
@@ -39,7 +39,6 @@ const RisingBusiness = () => {
                         sub_district: subDistrict,
                     },
                 });
-                // console.log(response);
                 setData(response.data);
             } catch (error) {
                 console.error('Error fetching data from FastAPI', error);
@@ -64,24 +63,28 @@ const RisingBusiness = () => {
     return (
         <div>
             <Header />
-            <div className="px-6">
-                <div>도로명 주소: {roadAddress}</div>
-                <div>행정동 주소: {kakaoAddressResult.region_1depth_name} {kakaoAddressResult.region_2depth_name} {kakaoAddressResult.region_3depth_name}</div>
-
-                <div className="flex gap-2">
-                    <div className="">
+            <div className="flex">
+                <Aside />
+                <main className="gap-2">
+                    <section className="div-underline p-2">
+                        <p>뜨는 업종</p>
+                    </section>
+                    <section className="flex">
                         <KakaoMap />
-                    </div>
-                    <div className="">
+                        <RisingSearchForm />
+                    </section>
+                    <section className="">
                         <p>지도중심기준 지역 뜨는 업종</p>
                         {loading && <p>Loading...</p>}
                         {error && <p>Error: {error}</p>}
                         {data && !loading && !error && (
                             <RisingBusinessList data={data} />
                         )}
-                    </div>
-                </div>
+                    </section>
+                </main>
             </div>
+
+
         </div>
     );
 };
