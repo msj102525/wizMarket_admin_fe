@@ -1,86 +1,49 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import LocInfoList from './components/LocInfoList';
+import LocInfoMap from './components/LocInfoMap';
 import Header from '../../components/Header';
-import KakaoMap from '../../components/KakaoMap';
-import axios from 'axios';
-import LocInfoTable from './components/LocInfoTable';
+import Aside from '../../components/Aside';
 
 const LocInfo = () => {
-    const roadAddress = useSelector((state) => state.address.roadAddress);
-    const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
-    const prevKakaoAddressResult = useRef(null);
-
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            if (!kakaoAddressResult) return;
-
-            setLoading(true);
-            setError(null);
-
-            const { region_1depth_name: city_name, region_2depth_name: fullDistrict, region_3depth_name: sub_district_name } = kakaoAddressResult;
-            const district_name = fullDistrict.split(' ')[0];
-            console.log(city_name);
-            console.log(district_name);
-            console.log(sub_district_name);
-
-            try {
-                const response = await axios.post(`${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/get_loc_info`, {
-                    city_name, 
-                    district_name, 
-                    sub_district_name
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json; charset=UTF-8',
-                    }
-                });
-                setData(response.data);
-                console.log(response.data)
-            } catch (error) {
-                console.error('Error fetching data from FastAPI', error);
-                setError('Failed to fetch data');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (
-            !prevKakaoAddressResult.current ||
-            prevKakaoAddressResult.current.region_3depth_name !== kakaoAddressResult.region_3depth_name ||
-            prevKakaoAddressResult.current.x !== kakaoAddressResult.x ||
-            prevKakaoAddressResult.current.y !== kakaoAddressResult.y
-        ) {
-            fetchData();
-        }
-
-        prevKakaoAddressResult.current = kakaoAddressResult;
-    }, [kakaoAddressResult]);
+    const [view, setView] = useState('list'); // 기본을 리스트로 설정
 
     return (
         <div>
             <Header />
-            <div className="px-6 flex justify-center items-center mt-12">
-                <div className="w-full max-w-4xl flex gap-2 justify-center">
-                    <div className="">
-                        <div>도로명 주소: {roadAddress}</div>
-                        <div>행정동 주소: {kakaoAddressResult.region_1depth_name} {kakaoAddressResult.region_2depth_name} {kakaoAddressResult.region_3depth_name}</div>
-                        <KakaoMap />
+            <div className="flex h-screen"> {/* Flex 컨테이너 */}
+                <Aside className="w-64" /> {/* 사이드바의 너비 설정 */}
+                <div className="flex-1 p-4"> {/* 메인 콘텐츠가 남은 공간을 차지 */}
+                    <div className="mb-4">
+                        <div className="flex justify-between items-center mb-2">
+                            <h2 className="text-lg font-semibold">입지분석</h2> {/* 소제목 */}
+                            <div className="relative flex items-center border-2 border-black rounded-full p-1">
+                                {/* 배경을 위한 요소 */}
+                                <div
+                                    className={`absolute top-0 left-0 h-full w-1/2 bg-black rounded-full transition-all duration-300 ${view === 'map' ? 'translate-x-full' : ''}`}
+                                ></div>
+                                <button
+                                    onClick={() => setView('list')}
+                                    className={`relative z-10 px-4 py-2 ${view === 'list' ? 'text-white' : 'text-black'} rounded-full focus:outline-none`}
+                                >
+                                    LIST
+                                </button>
+                                <button
+                                    onClick={() => setView('map')}
+                                    className={`relative z-10 px-4 py-2 ${view === 'map' ? 'text-white' : 'text-black'} rounded-full focus:outline-none`}
+                                >
+                                    MAP
+                                </button>
+                            </div>
+                        </div>
+                        <div className="border-t border-gray-200 border-4"></div> {/* 회색 줄 추가 */}
                     </div>
-                    <div className="">
-                        <p>지도 중심 기준 상권 분석</p>
-                        {loading && <p>Loading...</p>}
-                        {error && <p>Error: {error}</p>}
-                        {data && !loading && !error && (
-                            <LocInfoTable data={data} />
-                        )}
-                    </div>
+
+                    {/* 리스트 또는 맵 렌더링 */}
+                    {view === 'list' ? <LocInfoList /> : <LocInfoMap />}
                 </div>
             </div>
         </div>
     );
-};
+}
 
 export default LocInfo;
