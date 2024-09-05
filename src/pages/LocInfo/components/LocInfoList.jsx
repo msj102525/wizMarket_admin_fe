@@ -1,35 +1,52 @@
-import React, { useState } from 'react';
-import LocInfoListSearchForm from './LocInfoListSearchForm.jsx'; // 같은 폴더 내에서 import
+import React from 'react';
 
-const LocInfoList = () => {
-    // 리스트 또는 다른 데이터에 대한 상태를 관리하는 경우, 여기서 처리
-    const [data, setData] = useState([]);
-    setData("")
-
+const LocInfoList = ({ data }) => {
     return (
-        <div>
-            {/* 검색 폼 렌더링 */}
-            <LocInfoListSearchForm />
+        <div className="p-4">
+            <h2 className="text-lg font-bold mb-4">검색 결과 리스트</h2>
 
-            {/* 검색 결과 또는 리스트 렌더링 */}
-            <div className="mt-8">
-                <h2 className="text-lg font-semibold">검색 결과</h2>
-                <ul className="mt-4">
-                    {/* 여기에 데이터를 리스트 형태로 렌더링할 수 있음 */}
-                    {data.length > 0 ? (
-                        data.map((item, index) => (
-                            <li key={index} className="p-2 border-b border-gray-300">
-                                {/* 각 데이터 항목을 표시 */}
-                                {item.name}
-                            </li>
-                        ))
-                    ) : (
-                        <li className="text-gray-500">검색 결과가 없습니다.</li>
-                    )}
-                </ul>
-            </div>
+            {data.length === 0 ? (
+                <p>검색 결과가 없습니다.</p>
+            ) : (
+                <table className="min-w-full bg-white border-collapse border border-gray-200">
+                    <thead>
+                        <tr>
+                            <th className="border border-gray-300 px-4 py-2">번호</th>
+                            <th className="border border-gray-300 px-4 py-2">코드</th>
+                            <th className="border border-gray-300 px-4 py-2">시/도</th>
+                            <th className="border border-gray-300 px-4 py-2">시/군/구</th>
+                            <th className="border border-gray-300 px-4 py-2">읍/면/동</th>
+                            <th className="border border-gray-300 px-4 py-2">업소</th>
+                            <th className="border border-gray-300 px-4 py-2">유동인구</th>
+                            <th className="border border-gray-300 px-4 py-2">매출</th>
+                            <th className="border border-gray-300 px-4 py-2">직장인구</th>
+                            <th className="border border-gray-300 px-4 py-2">소득</th>
+                            <th className="border border-gray-300 px-4 py-2">소비</th>
+                            <th className="border border-gray-300 px-4 py-2">세대수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map((item, index) => (
+                            <tr key={item.LOC_INFO_ID}>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.LOC_INFO_ID}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.CITY_ID}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.DISTRICT_ID}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.SUB_DISTRICT_ID}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.SHOP}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.MOVE_POP}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.SALES}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.WORK_POP}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.INCOME}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.SPEND}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">{item.HOUSE}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
-}
+};
 
 export default LocInfoList;
