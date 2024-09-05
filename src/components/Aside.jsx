@@ -38,7 +38,7 @@ const Aside = () => {
                             className={`transition-[max-height] duration-300 ease-in-out overflow-hidden ${isOpen.section1 ? 'max-h-[500px]' : 'max-h-0'}`}
                         >
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
-                                <Link to="/">Address table</Link>
+                                <Link to="/city">Address table</Link>
                             </li>
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                                 <Link to="/">업종분류</Link>
