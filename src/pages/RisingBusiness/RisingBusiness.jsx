@@ -8,15 +8,14 @@ import RisingBusinessList from './components/RisingBusinessList';
 import RisingSearchForm from './components/RisingSearchForm';
 import SectionHeader from '../../components/SectionHeader';
 import { useCategories } from '../../hooks/useCategories';
+import { useCities } from '../../hooks/useCities';
 
 const RisingBusiness = () => {
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
     const prevKakaoAddressResult = useRef(null);
 
     const [searchCate, setSearchCate] = useState('');
-    const [city, setCity] = useState('');
-    const [district, setDistrict] = useState('');
-    const [subDistrict, setSubDistrict] = useState('');
+
     const [increaseRateMin, setIncreaseRateMin] = useState('');
     const [increaseRateMax, setIncreaseRateMax] = useState('');
     const [rankMin, setRankMin] = useState('');
@@ -31,6 +30,18 @@ const RisingBusiness = () => {
         subCategory, setSubCategory, subCategories,
         detailCategory, setDetailCategory, detailCategories
     } = useCategories();
+
+    const {
+        cities,
+        districts,
+        subDistricts,
+        city,
+        district,
+        subDistrict,
+        setCity,
+        setDistrict,
+        setSubDistrict
+    } = useCities();
 
     const handleToggle = () => {
         setIsList(!isList);
@@ -139,6 +150,11 @@ const RisingBusiness = () => {
                                 city={city}
                                 district={district}
                                 subDistrict={subDistrict}
+
+                                cities={cities}
+                                districts={districts}
+                                subDistricts={subDistricts}
+
                                 increaseRateMin={increaseRateMin}
                                 increaseRateMax={increaseRateMax}
                                 rankMin={rankMin}

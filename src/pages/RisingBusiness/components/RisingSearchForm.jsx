@@ -1,20 +1,18 @@
-import React, { useEffect } from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import CategorySelect from '../../../components/CategorySelect';
+import CitySelect from '../../../components/CitySelect';
 
 const RisingSearchForm = ({
-    searchCate,
+    searchCate, setSearchCate,
     mainCategory, mainCategories, subCategory, subCategories, detailCategory, detailCategories,
-    city, district, subDistrict,
+    city, district, subDistrict, cities, districts, subDistricts, setMainCategory, setSubCategory, setDetailCategory,
+    setCity, setDistrict, setSubDistrict,
     increaseRateMin, increaseRateMax, rankMin, rankMax,
-    setSearchCate, setMainCategory, setSubCategory, setDetailCategory, setCity,
-    setDistrict, setSubDistrict, setIncreaseRateMin, setIncreaseRateMax, setRankMin, setRankMax,
+    setIncreaseRateMin, setIncreaseRateMax, setRankMin, setRankMax,
     handleSearch, handleReset
 }) => {
 
-    useEffect(() => {
-        console.log(`data: ${mainCategories}`);
-    }, [mainCategories]);
+
 
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
@@ -45,29 +43,17 @@ const RisingSearchForm = ({
 
                 <div className="mb-4">
                     <label className="block mb-1 font-medium">지역 검색</label>
-                    <div className="flex gap-4">
-                        <select
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                            className="p-2 border border-[#DDDDDD] rounded w-full"
-                        >
-                            <option>시/도</option>
-                        </select>
-                        <select
-                            value={district}
-                            onChange={(e) => setDistrict(e.target.value)}
-                            className="p-2 border border-[#DDDDDD] rounded w-full"
-                        >
-                            <option>군/구</option>
-                        </select>
-                        <select
-                            value={subDistrict}
-                            onChange={(e) => setSubDistrict(e.target.value)}
-                            className="p-2 border border-[#DDDDDD] rounded w-full"
-                        >
-                            <option>읍/면/동</option>
-                        </select>
-                    </div>
+                    <CitySelect
+                        city={city}
+                        district={district}
+                        subDistrict={subDistrict}
+                        cities={cities}
+                        districts={districts}
+                        subDistricts={subDistricts}
+                        setCity={setCity}
+                        setDistrict={setDistrict}
+                        setSubDistrict={setSubDistrict}
+                    />
                 </div>
 
                 <div className="mb-4">
