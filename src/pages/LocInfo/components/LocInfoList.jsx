@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Pagination from '../../../components/Pagination';
+import * as XLSX from 'xlsx';
 
 const LocInfoList = ({ data }) => {
     const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
@@ -38,11 +39,68 @@ const LocInfoList = ({ data }) => {
         setSortConfig({ key, direction });
     };
 
+    const handleExcelDownload = () => {
+        // 테이블 헤더 설정 (한글 컬럼명으로 설정)
+        const headers = [
+            "번호", 
+            "코드", 
+            "시/도", 
+            "시/군/구", 
+            "읍/면/동", 
+            "업소 (개)", 
+            "유동인구", 
+            "매출", 
+            "직장인구", 
+            "소득", 
+            "소비", 
+            "세대수", 
+            "주거인구"
+        ];
+    
+        
+        const tableData = data.map((item, index) => [
+            indexOfFirstItem + index + 1,  // 번호
+            item.LOC_INFO_ID,              // 코드
+            item.city_name,                // 시/도
+            item.district_name,            // 시/군/구
+            item.sub_district_name,        // 읍/면/동
+            item.SHOP,                     // 업소 (개)
+            item.MOVE_POP,                 // 유동인구
+            item.SALES,                    // 매출
+            item.WORK_POP,                 // 직장인구
+            item.INCOME,                   // 소득
+            item.SPEND,                    // 소비
+            item.HOUSE,                    // 세대수
+            item.RESIDENT                  // 주거인구
+        ]);
+    
+        // 헤더와 데이터를 결합 (헤더 + 데이터 배열)
+        const worksheetData = [headers, ...tableData];
+    
+        // 엑셀 시트 생성
+        const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    
+        // 엑셀 파일 다운로드
+        XLSX.writeFile(workbook, 'table_data.xlsx');
+    };
+    
+
     return (
         <div className="p-4">
-            <p className="mb-8">
-                총 <span className="text-red-500">{data.length.toLocaleString()}</span>개
-            </p>
+            <div className="flex justify-between items-center mb-8">
+                <p>
+                    총 <span className="text-red-500">{data.length.toLocaleString()}</span>개
+                </p>
+                <button
+                    className="px-4 py-2 bg-white text-black rounded border border-black"
+                    onClick={handleExcelDownload}
+                >
+                    엑셀 다운로드
+                </button>
+            </div>
+            
 
             {currentData.length === 0 ? (
                 <p>검색 결과가 없습니다.</p>

@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import React, {  useState } from 'react';
 import Header from '../../components/Header';
 import Aside from '../../components/Aside';
 import KakaoMap from '../../components/KakaoMap';
@@ -9,22 +8,15 @@ import LocInfoListSearchForm from './components/LocInfoListSearchForm';
 import SectionHeader from '../../components/SectionHeader';
 
 
-const RisingBusiness = () => {
-    const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
-    const prevKakaoAddressResult = useRef(null);
+const LocInfo = () => {
+    
     const [searchResults, setSearchResults] = useState([]);
-    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isList, setIsList] = useState(false);
-
     const handleToggle = () => {
         setIsList(!isList);
     };
-
-    useEffect(() => {
-        console.log('Fetched data:', data); // 나중에 사용할 수 있도록 콘솔에 출력
-    }, [data]);
 
 
     // 필터를 사용해 서버에 검색 요청을 보내는 함수
@@ -43,8 +35,7 @@ const RisingBusiness = () => {
                 }
             );
             setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
-            console.log(response.data.filtered_data)
-            console.log(typeof(response.data.filtered_data))
+            
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');
@@ -54,49 +45,7 @@ const RisingBusiness = () => {
     };
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (!kakaoAddressResult) return;
-
-            setLoading(true);
-            setError(null);
-
-            const { region_1depth_name: city, region_2depth_name: fullDistrict, region_3depth_name: subDistrict } = kakaoAddressResult;
-            const district = fullDistrict.split(' ')[0];
-
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/rising`, {
-                    headers: {
-                        'Content-Type': 'application/json; charset=UTF-8',
-                    },
-                    params: {
-                        city: city,
-                        district: district,
-                        sub_district: subDistrict,
-                    },
-                });
-                setData(response.data);
-                
-            } catch (error) {
-                console.error('Error fetching data from FastAPI', error);
-                setError('Failed to fetch data');
-            } finally {
-                setLoading(false);
-            }
-
-        };
-
-        if (
-            !prevKakaoAddressResult.current ||
-            prevKakaoAddressResult.current.region_3depth_name !== kakaoAddressResult.region_3depth_name ||
-            prevKakaoAddressResult.current.x !== kakaoAddressResult.x ||
-            prevKakaoAddressResult.current.y !== kakaoAddressResult.y
-        ) {
-            fetchData();
-            prevKakaoAddressResult.current = kakaoAddressResult;
-        }
-    }, [kakaoAddressResult]);
-
+    
 
     return (
         <div>
@@ -116,12 +65,12 @@ const RisingBusiness = () => {
                             </div>
                         )}
                         <div className='flex-1'>
-                            <LocInfoListSearchForm onSearch={handleSearch} />
+                            <LocInfoListSearchForm onSearch={handleSearch} isList={isList} /> 
                         </div>
                     </section>
                     {/* 하단 리스트 */}
                     <section className="w-full">
-                        {loading && <p>데이터를 불러오는 중입니다...</p>}  {/* 로딩 상태 처리 */}
+                        {loading && <p>검색 결과가 없습니다.</p>}  {/* 로딩 상태 처리 */}
                         {error && <p className="text-red-500">오류가 발생했습니다: {error}</p>}  {/* 오류 상태 처리 */}
 
                         {/* 데이터가 있으면 리스트 출력 */}
@@ -133,4 +82,4 @@ const RisingBusiness = () => {
     );
 };
 
-export default RisingBusiness;
+export default LocInfo;

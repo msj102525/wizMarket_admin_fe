@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import { useCities } from '../../../hooks/useCities';
 
-const LocInfoListSearchForm = ({ onSearch }) => {  
+const LocInfoListSearchForm = ({ onSearch, isList }) => {  
     const {
         cities,
         districts,
@@ -143,7 +143,7 @@ const LocInfoListSearchForm = ({ onSearch }) => {
                     </select>
                 </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className={`grid ${isList ? 'grid-cols-4' : 'grid-cols-2'} gap-4`}>
                 <div className="mb-4">
                     <div className="flex items-center">
                         <label className="font-medium w-full">업소(개)</label>
@@ -183,7 +183,7 @@ const LocInfoListSearchForm = ({ onSearch }) => {
                         />
                     </div>
                 </div>
-
+                        
                 <div className="mb-4">
                     <div className="flex items-center">
                         <label className="font-medium w-full">매출</label>
