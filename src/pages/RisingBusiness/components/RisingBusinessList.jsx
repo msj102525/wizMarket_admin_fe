@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Pagination from '../../../components/Pagination';
 
 const RisingBusinessList = ({ data }) => {
     const [sortConfig, setSortConfig] = useState({ key: 'rising_business_id', direction: 'descending' });
-    console.log(sortConfig)
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
+    const resultsPerPage = 20; // 페이지당 표시할 데이터 개수
 
     const sortedData = React.useMemo(() => {
         const sortableItems = [...data];
@@ -21,7 +23,7 @@ const RisingBusinessList = ({ data }) => {
         return sortableItems;
     }, [data, sortConfig]);
 
-    const requestSort = key => {
+    const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
             direction = 'descending';
@@ -35,6 +37,11 @@ const RisingBusinessList = ({ data }) => {
         }
         return '';
     };
+
+    // 현재 페이지에 해당하는 데이터 계산
+    const indexOfLastResult = currentPage * resultsPerPage;
+    const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+    const currentResults = sortedData.slice(indexOfFirstResult, indexOfLastResult);
 
     return (
         <div className="overflow-x-auto">
@@ -58,7 +65,7 @@ const RisingBusinessList = ({ data }) => {
                         ].map(({ key, label }) => (
                             <th
                                 key={key}
-                                className="px-6 py-3 text-left text-xs font-extrabold text-black uppercase tracking-wider cursor-pointer w-1/12"
+                                className="text-center p-4 text-xs font-extrabold text-black uppercase tracking-wider cursor-pointer w-1/12"
                                 onClick={() => requestSort(key)}
                             >
                                 {label} {getSortIndicator(key)}
@@ -67,23 +74,23 @@ const RisingBusinessList = ({ data }) => {
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                    {sortedData.length > 0 ? (
-                        sortedData.map((item, index) => (
+                    {currentResults.length > 0 ? (
+                        currentResults.map((item, index) => (
                             <tr key={item.rising_business_id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 overflow-hidden overflow-ellipsis">
-                                    {sortConfig.direction === "descending" ? sortedData.length - index : index + 1}
+                                <td className="text-center py-2 whitespace-nowrap text-sm font-medium text-gray-900 overflow-hidden overflow-ellipsis">
+                                    {sortConfig.direction === "descending" ? sortedData.length - indexOfFirstResult - index : indexOfFirstResult + index + 1}
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.rising_business_id}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.city_name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.district_name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_main_category_name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_sub_category_name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_detail_category_name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-semibold overflow-hidden overflow-ellipsis">{item.growth_rate}%</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_rank}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.created_at).toLocaleDateString()}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.updated_at).toLocaleDateString()}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.rising_business_id}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.city_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.district_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_main_category_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_sub_category_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_detail_category_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 font-semibold overflow-hidden overflow-ellipsis">{item.growth_rate}%</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_rank}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.created_at).toLocaleDateString()}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.updated_at).toLocaleDateString()}</td>
                             </tr>
                         ))
                     ) : (
@@ -93,6 +100,13 @@ const RisingBusinessList = ({ data }) => {
                     )}
                 </tbody>
             </table>
+
+            {/* Pagination 컴포넌트 추가 */}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(sortedData.length / resultsPerPage)}
+                onPageChange={(pageNumber) => setCurrentPage(pageNumber)}
+            />
         </div>
     );
 };

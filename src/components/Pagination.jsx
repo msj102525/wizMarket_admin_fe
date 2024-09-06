@@ -24,8 +24,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             {/* 이전 버튼 */}
             <button
                 onClick={handlePrevious}
-                disabled={currentPage === 1} // 첫 페이지면 비활성화
-                className={`px-4 py-2 border border-gray-300 rounded ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className="px-4 py-2 border border-gray-300 rounded"
             >
                 이전
             </button>
@@ -44,8 +43,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             {/* 다음 버튼 */}
             <button
                 onClick={handleNext}
-                disabled={currentPage === totalPages} // 마지막 페이지면 비활성화
-                className={`px-4 py-2 border border-gray-300 rounded ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className="px-4 py-2 border border-gray-300 rounded"
             >
                 다음
             </button>
@@ -54,29 +52,3 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 };
 
 export default Pagination;
-
-// 페이징 사용법
-// 1. 사용할 컴포넌트에서 임포트
-
-// 2. 변수 부여
-// const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지 번호
-// const [resultsPerPage] = useState(20);  // 페이지당 표시할 결과 수
-
-// 3. 페이징 계산 및 변경
-// 현재 페이지에 해당하는 데이터 계산
-// const indexOfLastResult = currentPage * resultsPerPage;
-// const indexOfFirstResult = indexOfLastResult - resultsPerPage;
-// const currentResults = filteredResults.slice(indexOfFirstResult, indexOfLastResult);
-
-
-// 페이지 변경 함수
-// const handlePageChange = (pageNumber) => {
-//     setCurrentPage(pageNumber);
-// };
-
-// 4. 페이징 사용
-// <Pagination
-//        currentPage={currentPage}
-//        totalPages={Math.ceil(filteredResults.length / resultsPerPage)}
-//        onPageChange={handlePageChange}
-// />
