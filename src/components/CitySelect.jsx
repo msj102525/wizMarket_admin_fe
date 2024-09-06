@@ -14,19 +14,19 @@ const CitySelect = ({
 
     const handleCityChange = (e) => {
         setCity(e.target.value);
-        setDistrict('');
-        setSubDistrict('');
+        setDistrict(''); // 도시 변경 시 구역 초기화
+        setSubDistrict(''); // 도시 변경 시 동 초기화
     };
 
     const handleDistrictChange = (e) => {
         setDistrict(e.target.value);
-        setSubDistrict('');
+        setSubDistrict(''); // 구역 변경 시 동 초기화
     };
 
     return (
-        <div className="flex gap-4 w-full  rounded-lg">
+        <div className="flex gap-4 w-full rounded-lg">
             <select
-                value={city}
+                value={city || ""}
                 onChange={handleCityChange}
                 className="p-2 border border-[#DDDDDD] rounded flex-1 block bg-white"
             >
@@ -39,7 +39,7 @@ const CitySelect = ({
             </select>
 
             <select
-                value={district}
+                value={district || ""}
                 onChange={handleDistrictChange}
                 disabled={!city}
                 className="p-2 border border-[#DDDDDD] rounded flex-1 block bg-white"
@@ -53,7 +53,7 @@ const CitySelect = ({
             </select>
 
             <select
-                value={subDistrict}
+                value={subDistrict || ""}
                 onChange={(e) => setSubDistrict(e.target.value)}
                 disabled={!district}
                 className="p-2 border border-[#DDDDDD] rounded flex-1 block bg-white"

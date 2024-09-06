@@ -9,15 +9,8 @@ const CategorySelect = ({
         <div className="flex gap-4 w-full">
             <select
                 className="p-2 border border-[#DDDDDD] rounded flex-1 block"
-            >
-                <option value="0">출처</option>
-                <option value="biz">나이스비즈맵</option>
-
-            </select>
-            <select
-                value={mainCategory}
                 onChange={(e) => setMainCategory(e.target.value)}
-                className="p-2 border border-[#DDDDDD] rounded flex-1 block"
+                value={mainCategory || ""}
             >
                 <option value="0">대분류</option>
                 {mainCategories.map((mainCate, idx) => (
@@ -28,9 +21,10 @@ const CategorySelect = ({
             </select>
 
             <select
-                value={subCategory}
-                onChange={(e) => setSubCategory(e.target.value)}
                 className="p-2 border border-[#DDDDDD] rounded flex-1 block"
+                onChange={(e) => setSubCategory(e.target.value)}
+                value={subCategory || ""}
+                disabled={mainCategory === '대분류' || mainCategory === '0'}
             >
                 <option value="0">중분류</option>
                 {subCategories.map((subCate, idx) => (
@@ -41,9 +35,10 @@ const CategorySelect = ({
             </select>
 
             <select
-                value={detailCategory}
-                onChange={(e) => setDetailCategory(e.target.value)}
                 className="p-2 border border-[#DDDDDD] rounded flex-1 block"
+                onChange={(e) => setDetailCategory(e.target.value)}
+                value={detailCategory || ""}
+                disabled={subCategory === '중분류' || subCategory === '0'}
             >
                 <option value="0">소분류</option>
                 {detailCategories.map((detailCate, idx) => (

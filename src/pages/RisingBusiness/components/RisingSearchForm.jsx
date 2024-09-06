@@ -1,3 +1,4 @@
+import React from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import CategorySelect from '../../../components/CategorySelect';
 import CitySelect from '../../../components/CitySelect';
@@ -11,64 +12,76 @@ const RisingSearchForm = ({
     setIncreaseRateMin, setIncreaseRateMax, setRankMin, setRankMax,
     handleSearch, handleReset
 }) => {
-
-
-
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
             <div className="p-4 bg-[#EDEDED]">
-                <div className="mb-4">
-                    <label className="block mb-1 font-medium">업종명을 입력해주세요.</label>
-                    <input
-                        type="text"
-                        value={searchCate}
-                        onChange={(e) => setSearchCate(e.target.value)}
-                        className="w-full p-2 border border-[#DDDDDD] rounded"
-                    />
+
+                <div className="mb-4 flex gap-4">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold">뜨는 업종</label>
+                    </div>
+                    <div className="w-full">
+                        <input
+                            type="text"
+                            value={searchCate || ""}
+                            onChange={(e) => setSearchCate(e.target.value)}
+                            className="w-full p-2 border border-[#DDDDDD] rounded"
+                        />
+                    </div>
                 </div>
 
-                <div className="mb-4">
-                    <label className="block mb-1 font-medium">업종 검색</label>
-                    <CategorySelect
-                        mainCategory={mainCategory}
-                        setMainCategory={setMainCategory}
-                        mainCategories={mainCategories}
-                        subCategory={subCategory}
-                        setSubCategory={setSubCategory}
-                        subCategories={subCategories}
-                        detailCategory={detailCategory}
-                        setDetailCategory={setDetailCategory}
-                        detailCategories={detailCategories} />
+                <div className="mb-4 flex gap-4">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold">업종 검색</label>
+                    </div>
+                    <div className="w-full">
+                        <CategorySelect
+                            mainCategory={mainCategory}
+                            setMainCategory={setMainCategory}
+                            mainCategories={mainCategories}
+                            subCategory={subCategory}
+                            setSubCategory={setSubCategory}
+                            subCategories={subCategories}
+                            detailCategory={detailCategory}
+                            setDetailCategory={setDetailCategory}
+                            detailCategories={detailCategories} />
+                    </div>
                 </div>
 
-                <div className="mb-4">
-                    <label className="block mb-1 font-medium">지역 검색</label>
-                    <CitySelect
-                        city={city}
-                        district={district}
-                        subDistrict={subDistrict}
-                        cities={cities}
-                        districts={districts}
-                        subDistricts={subDistricts}
-                        setCity={setCity}
-                        setDistrict={setDistrict}
-                        setSubDistrict={setSubDistrict}
-                    />
+                <div className="mb-4 flex gap-4">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold">지역 검색</label>
+                    </div>
+                    <div className="w-full">
+                        <CitySelect
+                            city={city}
+                            district={district}
+                            subDistrict={subDistrict}
+                            cities={cities}
+                            districts={districts}
+                            subDistricts={subDistricts}
+                            setCity={setCity}
+                            setDistrict={setDistrict}
+                            setSubDistrict={setSubDistrict}
+                        />
+                    </div>
                 </div>
 
-                <div className="mb-4">
-                    <label className="block mb-1 font-medium">증가율</label>
-                    <div className="flex gap-4">
+                <div className="mb-4 flex gap-4">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold">증가율</label>
+                    </div>
+                    <div className="w-full flex gap-4">
                         <input
                             type="number"
-                            value={increaseRateMin}
+                            value={increaseRateMin || ""}
                             onChange={(e) => setIncreaseRateMin(e.target.value)}
                             placeholder="이상"
                             className="p-2 border border-[#DDDDDD] rounded w-full"
                         />
                         <input
                             type="number"
-                            value={increaseRateMax}
+                            value={increaseRateMax || ""}
                             onChange={(e) => setIncreaseRateMax(e.target.value)}
                             placeholder="이하"
                             className="p-2 border border-[#DDDDDD] rounded w-full"
@@ -76,19 +89,21 @@ const RisingSearchForm = ({
                     </div>
                 </div>
 
-                <div className="mb-4">
-                    <label className="block mb-1 font-medium">순위</label>
-                    <div className="flex gap-4">
+                <div className="mb-4 flex gap-4">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold">순위</label>
+                    </div>
+                    <div className="w-full flex gap-4">
                         <input
                             type="number"
-                            value={rankMin}
+                            value={rankMin || ""}
                             onChange={(e) => setRankMin(e.target.value)}
                             placeholder="이상"
                             className="p-2 border border-[#DDDDDD] rounded w-full"
                         />
                         <input
                             type="number"
-                            value={rankMax}
+                            value={rankMax || ""}
                             onChange={(e) => setRankMax(e.target.value)}
                             placeholder="이하"
                             className="p-2 border border-[#DDDDDD] rounded w-full"
