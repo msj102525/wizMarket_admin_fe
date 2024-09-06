@@ -50,7 +50,7 @@ const RisingBusinessList = ({ data }) => {
                 <thead className="bg-[#EEEEEE]">
                     <tr>
                         {[
-                            { key: 'rising_business_id', label: '번호' },
+                            { key: 'id', label: '번호' },
                             { key: 'rising_business_id', label: '코드' },
                             { key: 'city_name', label: '시/도' },
                             { key: 'district_name', label: '시/군/구' },

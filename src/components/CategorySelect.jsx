@@ -1,52 +1,88 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+const CustomSelect = ({ options, value, onChange, placeholder, disabled }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div className="relative flex-1">
+            <div
+                className={`p-2 border rounded cursor-pointer ${disabled ? 'bg-[#EDEDED] border-[#DDDDDD]' : 'bg-[#FFFFFF] border-[#DDDDDD]'}`}
+                onClick={() => !disabled && setIsOpen(!isOpen)}
+            >
+                {value === '대분류' || '중분류' || '소분류' ? (
+                    <div className="flex justify-between items-center">
+                        <span>{placeholder}</span>
+                        <div className="w-[11px]">
+                            <img className="block w-full h-auto" src={require("../assets/form/dropdownArrow.png")} alt="Placeholder" />
+                        </div>
+                    </div>
+                ) : (
+                    options.find(opt => opt.value === value)?.label || placeholder
+                )}
+            </div>
+            {isOpen && !disabled && (
+                <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded shadow-lg">
+                    {options.map((option) => (
+                        <li
+                            key={option.value}
+                            className="p-2 hover:bg-gray-100 cursor-pointer border"
+                            onClick={() => {
+                                onChange(option.value);
+                                setIsOpen(false);
+                            }}
+                        >
+                            {option.label}
+                            {option.count ? "(" + option.count + ")" : null}
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+};
 
 const CategorySelect = ({
     mainCategory, setMainCategory, mainCategories,
     subCategory, setSubCategory, subCategories,
     detailCategory, setDetailCategory, detailCategories
 }) => {
+    const mainOptions = [
+        { value: '0', label: '대분류' },
+        ...mainCategories.map(cat => ({ value: cat.biz_main_category_id, label: cat.biz_main_category_name, count: cat.biz_sub_category_count }))
+    ];
+
+    const subOptions = [
+        { value: '0', label: '중분류' },
+        ...subCategories.map(cat => ({ value: cat.biz_sub_category_id, label: cat.biz_sub_category_name }))
+    ];
+
+    const detailOptions = [
+        { value: '0', label: '소분류' },
+        ...detailCategories.map(cat => ({ value: cat.biz_detail_category_id, label: cat.biz_detail_categoty_name }))
+    ];
+
     return (
         <div className="flex gap-4 w-full">
-            <select
-                className="p-2 border border-[#DDDDDD] rounded flex-1 block"
-                onChange={(e) => setMainCategory(e.target.value)}
-                value={mainCategory || ""}
-            >
-                <option value="0">대분류</option>
-                {mainCategories.map((mainCate, idx) => (
-                    <option key={idx} value={mainCate.biz_main_category_id}>
-                        {mainCate.biz_main_category_name}
-                    </option>
-                ))}
-            </select>
-
-            <select
-                className="p-2 border border-[#DDDDDD] rounded flex-1 block"
-                onChange={(e) => setSubCategory(e.target.value)}
-                value={subCategory || ""}
-                disabled={mainCategory === '대분류' || mainCategory === '0'}
-            >
-                <option value="0">중분류</option>
-                {subCategories.map((subCate, idx) => (
-                    <option key={idx} value={subCate.biz_sub_category_id}>
-                        {subCate.biz_sub_category_name}
-                    </option>
-                ))}
-            </select>
-
-            <select
-                className="p-2 border border-[#DDDDDD] rounded flex-1 block"
-                onChange={(e) => setDetailCategory(e.target.value)}
-                value={detailCategory || ""}
-                disabled={subCategory === '중분류' || subCategory === '0'}
-            >
-                <option value="0">소분류</option>
-                {detailCategories.map((detailCate, idx) => (
-                    <option key={idx} value={detailCate.biz_detail_category_id}>
-                        {detailCate.biz_detail_categoty_name}
-                    </option>
-                ))}
-            </select>
+            <CustomSelect
+                options={mainOptions}
+                value={mainCategory}
+                onChange={setMainCategory}
+                placeholder="대분류"
+            />
+            <CustomSelect
+                options={subOptions}
+                value={subCategory}
+                onChange={setSubCategory}
+                placeholder="중분류"
+                disabled={mainCategory === '대분류'}
+            />
+            <CustomSelect
+                options={detailOptions}
+                value={detailCategory}
+                onChange={setDetailCategory}
+                placeholder="소분류"
+                disabled={subCategory === '중분류'}
+            />
         </div>
     );
 };

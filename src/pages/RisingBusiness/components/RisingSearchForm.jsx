@@ -14,8 +14,7 @@ const RisingSearchForm = ({
 }) => {
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
-            <div className="p-4 bg-[#EDEDED]">
-
+            <div className="p-4 bg-[#F3F5F7]">
                 <div className="mb-4 flex gap-4">
                     <div className="w-1/6 text-center content-center">
                         <label className="block mb-1 font-extrabold">뜨는 업종</label>
