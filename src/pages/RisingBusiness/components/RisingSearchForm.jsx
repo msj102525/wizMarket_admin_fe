@@ -23,6 +23,7 @@ const RisingSearchForm = ({
                     <div className="w-full">
                         <input
                             type="text"
+                            placeholder='소분류 검색'
                             value={searchCate || ""}
                             onChange={(e) => setSearchCate(e.target.value)}
                             className="w-full p-2 border border-[#DDDDDD] rounded"
@@ -77,14 +78,19 @@ const RisingSearchForm = ({
                             value={increaseRateMin || ""}
                             onChange={(e) => setIncreaseRateMin(e.target.value)}
                             placeholder="이상"
-                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                            className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                            max={9999}
+                            min={0}
                         />
+                        <p className='content-center'>~</p>
                         <input
                             type="number"
                             value={increaseRateMax || ""}
                             onChange={(e) => setIncreaseRateMax(e.target.value)}
                             placeholder="이하"
-                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                            className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                            max={9999}
+                            min={0}
                         />
                     </div>
                 </div>
@@ -99,15 +105,21 @@ const RisingSearchForm = ({
                             value={rankMin || ""}
                             onChange={(e) => setRankMin(e.target.value)}
                             placeholder="이상"
-                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                            className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                            max={5}
+                            min={1}
                         />
+                        <p className='content-center'>~</p>
                         <input
                             type="number"
                             value={rankMax || ""}
                             onChange={(e) => setRankMax(e.target.value)}
                             placeholder="이하"
-                            className="p-2 border border-[#DDDDDD] rounded w-full"
+                            className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                            max={5}
+                            min={1}
                         />
+
                     </div>
                 </div>
             </div>

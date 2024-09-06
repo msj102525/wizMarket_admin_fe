@@ -1,92 +1,117 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Pagination from '../../../components/Pagination';
 
 const CommercialDistrictList2 = ({ data }) => {
+    const [sortConfig, setSortConfig] = useState({ key: 'commercial_district_id', direction: 'descending' });
+    const [currentPage, setCurrentPage] = useState(1); 
+    const resultsPerPage = 20; 
+
+    const sortedData = React.useMemo(() => {
+        const sortableItems = [...data];
+        if (sortConfig !== null) {
+            sortableItems.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableItems;
+    }, [data, sortConfig]);
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const getSortIndicator = (key) => {
+        if (sortConfig && sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '↑' : '↓';
+        }
+        return '';
+    };
+
+    // Calculate data for the current page
+    const indexOfLastResult = currentPage * resultsPerPage;
+    const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+    const currentResults = sortedData.slice(indexOfFirstResult, indexOfLastResult);
+
     return (
-        <div className="overflow-y-auto h-[480px] border border-gray-200 rounded-lg p-4 bg-white shadow-md">
-            {data.length === 0 ? (
-                <p className="text-center text-gray-500">데이터가 없습니다.</p>
-            ) : (
-                <div className="flex flex-wrap gap-6">
-                    {data.map((item) => (
-                        <div key={item.commercial_district_id} className="border border-gray-300 rounded-lg p-4 bg-white w-full sm:w-80 shadow-md">
-                            <h2 className="text-lg font-semibold mb-2">상권 ID: {item.commercial_district_id}</h2>
+        <div className="overflow-x-auto">
+            <p className='pb-4 text-sm cursor-default'>검색결과 {Intl.NumberFormat().format(sortedData.length)} 개</p>
+            <table className="min-w-full divide-y divide-gray-200 table-fixed">
+                <thead className="bg-[#EEEEEE]">
+                    <tr>
+                        {[
+                            { key: 'commercial_district_id', label: 'ID' },
+                            { key: 'city_name', label: '시/도' },
+                            { key: 'district_name', label: '시/군/구' },
+                            { key: 'sub_district_name', label: '읍/면/동' },
+                            { key: 'biz_main_category_name', label: '대분류' },
+                            { key: 'biz_sub_category_name', label: '중분류' },
+                            { key: 'biz_detail_category_name', label: '소분류' },
+                            { key: 'national_density', label: '전국 밀도' },
+                            { key: 'city_density', label: '도시 밀도' },
+                            { key: 'district_density', label: '구 밀도' },
+                            { key: 'sub_district_density', label: '행정동 밀도' },
+                            { key: 'average_profit', label: '평균 수익' },
+                            { key: 'created_at', label: '작성일' },
+                            { key: 'updated_at', label: '수정일' },
+                        ].map(({ key, label }) => (
+                            <th
+                                key={key}
+                                className="text-center p-4 text-xs font-extrabold text-black uppercase tracking-wider cursor-pointer w-1/12"
+                                onClick={() => requestSort(key)}
+                            >
+                                {label} {getSortIndicator(key)}
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                    {currentResults.length > 0 ? (
+                        currentResults.map((item, index) => (
+                            <tr key={item.commercial_district_id}>
+                                <td className="text-center py-2 whitespace-nowrap text-sm font-medium text-gray-900 overflow-hidden overflow-ellipsis">
+                                    {sortConfig.direction === "descending" ? sortedData.length - indexOfFirstResult - index : indexOfFirstResult + index + 1}
+                                </td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.commercial_district_id}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.city_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.district_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_main_category_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_sub_category_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_detail_category_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.national_density}%</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.city_density}%</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.district_density}%</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_density}%</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 font-semibold overflow-hidden overflow-ellipsis">{item.average_profit}만원</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.created_at).toLocaleDateString()}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.updated_at).toLocaleDateString()}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="14" className="text-center px-6 py-4">데이터가 없습니다.</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
 
-                            <p><strong>시/도:</strong> {item.city_name}</p>
-                            <p><strong>시/군/구:</strong> {item.district_name}</p>
-                            <p><strong>읍/면/동:</strong> {item.sub_district_name}</p>
-
-                            <h3 className="text-md font-semibold mt-4">비즈니스 카테고리</h3>
-                            <p><strong>주요 카테고리:</strong> {item.biz_main_category_name}</p>
-                            <p><strong>서브 카테고리:</strong> {item.biz_sub_category_name}</p>
-                            <p><strong>상세 카테고리:</strong> {item.biz_detail_category_name}</p>
-
-                            <h3 className="text-md font-semibold mt-4">밀도 정보</h3>
-                            <p><strong>전국 밀도:</strong> {item.national_density}%</p>
-                            <p><strong>도시 밀도:</strong> {item.city_density}%</p>
-                            <p><strong>구 밀도:</strong> {item.district_density}%</p>
-                            <p><strong>행정동 밀도:</strong> {item.sub_district_density}%</p>
-
-                            <h3 className="text-md font-semibold mt-4">시장 정보</h3>
-                            <p><strong>시장 크기:</strong> {item.market_size}원</p>
-                            <p><strong>평균 결제금액:</strong> {item.average_payment}원</p>
-                            <p><strong>이용 횟수:</strong> {item.usage_count}건</p>
-                            <p><strong>평균 매출:</strong> {item.average_sales}만원</p>
-
-                            <h3 className="text-md font-semibold mt-4">운영 비용</h3>
-                            <p><strong>운영 비용:</strong> {item.operating_cost}만원</p>
-                            <p><strong>식재료 비용:</strong> {item.food_cost}만원</p>
-                            <p><strong>직원 비용:</strong> {item.employee_cost}만원</p>
-                            <p><strong>임대 비용:</strong> {item.rental_cost}만원</p>
-                            <p><strong>세금 비용:</strong> {item.tax_cost}만원</p>
-                            <p><strong>가족 직원 비용:</strong> {item.family_employee_cost}만원</p>
-                            <p><strong>CEO 비용:</strong> {item.ceo_cost}만원</p>
-                            <p><strong>기타 비용:</strong> {item.etc_cost}만원</p>
-
-                            <h3 className="text-md font-semibold mt-4">수익 정보</h3>
-                            <p><strong>평균 수익:</strong> {item.average_profit}만원</p>
-                            <p><strong>월요일 평균 수익:</strong> {item.avg_profit_per_mon}%</p>
-                            <p><strong>화요일 평균 수익:</strong> {item.avg_profit_per_tue}%</p>
-                            <p><strong>수요일 평균 수익:</strong> {item.avg_profit_per_wed}%</p>
-                            <p><strong>목요일 평균 수익:</strong> {item.avg_profit_per_thu}%</p>
-                            <p><strong>금요일 평균 수익:</strong> {item.avg_profit_per_fri}%</p>
-                            <p><strong>토요일 평균 수익:</strong> {item.avg_profit_per_sat}%</p>
-                            <p><strong>일요일 평균 수익:</strong> {item.avg_profit_per_sun}%</p>
-                            <p><strong>06-09시 평균 수익:</strong> {item.avg_profit_per_06_09}%</p>
-                            <p><strong>09-12시 평균 수익:</strong> {item.avg_profit_per_09_12}%</p>
-                            <p><strong>12-15시 평균 수익:</strong> {item.avg_profit_per_12_15}%</p>
-                            <p><strong>15-18시 평균 수익:</strong> {item.avg_profit_per_15_18}%</p>
-                            <p><strong>18-21시 평균 수익:</strong> {item.avg_profit_per_18_21}%</p>
-                            <p><strong>21-24시 평균 수익:</strong> {item.avg_profit_per_21_24}%</p>
-                            <p><strong>24-06시 평균 수익:</strong> {item.avg_profit_per_24_06}%</p>
-
-                            <h3 className="text-md font-semibold mt-4">고객 정보</h3>
-                            <p><strong>20대 남성 평균 고객 수:</strong> {item.avg_client_per_m_20}%</p>
-                            <p><strong>30대 남성 평균 고객 수:</strong> {item.avg_client_per_m_30}%</p>
-                            <p><strong>40대 남성 평균 고객 수:</strong> {item.avg_client_per_m_40}%</p>
-                            <p><strong>50대 남성 평균 고객 수:</strong> {item.avg_client_per_m_50}%</p>
-                            <p><strong>60대 남성 평균 고객 수:</strong> {item.avg_client_per_m_60}%</p>
-                            <p><strong>20대 여성 평균 고객 수:</strong> {item.avg_client_per_f_20}%</p>
-                            <p><strong>30대 여성 평균 고객 수:</strong> {item.avg_client_per_f_30}%</p>
-                            <p><strong>40대 여성 평균 고객 수:</strong> {item.avg_client_per_f_40}%</p>
-                            <p><strong>50대 여성 평균 고객 수:</strong> {item.avg_client_per_f_50}%</p>
-                            <p><strong>60대 여성 평균 고객 수:</strong> {item.avg_client_per_f_60}%</p>
-
-                            <h3 className="text-md font-semibold mt-4">인기 메뉴</h3>
-                            <p><strong>메뉴 1:</strong> {item.top_menu_1}</p>
-                            <p><strong>메뉴 2:</strong> {item.top_menu_2}</p>
-                            <p><strong>메뉴 3:</strong> {item.top_menu_3}</p>
-                            <p><strong>메뉴 4:</strong> {item.top_menu_4}</p>
-                            <p><strong>메뉴 5:</strong> {item.top_menu_5}</p>
-
-                            <div className="text-xs text-gray-500 mt-4">
-                                <p>작성일: {new Date(item.created_at).toLocaleDateString()}</p>
-                                <p>수정일: {new Date(item.updated_at).toLocaleDateString()}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+            {/* Pagination component */}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(sortedData.length / resultsPerPage)}
+                onPageChange={(pageNumber) => setCurrentPage(pageNumber)}
+            />
         </div>
     );
 };

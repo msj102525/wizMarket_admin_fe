@@ -1,19 +1,45 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
+import Aside from '../../components/Aside';
+import SectionHeader from '../../components/SectionHeader';
 import KakaoMap from '../../components/KakaoMap';
 import axios from 'axios';
-import CommercialDistrictList2 from './components/CommercialDistrictList2'; // 리스트 컴포넌트 가져오기
+import CommercialDistrictList2 from './components/CommercialDistrictList2';
+import CommercialDistrict2SearchForm from './components/CommercialDistrict2SearchForm';
+import { useCategories } from '../../hooks/useCategories';
+import { useCities } from '../../hooks/useCities';
+
 
 const CommercialDistrict2 = () => {
-    const roadAddress = useSelector((state) => state.address.roadAddress);
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
     const prevKakaoAddressResult = useRef(null);
-
+    const [isList, setIsList] = useState(false);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const {
+        mainCategory, setMainCategory, mainCategories,
+        subCategory, setSubCategory, subCategories,
+        detailCategory, setDetailCategory, detailCategories
+    } = useCategories();
+
+    const {
+        cities,
+        districts,
+        subDistricts,
+        city,
+        district,
+        subDistrict,
+        setCity,
+        setDistrict,
+        setSubDistrict
+    } = useCities();
+
+
+
+    // 기존 상권분석 데이터
     useEffect(() => {
         const fetchData = async () => {
             if (!kakaoAddressResult) return;
@@ -52,26 +78,123 @@ const CommercialDistrict2 = () => {
         prevKakaoAddressResult.current = kakaoAddressResult;
     }, [kakaoAddressResult]);
 
+    const handleToggle = () => {
+        setIsList(!isList);
+    };
+
+    const handleSearch = () => {
+        // console.log('Searching for:', {
+        //     searchCate,
+        //     mainCategory,
+        //     subCategory,
+        //     detailCategory,
+        //     city,
+        //     district,
+        //     subDistrict,
+        //     increaseRateMin,
+        //     increaseRateMax,
+        //     rankMin,
+        //     rankMax
+        // });
+
+        const fetchData = async () => {
+            setLoading(true);
+            setError(null);
+
+            // try {
+            //     const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/rising/rb`, {
+            //         headers: {
+            //             'Content-Type': 'application/json; charset=UTF-8',
+            //         },
+            //         params: {
+            //             search_cate: searchCate || undefined,
+            //             city_id: parseInt(city) || undefined,
+            //             district_id: parseInt(district) || undefined,
+            //             sub_district_id: parseInt(subDistrict) || undefined,
+            //             biz_main_category_id: parseInt(mainCategory) || undefined,
+            //             biz_sub_category_id: parseInt(subCategory) || undefined,
+            //             biz_detail_category_id: parseInt(detailCategory) || undefined,
+            //             growth_rate_min: parseFloat(increaseRateMin) || undefined,
+            //             growth_rate_max: parseFloat(increaseRateMax) || undefined,
+            //             rank_min: parseInt(rankMin) || undefined,
+            //             rank_max: parseInt(rankMax) || undefined
+            //         },
+            //     });
+            //     setData(response.data);
+            // } catch (error) {
+            //     console.error('Error fetching data from FastAPI', error);
+            //     setError('Failed to fetch data');
+            // } finally {
+            //     setLoading(false);
+            // }
+        };
+
+        fetchData();
+    };
+
+    const handleReset = () => {
+        setMainCategory('대분류');
+        setSubCategory('중분류');
+        setDetailCategory('소분류');
+        setCity(null);
+        setDistrict(null);
+        setSubDistrict(null);
+    };
+
+
     return (
         <div>
             <Header />
-            <div className="px-6">
-                <div>도로명 주소: {roadAddress}</div>
-                <div>행정동 주소: {kakaoAddressResult.region_1depth_name} {kakaoAddressResult.region_2depth_name} {kakaoAddressResult.region_3depth_name}</div>
+            <div className="flex">
+                <Aside />
+                <main className="gap-2 pr-10 w-full">
+                    <section>
+                        <SectionHeader title="상권 분석" isList={isList} handleToggle={handleToggle} />
+                    </section>
+                    <section className="flex gap-4 py-4">
+                        {!isList && (
+                            <div className='flex-1'>
+                                <div className="min-w-full h-full">
+                                    <KakaoMap />
+                                </div>
+                            </div>
+                        )}
+                        <div className='flex-1'>
+                            <CommercialDistrict2SearchForm
 
-                <div className="flex gap-2">
-                    <div className="">
-                        <KakaoMap />
-                    </div>
-                    <div className="">
-                        <p>지도중심기준 상권분석</p>
+                                mainCategory={mainCategory}
+                                mainCategories={mainCategories}
+                                subCategory={subCategory}
+                                subCategories={subCategories}
+                                detailCategory={detailCategory}
+                                detailCategories={detailCategories}
+                                city={city}
+                                district={district}
+                                subDistrict={subDistrict}
+                                cities={cities}
+                                districts={districts}
+                                subDistricts={subDistricts}
+
+                                setMainCategory={setMainCategory}
+                                setSubCategory={setSubCategory}
+                                setDetailCategory={setDetailCategory}
+                                setCity={setCity}
+                                setDistrict={setDistrict}
+                                setSubDistrict={setSubDistrict}
+
+                                handleSearch={handleSearch}
+                                handleReset={handleReset}
+                            />
+                        </div>
+                    </section>
+                    <section className="pb-10">
                         {loading && <p>Loading...</p>}
                         {error && <p>Error: {error}</p>}
                         {data && !loading && !error && (
                             <CommercialDistrictList2 data={data} />
                         )}
-                    </div>
-                </div>
+                    </section>
+                </main>
             </div>
         </div>
     );
