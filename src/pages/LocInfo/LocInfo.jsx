@@ -44,9 +44,6 @@ const LocInfo = () => {
         }
     };
 
-
-    
-
     return (
         <div>
             <Header />

@@ -7,7 +7,7 @@ import PopulationSearchForm from './components/PopulationSearchForm';
 import axios from 'axios';
 import PopulationList from './components/PopulationList';
 import Pagination from '../../components/Pagination';
-import * as XLSX from 'xlsx'; // 엑셀 파일 생성 라이브러리
+
 
 const Population = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -17,6 +17,7 @@ const Population = () => {
 
   // 연령대 필터를 위한 상태
   const [ageFilter, setAgeFilter] = useState({ ageGroupMin: null, ageGroupMax: null });
+  const [filters, setFilters] = useState({});  // 필터 상태
 
   // 페이지네이션을 위한 상태 추가
   const [currentPage, setCurrentPage] = useState(1);
@@ -59,69 +60,43 @@ const Population = () => {
     return mergedData;
   };
 
-// 엑셀 다운로드 처리 함수
-const handleDownloadExcel = () => {
-  if (!searchResults.length) return;
+  // 엑셀 다운로드 처리 함수
+  const handleDownloadExcel = async (filters) => {
+    try {
+      // POST 요청으로 필터 값과 함께 엑셀 다운로드 요청
+      const response = await axios.post(
+        `${process.env.REACT_APP_FASTAPI_BASE_URL}/population/download`,
+        { ...filters },  // 필터 값만 전송
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          responseType: 'blob',  // 엑셀 파일을 Blob으로 받기 위해 설정
+        }
+      );
 
-  // 선택된 연령대 필터에 따른 동적 헤더 구성
-  const baseHeaders = ['번호', '시/도', '시/군', '읍/면/동', '남자(%)', '여자(%)', '월'];
-  const dynamicHeaders = [];
+      // Blob 데이터로부터 파일 URL 생성
+      const url = window.URL.createObjectURL(new Blob([response.data]));
 
-  // 나이대 필터에 맞는 헤더 추가
-  if (ageFilter.ageGroupMin || ageFilter.ageGroupMax) {
-    const filterOrder = ['under_10', 'age_10s', 'age_20s', 'age_30s', 'age_40s', 'age_50s', 'age_60_plus'];
-    const headerLabels = ['10대 미만', '10대', '20대', '30대', '40대', '50대', '60대 이상'];
-
-    const minIndex = ageFilter.ageGroupMin ? filterOrder.indexOf(ageFilter.ageGroupMin) : 0;
-    const maxIndex = ageFilter.ageGroupMax ? filterOrder.indexOf(ageFilter.ageGroupMax) : filterOrder.length - 1;
-
-    // 선택된 나이대 범위만 동적으로 추가
-    dynamicHeaders.push(...headerLabels.slice(minIndex, maxIndex + 1));
-  }
-
-  // 최종 헤더 구성
-  const headers = [...baseHeaders, ...dynamicHeaders];
-
-  // 엑셀 데이터에 넣을 본문 구성
-  const excelData = [
-    headers, // 첫 번째 행은 헤더
-    ...searchResults.map(item => {
-      const row = [
-        item.pop_id,
-        item.city_name,
-        item.district_name,
-        item.subdistrict_name,
-        item.male_percentage,
-        item.female_percentage,
-        item.reference_date
-      ];
-
-      // 동적으로 나이대 데이터 추가
-      if (ageFilter.ageGroupMin || ageFilter.ageGroupMax) {
-        const filterOrder = ['under_10', 'age_10s', 'age_20s', 'age_30s', 'age_40s', 'age_50s', 'age_60_plus'];
-        
-        const minIndex = ageFilter.ageGroupMin ? filterOrder.indexOf(ageFilter.ageGroupMin) : 0;
-        const maxIndex = ageFilter.ageGroupMax ? filterOrder.indexOf(ageFilter.ageGroupMax) : filterOrder.length - 1;
-
-        row.push(...filterOrder.slice(minIndex, maxIndex + 1).map(ageKey => item[ageKey]));
-      }
-
-      return row;
-    })
-  ];
-
-  // 2차원 배열을 엑셀 시트로 변환
-  const worksheet = XLSX.utils.aoa_to_sheet(excelData);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'PopulationData');
-  XLSX.writeFile(workbook, 'population_data.xlsx'); // 엑셀 파일 이름
-};
+      // 임시 다운로드 링크 생성
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'population_data.xlsx'); // 파일명 설정
+      document.body.appendChild(link);
+      link.click();  // 링크 클릭하여 다운로드 실행
+      link.remove(); // 다운로드 완료 후 링크 제거
+    } catch (error) {
+      console.error('엑셀 다운로드 오류:', error);
+    }
+  };
 
 
   // 필터를 사용해 서버에 검색 요청을 보내는 함수
   const handleSearch = async (filters) => {
     setLoading(true);
     setError(null);
+
+    setFilters(filters);
 
     // 연령대 필터 상태 설정
     setAgeFilter({ ageGroupMin: filters.ageGroupMin, ageGroupMax: filters.ageGroupMax });
@@ -143,7 +118,7 @@ const handleDownloadExcel = () => {
       // 성별 필터가 없으면 데이터를 합침
       const mergedResults = hasGenderFilter ? response.data.filtered_data : mergeDataPairs(response.data.filtered_data);
 
-      
+
 
       setSearchResults(mergedResults); // 병합된 데이터를 상태로 저장
     } catch (err) {
@@ -189,7 +164,7 @@ const handleDownloadExcel = () => {
             <div className="flex justify-between items-center mb-4">
               <p>총 <span className="text-red-500">{searchResults.length}</span> 개</p>
               <button
-                onClick={handleDownloadExcel}
+                onClick={() => handleDownloadExcel(filters)}
                 className="px-4 py-2 bg-white text-black rounded border border-black"
               >
                 엑셀 다운로드
@@ -198,7 +173,7 @@ const handleDownloadExcel = () => {
 
             {loading && <p>검색 결과가 없습니다.</p>}
             {error && <p className="text-red-500">오류가 발생했습니다: {error}</p>}
-            
+
             {!loading && !error && (
               <PopulationList data={currentResults} ageFilter={ageFilter} />
             )}

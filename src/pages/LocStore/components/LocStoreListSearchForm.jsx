@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import { useCities } from '../../../hooks/useCities';
 
-const LocStoreListSearchForm = ({ onSearch }) => {  
+const LocStoreListSearchForm = ({ onSearch }) => {
     const {
         cities,
         districts,
@@ -21,6 +21,7 @@ const LocStoreListSearchForm = ({ onSearch }) => {
     const [middleCategory, setMiddleCategory] = useState('');
     const [subCategory, setSubCategory] = useState('');
     const [source, setSource] = useState('');
+    const [selectedQuarter, setSelectedQuarter] = useState('');
 
     const handleSearch = () => {
         // 필터링된 데이터 (빈 값 제거)
@@ -32,6 +33,7 @@ const LocStoreListSearchForm = ({ onSearch }) => {
             ...(city && { city }),
             ...(district && { district }),
             ...(subDistrict && { subDistrict }),
+            ...(selectedQuarter && { selectedQuarter }),
 
         };
 
@@ -47,6 +49,7 @@ const LocStoreListSearchForm = ({ onSearch }) => {
         setCity('');
         setDistrict('');
         setSubDistrict('');
+        setSelectedQuarter('');
     };
 
     return (
@@ -62,6 +65,53 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                         placeholder="상호명을 입력하세요"
                         className="p-2 border border-[#DDDDDD] rounded w-full"
                     />
+                </div>
+
+                <div className="grid grid-cols-4 gap-4 mb-4">
+                    <label className="font-medium w-1/2">지역 선택</label>
+                    {/* 시/도 선택 */}
+                    <select
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="p-2 border border-[#DDDDDD] rounded w-full"
+                    >
+                        <option value="">시/도 선택</option>
+                        {cities.map((c) => (
+                            <option key={c[0]} value={c[0]}>
+                                {c[1]}
+                            </option>
+                        ))}
+                    </select>
+
+                    {/* 군/구 선택 */}
+                    <select
+                        value={district}
+                        onChange={(e) => setDistrict(e.target.value)}
+                        disabled={!city}
+                        className="p-2 border border-[#DDDDDD] rounded w-full"
+                    >
+                        <option value="">군/구 선택</option>
+                        {districts.map((d) => (
+                            <option key={d[0]} value={d[0]}>
+                                {d[2]}
+                            </option>
+                        ))}
+                    </select>
+
+                    {/* 읍/면/동 선택 */}
+                    <select
+                        value={subDistrict}
+                        onChange={(e) => setSubDistrict(e.target.value)}
+                        disabled={!district}
+                        className="p-2 border border-[#DDDDDD] rounded w-full"
+                    >
+                        <option value="">읍/면/동 선택</option>
+                        {subDistricts.map((sd) => (
+                            <option key={sd[0]} value={sd[0]}>
+                                {sd[3]}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 {/* 업종 선택 (대분류, 중분류, 소분류) */}
@@ -140,55 +190,34 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                         {/* 추가적으로 필요한 분류를 여기서 정의 */}
                     </select>
                 </div>
-
-                <div className="grid grid-cols-4 gap-4">
-                    <label className="font-medium w-1/2">지역 선택</label>
-                    {/* 시/도 선택 */}
+                <div className="mb-4 flex items-center">
+                    <label className="font-medium mr-32 w-1/6">분기 선택</label>
                     <select
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
+                        value={selectedQuarter}
+                        onChange={(e) => setSelectedQuarter(e.target.value)}
                         className="p-2 border border-[#DDDDDD] rounded w-full"
                     >
-                        <option value="">시/도 선택</option>
-                        {cities.map((c) => (
-                            <option key={c[0]} value={c[0]}>
-                                {c[1]}
-                            </option>
-                        ))}
-                    </select>
-
-                    {/* 군/구 선택 */}
-                    <select
-                        value={district}
-                        onChange={(e) => setDistrict(e.target.value)}
-                        disabled={!city}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option value="">군/구 선택</option>
-                        {districts.map((d) => (
-                            <option key={d[0]} value={d[0]}>
-                                {d[2]}
-                            </option>
-                        ))}
-                    </select>
-
-                    {/* 읍/면/동 선택 */}
-                    <select
-                        value={subDistrict}
-                        onChange={(e) => setSubDistrict(e.target.value)}
-                        disabled={!district}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option value="">읍/면/동 선택</option>
-                        {subDistricts.map((sd) => (
-                            <option key={sd[0]} value={sd[0]}>
-                                {sd[3]}
-                            </option>
-                        ))}
+                        <option value="">분기를 선택하세요</option>
+                        <option value="2021.1/4">2021 1/4</option>
+                        <option value="2021.2/4">2021 2/4</option>
+                        <option value="2021.3/4">2021 3/4</option>
+                        <option value="2021.4/4">2021 4/4</option>
+                        <option value="2022.1/4">2022 1/4</option>
+                        <option value="2022.2/4">2022 2/4</option>
+                        <option value="2022.3/4">2022 3/4</option>
+                        <option value="2022.4/4">2022 4/4</option>
+                        <option value="2023.1/4">2023 1/4</option>
+                        <option value="2023.2/4">2023 2/4</option>
+                        <option value="2023.3/4">2023 3/4</option>
+                        <option value="2023.4/4">2023 4/4</option>
+                        <option value="2024.1/4">2024 1/4</option>
+                        <option value="2024.2/4">2024 2/4</option>
                     </select>
                 </div>
+
+
             </div>
-            
+
             {/* 검색 및 초기화 버튼 */}
             <SearchResetButtons onSearch={handleSearch} onReset={handleReset} />
         </div>

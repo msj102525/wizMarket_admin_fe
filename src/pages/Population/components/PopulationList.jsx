@@ -74,7 +74,7 @@ const PopulationList = ({ data, ageFilter }) => {
               <div className="flex items-center justify-between"> {/* 텍스트와 버튼 나란히 */}
                 {col.label}
                 {/* 번호 열을 제외한 열에 정렬 버튼 추가 */}
-                {col.key !== 'pop_id' && (
+                {col.key !== 'pop_id' && col.key !== 'city_name' && col.key !== 'district_name' && col.key !== 'subdistrict_name' && (
                   <div className="flex flex-col ml-2"> {/* 버튼을 수직으로 배치 */}
                     <button onClick={() => handleSort(col.key, 'asc')} className="text-xs">▲</button>
                     <button onClick={() => handleSort(col.key, 'desc')} className="text-xs">▼</button>

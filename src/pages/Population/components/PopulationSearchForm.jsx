@@ -22,6 +22,7 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
+    
     const handleSearch = () => {
         // 필터링된 데이터 (빈 값 제거)
         const filters = {
