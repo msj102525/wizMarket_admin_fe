@@ -10,6 +10,7 @@ import Population from "./pages/Population/Population"
 import LocContext from "./pages/LocContext/LocContext";
 import LocStore from "./pages/LocStore/LocStore";
 import City from "./pages/City/City"
+import Category from "./pages/Category/Category";
 
 
 const Router = () => {
@@ -25,7 +26,8 @@ const Router = () => {
         <Route path="/LocStore" element={<LocStore />} />
         <Route path="/population" element={<Population />} />
         <Route path="/location/context" element={<LocContext />} />
-        <Route path="/City" element={<City />} />
+        <Route path="/city" element={<City />} />
+        <Route path="/category" element={<Category />} />
       </Routes>
     </BrowserRouter>
   );

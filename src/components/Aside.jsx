@@ -41,7 +41,7 @@ const Aside = () => {
                                 <Link to="/city">Address table</Link>
                             </li>
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
-                                <Link to="/">업종분류</Link>
+                                <Link to="/category">업종분류</Link>
                             </li>
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                                 <Link to="/">기타</Link>

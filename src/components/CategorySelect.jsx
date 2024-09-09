@@ -9,16 +9,12 @@ const CustomSelect = ({ options, value, onChange, placeholder, disabled }) => {
                 className={`p-2 border rounded cursor-pointer ${disabled ? 'bg-[#EDEDED] border-[#DDDDDD]' : 'bg-[#FFFFFF] border-[#DDDDDD]'}`}
                 onClick={() => !disabled && setIsOpen(!isOpen)}
             >
-                {value === '대분류' || '중분류' || '소분류' ? (
-                    <div className="flex justify-between items-center">
-                        <span>{placeholder}</span>
-                        <div className="w-[11px]">
-                            <img className="block w-full h-auto" src={require("../assets/form/dropdownArrow.png")} alt="Placeholder" />
-                        </div>
+                <div className="flex justify-between items-center">
+                    <span>{value === '0' ? placeholder : options.find(opt => opt.value === value)?.label || placeholder}</span>
+                    <div className="w-[11px]">
+                        <img className="block w-full h-auto" src={require("../assets/form/dropdownArrow.png")} alt="Dropdown Arrow" />
                     </div>
-                ) : (
-                    options.find(opt => opt.value === value)?.label || placeholder
-                )}
+                </div>
             </div>
             {isOpen && !disabled && (
                 <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded shadow-lg">
@@ -53,13 +49,15 @@ const CategorySelect = ({
 
     const subOptions = [
         { value: '0', label: '중분류' },
-        ...subCategories.map(cat => ({ value: cat.biz_sub_category_id, label: cat.biz_sub_category_name }))
+        ...subCategories.map(cat => ({ value: cat.biz_sub_category_id, label: cat.biz_sub_category_name, count: cat.biz_detail_cateogry_count }))
     ];
 
     const detailOptions = [
         { value: '0', label: '소분류' },
         ...detailCategories.map(cat => ({ value: cat.biz_detail_category_id, label: cat.biz_detail_categoty_name }))
     ];
+
+    console.log(subCategories)
 
     return (
         <div className="flex gap-4 w-full">

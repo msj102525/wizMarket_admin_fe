@@ -4,20 +4,23 @@ import CategorySelect from '../../../components/CategorySelect';
 import CitySelect from '../../../components/CitySelect';
 
 const CommercialDistrict2SearchForm = ({
-    searchCate, setSearchCate,
     mainCategory, mainCategories, subCategory, subCategories, detailCategory, detailCategories,
     city, district, subDistrict, cities, districts, subDistricts, setMainCategory, setSubCategory, setDetailCategory,
     setCity, setDistrict, setSubDistrict,
-    increaseRateMin, increaseRateMax, rankMin, rankMax,
-    setIncreaseRateMin, setIncreaseRateMax, setRankMin, setRankMax,
+    marketSizeMax, marketSizeMin, setMarketSizeMax, setMarketSizeMin,
+    avgSalseMax, avgSalseMin, setAvgSalseMax, setAvgSalseMin,
+    foodCostMax, foodCostMin, setFoodCostMax, setFoodCostMin,
+    empCostMax, empCostMin, setEmpCostMax, setEmpCostMin,
+    rentalCostMax, rentalCostMin, setRentalCostMax, setRentalCostMin,
+    avgProfitMax, avgProfitMin, setAvgProfitMax, setAvgProfitMin,
     handleSearch, handleReset
 }) => {
     return (
-        <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
+        <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full">
             <div className="p-4 bg-[#EDEDED]">
-
+                {/* 업종 검색 */}
                 <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/6 text-center">
                         <label className="block mb-1 font-extrabold">업종 검색</label>
                     </div>
                     <div className="w-full">
@@ -30,187 +33,171 @@ const CommercialDistrict2SearchForm = ({
                             subCategories={subCategories}
                             detailCategory={detailCategory}
                             setDetailCategory={setDetailCategory}
-                            detailCategories={detailCategories} />
+                            detailCategories={detailCategories}
+                        />
                     </div>
                 </div>
 
+                {/* 지역 검색 */}
                 <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/6 text-center">
                         <label className="block mb-1 font-extrabold">지역 검색</label>
                     </div>
                     <div className="w-full">
                         <CitySelect
                             city={city}
+                            setCity={setCity}
                             district={district}
+                            setDistrict={setDistrict}
                             subDistrict={subDistrict}
+                            setSubDistrict={setSubDistrict}
                             cities={cities}
                             districts={districts}
                             subDistricts={subDistricts}
-                            setCity={setCity}
-                            setDistrict={setDistrict}
-                            setSubDistrict={setSubDistrict}
                         />
                     </div>
                 </div>
 
+                {/* 시장 규모 */}
                 <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold">시장규모</label>
+                    <div className="w-1/6 text-center">
+                        <label className="block mb-1 font-extrabold">시장 규모</label>
                     </div>
                     <div className="w-full flex gap-4">
                         <input
                             type="number"
-                            value={increaseRateMin || ""}
-                            onChange={(e) => setIncreaseRateMin(e.target.value)}
+                            value={marketSizeMin || ""}
+                            onChange={(e) => setMarketSizeMin(e.target.value)}
                             placeholder="이상"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={9999}
-                            min={0}
                         />
-                        <p className='content-center'>~</p>
+                        <p className="content-center">~</p>
                         <input
                             type="number"
-                            value={increaseRateMax || ""}
-                            onChange={(e) => setIncreaseRateMax(e.target.value)}
+                            value={marketSizeMax || ""}
+                            onChange={(e) => setMarketSizeMax(e.target.value)}
                             placeholder="이하"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={9999}
-                            min={0}
                         />
                     </div>
                 </div>
 
+                {/* 평균 매출 */}
                 <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold">평균매출</label>
+                    <div className="w-1/6 text-center">
+                        <label className="block mb-1 font-extrabold">평균 매출</label>
                     </div>
                     <div className="w-full flex gap-4">
                         <input
                             type="number"
-                            value={rankMin || ""}
-                            onChange={(e) => setRankMin(e.target.value)}
+                            value={avgSalseMin || ""}
+                            onChange={(e) => setAvgSalseMin(e.target.value)}
                             placeholder="이상"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={5}
-                            min={1}
                         />
-                        <p className='content-center'>~</p>
+                        <p className="content-center">~</p>
                         <input
                             type="number"
-                            value={rankMax || ""}
-                            onChange={(e) => setRankMax(e.target.value)}
+                            value={avgSalseMax || ""}
+                            onChange={(e) => setAvgSalseMax(e.target.value)}
                             placeholder="이하"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={5}
-                            min={1}
                         />
                     </div>
                 </div>
 
+                {/* 식재료비 */}
                 <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/6 text-center">
                         <label className="block mb-1 font-extrabold">식재료비</label>
                     </div>
                     <div className="w-full flex gap-4">
                         <input
                             type="number"
-                            value={rankMin || ""}
-                            onChange={(e) => setRankMin(e.target.value)}
+                            value={foodCostMin || ""}
+                            onChange={(e) => setFoodCostMin(e.target.value)}
                             placeholder="이상"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={5}
-                            min={1}
                         />
-                        <p className='content-center'>~</p>
+                        <p className="content-center">~</p>
                         <input
                             type="number"
-                            value={rankMax || ""}
-                            onChange={(e) => setRankMax(e.target.value)}
+                            value={foodCostMax || ""}
+                            onChange={(e) => setFoodCostMax(e.target.value)}
                             placeholder="이하"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={5}
-                            min={1}
                         />
                     </div>
                 </div>
 
+                {/* 인건비 */}
                 <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/6 text-center">
                         <label className="block mb-1 font-extrabold">인건비</label>
                     </div>
                     <div className="w-full flex gap-4">
                         <input
                             type="number"
-                            value={rankMin || ""}
-                            onChange={(e) => setRankMin(e.target.value)}
+                            value={empCostMin || ""}
+                            onChange={(e) => setEmpCostMin(e.target.value)}
                             placeholder="이상"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={5}
-                            min={1}
                         />
-                        <p className='content-center'>~</p>
+                        <p className="content-center">~</p>
                         <input
                             type="number"
-                            value={rankMax || ""}
-                            onChange={(e) => setRankMax(e.target.value)}
+                            value={empCostMax || ""}
+                            onChange={(e) => setEmpCostMax(e.target.value)}
                             placeholder="이하"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={5}
-                            min={1}
                         />
                     </div>
                 </div>
 
+                {/* 임차료 */}
                 <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/6 text-center">
                         <label className="block mb-1 font-extrabold">임차료</label>
                     </div>
                     <div className="w-full flex gap-4">
                         <input
                             type="number"
-                            value={rankMin || ""}
-                            onChange={(e) => setRankMin(e.target.value)}
+                            value={rentalCostMin || ""}
+                            onChange={(e) => setRentalCostMin(e.target.value)}
                             placeholder="이상"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={5}
-                            min={1}
                         />
-                        <p className='content-center'>~</p>
+                        <p className="content-center">~</p>
                         <input
                             type="number"
-                            value={rankMax || ""}
-                            onChange={(e) => setRankMax(e.target.value)}
+                            value={rentalCostMax || ""}
+                            onChange={(e) => setRentalCostMax(e.target.value)}
                             placeholder="이하"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={5}
-                            min={1}
                         />
                     </div>
                 </div>
 
+                {/* 영업 이익 */}
                 <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold">영업이익</label>
+                    <div className="w-1/6 text-center">
+                        <label className="block mb-1 font-extrabold">영업 이익</label>
                     </div>
                     <div className="w-full flex gap-4">
                         <input
                             type="number"
-                            value={rankMin || ""}
-                            onChange={(e) => setRankMin(e.target.value)}
+                            value={avgProfitMin || ""}
+                            onChange={(e) => setAvgProfitMin(e.target.value)}
                             placeholder="이상"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={5}
-                            min={1}
                         />
-                        <p className='content-center'>~</p>
+                        <p className="content-center">~</p>
                         <input
                             type="number"
-                            value={rankMax || ""}
-                            onChange={(e) => setRankMax(e.target.value)}
+                            value={avgProfitMax || ""}
+                            onChange={(e) => setAvgProfitMax(e.target.value)}
                             placeholder="이하"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            max={5}
-                            min={1}
                         />
                     </div>
                 </div>
@@ -223,4 +210,4 @@ const CommercialDistrict2SearchForm = ({
     );
 };
 
-export default CommercialDistrict2SearchForm
+export default CommercialDistrict2SearchForm;

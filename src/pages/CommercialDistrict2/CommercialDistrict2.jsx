@@ -19,6 +19,20 @@ const CommercialDistrict2 = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const [marketSizeMax, setMarketSizeMax] = useState("");
+    const [marketSizeMin, setMarketSizeMin] = useState("");
+    const [avgSalesMax, setAvgSalesMax] = useState("");
+    const [avgSalesMin, setAvgSalesMin] = useState("");
+    const [foodCostMax, setFoodCostMax] = useState("");
+    const [foodCostMin, setFoodCostMin] = useState("");
+    const [empCostMax, setEmpCostMax] = useState("");
+    const [empCostMin, setEmpCostMin] = useState("");
+    const [rentalCostMax, setRentalCostMax] = useState("");
+    const [rentalCostMin, setRentalCostMin] = useState("");
+    const [avgProfitMax, setAvgProfitMax] = useState("");
+    const [avgProfitMin, setAvgProfitMin] = useState("");
+
+
     const {
         mainCategory, setMainCategory, mainCategories,
         subCategory, setSubCategory, subCategories,
@@ -83,63 +97,90 @@ const CommercialDistrict2 = () => {
     };
 
     const handleSearch = () => {
-        // console.log('Searching for:', {
-        //     searchCate,
-        //     mainCategory,
-        //     subCategory,
-        //     detailCategory,
-        //     city,
-        //     district,
-        //     subDistrict,
-        //     increaseRateMin,
-        //     increaseRateMax,
-        //     rankMin,
-        //     rankMax
-        // });
+        console.log('Searching for:', {
+            mainCategory,
+            subCategory,
+            detailCategory,
+            city,
+            district,
+            subDistrict,
+            marketSizeMax,
+            marketSizeMin,
+            avgSalesMax,
+            avgSalesMin,
+            foodCostMax,
+            foodCostMin,
+            empCostMax,
+            empCostMin,
+            rentalCostMax,
+            rentalCostMin,
+            avgProfitMax,
+            avgProfitMin
+
+        });
 
         const fetchData = async () => {
-            setLoading(true);
-            setError(null);
-
-            // try {
-            //     const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/rising/rb`, {
-            //         headers: {
-            //             'Content-Type': 'application/json; charset=UTF-8',
-            //         },
-            //         params: {
-            //             search_cate: searchCate || undefined,
-            //             city_id: parseInt(city) || undefined,
-            //             district_id: parseInt(district) || undefined,
-            //             sub_district_id: parseInt(subDistrict) || undefined,
-            //             biz_main_category_id: parseInt(mainCategory) || undefined,
-            //             biz_sub_category_id: parseInt(subCategory) || undefined,
-            //             biz_detail_category_id: parseInt(detailCategory) || undefined,
-            //             growth_rate_min: parseFloat(increaseRateMin) || undefined,
-            //             growth_rate_max: parseFloat(increaseRateMax) || undefined,
-            //             rank_min: parseInt(rankMin) || undefined,
-            //             rank_max: parseInt(rankMax) || undefined
-            //         },
-            //     });
-            //     setData(response.data);
-            // } catch (error) {
-            //     console.error('Error fetching data from FastAPI', error);
-            //     setError('Failed to fetch data');
-            // } finally {
-            //     setLoading(false);
-            // }
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial/cd`, {
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8',
+                    },
+                    params: {
+                        city_id: parseInt(city) || undefined,
+                        district_id: parseInt(district) || undefined,
+                        sub_district_id: parseInt(subDistrict) || undefined,
+                        biz_main_category_id: parseInt(mainCategory) || undefined,
+                        biz_sub_category_id: parseInt(subCategory) || undefined,
+                        biz_detail_category_id: parseInt(detailCategory) || undefined,
+                        market_size_min: parseInt(marketSizeMin) || undefined,
+                        market_size_max: parseInt(marketSizeMax) || undefined,
+                        avg_sales_min: parseInt(avgSalesMin) || undefined,
+                        avg_sales_max: parseInt(avgSalesMax) || undefined,
+                        food_cost_min: parseInt(foodCostMin) || undefined,
+                        food_cost_max: parseInt(foodCostMax) || undefined,
+                        employee_cost_min: parseInt(empCostMin) || undefined,
+                        employee_cost_max: parseInt(empCostMax) || undefined,
+                        rental_cost_min: parseInt(rentalCostMin) || undefined,
+                        rental_cost_max: parseInt(rentalCostMax) || undefined,
+                        avg_profit_min: parseInt(avgProfitMin) || undefined,
+                        avg_profit_max: parseInt(avgProfitMax) || undefined,
+                    },
+                });
+                setData(response.data);
+            } catch (error) {
+                console.error('Error fetching data from FastAPI', error);
+                setError('Failed to fetch data');
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchData();
     };
 
+
+
     const handleReset = () => {
         setMainCategory('대분류');
         setSubCategory('중분류');
         setDetailCategory('소분류');
-        setCity(null);
-        setDistrict(null);
-        setSubDistrict(null);
+        setCity("");
+        setDistrict("");
+        setSubDistrict("");
+        setMarketSizeMax("");
+        setAvgSalesMax("");
+        setMarketSizeMin("");
+        setAvgSalesMin("");
+        setFoodCostMax("");
+        setFoodCostMin("");
+        setEmpCostMax("");
+        setEmpCostMin("");
+        setRentalCostMax("");
+        setRentalCostMin("");
+        setAvgProfitMax("");
+        setAvgProfitMin("");
     };
+
 
 
     return (
@@ -161,7 +202,6 @@ const CommercialDistrict2 = () => {
                         )}
                         <div className='flex-1'>
                             <CommercialDistrict2SearchForm
-
                                 mainCategory={mainCategory}
                                 mainCategories={mainCategories}
                                 subCategory={subCategory}
@@ -174,16 +214,38 @@ const CommercialDistrict2 = () => {
                                 cities={cities}
                                 districts={districts}
                                 subDistricts={subDistricts}
-
                                 setMainCategory={setMainCategory}
                                 setSubCategory={setSubCategory}
                                 setDetailCategory={setDetailCategory}
                                 setCity={setCity}
                                 setDistrict={setDistrict}
                                 setSubDistrict={setSubDistrict}
-
+                                marketSizeMax={marketSizeMax}
+                                marketSizeMin={marketSizeMin}
+                                avgSalesMax={avgSalesMax}
+                                avgSalesMin={avgSalesMin}
+                                foodCostMax={foodCostMax}
+                                foodCostMin={foodCostMin}
+                                empCostMax={empCostMax}
+                                empCostMin={empCostMin}
+                                rentalCostMax={rentalCostMax}
+                                rentalCostMin={rentalCostMin}
+                                avgProfitMax={avgProfitMax}
+                                avgProfitMin={avgProfitMin}
                                 handleSearch={handleSearch}
                                 handleReset={handleReset}
+                                setMarketSizeMax={setMarketSizeMax}
+                                setMarketSizeMin={setMarketSizeMin}
+                                setAvgSalesMax={setAvgSalesMax}
+                                setAvgSalesMin={setAvgSalesMin}
+                                setFoodCostMax={setFoodCostMax}
+                                setFoodCostMin={setFoodCostMin}
+                                setEmpCostMax={setEmpCostMax}
+                                setEmpCostMin={setEmpCostMin}
+                                setRentalCostMax={setRentalCostMax}
+                                setRentalCostMin={setRentalCostMin}
+                                setAvgProfitMax={setAvgProfitMax}
+                                setAvgProfitMin={setAvgProfitMin}
                             />
                         </div>
                     </section>
