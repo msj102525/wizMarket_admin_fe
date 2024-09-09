@@ -19,6 +19,8 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
     const [gender, setGender] = useState('');
     const [ageGroupMin, setAgeGroupMin] = useState('');
     const [ageGroupMax, setAgeGroupMax] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     const handleSearch = () => {
         // 필터링된 데이터 (빈 값 제거)
@@ -29,6 +31,8 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
             ...(gender && gender !== 0 && { gender }),  // gender가 0이 아니면 추가
             ...(ageGroupMin && { ageGroupMin }),              // ageGroup은 문자열이므로 빈 값만 체크
             ...(ageGroupMax && { ageGroupMax }),              // ageGroup은 문자열이므로 빈 값만 체크
+            ...(startDate && { startDate }),              // ageGroup은 문자열이므로 빈 값만 체크
+            ...(endDate && { endDate }),              // ageGroup은 문자열이므로 빈 값만 체크
         };
 
         onSearch(filters);  // 부모 컴포넌트에서 전달받은 onSearch 호출
@@ -42,6 +46,8 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
         setGender('');
         setAgeGroupMin('');
         setAgeGroupMax('');
+        setStartDate('');
+        setEndDate('');
     };
 
     return (
@@ -95,7 +101,7 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
                     </select>
                 </div>
                 {/* 성별 선택 */}
-                <div className={`grid ${isList ? 'grid-cols-2' : 'grid-cols-1'} gap-4 mb-4`}>
+                <div className={`grid ${isList ? 'grid-cols-3' : 'grid-cols-1'} gap-4 mb-4`}>
                     <div className="flex items-center">
                         <label className="font-medium mr-4 w-1/4">성별 선택</label>
                         <select
@@ -103,7 +109,7 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
                             onChange={(e) => setGender(e.target.value)}
                             className="p-2 border border-[#DDDDDD] rounded w-3/4"
                         >
-                            <option value="">성별 선택</option>
+                            <option value="">전체</option>
                             <option value="1">남성</option>
                             <option value="2">여성</option>
                         </select>
@@ -120,13 +126,13 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
                                 className="p-2 border border-[#DDDDDD] rounded w-1/2"
                             >
                                 <option value="">이상</option>
-                                <option value="under_10">10대 미만</option>
-                                <option value="10s">10대</option>
-                                <option value="20s">20대</option>
-                                <option value="30s">30대</option>
-                                <option value="40s">40대</option>
-                                <option value="50s">50대</option>
-                                <option value="60_plus">60대 이상</option>
+                                <option value="age_under_10">10대 미만</option>
+                                <option value="age_10s">10대</option>
+                                <option value="age_20s">20대</option>
+                                <option value="age_30s">30대</option>
+                                <option value="age_40s">40대</option>
+                                <option value="age_50s">50대</option>
+                                <option value="age_60_plus">60대 이상</option>
                             </select>~
 
                             {/* 최대 연령대 선택 (이하) */}
@@ -136,14 +142,51 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
                                 className="p-2 border border-[#DDDDDD] rounded w-1/2"
                             >
                                 <option value="">이하</option>
-                                <option value="under_10">10대 미만</option>
-                                <option value="10s">10대</option>
-                                <option value="20s">20대</option>
-                                <option value="30s">30대</option>
-                                <option value="40s">40대</option>
-                                <option value="50s">50대</option>
-                                <option value="60_plus">60대 이상</option>
+                                <option value="age_under_10">10대 미만</option>
+                                <option value="age_10s">10대</option>
+                                <option value="age_20s">20대</option>
+                                <option value="age_30s">30대</option>
+                                <option value="age_40s">40대</option>
+                                <option value="age_50s">50대</option>
+                                <option value="age_60_plus">60대 이상</option>
                             </select>
+
+                        </div>
+                    </div>
+                    {/* 기간 조회 */}
+                    <div className="flex items-center">
+                        <label className="font-medium mr-4 w-1/4">기간 선택</label>
+                        <div className="flex w-3/4 gap-2">
+                            {/* 시작 시점 (이상) */}
+                            <select
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                className="p-2 border border-[#DDDDDD] rounded w-1/2"
+                            >                              
+                                <option value="2024-01-31">24년 1월</option>
+                                <option value="2024-02-29">24년 2월</option>
+                                <option value="2024-03-31">24년 3월</option>
+                                <option value="2024-04-30">24년 4월</option>
+                                <option value="2024-05-31">24년 5월</option>
+                                <option value="2024-06-30">24년 6월</option>
+                                <option value="2024-07-31">24년 7월</option>
+                            </select>~
+
+                            {/* 최대 연령대 선택 (이하) */}
+                            <select
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                className="p-2 border border-[#DDDDDD] rounded w-1/2"
+                            >                               
+                                <option value="2024-01-31">24년 1월</option>
+                                <option value="2024-02-29">24년 2월</option>
+                                <option value="2024-03-31">24년 3월</option>
+                                <option value="2024-04-30">24년 4월</option>
+                                <option value="2024-05-31">24년 5월</option>
+                                <option value="2024-06-30">24년 6월</option>
+                                <option value="2024-07-31">24년 7월</option>
+                            </select>
+
                         </div>
                     </div>
                 </div>

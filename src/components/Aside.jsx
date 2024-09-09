@@ -104,7 +104,7 @@ const Aside = () => {
                             className={`transition-[max-height] duration-300 ease-in-out overflow-hidden ${isOpen.section3 ? 'max-h-[500px]' : 'max-h-0'}`}
                         >
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
-                                <Link to="/population">지역별 인구 및 범죄 정보</Link>
+                                <Link to="/population">전국 인구 정보</Link>
                             </li>
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                                 <Link to="/">점주 성향정보(준비중)</Link>
