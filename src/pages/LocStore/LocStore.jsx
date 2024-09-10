@@ -26,7 +26,7 @@ const LocInfo = () => {
                 <Aside />
                 <main className="flex-1 flex flex-col gap-2 min-h-screen p-4">
                     <section>
-                        <SectionHeader title="입지분석" isList={isList} handleToggle={handleToggle} />
+                        <SectionHeader title="매징분석" isList={isList} handleToggle={handleToggle} />
                     </section>
 
                     {/* 상단 지도와 검색 폼 */}

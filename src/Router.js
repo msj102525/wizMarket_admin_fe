@@ -22,8 +22,8 @@ const Router = () => {
         <Route path="/commercial2" element={<CommercialDistrict2 />} />
         <Route path="/rising" element={<RisingBusiness />} />
         <Route path="/fastAPITest" element={<FastAPIRequest />} />
-        <Route path="/LocInfo" element={<LocInfo />} />
-        <Route path="/LocStore" element={<LocStore />} />
+        <Route path="/locInfo" element={<LocInfo />} />
+        <Route path="/locStore" element={<LocStore />} />
         <Route path="/population" element={<Population />} />
         <Route path="/location/context" element={<LocContext />} />
         <Route path="/city" element={<City />} />

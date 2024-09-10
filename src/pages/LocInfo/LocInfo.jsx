@@ -24,6 +24,8 @@ const LocInfo = () => {
         setLoading(true);
         setError(null);
 
+        console.log(filters)
+
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/select_loc_info`,
