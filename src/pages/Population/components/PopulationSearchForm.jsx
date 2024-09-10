@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import { useCities } from '../../../hooks/useCities';
+import CitySelect from '../../../components/CitySelect';
 
 const LocStoreListSearchForm = ({ onSearch, isList }) => {
     const {
@@ -22,7 +23,7 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
-    
+
     const handleSearch = () => {
         // 필터링된 데이터 (빈 값 제거)
         const filters = {
@@ -52,75 +53,52 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
     };
 
     return (
-        <div className="p-4 border border-[#DDDDDD] rounded-lg shadow-md w-full bg-[#EDEDED]">
-            <div className="mb-4">
-                {/* 지역 선택 */}
-                <div className="grid grid-cols-4 gap-4 mb-4">
-                    <label className="font-medium w-1/2">지역 선택</label>
-                    {/* 시/도 선택 */}
-                    <select
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option value="">시/도 선택</option>
-                        {cities.map((c) => (
-                            <option key={c[0]} value={c[0]}>
-                                {c[1]}
-                            </option>
-                        ))}
-                    </select>
-
-                    {/* 군/구 선택 */}
-                    <select
-                        value={district}
-                        onChange={(e) => setDistrict(e.target.value)}
-                        disabled={!city}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option value="">군/구 선택</option>
-                        {districts.map((d) => (
-                            <option key={d[0]} value={d[0]}>
-                                {d[2]}
-                            </option>
-                        ))}
-                    </select>
-
-                    {/* 읍/면/동 선택 */}
-                    <select
-                        value={subDistrict}
-                        onChange={(e) => setSubDistrict(e.target.value)}
-                        disabled={!district}
-                        className="p-2 border border-[#DDDDDD] rounded w-full"
-                    >
-                        <option value="">읍/면/동 선택</option>
-                        {subDistricts.map((sd) => (
-                            <option key={sd[0]} value={sd[0]}>
-                                {sd[3]}
-                            </option>
-                        ))}
-                    </select>
+        <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
+            <div className="p-4 bg-[#F3F5F7]">
+                <div className="mb-4 flex gap-4">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold">지역 검색</label>
+                    </div>
+                    <div className="w-full">
+                        <CitySelect
+                            city={city}
+                            district={district}
+                            subDistrict={subDistrict}
+                            cities={cities}
+                            districts={districts}
+                            subDistricts={subDistricts}
+                            setCity={setCity}
+                            setDistrict={setDistrict}
+                            setSubDistrict={setSubDistrict}
+                        />
+                    </div>
                 </div>
+
                 {/* 성별 선택 */}
-                <div className={`grid ${isList ? 'grid-cols-3' : 'grid-cols-1'} gap-4 mb-4`}>
-                    <div className="flex items-center">
-                        <label className="font-medium mr-4 w-1/4">성별 선택</label>
-                        <select
-                            value={gender}
-                            onChange={(e) => setGender(e.target.value)}
-                            className="p-2 border border-[#DDDDDD] rounded w-3/4"
-                        >
-                            <option value="">전체</option>
-                            <option value="1">남성</option>
-                            <option value="2">여성</option>
-                        </select>
+                <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>
+                    <div className="mb-4 flex gap-4">
+                        <div className="w-1/6 text-center content-center">
+                            <label className="block mb-1 font-extrabold">성별</label>
+                        </div>
+                        <div className="w-full flex gap-4">
+                            <select
+                                value={gender}
+                                onChange={(e) => setGender(e.target.value)}
+                                className="p-2 border border-[#DDDDDD] rounded w-3/4"
+                            >
+                                <option value="">전체</option>
+                                <option value="1">남성</option>
+                                <option value="2">여성</option>
+                            </select>
+                        </div>
                     </div>
 
                     {/* 연령대 선택 */}
-                    <div className="flex items-center">
-                        <label className="font-medium mr-4 w-1/4">연령대 선택</label>
-                        <div className="flex w-3/4 gap-2">
-                            {/* 최소 연령대 선택 (이상) */}
+                    <div className="mb-4 flex gap-4">
+                        <div className="w-1/6 text-center content-center">
+                            <label className="block mb-1 font-extrabold">연령대</label>
+                        </div>
+                        <div className="w-full flex gap-4">
                             <select
                                 value={ageGroupMin}
                                 onChange={(e) => setAgeGroupMin(e.target.value)}
@@ -135,7 +113,6 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
                                 <option value="age_50s">50대</option>
                                 <option value="age_60_plus">60대 이상</option>
                             </select>~
-
                             {/* 최대 연령대 선택 (이하) */}
                             <select
                                 value={ageGroupMax}
@@ -151,19 +128,19 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
                                 <option value="age_50s">50대</option>
                                 <option value="age_60_plus">60대 이상</option>
                             </select>
-
                         </div>
                     </div>
                     {/* 기간 조회 */}
-                    <div className="flex items-center">
-                        <label className="font-medium mr-4 w-1/4">기간 선택</label>
-                        <div className="flex w-3/4 gap-2">
-                            {/* 시작 시점 (이상) */}
+                    <div className="mb-4 flex gap-4">
+                        <div className="w-1/6 text-center content-center">
+                            <label className="block mb-1 font-extrabold">기간</label>
+                        </div>
+                        <div className="w-full flex gap-4">
                             <select
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
                                 className="p-2 border border-[#DDDDDD] rounded w-1/2"
-                            >                              
+                            >
                                 <option value="2024-01-31">24년 1월</option>
                                 <option value="2024-02-29">24년 2월</option>
                                 <option value="2024-03-31">24년 3월</option>
@@ -172,13 +149,12 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
                                 <option value="2024-06-30">24년 6월</option>
                                 <option value="2024-07-31">24년 7월</option>
                             </select>~
-
                             {/* 최대 연령대 선택 (이하) */}
                             <select
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
                                 className="p-2 border border-[#DDDDDD] rounded w-1/2"
-                            >                               
+                            >
                                 <option value="2024-01-31">24년 1월</option>
                                 <option value="2024-02-29">24년 2월</option>
                                 <option value="2024-03-31">24년 3월</option>
@@ -187,7 +163,6 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
                                 <option value="2024-06-30">24년 6월</option>
                                 <option value="2024-07-31">24년 7월</option>
                             </select>
-
                         </div>
                     </div>
                 </div>
@@ -196,7 +171,9 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
             </div>
 
             {/* 검색 및 초기화 버튼 */}
-            <SearchResetButtons onSearch={handleSearch} onReset={handleReset} />
+            <div className="py-2 ">
+                <SearchResetButtons onSearch={handleSearch} onReset={handleReset} />
+            </div>
         </div>
     );
 };

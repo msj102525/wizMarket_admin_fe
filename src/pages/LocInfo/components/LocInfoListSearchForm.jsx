@@ -116,7 +116,7 @@ const LocInfoListSearchForm = ({ onSearch, isList }) => {
                     </div>
                 </div>
 
-                <div className={` gap-4`}>
+                <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">
                             <label className="block mb-1 font-extrabold">업소 (개)</label>
