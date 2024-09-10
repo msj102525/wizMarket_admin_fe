@@ -34,6 +34,7 @@ const CommercialDistrict2 = () => {
 
 
     const {
+        reference, setReference, references,
         mainCategory, setMainCategory, mainCategories,
         subCategory, setSubCategory, subCategories,
         detailCategory, setDetailCategory, detailCategories
@@ -87,10 +88,11 @@ const CommercialDistrict2 = () => {
             prevKakaoAddressResult.current.y !== kakaoAddressResult.y
         ) {
             fetchData();
+            setSubDistrict(kakaoAddressResult.region_3depth_name);
         }
 
         prevKakaoAddressResult.current = kakaoAddressResult;
-    }, [kakaoAddressResult]);
+    }, [kakaoAddressResult, setSubDistrict]);
 
     const handleToggle = () => {
         setIsList(!isList);
@@ -161,6 +163,7 @@ const CommercialDistrict2 = () => {
 
 
     const handleReset = () => {
+        setReference('출처');
         setMainCategory('대분류');
         setSubCategory('중분류');
         setDetailCategory('소분류');
@@ -202,6 +205,8 @@ const CommercialDistrict2 = () => {
                         )}
                         <div className='flex-1'>
                             <CommercialDistrict2SearchForm
+                                reference={reference}
+                                references={references}
                                 mainCategory={mainCategory}
                                 mainCategories={mainCategories}
                                 subCategory={subCategory}
@@ -214,6 +219,7 @@ const CommercialDistrict2 = () => {
                                 cities={cities}
                                 districts={districts}
                                 subDistricts={subDistricts}
+                                setReference={setReference}
                                 setMainCategory={setMainCategory}
                                 setSubCategory={setSubCategory}
                                 setDetailCategory={setDetailCategory}

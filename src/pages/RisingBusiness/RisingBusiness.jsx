@@ -26,6 +26,7 @@ const RisingBusiness = () => {
     const [isList, setIsList] = useState(false);
 
     const {
+        reference, setReference, references,
         mainCategory, setMainCategory, mainCategories,
         subCategory, setSubCategory, subCategories,
         detailCategory, setDetailCategory, detailCategories
@@ -84,7 +85,6 @@ const RisingBusiness = () => {
             prevKakaoAddressResult.current.x !== kakaoAddressResult.x ||
             prevKakaoAddressResult.current.y !== kakaoAddressResult.y
         ) {
-            // fetchData();
             console.log(fetchData())
             prevKakaoAddressResult.current = kakaoAddressResult;
         }
@@ -142,6 +142,7 @@ const RisingBusiness = () => {
 
     const handleReset = () => {
         setSearchCate(null);
+        setReference('출처');
         setMainCategory('대분류');
         setSubCategory('중분류');
         setDetailCategory('소분류');
@@ -175,6 +176,9 @@ const RisingBusiness = () => {
                             <RisingSearchForm
                                 searchCate={searchCate}
 
+                                reference={reference}
+                                references={references}
+
                                 mainCategory={mainCategory}
                                 mainCategories={mainCategories}
 
@@ -196,7 +200,9 @@ const RisingBusiness = () => {
                                 increaseRateMax={increaseRateMax}
                                 rankMin={rankMin}
                                 rankMax={rankMax}
+
                                 setSearchCate={setSearchCate}
+                                setReference={setReference}
                                 setMainCategory={setMainCategory}
                                 setSubCategory={setSubCategory}
                                 setDetailCategory={setDetailCategory}

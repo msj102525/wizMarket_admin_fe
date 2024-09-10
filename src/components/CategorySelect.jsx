@@ -38,10 +38,15 @@ const CustomSelect = ({ options, value, onChange, placeholder, disabled }) => {
 };
 
 const CategorySelect = ({
+    reference, setReference, references,
     mainCategory, setMainCategory, mainCategories,
     subCategory, setSubCategory, subCategories,
     detailCategory, setDetailCategory, detailCategories
 }) => {
+    const refOption = [
+        { value: '0', label: '출처' },
+        ...references.map(ref => ({ value: ref.reference_id, label: ref.reference_name }))
+    ];
     const mainOptions = [
         { value: '0', label: '대분류' },
         ...mainCategories.map(cat => ({ value: cat.biz_main_category_id, label: cat.biz_main_category_name, count: cat.biz_sub_category_count }))
@@ -57,15 +62,21 @@ const CategorySelect = ({
         ...detailCategories.map(cat => ({ value: cat.biz_detail_category_id, label: cat.biz_detail_categoty_name }))
     ];
 
-    console.log(subCategories)
 
     return (
         <div className="flex gap-4 w-full">
+            <CustomSelect
+                options={refOption}
+                value={reference}
+                onChange={setReference}
+                placeholder="출처"
+            />
             <CustomSelect
                 options={mainOptions}
                 value={mainCategory}
                 onChange={setMainCategory}
                 placeholder="대분류"
+                disabled={reference === '출처'}
             />
             <CustomSelect
                 options={subOptions}

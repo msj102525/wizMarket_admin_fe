@@ -2,12 +2,26 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export const useCategories = () => {
+    const [reference, setReference] = useState('출처');
+    const [references, setReferences] = useState([]);
     const [mainCategory, setMainCategory] = useState('대분류');
     const [mainCategories, setMainCategories] = useState([]);
     const [subCategory, setSubCategory] = useState('중분류');
     const [subCategories, setSubCategories] = useState([]);
     const [detailCategory, setDetailCategory] = useState('소분류');
     const [detailCategories, setDetailCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchReferences = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/reference`);
+                setReferences(response.data);
+            } catch (error) {
+                console.error('Failed to fetch references:', error);
+            }
+        };
+        fetchReferences();
+    }, []);
 
     useEffect(() => {
         const fetchMainCategories = async () => {
@@ -54,6 +68,7 @@ export const useCategories = () => {
     }, [subCategory]);
 
     return {
+        reference, setReference, references,
         mainCategory, setMainCategory, mainCategories,
         subCategory, setSubCategory, subCategories,
         detailCategory, setDetailCategory, detailCategories

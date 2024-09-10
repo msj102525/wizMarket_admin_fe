@@ -5,6 +5,7 @@ import CitySelect from '../../../components/CitySelect';
 
 const RisingSearchForm = ({
     searchCate, setSearchCate,
+    reference, references, setReference,
     mainCategory, mainCategories, subCategory, subCategories, detailCategory, detailCategories,
     city, district, subDistrict, cities, districts, subDistricts, setMainCategory, setSubCategory, setDetailCategory,
     setCity, setDistrict, setSubDistrict,
@@ -36,6 +37,9 @@ const RisingSearchForm = ({
                     </div>
                     <div className="w-full">
                         <CategorySelect
+                            reference={reference}
+                            references={references}
+                            setReference={setReference}
                             mainCategory={mainCategory}
                             setMainCategory={setMainCategory}
                             mainCategories={mainCategories}
