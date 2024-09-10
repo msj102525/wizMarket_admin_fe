@@ -14,14 +14,16 @@ const CitySelect = ({
 
     const handleCityChange = (e) => {
         setCity(e.target.value);
-        setDistrict(''); // 도시 변경 시 구역 초기화
-        setSubDistrict(''); // 도시 변경 시 동 초기화
+        setDistrict('');
+        setSubDistrict('');
     };
 
     const handleDistrictChange = (e) => {
         setDistrict(e.target.value);
-        setSubDistrict(''); // 구역 변경 시 동 초기화
+        setSubDistrict('');
     };
+
+
 
     return (
         <div className="flex gap-4 w-full rounded-lg">

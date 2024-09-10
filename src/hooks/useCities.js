@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 
 export const useCities = () => {
     const [cities, setCities] = useState([]);
-    const [districts, setDistricts] = useState([]);
-    const [subDistricts, setSubDistricts] = useState([]);
+    const [allDistricts, setAllDistricts] = useState([]);
+    const [allSubDistricts, setAllSubDistricts] = useState([]);
     const [city, setCity] = useState('');
     const [district, setDistrict] = useState('');
     const [subDistrict, setSubDistrict] = useState('');
@@ -14,8 +14,8 @@ export const useCities = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/city/locations`);
                 setCities(response.data.cities);
-                setDistricts(response.data.districts);
-                setSubDistricts(response.data.sub_districts);
+                setAllDistricts(response.data.districts);
+                setAllSubDistricts(response.data.sub_districts);
             } catch (error) {
                 console.error('Failed to fetch locations:', error);
             }
@@ -24,13 +24,18 @@ export const useCities = () => {
         fetchLocations();
     }, []);
 
-    const filteredDistricts = districts.filter(d => d[1] === Number(city));
-    const filteredSubDistricts = subDistricts.filter(sd => sd[1] === Number(district));
+    const districts = useMemo(() => {
+        return city ? allDistricts.filter(d => d[1] === Number(city)) : allDistricts;
+    }, [allDistricts, city]);
+
+    const subDistricts = useMemo(() => {
+        return district ? allSubDistricts.filter(sd => sd[1] === Number(district)) : allSubDistricts;
+    }, [allSubDistricts, district]);
 
     return {
         cities,
-        districts: filteredDistricts,
-        subDistricts: filteredSubDistricts,
+        districts,
+        subDistricts,
         city,
         district,
         subDistrict,

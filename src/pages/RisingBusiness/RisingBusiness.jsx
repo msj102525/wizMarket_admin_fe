@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import Aside from '../../components/Aside';
@@ -9,10 +9,10 @@ import RisingSearchForm from './components/RisingSearchForm';
 import SectionHeader from '../../components/SectionHeader';
 import { useCategories } from '../../hooks/useCategories';
 import { useCities } from '../../hooks/useCities';
+import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
 
 const RisingBusiness = () => {
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
-    const prevKakaoAddressResult = useRef(null);
 
     const [searchCate, setSearchCate] = useState(null);
 
@@ -48,47 +48,15 @@ const RisingBusiness = () => {
         setIsList(!isList);
     };
 
-    // 기존 뜨는 업종 데이터 fetch
-    useEffect(() => {
-        const fetchData = async () => {
-            if (!kakaoAddressResult) return;
-
-            setLoading(true);
-            setError(null);
-
-            const { region_1depth_name: city, region_2depth_name: fullDistrict, region_3depth_name: subDistrict } = kakaoAddressResult;
-            const district = fullDistrict.split(' ')[0];
-
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/rising`, {
-                    headers: {
-                        'Content-Type': 'application/json; charset=UTF-8',
-                    },
-                    params: {
-                        city: city,
-                        district: district,
-                        sub_district: subDistrict,
-                    },
-                });
-                setData(response.data);
-            } catch (error) {
-                console.error('Error fetching data from FastAPI', error);
-                setError('Failed to fetch data');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (
-            !prevKakaoAddressResult.current ||
-            prevKakaoAddressResult.current.region_3depth_name !== kakaoAddressResult.region_3depth_name ||
-            prevKakaoAddressResult.current.x !== kakaoAddressResult.x ||
-            prevKakaoAddressResult.current.y !== kakaoAddressResult.y
-        ) {
-            console.log(fetchData)
-            prevKakaoAddressResult.current = kakaoAddressResult;
-        }
-    }, [kakaoAddressResult]);
+    useKakaoAddressUpdate({
+        kakaoAddressResult,
+        cities,
+        districts,
+        subDistricts,
+        setCity,
+        setDistrict,
+        setSubDistrict,
+    });
 
     const handleSearch = () => {
 

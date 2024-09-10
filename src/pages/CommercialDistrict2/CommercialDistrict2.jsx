@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import Aside from '../../components/Aside';
@@ -9,11 +9,12 @@ import CommercialDistrictList2 from './components/CommercialDistrictList2';
 import CommercialDistrict2SearchForm from './components/CommercialDistrict2SearchForm';
 import { useCategories } from '../../hooks/useCategories';
 import { useCities } from '../../hooks/useCities';
+import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
 
 
 const CommercialDistrict2 = () => {
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
-    const prevKakaoAddressResult = useRef(null);
+
     const [isList, setIsList] = useState(false);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -52,76 +53,22 @@ const CommercialDistrict2 = () => {
         setSubDistrict
     } = useCities();
 
+    useKakaoAddressUpdate({
+        kakaoAddressResult,
+        cities,
+        districts,
+        subDistricts,
+        setCity,
+        setDistrict,
+        setSubDistrict,
+    });
 
-
-    // 기존 상권분석 데이터
-    useEffect(() => {
-        const fetchData = async () => {
-            if (!kakaoAddressResult) return;
-
-            setLoading(true);
-            setError(null);
-
-            const { region_1depth_name: city, region_2depth_name: fullDistrict, region_3depth_name: sub_district } = kakaoAddressResult;
-            const district = fullDistrict.split(' ')[0];
-
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial`, {
-                    headers: {
-                        'Content-Type': 'application/json; charset=UTF-8',
-                    },
-                    params: { city, district, sub_district },
-                });
-                setData(response.data);
-            } catch (error) {
-                console.error('Error fetching data from FastAPI', error);
-                setError('Failed to fetch data');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (
-            !prevKakaoAddressResult.current ||
-            prevKakaoAddressResult.current.region_3depth_name !== kakaoAddressResult.region_3depth_name ||
-            prevKakaoAddressResult.current.x !== kakaoAddressResult.x ||
-            prevKakaoAddressResult.current.y !== kakaoAddressResult.y
-        ) {
-            // fetchData();
-            console.log(fetchData)
-            setSubDistrict(kakaoAddressResult.region_3depth_name);
-        }
-
-        prevKakaoAddressResult.current = kakaoAddressResult;
-    }, [kakaoAddressResult, setSubDistrict]);
 
     const handleToggle = () => {
         setIsList(!isList);
     };
 
     const handleSearch = () => {
-        // console.log('Searching for:', {
-        //     reference,
-        //     mainCategory,
-        //     subCategory,
-        //     detailCategory,
-        //     city,
-        //     district,
-        //     subDistrict,
-        //     marketSizeMax,
-        //     marketSizeMin,
-        //     avgSalesMax,
-        //     avgSalesMin,
-        //     foodCostMax,
-        //     foodCostMin,
-        //     empCostMax,
-        //     empCostMin,
-        //     rentalCostMax,
-        //     rentalCostMin,
-        //     avgProfitMax,
-        //     avgProfitMin
-
-        // });
 
         const fetchData = async () => {
             try {
