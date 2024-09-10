@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Pagination from '../../../components/Pagination';
+import DataLengthDown from '../../../components/DataLengthDown';
 
 const RisingBusinessList = ({ data }) => {
     const [sortConfig, setSortConfig] = useState({ key: 'rising_business_id', direction: 'descending' });
@@ -45,10 +46,9 @@ const RisingBusinessList = ({ data }) => {
 
     return (
         <div className="overflow-x-auto">
-            <p className='pb-4 text-sm cursor-default  '>검색결과 &nbsp;
-                <span className='text-red-500'>{Intl.NumberFormat().format(sortedData.length)}</span>
-                &nbsp;개
-            </p>
+            <div className="w-full">
+                <DataLengthDown data={data} filename="RisingBusiness.xlsx" />
+            </div>
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
                 <thead className="bg-[#EEEEEE]">
                     <tr>

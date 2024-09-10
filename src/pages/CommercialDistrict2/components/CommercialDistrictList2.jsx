@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Pagination from '../../../components/Pagination';
+import DataLengthDown from '../../../components/DataLengthDown';
 // import { useCities } from '../../../hooks/useCities';
 
 const CommercialDistrictList2 = ({ data }) => {
@@ -182,11 +183,8 @@ const CommercialDistrictList2 = ({ data }) => {
 
     return (
         <div className="flex flex-wrap justify-center">
-            <div className="flex justify-start w-full">
-                <p className='pb-4 text-sm cursor-default  '>검색결과 &nbsp;
-                    <span className='text-red-500'>{Intl.NumberFormat().format(sortedData.length)}</span>
-                    &nbsp;개
-                </p>
+            <div className="w-full">
+                <DataLengthDown data={data} filename="CommercialDistrict.xlsx" />
             </div>
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
                 <thead className="bg-[#EEEEEE]">

@@ -85,25 +85,12 @@ const RisingBusiness = () => {
             prevKakaoAddressResult.current.x !== kakaoAddressResult.x ||
             prevKakaoAddressResult.current.y !== kakaoAddressResult.y
         ) {
-            console.log(fetchData())
+            console.log(fetchData)
             prevKakaoAddressResult.current = kakaoAddressResult;
         }
     }, [kakaoAddressResult]);
 
     const handleSearch = () => {
-        // console.log('Searching for:', {
-        //     searchCate,
-        //     mainCategory,
-        //     subCategory,
-        //     detailCategory,
-        //     city,
-        //     district,
-        //     subDistrict,
-        //     increaseRateMin,
-        //     increaseRateMax,
-        //     rankMin,
-        //     rankMax
-        // });
 
         const fetchData = async () => {
             setLoading(true);

@@ -87,7 +87,8 @@ const CommercialDistrict2 = () => {
             prevKakaoAddressResult.current.x !== kakaoAddressResult.x ||
             prevKakaoAddressResult.current.y !== kakaoAddressResult.y
         ) {
-            fetchData();
+            // fetchData();
+            console.log(fetchData)
             setSubDistrict(kakaoAddressResult.region_3depth_name);
         }
 
@@ -99,27 +100,28 @@ const CommercialDistrict2 = () => {
     };
 
     const handleSearch = () => {
-        console.log('Searching for:', {
-            mainCategory,
-            subCategory,
-            detailCategory,
-            city,
-            district,
-            subDistrict,
-            marketSizeMax,
-            marketSizeMin,
-            avgSalesMax,
-            avgSalesMin,
-            foodCostMax,
-            foodCostMin,
-            empCostMax,
-            empCostMin,
-            rentalCostMax,
-            rentalCostMin,
-            avgProfitMax,
-            avgProfitMin
+        // console.log('Searching for:', {
+        //     reference,
+        //     mainCategory,
+        //     subCategory,
+        //     detailCategory,
+        //     city,
+        //     district,
+        //     subDistrict,
+        //     marketSizeMax,
+        //     marketSizeMin,
+        //     avgSalesMax,
+        //     avgSalesMin,
+        //     foodCostMax,
+        //     foodCostMin,
+        //     empCostMax,
+        //     empCostMin,
+        //     rentalCostMax,
+        //     rentalCostMin,
+        //     avgProfitMax,
+        //     avgProfitMin
 
-        });
+        // });
 
         const fetchData = async () => {
             try {

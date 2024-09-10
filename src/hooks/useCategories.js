@@ -24,16 +24,19 @@ export const useCategories = () => {
     }, []);
 
     useEffect(() => {
+
+        if (reference === '출처' || reference === '0') return;
+
         const fetchMainCategories = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/biz_main_category`);
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/biz_main_category?reference_id=${reference}`);
                 setMainCategories(response.data);
             } catch (error) {
                 console.error('Failed to fetch main categories:', error);
             }
         };
         fetchMainCategories();
-    }, []);
+    }, [reference]);
 
     useEffect(() => {
         setSubCategories([]);
