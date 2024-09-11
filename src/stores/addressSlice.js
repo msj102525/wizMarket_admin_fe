@@ -6,6 +6,9 @@ const addressSlice = createSlice({
         kakaoAddressResult: '',
         roadAddress: '',
         administrativeAddress: '',
+        cityName: '',
+        districtName: '',
+        subDistrictName: '',
     },
     reducers: {
         setKakaoAddressResult: (state, action) => {
@@ -17,9 +20,28 @@ const addressSlice = createSlice({
         setAdministrativeAddress: (state, action) => {
             state.administrativeAddress = action.payload;
         },
+        setCitySel: (state, action) => {
+            state.cityName = action.payload;
+            state.districtName = '';
+            state.subDistrictName = '';
+        },
+        setDistrictSel: (state, action) => {
+            state.districtName = action.payload;
+            state.subDistrictName = '';
+        },
+        setSubDistrictSel: (state, action) => {
+            state.subDistrictName = action.payload;
+        },
     },
 });
 
-export const { setRoadAddress, setAdministrativeAddress, setKakaoAddressResult } = addressSlice.actions;
+export const {
+    setRoadAddress,
+    setAdministrativeAddress,
+    setKakaoAddressResult,
+    setCitySel,
+    setDistrictSel,
+    setSubDistrictSel
+} = addressSlice.actions;
 
 export default addressSlice.reducer;

@@ -1,46 +1,24 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { setCitySel, setDistrictSel, setSubDistrictSel } from '../stores/addressSlice';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setCity, setDistrict, setSubDistrict } from '../stores/addressSlice';
 const CitySelect = ({
     cities,
     districts,
-    subDistricts,
-    city,
-    district,
-    subDistrict,
-    setCity,
-    setDistrict,
-    setSubDistrict
+    subDistricts
 }) => {
-
     const dispatch = useDispatch();
+    const { city, district, subDistrict } = useSelector(state => state.address);
 
     const handleCityChange = (e) => {
-        const cityCode = e.target.value;
-        const selectedCity = cities.find(c => c[0].toString() === cityCode.toString());
-        const cityName = selectedCity ? selectedCity[1] : '';
-        setCity(cityCode);
-        setDistrict('');
-        setSubDistrict('');
-        dispatch(setCitySel(cityName));
+        dispatch(setCity(e.target.value));
     };
 
     const handleDistrictChange = (e) => {
-        const districtCode = e.target.value;
-        const selectedDistrict = districts.find(d => d[0].toString() === districtCode.toString());
-        const districtName = selectedDistrict ? selectedDistrict[2] : '';
-        setDistrict(districtCode);
-        setSubDistrict('');
-        dispatch(setDistrictSel(districtName));
+        dispatch(setDistrict(e.target.value));
     };
 
     const handleSubDistrictChange = (e) => {
-        const subDistrictCode = e.target.value;
-        const selectedSubDistrict = subDistricts.find(sd => sd[0].toString() === subDistrictCode.toString());
-        const subDistrictName = selectedSubDistrict ? selectedSubDistrict[3] : '';
-        setSubDistrict(subDistrictCode);
-        dispatch(setSubDistrictSel(subDistrictName));
+        dispatch(setSubDistrict(e.target.value));
     };
 
     return (

@@ -1,12 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setRoadAddress, setAdministrativeAddress, setKakaoAddressResult } from '../stores/addressSlice';
 
 const KakaoMap = () => {
     const dispatch = useDispatch();
     const [searchKeyword, setSearchKeyword] = useState('');
+    const { cityName, districtName, subDistrictName } = useSelector(state => state.address);
 
     useEffect(() => {
+        const combinedKeyword = [cityName, districtName, subDistrictName].filter(Boolean).join(' ');
+
+        if (combinedKeyword.length > 0) {
+            setSearchKeyword(combinedKeyword);
+            console.log('Combined Keyword:', combinedKeyword);
+
+            // const searchButton = document.getElementById('search-button');
+            // if (searchButton) {
+            //     searchButton.click();
+            // }
+        }
+    }, [cityName, districtName, subDistrictName]);
+
+    useEffect(() => {
+
         const script = document.createElement('script');
         script.async = true;
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_MAP_API_KEY}&autoload=false&libraries=services`;
