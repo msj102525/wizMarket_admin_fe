@@ -21,7 +21,8 @@ const LocStoreListSearchForm = ({ onSearch }) => {
     const {
         mainCategory, setMainCategory, mainCategories,
         subCategory, setSubCategory, subCategories,
-        detailCategory, setDetailCategory, detailCategories
+        detailCategory, setDetailCategory, detailCategories,
+        reference, references, setReference,
     } = useCategories();
 
     // 상호와 업종 필터링 위한 상태 추가
@@ -35,16 +36,16 @@ const LocStoreListSearchForm = ({ onSearch }) => {
         // 필터링된 데이터 (빈 값 제거)
         const filters = {
             ...(storeName && { storeName }),  // 상호 필터 추가
-            // ...(mainCategory && { mainCategory }),
-            // ...(subCategory && { subCategory }),
-            // ...(detailCategory && { detailCategory }),
+            ...(mainCategory && mainCategory !== '대분류' && mainCategory !== '0' && { mainCategory }),  // '대분류'와 '0'은 제외
+            ...(subCategory && subCategory !== '중분류' && subCategory !== '0' && { subCategory }),      // '중분류'와 '0'은 제외
+            ...(detailCategory && detailCategory !== '소분류' && detailCategory !== '0' && { detailCategory }), // '소분류'와 '0'은 제외
             ...(city && { city }),
             ...(district && { district }),
             ...(subDistrict && { subDistrict }),
             ...(selectedQuarterMin && { selectedQuarterMin }),
             ...(selectedQuarterMax && { selectedQuarterMax }),
-
         };
+        
 
         onSearch(filters);  // 부모 컴포넌트에서 전달받은 onSearch 호출
     };
@@ -60,6 +61,7 @@ const LocStoreListSearchForm = ({ onSearch }) => {
         setSubDistrict('');
         setSelectedQuarterMin('');
         setSelectedQuarterMax('');
+        setReference('');
     };
 
     return (
@@ -107,6 +109,9 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                     </div>
                     <div className="w-full">
                         <CategorySelect
+                            reference={reference}
+                            references={references}
+                            setReference={setReference}
                             mainCategory={mainCategory}
                             setMainCategory={setMainCategory}
                             mainCategories={mainCategories}
@@ -115,10 +120,10 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                             subCategories={subCategories}
                             detailCategory={detailCategory}
                             setDetailCategory={setDetailCategory}
-                            detailCategories={detailCategories}
-                        />
+                            detailCategories={detailCategories} />
                     </div>
                 </div>
+
                 <div className="mb-4 flex gap-4">
                     <div className="w-1/6 text-center content-center">
                         <label className="block mb-1 font-extrabold">분기</label>
@@ -127,7 +132,7 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                         <select
                             value={selectedQuarterMin}
                             onChange={(e) => setSelectedQuarterMin(e.target.value)}
-                            className="p-2 border border-[#DDDDDD] rounded w-1/2"
+                            className="p-2 border border-[#DDDDDD] rounded w-1/5"
                         >
                             <option value="">이상</option>
                             <option value="2021.1/4">2021년 1/4</option>
@@ -149,9 +154,9 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                         <select
                             value={selectedQuarterMax}
                             onChange={(e) => setSelectedQuarterMax(e.target.value)}
-                            className="p-2 border border-[#DDDDDD] rounded w-1/2"
+                            className="p-2 border border-[#DDDDDD] rounded w-1/5"
                         >
-                            <option value="">이상</option>
+                            <option value="">이하</option>
                             <option value="2021.1/4">2021년 1/4</option>
                             <option value="2021.2/4">2021년 2/4</option>
                             <option value="2021.3/4">2021년 3/4</option>
@@ -171,6 +176,12 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                 </div>
                 <p className="text-sm text-gray-500">
                     * 데이터 양이 많아 원활한 검색을 위해 가능한 많은 조건, 좁은 조건을 추가해주세요.
+                </p>
+                <p className="text-sm text-gray-500">
+                    * 카테고리 검색은 2023년 3분기부터 상권 정보 분류표에서만 가능합니다.
+                </p>
+                <p className="text-sm text-gray-500">
+                    * 2023년 1, 2 분기 누락, 인서트 예정
                 </p>
 
 

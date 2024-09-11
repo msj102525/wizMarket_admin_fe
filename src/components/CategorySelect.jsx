@@ -52,14 +52,24 @@ const CategorySelect = ({
         ...mainCategories.map(cat => ({ value: cat.biz_main_category_id, label: cat.biz_main_category_name, count: cat.biz_sub_category_count }))
     ];
 
+    const filteredSubCategories = reference === 3
+        ? subCategories.filter(cat => cat.biz_sub_category_id.startsWith(mainCategory))  // 메인 카테고리 코드에 맞는 서브 카테고리 필터링
+        : subCategories;
+        
+
     const subOptions = [
         { value: '0', label: '중분류' },
-        ...subCategories.map(cat => ({ value: cat.biz_sub_category_id, label: cat.biz_sub_category_name, count: cat.biz_detail_cateogry_count }))
+        ...filteredSubCategories.map(cat => ({ value: cat.biz_sub_category_id, label: cat.biz_sub_category_name, count: cat.biz_detail_cateogry_count }))
     ];
+
+    // 디테일 카테고리 옵션 필터링: reference 값이 3일 때 코드 기반으로 필터링
+    const filteredDetailCategories = reference === 3
+        ? detailCategories.filter(cat => cat.biz_detail_category_id.startsWith(subCategory))  // 서브 카테고리 코드에 맞는 디테일 카테고리 필터링
+        : detailCategories;
 
     const detailOptions = [
         { value: '0', label: '소분류' },
-        ...detailCategories.map(cat => ({ value: cat.biz_detail_category_id, label: cat.biz_detail_categoty_name }))
+        ...filteredDetailCategories.map(cat => ({ value: cat.biz_detail_category_id, label: cat.biz_detail_category_name }))
     ];
 
 

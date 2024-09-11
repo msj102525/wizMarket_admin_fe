@@ -196,7 +196,7 @@ const LocStoreList = ({ data }) => {
                             <td className="border border-gray-300 px-4 py-2 ">{item.city_name}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.district_name}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.sub_district_name}</td>
-                            <td className="border border-gray-300 px-4 py-2 ">나이스비즈맵</td>
+                            <td className="border border-gray-300 px-4 py-2 ">상권정보시스템</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.large_category_name}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.medium_category_name}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.small_category_name}</td>

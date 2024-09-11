@@ -139,7 +139,7 @@ const Aside = () => {
                                 <a href="http://192.168.0.239:3000/city">Address Table</a>
                             </li>
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
-                                <a href="http://192.168.0.240:3000/category">업종분류</a>
+                                <a href="http://192.168.0.239:3000/category">업종분류</a>
                             </li>
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                                 <Link to="/">기타</Link>
