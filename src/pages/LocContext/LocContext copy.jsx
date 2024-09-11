@@ -1,117 +1,32 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Header from '../../components/Header';
-import Aside from '../../components/Aside';
-import SectionHeader from '../../components/SectionHeader';
 import KakaoMap from '../../components/KakaoMap';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import WeatherList from './components/WeatherList';
 import dfs_xy_conv from '../../utils/transCoordinateKMA';
 import getCurrentDate from '../../utils/getCurrentDate';
-import LocContextSearchForm from './components/LocContextSearchForm';
-import { useCities } from '../../hooks/useCities';
-import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
-import LocContextList from './components/LocContextList';
+import CAIApiList from './components/CAIApiListLoc';
+import RiseList from './components/RiseList';
 
 const LocContext = () => {
-    const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
-
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [isList, setIsList] = useState(false);
-
-    const [weatherData, setWeatherData] = useState(null);
+    const [weahterData, setWeatherData] = useState(null);
     const [caiData, setCaiData] = useState(null);
     const [riseData, setRiseData] = useState(null);
 
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const prevKakaoAddressResult = useRef(null);
-    const { region_1depth_name: cityName, region_2depth_name: fullDistrict, region_3depth_name: subDistrictName } = kakaoAddressResult;
 
-    let districtName = ""
+    const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
+    const { region_2depth_name: fullDistrict, region_3depth_name: subDistrict } = kakaoAddressResult;
+
+    let district = ""
     if (fullDistrict) {
-        districtName = fullDistrict.split(' ')[0];
+        district = fullDistrict.split(' ')[0];
     }
 
-    useEffect(() => {
-        console.log(cityName)
-        console.log(districtName)
-        console.log(subDistrictName)
-    }, [cityName, districtName, subDistrictName])
 
-    const {
-        cities,
-        districts,
-        subDistricts,
-        city,
-        district,
-        subDistrict,
-        setCity,
-        setDistrict,
-        setSubDistrict
-    } = useCities();
-
-
-
-    useKakaoAddressUpdate({
-        kakaoAddressResult,
-        cities,
-        districts,
-        subDistricts,
-        setCity,
-        setDistrict,
-        setSubDistrict,
-    });
-
-    const handleToggle = () => {
-        setIsList(!isList);
-    };
-
-
-
-    const handleSearch = () => {
-        console.log("handle")
-
-        // const fetchData = async () => {
-        //     setLoading(true);
-        //     setError(null);
-
-        //     try {
-        //         const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/rising/rb`, {
-        //             headers: {
-        //                 'Content-Type': 'application/json; charset=UTF-8',
-        //             },
-        //             params: {
-        //                 search_cate: searchCate || undefined,
-        //                 city_id: parseInt(city) || undefined,
-        //                 district_id: parseInt(district) || undefined,
-        //                 sub_district_id: parseInt(subDistrict) || undefined,
-        //                 biz_main_category_id: parseInt(mainCategory) || undefined,
-        //                 biz_sub_category_id: parseInt(subCategory) || undefined,
-        //                 biz_detail_category_id: parseInt(detailCategory) || undefined,
-        //                 growth_rate_min: parseFloat(increaseRateMin) || undefined,
-        //                 growth_rate_max: parseFloat(increaseRateMax) || undefined,
-        //                 rank_min: parseInt(rankMin) || undefined,
-        //                 rank_max: parseInt(rankMax) || undefined
-        //             },
-        //         });
-        //         setData(response.data);
-        //     } catch (error) {
-        //         console.error('Error fetching data from FastAPI', error);
-        //         setError('Failed to fetch data');
-        //     } finally {
-        //         setLoading(false);
-        //     }
-        // };
-
-        // fetchData();
-    };
-
-    const handleReset = () => {
-        setCity(null);
-        setDistrict(null);
-        setSubDistrict(null);
-    };
-
-    // 기존
     useEffect(() => {
         if (!kakaoAddressResult) return;
 
@@ -291,64 +206,45 @@ const LocContext = () => {
     }, [kakaoAddressResult]);
 
 
-
     return (
         <div>
             <Header />
-            <div className="flex">
-                <Aside />
-                <main className="gap-2 pr-10 w-full">
-                    <section>
-                        <SectionHeader title="날씨정보" isList={isList} handleToggle={handleToggle} />
-                    </section>
-                    <section className="flex gap-4 py-4 ">
-                        {!isList && (
-                            <div className='flex-1 min-h-96'>
-                                <div className="min-w-full h-full">
-                                    <KakaoMap />
-                                </div>
-                            </div>
-                        )}
-                        <div className='flex-1 min-h-full'>
-                            <LocContextSearchForm
-                                city={city}
-                                district={district}
-                                subDistrict={subDistrict}
-
-                                cities={cities}
-                                districts={districts}
-                                subDistricts={subDistricts}
-
-                                setCity={setCity}
-                                setDistrict={setDistrict}
-                                setSubDistrict={setSubDistrict}
-
-                                handleSearch={handleSearch}
-                                handleReset={handleReset}
-                            />
-                        </div>
-                    </section>
-
-                    <section className='pb-10'>
+            <div className='flex'>
+                <div className='1/3'>
+                    <div className="w-full h-full">
+                        <KakaoMap />
+                    </div>
+                </div>
+                <div className='w-1/4'>
+                    <div className="pb-10">
+                        <p className="text-lg font-semibold mb-4">지도 중심 기준 날씨</p>
                         {loading && <p>Loading...</p>}
-                        {error && <p>Error: {error}</p>}
-                        {weatherData && !loading && !error && (
-                            <LocContextList
-                                loading={loading}
-                                error={error}
-                                weatherData={weatherData}
-                                caiData={caiData}
-                                riseData={riseData}
-                                city={city}
-                                district={district}
-                                subDistrict={subDistrict}
-                                cityName={cityName}
-                                districtName={districtName}
-                                subDistrictName={subDistrictName}
-                            />
+                        {error && <p className="text-red-500">Error: {error}</p>}
+                        {weahterData && !loading && !error && (
+                            <WeatherList weahterData={weahterData} />
                         )}
-                    </section>
-                </main>
+                    </div>
+                </div>
+                <div className='w-1/4'>
+                    <div className="pb-10">
+                        <p className="text-lg font-semibold mb-4">시/도 CAI 데이터</p>
+                        {loading && <p>Loading...</p>}
+                        {error && <p className="text-red-500">Error: {error}</p>}
+                        {weahterData && !loading && !error && (
+                            <CAIApiList caiData={caiData} district={district} subDistrict={subDistrict} />
+                        )}
+                    </div>
+                </div>
+                <div className='w-1/4'>
+                    <div className="pb-10">
+                        <p className="text-lg font-semibold mb-4">위치별 해달 출몰시각</p>
+                        {loading && <p>Loading...</p>}
+                        {error && <p className="text-red-500">Error: {error}</p>}
+                        {weahterData && !loading && !error && (
+                            <RiseList riseData={riseData} />
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );

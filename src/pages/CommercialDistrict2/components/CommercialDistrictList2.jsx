@@ -58,65 +58,65 @@ const CommercialDistrictList2 = ({ data }) => {
                 <td colSpan={1}></td>
                 <td colSpan={8} className='border-l'>
                     <tr>
-                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">
-                            <p>요일별<br />평균매출</p>
+                        <td rowSpan="2" className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-4">
+                            <p className='text-sm'>요일별<br />평균매출</p>
                         </td>
                         {/* 요일별 데이터 */}
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">월요일</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">화요일</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">수요일</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">목요일</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">금요일</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">토요일</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">일요일</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">월요일</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">화요일</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">수요일</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">목요일</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">금요일</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">토요일</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">일요일</td>
                     </tr>
                     <tr>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_mon)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_tue)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_wed)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_thu)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_fri)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_sat)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_sun)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_mon)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_tue)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_wed)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_thu)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_fri)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_sat)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_sun)}</td>
                     </tr>
                 </td>
                 <td colSpan={5} className='border-l'>
                     <tr>
                         <td rowSpan="2"></td>
-                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">
-                            <p>밀집도</p>
+                        <td rowSpan="2" className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">
+                            <p className='text-sm'>밀집도</p>
                         </td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">전국 밀집도</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">시/도 밀집도</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">군/구 밀집도</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">읍/면/동 밀집도</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">전국 밀집도</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">시/도 밀집도</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">군/구 밀집도</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">읍/면/동 밀집도</td>
                     </tr>
                     <tr>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.national_density)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.city_density)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.district_density)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.sub_district_density)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.national_density)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.city_density)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.district_density)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.sub_district_density)}</td>
                     </tr>
                 </td>
 
                 <td colSpan={6} className='border-l'>
                     <tr>
                         <td rowSpan="2"></td>
-                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">
-                            <p>뜨는 메뉴</p>
+                        <td rowSpan="2" className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">
+                            <p className='text-sm'>뜨는 메뉴</p>
                         </td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">TOP1</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">TOP2</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">TOP3</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">TOP4</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">TOP5</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">TOP1</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">TOP2</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">TOP3</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">TOP4</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">TOP5</td>
                     </tr>
                     <tr>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{item.top_menu_1}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{item.top_menu_2}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{item.top_menu_3}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{item.top_menu_4}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{item.top_menu_5}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{item.top_menu_1}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{item.top_menu_2}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{item.top_menu_3}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{item.top_menu_4}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{item.top_menu_5}</td>
                     </tr>
                 </td>
             </tr>
@@ -124,55 +124,55 @@ const CommercialDistrictList2 = ({ data }) => {
                 <td colSpan={1}></td>
                 <td colSpan={9} className='border-l'>
                     <tr>
-                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">
-                            <p>시간별<br />평균 매출</p>
+                        <td rowSpan="2" className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">
+                            <p className='text-sm'>시간별<br />평균 매출</p>
                         </td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">06-09</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">09-12</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">12-15</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">15-18</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">18-21</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">21-24</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">24-06</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">06-09</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">09-12</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">12-15</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">15-18</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">18-21</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">21-24</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">24-06</td>
                     </tr>
                     <tr>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_06_09)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_09_12)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_12_15)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_15_18)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_18_21)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_21_24)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_profit_per_24_06)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_06_09)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_09_12)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_12_15)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_15_18)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_18_21)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_21_24)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_profit_per_24_06)}</td>
                     </tr>
                 </td>
                 <td colSpan={15} className='border-l'>
                     <tr>
                         <td rowSpan="2"></td>
-                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">
-                            <p>연령별 비중</p>
+                        <td rowSpan="2" className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">
+                            <p className='text-sm'>연령별 비중</p>
                         </td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">남 20대 비중</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">남 30대 비중</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">남 40대 비중</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">남 50대 비중</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">남 60대 비중</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">여 20대 비중</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">여 30대 비중</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">여 40대 비중</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">여 50대 비중</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">여 60대 비중</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">남 20대 비중</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">남 30대 비중</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">남 40대 비중</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">남 50대 비중</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">남 60대 비중</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">여 20대 비중</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">여 30대 비중</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">여 40대 비중</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">여 50대 비중</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">여 60대 비중</td>
                     </tr>
                     <tr>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_client_per_m_20)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_client_per_m_30)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_client_per_m_40)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_client_per_m_50)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_client_per_m_60)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_client_per_f_20)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_client_per_f_30)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_client_per_f_40)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_client_per_f_50)}</td>
-                        <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 px-2">{Intl.NumberFormat().format(item.avg_client_per_f_60)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_20)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_30)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_40)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_50)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_60)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_20)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_30)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_40)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_50)}</td>
+                        <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 px-3 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_60)}</td>
                     </tr>
                 </td>
 
@@ -226,7 +226,7 @@ const CommercialDistrictList2 = ({ data }) => {
                         currentResults.map((item) => (
                             <React.Fragment key={item.commercial_district_id}>
                                 <tr>
-                                    <td className="flex justify-center whitespace-nowrap text-sm font-medium text-gray-900 p-2">
+                                    <td className="flex justify-center whitespace-nowrap text-xs font-medium text-gray-900 p-2">
                                         <div
                                             className="w-[11px] cursor-pointer"
                                             onClick={() => toggleRowExpansion(item.commercial_district_id)}
@@ -238,32 +238,32 @@ const CommercialDistrictList2 = ({ data }) => {
                                             />
                                         </div>
                                     </td>
-                                    <td className="text-center whitespace-nowrap text-sm font-medium text-gray-900 p-2">{item.commercial_district_id}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{item.city_name}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{item.district_name}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{item.sub_district_name}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{"출처"}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{item.biz_main_category_name}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{item.biz_sub_category_name}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{item.biz_detail_category_name}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{Intl.NumberFormat().format(item.market_size)}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{Intl.NumberFormat().format(item.average_sales)}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{Intl.NumberFormat().format(item.average_payment)}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{Intl.NumberFormat().format(item.usage_count)}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{Intl.NumberFormat().format(item.operating_cost)}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{Intl.NumberFormat().format(item.food_cost)}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{Intl.NumberFormat().format(item.employee_cost)}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{Intl.NumberFormat().format(item.rental_cost)}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{Intl.NumberFormat().format(item.tax_cost)}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{new Date(item.updated_at).toLocaleDateString()}</td>
-                                    <td className="text-center whitespace-nowrap text-sm text-gray-500">{new Date(item.updated_at).toLocaleDateString()}</td>
+                                    <td className="text-center whitespace-nowrap text-xs font-medium text-gray-900 p-2">{item.commercial_district_id}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{item.city_name}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{item.district_name}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{item.sub_district_name}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{"출처"}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{item.biz_main_category_name}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{item.biz_sub_category_name}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{item.biz_detail_category_name}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{Intl.NumberFormat().format(item.market_size)}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{Intl.NumberFormat().format(item.average_sales)}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{Intl.NumberFormat().format(item.average_payment)}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{Intl.NumberFormat().format(item.usage_count)}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{Intl.NumberFormat().format(item.operating_cost)}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{Intl.NumberFormat().format(item.food_cost)}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{Intl.NumberFormat().format(item.employee_cost)}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{Intl.NumberFormat().format(item.rental_cost)}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{Intl.NumberFormat().format(item.tax_cost)}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
+                                    <td className="text-center whitespace-nowrap text-xs text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
                                 </tr>
                                 {expandedRows[item.commercial_district_id] && renderExpandedRow(item)}
                             </React.Fragment>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="15" className="text-center py-4 text-sm font-medium text-gray-500">No data available</td>
+                            <td colSpan="15" className="text-center  text-xs font-medium text-gray-500 py-4">No data available</td>
                         </tr>
                     )}
                 </tbody>

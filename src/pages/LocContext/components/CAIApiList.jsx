@@ -1,7 +1,7 @@
 // components/CAIApiList.js
 import React from 'react';
 
-const CAIApiList = ({ caiData, district }) => {
+const CAIApiList = ({ caiData }) => {
     if (!caiData || caiData.length === 0) {
         return <p className="text-center text-gray-500">CAI 데이터가 없습니다.</p>;
     }
@@ -35,3 +35,5 @@ const CAIApiList = ({ caiData, district }) => {
 };
 
 export default CAIApiList;
+
+
