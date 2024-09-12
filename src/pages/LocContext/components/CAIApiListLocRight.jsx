@@ -14,20 +14,20 @@ const CAIApiListRight = ({ caiData, districtName, subDistrictName }) => {
     const filteredData = filteredDatas.length === 0 ? caiData[0] : filteredDatas[0];
 
     return (
-        <div className="bg-white rounded-lg">
-            <div className="p-4 border border-gray-300 rounded-lg shadow-sm flex gap-2">
+        <div className="bg-white rounded-lg h-16">
+            <div className="border border-gray-300 rounded-lg  flex gap-2 h-full px-4">
                 {/* <h3 className="text-sm font-semibold mb-2">{item.stationName} : </h3> */}
                 {/* <p className="mb-1 text-xs">측정망 정보: {item.mangName}</p> */}
                 {/* <p className="mb-1 text-xs">측정일: {item.dataTime}</p> */}
                 {/* <p className="mb-1 text-xs">미세먼지(PM2.5) 농도: {item.pm25Value} ㎍/㎥</p> */}
                 {/* <p className="mb-1 text-xs">미세먼지(PM10) 농도: {item.pm10Value} ㎍/㎥</p> */}
-                <div className="">
-                    <p className="mb-1 text-xs">아황산가스 농도: <span className=' text-red-500 text-xs'> {filteredData.so2Value} </span>ppm</p>
-                    <p className="mb-1 text-xs">일산화탄소 농도: <span className=' text-red-500 text-xs'> {filteredData.coValue} </span>ppm</p>
+                <div className="content-center">
+                    <p className="text-sm">아황산가스 농도: <span className=' text-red-500 text-sm'> {filteredData.so2Value}ppm</span></p>
+                    <p className="text-sm">일산화탄소 농도: <span className=' text-red-500 text-sm'> {filteredData.coValue}ppm</span></p>
                 </div>
-                <div className="">
-                    <p className="mb-1 text-xs">오존 농도: <span className=' text-red-500 text-xs'> {filteredData.o3Value} </span>ppm</p>
-                    <p className="mb-1 text-xs">이산화질소 농도: <span className=' text-red-500 text-xs'> {filteredData.no2Value} </span>ppm</p>
+                <div className="content-center">
+                    <p className="text-sm">오존 농도: <span className=' text-red-500 text-sm'> {filteredData.o3Value}ppm</span></p>
+                    <p className="text-sm">이산화질소 농도: <span className=' text-red-500 text-sm'> {filteredData.no2Value}ppm</span></p>
                 </div>
                 {/* <p className="mb-1 text-xs">24시간 예측 미세먼지(PM2.5): {item.pm25Value24} ㎍/㎥</p> */}
                 {/* <p className="mb-1 text-xs">24시간 예측 미세먼지(PM10): {item.pm10Value24} ㎍/㎥</p> */}

@@ -9,11 +9,11 @@ const LocContextList = ({ loading, error, weatherData, caiData, riseData, cityNa
     const data = [...weatherData, ...caiData, ...formattedRiseData];
 
     const [selectedDate, setSelectedDate] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
 
-
-    // 날짜 선택을 위한 select box 핸들러
-    const handleDateChange = (e) => {
-        setSelectedDate(e.target.value);
+    const handleDateChange = (value) => {
+        setSelectedDate(value);
+        setIsOpen(false);
     };
 
     // 날짜별로 그룹화
@@ -34,38 +34,46 @@ const LocContextList = ({ loading, error, weatherData, caiData, riseData, cityNa
     }, [weatherData]);
 
     return (
-        <div className="">
+        <div className="border rounded-lg">
             <div className='w-full'>
-                <div className="pb-4">
+                <div className="">
                     <DataLengthDown data={data} filename="LocContext.xlsx" />
                 </div>
-                <div className="border">
-                    <p className="px-4 text-lg font-semibold">지도 중심 기준 날씨</p>
+                <div className="">
                     {loading && <p>Loading...</p>}
                     {error && <p className="text-red-500">Error: {error}</p>}
                     {weatherData && !loading && !error && (
                         <div className="">
                             <div>
-                                <div className="flex border gap-8 ">
-                                    <div className="flex px-4">
-                                        <p className='text-center content-center'>{cityName}</p>
-                                        <p className='text-center content-center'>{districtName}</p>
+                                <div className="flex gap-8 pb-4">
+                                    <div className="flex">
+                                        <p className='text-center content-center'>{cityName}</p> &nbsp;
+                                        <p className='text-center content-center'>{districtName}</p> &nbsp;
                                         <p className='text-center content-center'>{subDistrictName}</p>
                                     </div>
-                                    <div className="flex">
-                                        <label htmlFor="dateSelect" className="block text-md font-semibold text-center content-center">날짜 선택:</label>
-                                        <select
+                                    <div className="relative  rounded-lg flex">
+                                        <p className="block text-md font-semibold text-center content-center">날짜</p>
+                                        <div
+                                            className="px-3 py-2 flex justify-between items-center cursor-pointer"
+                                            onClick={() => setIsOpen(!isOpen)}
                                             id="dateSelect"
-                                            className="border border-gray-300 rounded-lg px-3 py-2"
-                                            onChange={handleDateChange}
-                                            value={selectedDate || ''}
                                         >
-                                            {Object.keys(groupedByDate).map((date) => (
-                                                <option key={date} value={date}>
-                                                    {date}
-                                                </option>
-                                            ))}
-                                        </select>
+                                            {selectedDate || 'Select a date'}
+                                            <span className="ml-2">&#9662;</span>
+                                        </div>
+                                        {isOpen && (
+                                            <ul className="absolute top-11 z-10 w-full bg-white border border-gray-200 rounded shadow-lg">
+                                                {Object.keys(groupedByDate).map((date) => (
+                                                    <li
+                                                        key={date}
+                                                        className="p-2 hover:bg-gray-100 cursor-pointer border-b last:border-b-0 text-center "
+                                                        onClick={() => handleDateChange(date)}
+                                                    >
+                                                        {date}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
                                     </div>
                                 </div>
                                 <WeatherList weatherData={weatherData} selectedDate={selectedDate} caiData={caiData} districtName={districtName} subDistrictName={subDistrictName} riseData={riseData} />
@@ -74,29 +82,6 @@ const LocContextList = ({ loading, error, weatherData, caiData, riseData, cityNa
                     )}
                 </div>
             </div>
-            {/* 
-            <div className='w-1/4'>
-                <div className="pb-10">
-                    <p className="text-lg font-semibold mb-4">시/도 CAI 데이터</p>
-                    {loading && <p>Loading...</p>}
-                    {error && <p className="text-red-500">Error: {error}</p>}
-                    {caiData && !loading && !error && (
-                        <CAIApiList caiData={caiData} districtName={districtName} subDistrictName={subDistrictName} />
-                    )}
-                </div>
-            </div>
-            <div className='w-1/4'>
-                <div className="pb-10">
-                    <p className="text-lg font-semibold mb-4">위치별 해달 출몰시각</p>
-                    {loading && <p>Loading...</p>}
-                    {error && <p className="text-red-500">Error: {error}</p>}
-                    {riseData && !loading && !error && (
-                        <RiseList riseData={riseData} />
-                    )}
-                </div>
-            </div>
-            */}
-
         </div>
     );
 };

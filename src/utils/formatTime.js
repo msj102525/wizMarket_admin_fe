@@ -24,7 +24,7 @@ const formatTime = (timeString) => {
         const period = hours >= 12 ? 'PM' : 'AM';
         const formattedHours = hours % 12 || 12;
         return length === 6
-            ? `${formattedHours}:${minutes}:${seconds} ${period}`
+            ? `${formattedHours}:${minutes} ${seconds} ${period}`
             : `${formattedHours}:${minutes} ${period}`;
     }
 
