@@ -6,25 +6,93 @@ import axios from 'axios';
 import LocInfoList from './components/LocInfoList';
 import LocInfoListSearchForm from './components/LocInfoListSearchForm';
 import SectionHeader from '../../components/SectionHeader';
+import { useCities } from '../../hooks/useCities';
+import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
+import { useSelector } from 'react-redux';
 
 
 const LocInfo = () => {
+    const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
     
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isList, setIsList] = useState(false);
+
+
+    const [shopMin, setshopMin] = useState('');
+    const [move_popMin, setmove_popMin] = useState('');
+    const [salesMin, setsalesMin] = useState('');
+    const [work_popMin, setwork_popMin] = useState('');
+    const [incomeMin, setincomeMin] = useState('');
+    const [spendMin, setspendMin] = useState('');
+    const [houseMin, sethouseMin] = useState('');
+    const [residentMin, setresidentMin] = useState('');
+
+    const [shopMax, setshopMax] = useState('');
+    const [move_popMax, setmove_popMax] = useState('');
+    const [salesMax, setsalesMax] = useState('');
+    const [work_popMax, setwork_popMax] = useState('');
+    const [incomeMax, setincomeMax] = useState('');
+    const [spendMax, setspendMax] = useState('');
+    const [houseMax, sethouseMax] = useState('');
+    const [residentMax, setresidentMax] = useState('');
+
     const handleToggle = () => {
         setIsList(!isList);
     };
 
+    const {
+        cities,
+        districts,
+        subDistricts,
+        city,
+        district,
+        subDistrict,
+        setCity,
+        setDistrict,
+        setSubDistrict
+    } = useCities();
+
+    useKakaoAddressUpdate({
+        kakaoAddressResult,
+        cities,
+        districts,
+        subDistricts,
+        setCity,
+        setDistrict,
+        setSubDistrict,
+    });
+
 
     // 필터를 사용해 서버에 검색 요청을 보내는 함수
-    const handleSearch = async (filters) => {
+    const handleSearch = async () => {
         setLoading(true);
         setError(null);
 
-        console.log(filters)
+        const convertToInt = (value) => value ? parseInt(value, 10) : null;
+
+        const filters = {
+            city: convertToInt(city),
+            district: convertToInt(district),
+            subDistrict: convertToInt(subDistrict),
+            shopMin: convertToInt(shopMin),
+            shopMax: convertToInt(shopMax),
+            move_popMin: convertToInt(move_popMin),
+            move_popMax: convertToInt(move_popMax),
+            salesMin: convertToInt(salesMin),
+            salesMax: convertToInt(salesMax),
+            work_popMin: convertToInt(work_popMin),
+            work_popMax: convertToInt(work_popMax),
+            incomeMin: convertToInt(incomeMin),
+            incomeMax: convertToInt(incomeMax),
+            spendMin: convertToInt(spendMin),
+            spendMax: convertToInt(spendMax),
+            houseMin: convertToInt(houseMin),
+            houseMax: convertToInt(houseMax),
+            residentMin: convertToInt(residentMin),
+            residentMax: convertToInt(residentMax),
+        };
 
         try {
             const response = await axios.post(
@@ -46,6 +114,31 @@ const LocInfo = () => {
         }
     };
 
+    const handleReset = () => {
+        // 모든 필터 값을 초기화
+        setCity('');
+        setDistrict('');
+        setSubDistrict('');
+
+        setshopMin('');
+        setmove_popMin('');
+        setsalesMin('');
+        setwork_popMin('');
+        setincomeMin('');
+        setspendMin('');
+        sethouseMin('');
+        setresidentMin('');
+
+        setshopMax('');
+        setmove_popMax('');
+        setsalesMax('');
+        setwork_popMax('');
+        setincomeMax('');
+        setspendMax('');
+        sethouseMax('');
+        setresidentMax('');
+    };
+
     return (
         <div>
             <Header />
@@ -64,7 +157,59 @@ const LocInfo = () => {
                             </div>
                         )}
                         <div className='flex-1'>
-                            <LocInfoListSearchForm onSearch={handleSearch} isList={isList} /> 
+                            <LocInfoListSearchForm 
+                                
+                                city={city}
+                                district={district}
+                                subDistrict={subDistrict}
+
+                                cities={cities}
+                                districts={districts}
+                                subDistricts={subDistricts}
+                                
+                                shopMin={shopMin}
+                                move_popMin={move_popMin}
+                                salesMin={salesMin}
+                                work_popMin={work_popMin}
+                                incomeMin={incomeMin}
+                                spendMin={spendMin}
+                                houseMin={houseMin}
+                                residentMin={residentMin}
+
+                                shopMax={shopMax}
+                                move_popMax={move_popMax}
+                                salesMax={salesMax}
+                                work_popMax={work_popMax}
+                                incomeMax={incomeMax}
+                                spendMax={spendMax}
+                                houseMax={houseMax}
+                                residentMax={residentMax}
+
+                                setCity={setCity}
+                                setDistrict={setDistrict}
+                                setSubDistrict={setSubDistrict}
+
+                                setshopMin={setshopMin}
+                                setmove_popMin={setmove_popMin}
+                                setsalesMin={setsalesMin}
+                                setwork_popMin={setwork_popMin}
+                                setincomeMin={setincomeMin}
+                                setspendMin={setspendMin}
+                                sethouseMin={sethouseMin}
+                                setresidentMin={setresidentMin}
+
+                                setshopMax={setshopMax}
+                                setmove_popMax={setmove_popMax}
+                                setsalesMax={setsalesMax}
+                                setwork_popMax={setwork_popMax}
+                                setincomeMax={setincomeMax}
+                                setspendMax={setspendMax}
+                                sethouseMax={sethouseMax}
+                                setresidentMax={setresidentMax}
+
+                                handleSearch={handleSearch}
+                                handleReset={handleReset}
+                                isList={isList} /> 
                         </div>
                     </section>
                     {/* 하단 리스트 */}
