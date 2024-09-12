@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import WeatherList from './WeatherList';
-import CAIApiList from './CAIApiListLoc';
-import RiseList from './RiseList';
+// import CAIApiList from './CAIApiList';
+// import RiseList from './RiseList';
 import DataLengthDown from '../../../components/DataLengthDown';
 
 const LocContextList = ({ loading, error, weatherData, caiData, riseData, cityName, districtName, subDistrictName }) => {
@@ -39,15 +39,15 @@ const LocContextList = ({ loading, error, weatherData, caiData, riseData, cityNa
                 <div className="pb-4">
                     <DataLengthDown data={data} filename="LocContext.xlsx" />
                 </div>
-                <div className="pb-10 border">
-                    <p className="text-lg font-semibold mb-4">지도 중심 기준 날씨</p>
+                <div className="border">
+                    <p className="px-4 text-lg font-semibold">지도 중심 기준 날씨</p>
                     {loading && <p>Loading...</p>}
                     {error && <p className="text-red-500">Error: {error}</p>}
                     {weatherData && !loading && !error && (
                         <div className="">
                             <div>
                                 <div className="flex border gap-8 ">
-                                    <div className="flex">
+                                    <div className="flex px-4">
                                         <p className='text-center content-center'>{cityName}</p>
                                         <p className='text-center content-center'>{districtName}</p>
                                         <p className='text-center content-center'>{subDistrictName}</p>
@@ -68,14 +68,14 @@ const LocContextList = ({ loading, error, weatherData, caiData, riseData, cityNa
                                         </select>
                                     </div>
                                 </div>
-
-                                <WeatherList weatherData={weatherData} selectedDate={selectedDate} caiData={caiData} districtName={districtName} subDistrictName={subDistrictName} />
+                                <WeatherList weatherData={weatherData} selectedDate={selectedDate} caiData={caiData} districtName={districtName} subDistrictName={subDistrictName} riseData={riseData} />
                             </div>
                         </div>
                     )}
                 </div>
             </div>
-            {/* <div className='w-1/4'>
+            {/* 
+            <div className='w-1/4'>
                 <div className="pb-10">
                     <p className="text-lg font-semibold mb-4">시/도 CAI 데이터</p>
                     {loading && <p>Loading...</p>}
@@ -84,7 +84,7 @@ const LocContextList = ({ loading, error, weatherData, caiData, riseData, cityNa
                         <CAIApiList caiData={caiData} districtName={districtName} subDistrictName={subDistrictName} />
                     )}
                 </div>
-            </div> */}
+            </div>
             <div className='w-1/4'>
                 <div className="pb-10">
                     <p className="text-lg font-semibold mb-4">위치별 해달 출몰시각</p>
@@ -95,6 +95,8 @@ const LocContextList = ({ loading, error, weatherData, caiData, riseData, cityNa
                     )}
                 </div>
             </div>
+            */}
+
         </div>
     );
 };

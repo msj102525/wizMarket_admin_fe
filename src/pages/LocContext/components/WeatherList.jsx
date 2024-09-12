@@ -1,8 +1,10 @@
 import React from 'react';
 import formatTime from '../../../utils/formatTime';
-import CAIApiList from './CAIApiListLoc';
+import CAIApiListRight from './CAIApiListLocRight';
+import CAIApiListLeft from './CAIApiListLocLeft';
+import RiseList from './RiseList';
 
-const WeatherList = ({ weatherData, selectedDate, caiData, districtName, subDistrictName }) => {
+const WeatherList = ({ weatherData, selectedDate, caiData, districtName, subDistrictName, riseData }) => {
     if (!weatherData || weatherData.length === 0) {
         return <p className="text-center text-gray-500">데이터가 없습니다.</p>;
     }
@@ -55,7 +57,7 @@ const WeatherList = ({ weatherData, selectedDate, caiData, districtName, subDist
         // 'UUU',
         // 'VVV',
         // 'VEC',
-        // 'WSD',
+        'WSD',
         // 'WAV',
         // 'PTY',
         // 'PCP',
@@ -68,13 +70,19 @@ const WeatherList = ({ weatherData, selectedDate, caiData, districtName, subDist
 
     return (
         <div className=''>
-            <div className="flex">
-                <div className="flex p-4">
-                    <p><strong>일 최저기온:</strong> {tmnValue}℃</p>
-                    <p><strong>일 최고기온:</strong> {tmxValue}℃</p>
+            <div className="flex justify-between gap-6 px-4">
+                <div className="flex-1 flex border">
+                    <p className='content-center'><strong>일 최저기온:</strong> {tmnValue}℃</p>
+                    <p className='content-center'><strong>일 최고기온:</strong> {tmxValue}℃</p>
                 </div>
-                <div className="">
-                    <CAIApiList caiData={caiData} districtName={districtName} subDistrictName={subDistrictName} />
+                <div className="flex-1 content-center">
+                    <CAIApiListLeft caiData={caiData} districtName={districtName} subDistrictName={subDistrictName} />
+                </div>
+                <div className="flex-1 content-center">
+                    <CAIApiListRight caiData={caiData} districtName={districtName} subDistrictName={subDistrictName} />
+                </div>
+                <div className="flex-1 content-center">
+                    <RiseList riseData={riseData} />
                 </div>
             </div>
             {selectedDate && groupedByDate[selectedDate] && (
