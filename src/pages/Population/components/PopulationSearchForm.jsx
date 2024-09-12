@@ -3,7 +3,7 @@ import SearchResetButtons from '../../../components/SearchResetButton';
 import { useCities } from '../../../hooks/useCities';
 import CitySelect from '../../../components/CitySelect';
 
-const LocStoreListSearchForm = ({ onSearch, isList }) => {
+const PopulationSearchForm = ({ onSearch, isList }) => {
     const {
         cities,
         districts,
@@ -178,4 +178,4 @@ const LocStoreListSearchForm = ({ onSearch, isList }) => {
     );
 };
 
-export default LocStoreListSearchForm;
+export default PopulationSearchForm;

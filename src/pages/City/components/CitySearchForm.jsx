@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LocationSearchForm = ({ cities, districts, subDistricts, city, district, subDistrict, setCity, setDistrict, setSubDistrict, onSearch  }) => {
+const CitySearchForm = ({ cities, districts, subDistricts, city, district, subDistrict, setCity, setDistrict, setSubDistrict, onSearch  }) => {
     
     const handleCityChange = (e) => {
         setCity(e.target.value);
@@ -23,7 +23,7 @@ const LocationSearchForm = ({ cities, districts, subDistricts, city, district, s
 
     return (
         <div className="flex items-center space-x-2 bg-gray-100 p-4 rounded-md">
-            <label className="text-sm font-bold">검색</label>
+            <label className="text-m text-bold font-bold mr-8">검색</label>
             <select className="border px-4 py-2" value={city} onChange={handleCityChange}>
                 <option value="">시/도</option>
                 {cities.map((c) => <option key={c[0]} value={c[0]}>{c[1]}</option>)}
@@ -46,4 +46,4 @@ const LocationSearchForm = ({ cities, districts, subDistricts, city, district, s
     );
 };
 
-export default LocationSearchForm;
+export default CitySearchForm;

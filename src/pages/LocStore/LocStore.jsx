@@ -7,6 +7,10 @@ import LocStoreList from './components/LocStoreList';
 import SectionHeader from '../../components/SectionHeader';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
+import { useSelector } from 'react-redux';
+import { useCategories } from '../../hooks/useCategories';
+import { useCities } from '../../hooks/useCities';
+import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
 
 const LocStore = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,6 +22,54 @@ const LocStore = () => {
     const [totalItems, setTotalItems] = useState(0); // 총 데이터 수
     const [filters, setFilters] = useState({}); // 필터 값 상태
     const [excelItems, setExcelItems] = useState(0); // 총 데이터 수
+    const [storeName,setStoreName] = useState(null)
+    const [selectedQuarterMin,setSelectedQuarterMin] = useState(null)
+    const [selectedQuarterMax,setSelectedQuarterMax] = useState(null)
+
+    const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
+
+    const {
+        reference, setReference, references,
+        mainCategory, setMainCategory, mainCategories,
+        subCategory, setSubCategory, subCategories,
+        detailCategory, setDetailCategory, detailCategories
+    } = useCategories();
+
+    const {
+        cities,
+        districts,
+        subDistricts,
+        city,
+        district,
+        subDistrict,
+        setCity,
+        setDistrict,
+        setSubDistrict
+    } = useCities();
+
+    useKakaoAddressUpdate({
+        kakaoAddressResult,
+        cities,
+        districts,
+        subDistricts,
+        setCity,
+        setDistrict,
+        setSubDistrict,
+    });
+
+    const handleReset = () => {
+        // 모든 필터 값을 초기화
+        setStoreName('');
+        setMainCategory('');
+        setSubCategory('');
+        setDetailCategory('');
+        setCity('');
+        setDistrict('');
+        setSubDistrict('');
+        setSelectedQuarterMin('');
+        setSelectedQuarterMax('');
+        setReference('');
+    };
 
     const handleToggle = () => {
         setIsList(!isList);
@@ -26,12 +78,32 @@ const LocStore = () => {
     const handleSearch = async (filters, isPageChange = false) => {
         setLoading(true);
         setError(null);
+
+        const convertToValue = (value, defaultValue = null) => {
+            const defaultCategories = ['대분류', '중분류', '소분류'];
+            return (value && !defaultCategories.includes(value)) ? value : defaultValue;
+        };
+
+        filters = {
+            city: convertToValue(city),
+            district: convertToValue(district),
+            subDistrict: convertToValue(subDistrict),
+            storeName: convertToValue(storeName),
+            selectedQuarterMin: convertToValue(selectedQuarterMin),
+            selectedQuarterMax: convertToValue(selectedQuarterMax),
+            mainCategory: convertToValue(mainCategory),
+            subCategory: convertToValue(subCategory),
+            detailCategory: convertToValue(detailCategory),
+        };
+
         setFilters(filters); // 검색 시 필터 값을 상태에 저장
-        console.log(filters)
+
         const pagingInfo = {
             page: currentPage,    // 현재 페이지
             page_size: pageSize,  // 페이지당 항목 수
         };
+
+        console.log(pagingInfo)
 
         try {
             const response = await axios.post(
@@ -51,6 +123,8 @@ const LocStore = () => {
                 setTotalItems(response.data.total_items.length); // 총 데이터 수를 첫 검색 후에만 받아옴
                 setExcelItems(response.data.total_items); // 엑셀 다운로드를 위해 전체 데이터 저장
             }
+            
+            console.log(response.data.total_items.length, '테스트')
 
         } catch (err) {
             setError('검색 중 오류가 발생했습니다.');
@@ -59,6 +133,8 @@ const LocStore = () => {
         }
     };
 
+    
+    
     // 엑셀 다운
     const handleExcelDownload = () => {
 
@@ -70,8 +146,11 @@ const LocStore = () => {
 
     // 페이지 변경 핸들러
     const handlePageChange = (page) => {
+        console.log(page, '페이지')
         if (page < 1 || page > totalPages) return;
         setCurrentPage(page);
+        
+        console.log(currentPage, '지금')
 
         // 페이지 이동 시 기존 필터 값 유지하여 검색, totalItems는 다시 받지 않음
         handleSearch(filters, true);
@@ -149,7 +228,37 @@ const LocStore = () => {
                             </div>
                         )}
                         <div className='flex-1'>
-                            <LocStoreListSearchForm onSearch={handleSearch} isList={isList} />
+                            <LocStoreListSearchForm 
+                                city={city}
+                                district={district}
+                                subDistrict={subDistrict}
+                                cities={cities}
+                                districts={districts}
+                                subDistricts={subDistricts}
+                                setCity={setCity}
+                                setDistrict={setDistrict}
+                                setSubDistrict={setSubDistrict}
+                                mainCategory={mainCategory}
+                                setMainCategory={setMainCategory}
+                                mainCategories={mainCategories}
+                                subCategory={subCategory}
+                                setSubCategory={setSubCategory}
+                                subCategories={subCategories}
+                                detailCategory={detailCategory}
+                                setDetailCategory={setDetailCategory}
+                                detailCategories={detailCategories}
+                                reference={reference}
+                                references={references}
+                                setReference={setReference}
+                                storeName={storeName}
+                                setStoreName={setStoreName}
+                                selectedQuarterMin={selectedQuarterMin}
+                                setSelectedQuarterMin={setSelectedQuarterMin}
+                                selectedQuarterMax={selectedQuarterMax}
+                                setSelectedQuarterMax={setSelectedQuarterMax}
+                                handleSearch={handleSearch}
+                                handleReset={handleReset}
+                            />
                         </div>
                     </section>
                     {/* 갯수 및 엑셀 다운 */}

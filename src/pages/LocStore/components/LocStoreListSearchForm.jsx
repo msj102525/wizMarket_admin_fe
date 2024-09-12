@@ -1,68 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
-import { useCities } from '../../../hooks/useCities';
 import CitySelect from '../../../components/CitySelect';
 import CategorySelect from '../../../components/CategorySelect';
-import { useCategories } from '../../../hooks/useCategories';
-
-const LocStoreListSearchForm = ({ onSearch }) => {
-    const {
-        cities,
-        districts,
-        subDistricts,
-        city,
-        district,
-        subDistrict,
-        setCity,
-        setDistrict,
-        setSubDistrict,
-    } = useCities(); // useCities 훅 사용
-
-    const {
-        mainCategory, setMainCategory, mainCategories,
-        subCategory, setSubCategory, subCategories,
-        detailCategory, setDetailCategory, detailCategories,
-        reference, references, setReference,
-    } = useCategories();
-
-    // 상호와 업종 필터링 위한 상태 추가
-    const [storeName, setStoreName] = useState('');
-    const [selectedQuarterMin, setSelectedQuarterMin] = useState('');
-    const [selectedQuarterMax, setSelectedQuarterMax] = useState('');
 
 
+const LocStoreListSearchForm = ({ 
+    city, district, subDistrict, cities, districts, subDistricts,setCity, setDistrict, setSubDistrict,
+    mainCategory, setMainCategory, mainCategories,
+    subCategory, setSubCategory, subCategories,
+    detailCategory, setDetailCategory, detailCategories,
+    reference, references, setReference,
+    storeName, setStoreName,
+    selectedQuarterMin, setSelectedQuarterMin,
+    selectedQuarterMax, setSelectedQuarterMax,
+    handleSearch,handleReset
 
-    const handleSearch = () => {
-        // 필터링된 데이터 (빈 값 제거)
-        const filters = {
-            ...(storeName && { storeName }),  // 상호 필터 추가
-            ...(mainCategory && mainCategory !== '대분류' && mainCategory !== '0' && { mainCategory }),  // '대분류'와 '0'은 제외
-            ...(subCategory && subCategory !== '중분류' && subCategory !== '0' && { subCategory }),      // '중분류'와 '0'은 제외
-            ...(detailCategory && detailCategory !== '소분류' && detailCategory !== '0' && { detailCategory }), // '소분류'와 '0'은 제외
-            ...(city && { city }),
-            ...(district && { district }),
-            ...(subDistrict && { subDistrict }),
-            ...(selectedQuarterMin && { selectedQuarterMin }),
-            ...(selectedQuarterMax && { selectedQuarterMax }),
-        };
-        
+ }) => {
+    
 
-        onSearch(filters);  // 부모 컴포넌트에서 전달받은 onSearch 호출
-    };
-
-    const handleReset = () => {
-        // 모든 필터 값을 초기화
-        setStoreName('');
-        setMainCategory('');
-        setSubCategory('');
-        setDetailCategory('');
-        setCity('');
-        setDistrict('');
-        setSubDistrict('');
-        setSelectedQuarterMin('');
-        setSelectedQuarterMax('');
-        setReference('');
-    };
+    
+    
 
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
@@ -74,7 +31,7 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                     <div className="w-full flex gap-4">
                         <input
                             type="text"
-                            value={storeName}
+                            value={storeName || ""}
                             onChange={(e) => setStoreName(e.target.value)}
                             placeholder="상호명을 입력하세요"
                             className="p-2 border border-[#DDDDDD] rounded w-full"
@@ -130,7 +87,7 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                     </div>
                     <div className="w-full flex gap-4">
                         <select
-                            value={selectedQuarterMin}
+                            value={selectedQuarterMin || ""}
                             onChange={(e) => setSelectedQuarterMin(e.target.value)}
                             className="p-2 border border-[#DDDDDD] rounded w-1/5"
                         >
@@ -152,7 +109,7 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                         </select>~
                         {/* 최대 연령대 선택 (이하) */}
                         <select
-                            value={selectedQuarterMax}
+                            value={selectedQuarterMax || ""}
                             onChange={(e) => setSelectedQuarterMax(e.target.value)}
                             className="p-2 border border-[#DDDDDD] rounded w-1/5"
                         >
