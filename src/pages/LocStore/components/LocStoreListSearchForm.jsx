@@ -180,9 +180,6 @@ const LocStoreListSearchForm = ({ onSearch }) => {
                 <p className="text-sm text-gray-500">
                     * 카테고리 검색은 2023년 3분기부터 상권 정보 분류표에서만 가능합니다.
                 </p>
-                <p className="text-sm text-gray-500">
-                    * 2023년 1, 2 분기 누락, 인서트 예정
-                </p>
 
 
             </div>

@@ -43,11 +43,11 @@ export const useCategories = () => {
                 try {
                     const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/business_area_category/business_area_category?reference_id=${reference}`);
                     const businessAreaCategory = response.data;
-    
-                    const mainCategoriesSet = new Set();
-                    const subCategoriesSet = new Set();
+        
+                    const mainCategoriesMap = new Map();
+                    const subCategoriesMap = new Map();
                     const detailCategoriesSet = new Set();
-    
+        
                     // 배열 데이터를 객체로 변환
                     businessAreaCategory.forEach(item => {
                         const businessAreaItem = {
@@ -59,23 +59,49 @@ export const useCategories = () => {
                             detail_category_code: item[5],
                             detail_category_name: item[6]
                         };
-    
-                        // 중복 제거를 위해 Set에 추가
-                        mainCategoriesSet.add(`${businessAreaItem.main_category_code},${businessAreaItem.main_category_name}`);
-                        subCategoriesSet.add(`${businessAreaItem.sub_category_code},${businessAreaItem.sub_category_name}`);
+        
+                        // 서브 카테고리 저장
+                        if (!subCategoriesMap.has(businessAreaItem.sub_category_code)) {
+                            subCategoriesMap.set(businessAreaItem.sub_category_code, {
+                                biz_sub_category_id: businessAreaItem.sub_category_code,
+                                biz_sub_category_name: businessAreaItem.sub_category_name,
+                                main_category_code: businessAreaItem.main_category_code,  // 대분류 코드 추가
+                                biz_detail_cateogry_count: 0 // 초기 디테일 카테고리 개수를 0으로 설정
+                            });
+                        }
+        
+                        // 디테일 카테고리 카운트 증가
+                        const subCategory = subCategoriesMap.get(businessAreaItem.sub_category_code);
+                        subCategory.biz_detail_cateogry_count += 1;
+                        subCategoriesMap.set(businessAreaItem.sub_category_code, subCategory);
+        
+                        // 디테일 카테고리 저장 (중복 제거)
                         detailCategoriesSet.add(`${businessAreaItem.detail_category_code},${businessAreaItem.detail_category_name}`);
                     });
-                    
-    
-                    // Set을 다시 배열로 변환하여 상태에 저장
-                    setMainCategories(Array.from(mainCategoriesSet).map(item => {
-                        const [biz_main_category_id, biz_main_category_name] = item.split(',');
-                        return { biz_main_category_id, biz_main_category_name };
-                    }));
-                    setSubCategories(Array.from(subCategoriesSet).map(item => {
-                        const [biz_sub_category_id, biz_sub_category_name] = item.split(',');
-                        return { biz_sub_category_id, biz_sub_category_name };
-                    }));
+        
+                    // 대분류별 중분류 개수 계산
+                    businessAreaCategory.forEach(item => {
+                        const businessAreaItem = {
+                            main_category_code: item[1],
+                            main_category_name: item[2]
+                        };
+        
+                        if (!mainCategoriesMap.has(businessAreaItem.main_category_code)) {
+                            // 해당 대분류에 속하는 중분류 개수를 계산
+                            const relatedSubCategories = Array.from(subCategoriesMap.values()).filter(
+                                sub => sub.main_category_code === businessAreaItem.main_category_code
+                            );
+                            mainCategoriesMap.set(businessAreaItem.main_category_code, {
+                                biz_main_category_id: businessAreaItem.main_category_code,
+                                biz_main_category_name: businessAreaItem.main_category_name,
+                                biz_sub_category_count: relatedSubCategories.length // 해당 대분류에 속하는 중분류 개수
+                            });
+                        }
+                    });
+        
+                    // 상태 업데이트
+                    setMainCategories(Array.from(mainCategoriesMap.values()));
+                    setSubCategories(Array.from(subCategoriesMap.values()));
                     setDetailCategories(Array.from(detailCategoriesSet).map(item => {
                         const [biz_detail_category_id, biz_detail_category_name] = item.split(',');
                         return { biz_detail_category_id, biz_detail_category_name };
@@ -85,13 +111,15 @@ export const useCategories = () => {
                     console.error('Failed to fetch business area category data:', error);
                 }
             };
-    
+        
             fetchBusinessAreaCategory();
         }
+           
+        
     }, [reference]);
 
     useEffect(() => {
-        if (reference === 2 || reference === 3 || mainCategory === '대분류' || mainCategory === '0') return;
+        if (reference !== 1 || mainCategory === '대분류' || mainCategory === '0') return;
 
         setSubCategories([]);
 
@@ -109,14 +137,19 @@ export const useCategories = () => {
 
     useEffect(() => {
 
-        if (reference === 2 || reference === 3 || subCategory === '중분류' || subCategory === '0') return;
+        if (reference !== 1 || subCategory === '중분류' || subCategory === '0') return;
 
         setDetailCategories([]);
 
         const fetchDetailCategories = async () => {
             try {
+                const requestUrl = `${process.env.REACT_APP_FASTAPI_BASE_URL}/biz_detail_category?biz_sub_category_id=${subCategory}`;
+        
+                console.log("Request URL:", requestUrl);  // 요청 URL 확인
+
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/biz_detail_category?biz_sub_category_id=${subCategory}`);
                 setDetailCategories(response.data);
+
             } catch (error) {
                 console.error('Failed to fetch detail categories:', error);
             }
