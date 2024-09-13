@@ -43,26 +43,23 @@ const CategorySelect = ({
     subCategory, setSubCategory, subCategories,
     detailCategory, setDetailCategory, detailCategories
 }) => {
-    // 출처 선택 시 하위 카테고리 모두 초기화
     const handleReferenceChange = (newReference) => {
         setReference(newReference);
-        // 출처 선택 시 대분류, 중분류, 소분류 모두 초기화
-        setMainCategory('0');  // '대분류'로 초기화
-        setSubCategory('0');   // '중분류'로 초기화
-        setDetailCategory('0'); // '소분류'로 초기화
+        setMainCategory('0');
+        setSubCategory('0');
+        setDetailCategory('0');
     };
 
-    // 대분류 선택 시 중분류와 소분류 초기화
+
     const handleMainCategoryChange = (newMainCategory) => {
         setMainCategory(newMainCategory);
-        setSubCategory('0');   // '중분류'로 초기화
-        setDetailCategory('0'); // '소분류'로 초기화
+        setSubCategory('0');
+        setDetailCategory('0');
     };
 
-    // 중분류 선택 시 소분류 초기화
     const handleSubCategoryChange = (newSubCategory) => {
         setSubCategory(newSubCategory);
-        setDetailCategory('0'); // '소분류'로 초기화
+        setDetailCategory('0');
     };
 
     const refOption = [
@@ -97,29 +94,29 @@ const CategorySelect = ({
             <CustomSelect
                 options={refOption}
                 value={reference}
-                onChange={handleReferenceChange}  // 출처 변경 시 모든 카테고리 초기화
+                onChange={handleReferenceChange}
                 placeholder="출처"
             />
             <CustomSelect
                 options={mainOptions}
                 value={mainCategory}
-                onChange={handleMainCategoryChange}  // 대분류 변경 시 중분류와 소분류 초기화
+                onChange={handleMainCategoryChange}
                 placeholder="대분류"
-                disabled={reference === '0'}  // '출처'가 선택되지 않았을 때 비활성화
+                disabled={reference === '0' || reference === '출처'}
             />
             <CustomSelect
                 options={subOptions}
                 value={subCategory}
-                onChange={handleSubCategoryChange}  // 중분류 변경 시 소분류 초기화
+                onChange={handleSubCategoryChange}
                 placeholder="중분류"
-                disabled={mainCategory === '0'}  // '대분류'가 선택되지 않았을 때 비활성화
+                disabled={mainCategory === '0' || reference === '출처'}
             />
             <CustomSelect
                 options={detailOptions}
                 value={detailCategory}
-                onChange={setDetailCategory}  // 소분류는 초기화만 적용
+                onChange={setDetailCategory}
                 placeholder="소분류"
-                disabled={subCategory === '0'}  // '중분류'가 선택되지 않았을 때 비활성화
+                disabled={subCategory === '0' || reference === '출처'}
             />
         </div>
     );

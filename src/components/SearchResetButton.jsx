@@ -1,8 +1,8 @@
 import React from 'react';
 
-const SearchResetButtons = ({ onSearch, onReset }) => {
+const SearchResetButtons = ({ onSearch, onReset, flexStart }) => {
     return (
-        <div className="flex gap-4 justify-center">
+        <div className={flexStart ? `flex gap-4 justify-start` : `flex gap-4 justify-center`}>
             <div className="w-20 h-10">
                 <button
                     onClick={onReset}
