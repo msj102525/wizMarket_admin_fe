@@ -15,7 +15,6 @@ export const useCategories = () => {
         const fetchReferences = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/reference`);
-                console.log(response.data)
                 setReferences(response.data);
             } catch (error) {
                 console.error('Failed to fetch references:', error);
@@ -26,8 +25,7 @@ export const useCategories = () => {
 
     // 대분류
     useEffect(() => {
-        console.log(`대분류 가져오기 : ${reference}`);
-        console.log(`대분류 가져오기 : ${typeof (reference)}`);
+        if (reference === '출처' || reference === '0') return;
 
         const fetchBizMainCategories = async () => {
             try {
@@ -38,9 +36,33 @@ export const useCategories = () => {
             }
         };
 
+        const fetchClassificationMainCategories = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/classification?reference_id=${reference}`);
+                setMainCategories(response.data);
+            } catch (error) {
+                console.error('Failed to fetch main categories:', error);
+            }
+        };
+
+        const fetchBacMainCategories = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/business_area_category?reference_id=${reference}`);
+                setMainCategories(response.data);
+            } catch (error) {
+                console.error('Failed to fetch main categories:', error);
+            }
+        };
+
         switch (reference) {
             case 1:
                 fetchBizMainCategories();
+                break;
+            case 2:
+                fetchClassificationMainCategories();
+                break;
+            case 3:
+                fetchBacMainCategories();
                 break;
             default:
                 return;
@@ -49,11 +71,11 @@ export const useCategories = () => {
 
     // 중분류
     useEffect(() => {
-        if (reference !== 1 || mainCategory === '대분류' || mainCategory === '0') return;
+        if (reference === '출처' || mainCategory === '대분류' || mainCategory === '0') return;
 
         setSubCategories([]);
 
-        const fetchSubCategories = async () => {
+        const fetchBizSubCategories = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/biz_sub_category?biz_main_category_id=${mainCategory}`);
                 setSubCategories(response.data);
@@ -61,27 +83,86 @@ export const useCategories = () => {
                 console.error('Failed to fetch subcategories:', error);
             }
         };
-        fetchSubCategories();
 
+        const fetchClassificationSubCategories = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/classification/sub/?main_category_code=${mainCategory}`);
+                setSubCategories(response.data);
+            } catch (error) {
+                console.error('Failed to fetch subcategories:', error);
+            }
+        };
+
+        const fetchBacSubCategories = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/business_area_category/sub?main_category_code=${mainCategory}`);
+                setSubCategories(response.data);
+            } catch (error) {
+                console.error('Failed to fetch subcategories:', error);
+            }
+        };
+
+        switch (reference) {
+            case 1:
+                fetchBizSubCategories();
+                break;
+            case 2:
+                fetchClassificationSubCategories();
+                break;
+            case 3:
+                fetchBacSubCategories();
+                break;
+            default:
+                return;
+        }
     }, [mainCategory, reference]);
 
+    // 소분류
     useEffect(() => {
-
-        if (reference !== 1 || subCategory === '중분류' || subCategory === '0') return;
+        if (reference === '출처' || subCategory === '중분류' || subCategory === '0') return;
 
         setDetailCategories([]);
 
-        const fetchDetailCategories = async () => {
+        const fetchBizDetailCategories = async () => {
             try {
-
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/biz_detail_category?biz_sub_category_id=${subCategory}`);
                 setDetailCategories(response.data);
-
             } catch (error) {
                 console.error('Failed to fetch detail categories:', error);
             }
         };
-        fetchDetailCategories();
+
+        const fetchClassificationDetailCategories = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/classification/detail?sub_category_code=${subCategory}`);
+                setDetailCategories(response.data);
+            } catch (error) {
+                console.error('Failed to fetch detail categories:', error);
+            }
+        };
+
+        const fetchBacDetailCategories = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/business_area_category/detail?sub_category_code=${subCategory}`);
+                setDetailCategories(response.data);
+            } catch (error) {
+                console.error('Failed to fetch detail categories:', error);
+            }
+        };
+
+        switch (reference) {
+            case 1:
+                fetchBizDetailCategories();
+                break;
+            case 2:
+                fetchClassificationDetailCategories();
+                break;
+            case 3:
+                fetchBacDetailCategories();
+                break;
+            default:
+                return;
+        }
     }, [subCategory, reference]);
 
     return {
