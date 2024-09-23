@@ -33,11 +33,26 @@ const LocContextList = ({ loading, error, weatherData, caiData, riseData, cityNa
         }
     }, [weatherData]);
 
+    const headerMapping = {
+        baseDate: '관측날짜',
+        baseTime: '관측시간',
+        category: '날씨 카테고리',
+        fcstDate: '날짜',
+        fcstTime: '시간',
+        fcstValue: '값',
+        nx: '경도',
+        ny: '위도',
+    };
+
+    const headers = data && data.length > 0
+        ? Object.keys(data[0]).map(key => headerMapping[key] || key)
+        : [];
+
     return (
         <div className="border rounded-lg">
             <div className='w-full'>
                 <div className="">
-                    <DataLengthDown data={data} filename="LocContext.xlsx" />
+                    <DataLengthDown data={data} headers={headers} filename="LocContext.xlsx" />
                 </div>
                 <div className="">
                     {loading && <p>Loading...</p>}

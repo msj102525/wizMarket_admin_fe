@@ -11,6 +11,11 @@ const CommercialDistrictList2 = ({ data }) => {
     const resultsPerPage = 20;
 
     const sortedData = React.useMemo(() => {
+
+        if (!data || data.length === 0) {
+            return [];
+        }
+
         const sortableItems = [...data];
         if (sortConfig !== null) {
             sortableItems.sort((a, b) => {
@@ -51,6 +56,69 @@ const CommercialDistrictList2 = ({ data }) => {
     const indexOfLastResult = currentPage * resultsPerPage;
     const indexOfFirstResult = indexOfLastResult - resultsPerPage;
     const currentResults = sortedData.slice(indexOfFirstResult, indexOfLastResult);
+
+    const headerMapping = {
+        commercial_district_id: '상권분석 아이디',
+        city_name: '시/도 이름',
+        district_name: '시/군/구 이름',
+        sub_district_name: '읍/면/동 이름',
+        biz_main_category_name: '대분류명',
+        biz_sub_category_name: '중분류명',
+        biz_detail_category_name: '소분류명',
+        national_density: '전국 밀집도',
+        city_density: '시/도 밀집도',
+        district_density: '시/군/구 밀집도',
+        sub_district_density: '읍/면/동 밀집도',
+        market_size: '시장 규모',
+        average_payment: '평균 결재단가',
+        usage_count: '이용 건수',
+        average_sales: '평균 매출',
+        operating_cost: '영업 비용',
+        food_cost: '식재료비',
+        employee_cost: '교용인 인건비',
+        rental_cost: '임차료',
+        tax_cost: '세금',
+        family_employee_cost: '가족 종사자 인건비',
+        ceo_cost: '대표자 인건비',
+        etc_cost: '기타 비용',
+        average_profit: '영업이익',
+        avg_profit_per_mon: '평균 월요일 매출 비중',
+        avg_profit_per_tue: '평균 화요일 매출 비중',
+        avg_profit_per_wed: '평균 수요일 매출 비중',
+        avg_profit_per_thu: '평균 목요일 매출 비중',
+        avg_profit_per_fri: '평균 금요일 매출 비중',
+        avg_profit_per_sat: '평균 토요일 매출 비중',
+        avg_profit_per_sun: '평균 일요일 매출 비중',
+        avg_profit_per_06_09: '시간별 매출 비중 06-09',
+        avg_profit_per_09_12: '시간별 매출 비중 09-12',
+        avg_profit_per_12_15: '시간별 매출 비중 12-15',
+        avg_profit_per_15_18: '시간별 매출 비중 15-18',
+        avg_profit_per_18_21: '시간별 매출 비중 18-21',
+        avg_profit_per_21_24: '시간별 매출 비중 21-24',
+        avg_profit_per_24_06: '시간별 매출 비중 24-06',
+        avg_client_per_m_20: '남 20대 비중',
+        avg_client_per_m_30: '남 30대 비중',
+        avg_client_per_m_40: '남 40대 비중',
+        avg_client_per_m_50: '남 50대 비중',
+        avg_client_per_m_60: '남 60대 비중',
+        avg_client_per_f_20: '여 20대 비중',
+        avg_client_per_f_30: '여 30대 비중',
+        avg_client_per_f_40: '여 40대 비중',
+        avg_client_per_f_50: '여 50대 비중',
+        avg_client_per_f_60: '여 60대 비중',
+        top_menu_1: '뜨는 메뉴 TOP1',
+        top_menu_2: '뜨는 메뉴 TOP2',
+        top_menu_3: '뜨는 메뉴 TOP3',
+        top_menu_4: '뜨는 메뉴 TOP4',
+        top_menu_5: '뜨는 메뉴 TOP5',
+        created_at: '생성일시',
+        updated_at: '수정일시',
+    };
+
+
+    const headers = data && data.length > 0
+        ? Object.keys(data[0]).map(key => headerMapping[key] || key)
+        : [];
 
     const renderExpandedRow = (item) => (
         <>
@@ -184,7 +252,7 @@ const CommercialDistrictList2 = ({ data }) => {
     return (
         <div className="flex flex-wrap justify-center">
             <div className="w-full">
-                <DataLengthDown data={data} filename="CommercialDistrict.xlsx" />
+                <DataLengthDown data={data} headers={headers} filename="CommercialDistrict.xlsx" />
             </div>
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
                 <thead className="bg-[#EEEEEE]">

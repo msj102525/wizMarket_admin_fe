@@ -43,10 +43,21 @@ const CategoryList = ({ data }) => {
     const indexOfFirstResult = indexOfLastResult - resultsPerPage;
     const currentResults = sortedData.slice(indexOfFirstResult, indexOfLastResult);
 
+    const headerMapping = {
+        category_id: '카테고리 아이디',
+        main_category_name: '대분류명',
+        sub_category_name: '중분류명',
+        detail_category_name: '소분류명',
+    };
+
+    const headers = data && data.length > 0
+        ? Object.keys(data[0]).map(key => headerMapping[key] || key)
+        : [];
+
     return (
         <div className="overflow-x-auto">
             <div className="w-full">
-                <DataLengthDown data={data} filename="CategoryData.xlsx" />
+                <DataLengthDown data={data} headers={headers} filename="CategoryData.xlsx" />
             </div>
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
                 <thead className="bg-[#EEEEEE]">

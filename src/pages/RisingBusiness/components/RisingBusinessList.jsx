@@ -44,10 +44,28 @@ const RisingBusinessList = ({ data }) => {
     const indexOfFirstResult = indexOfLastResult - resultsPerPage;
     const currentResults = sortedData.slice(indexOfFirstResult, indexOfLastResult);
 
+    const headerMapping = {
+        rising_business_id: '카테고리 아이디',
+        city_name: '시/도',
+        district_name: '시/군/구',
+        sub_district_name: '읍/면/동',
+        biz_main_category_name: '대분류명',
+        biz_sub_category_name: '중분류명',
+        biz_detail_category_name: '소분류명',
+        growth_rate: '증가율',
+        sub_district_rank: '읍/면/동 순위',
+        created_at: '생성날짜',
+        updated_at: '수정날짜',
+    };
+
+    const headers = data && data.length > 0
+        ? Object.keys(data[0]).map(key => headerMapping[key] || key)
+        : [];
+
     return (
         <div className="overflow-x-auto">
             <div className="w-full">
-                <DataLengthDown data={data} filename="RisingBusiness.xlsx" />
+                <DataLengthDown data={data} headers={headers} filename="RisingBusiness.xlsx" />
             </div>
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
                 <thead className="bg-[#EEEEEE]">
