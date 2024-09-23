@@ -40,11 +40,35 @@ const LocInfoList = ({ data }) => {
     };
 
     
-    
+    console.log(data)
+
+    const headerMapping = {
+        LOC_INFO_ID: '입지정보 코드',
+        CITY_ID: '시/도 코드',
+        DISTRICT_ID: '시/군/구 코드',
+        SUB_DISTRICT_ID: '읍/면/동 코드',
+        SHOP : '매장 수',
+        MOVE_POP : '유동 인구',
+        SALES : '매출',
+        WORK_POP : '직장 인구',
+        INCOME : '소득',
+        SPEND : '소비',	
+        HOUSE : '세대수',
+        RESIDENT : '주거인구',
+        CREATED_AT : '생성 날짜',
+        UPDATED_AT : '수정 날짜',
+        Y_M : '참조 날짜',
+        ref : '출처',
+        city_name : '시/도 명',
+        district_name : '시/군/구 명', 
+        sub_district_name : '읍/면/동 명'
+    };
+
+    const headers = Object.keys(data[0]).map(key => headerMapping[key] || key);
 
     return (
         <div className="p-4">
-            <DataLengthDown data={data} filename="LocInfoData.xlsx" />
+            <DataLengthDown data={data} headers={headers} filename="LocInfoData.xlsx" />
 
             
             {currentData.length === 0 ? (
@@ -145,6 +169,14 @@ const LocInfoList = ({ data }) => {
                                         </button>
                                     </div>
                                 </th>
+                                <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
+                                        출처
+                                        <button onClick={() => handleSort('REF')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                            <span className="text-xs">▲</span>
+                                            <span className="text-xs">▼</span>
+                                        </button>
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -163,6 +195,7 @@ const LocInfoList = ({ data }) => {
                                     <td className="border border-gray-300 px-4 py-2 text-center">{item.SPEND}</td>
                                     <td className="border border-gray-300 px-4 py-2 text-center">{item.HOUSE}</td>
                                     <td className="border border-gray-300 px-4 py-2 text-center">{item.RESIDENT}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.ref}</td>
                                 </tr>
                             ))}
                         </tbody>

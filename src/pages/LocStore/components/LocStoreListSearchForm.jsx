@@ -91,7 +91,7 @@ const LocStoreListSearchForm = ({
                             onChange={(e) => setSelectedQuarterMin(e.target.value)}
                             className="p-2 border border-[#DDDDDD] rounded w-1/5"
                         >
-                            <option value="">이상</option>
+                            <option value="2024.2/4">이상</option>
                             <option value="2021.1/4">2021년 1/4</option>
                             <option value="2021.2/4">2021년 2/4</option>
                             <option value="2021.3/4">2021년 3/4</option>
@@ -113,7 +113,7 @@ const LocStoreListSearchForm = ({
                             onChange={(e) => setSelectedQuarterMax(e.target.value)}
                             className="p-2 border border-[#DDDDDD] rounded w-1/5"
                         >
-                            <option value="">이하</option>
+                            <option value="2024.2/4">이하</option>
                             <option value="2021.1/4">2021년 1/4</option>
                             <option value="2021.2/4">2021년 2/4</option>
                             <option value="2021.3/4">2021년 3/4</option>

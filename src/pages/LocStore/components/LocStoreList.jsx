@@ -207,7 +207,9 @@ const LocStoreList = ({ data }) => {
                             <td className="border border-gray-300 px-4 py-2 ">{item.dong_info}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.floor_info}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.unit_info}</td>
-                            <td className="border border-gray-300 px-4 py-2 ">{item.Y_Q}</td>
+                            <td className="border border-gray-300 px-4 py-2 ">
+                                {`${item.info_year}.${item.info_quarter}/4`}
+                            </td>
                             <td className="border border-gray-300 px-4 py-2 ">
                                 {item.CREATED_AT.slice(0, 10)}
                             </td>

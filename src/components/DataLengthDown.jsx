@@ -1,7 +1,7 @@
 import React from 'react';
 import * as XLSX from 'xlsx';
 
-const DataLengthDown = ({ data, filename = 'data.xlsx' }) => {
+const DataLengthDown = ({ data, filename = 'data.xlsx', headers }) => {
     // 엑셀 다운로드 함수
     const handleExcelDownload = () => {
         if (!data || data.length === 0) {
@@ -9,16 +9,18 @@ const DataLengthDown = ({ data, filename = 'data.xlsx' }) => {
             return;
         }
 
-        // 테이블 헤더 설정 (필요에 따라 변경 가능)
-        const headers = Object.keys(data[0]); // 첫 번째 객체의 키를 헤더로 사용
+        console.log(data)
+
+        // 만약 headers가 주어지지 않으면, data의 첫 번째 객체 키를 기본 헤더로 사용
+        const excelHeaders = ['번호', ...(headers || Object.keys(data[0]))]; 
 
         const tableData = data.map((item, index) => [
-            index + 1,  // 번호
+            index + 1,  // 인덱스 부여 (1부터 시작)
             ...Object.values(item)  // 객체의 값들을 배열로 변환
         ]);
 
         // 헤더와 데이터를 결합 (헤더 + 데이터 배열)
-        const worksheetData = [headers, ...tableData];
+        const worksheetData = [excelHeaders, ...tableData];
 
         // 엑셀 시트 생성
         const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
@@ -45,9 +47,3 @@ const DataLengthDown = ({ data, filename = 'data.xlsx' }) => {
 };
 
 export default DataLengthDown;
-
-// 사용법
-// 1. 총 길이 및 엑셀 다운 컴포넌트 임포트
-// 2. 데이터를 전달 받은 후 보여주는 ~List 컴포넌트 내부에서 사용
-// 3. <DataLengthDown data={data} filename="LocInfoData.xlsx" />
-// 4. data 는 요청 후 전달 받은 데이터 filename 은 엑셀 파일
