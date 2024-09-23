@@ -43,10 +43,10 @@ const LocInfoList = ({ data }) => {
     console.log(data)
 
     const headerMapping = {
-        LOC_INFO_ID: '입지정보 코드',
-        CITY_ID: '시/도 코드',
-        DISTRICT_ID: '시/군/구 코드',
-        SUB_DISTRICT_ID: '읍/면/동 코드',
+        loc_info_id : '입지 정보 코드',
+        city_name : '시/도 명',
+        district_name : '시/군/구 명', 
+        sub_district_name : '읍/면/동 명',
         SHOP : '매장 수',
         MOVE_POP : '유동 인구',
         SALES : '매출',
@@ -55,13 +55,7 @@ const LocInfoList = ({ data }) => {
         SPEND : '소비',	
         HOUSE : '세대수',
         RESIDENT : '주거인구',
-        CREATED_AT : '생성 날짜',
-        UPDATED_AT : '수정 날짜',
-        Y_M : '참조 날짜',
-        ref : '출처',
-        city_name : '시/도 명',
-        district_name : '시/군/구 명', 
-        sub_district_name : '읍/면/동 명'
+        ref:'출처'
     };
 
     const headers = Object.keys(data[0]).map(key => headerMapping[key] || key);
@@ -181,20 +175,20 @@ const LocInfoList = ({ data }) => {
                         </thead>
                         <tbody>
                             {sortedData.map((item, index) => (
-                                <tr key={item.LOC_INFO_ID}>
+                                <tr key={item.loc_info_id}>
                                     <td className="border border-gray-300 px-4 py-2 text-center">{indexOfFirstItem + index + 1}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.LOC_INFO_ID}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.loc_info_id}</td>
                                     <td className="border border-gray-300 px-4 py-2 text-center">{item.city_name}</td>
                                     <td className="border border-gray-300 px-4 py-2 text-center">{item.district_name}</td>
                                     <td className="border border-gray-300 px-4 py-2 text-center">{item.sub_district_name}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.SHOP}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.MOVE_POP}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.SALES}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.WORK_POP}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.INCOME}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.SPEND}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.HOUSE}</td>
-                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.RESIDENT}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.shop.toLocaleString()}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.move_pop.toLocaleString()}명</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.sales.toLocaleString()}원</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.work_pop.toLocaleString()}명</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.income.toLocaleString()}원</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.spend.toLocaleString()}원</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.house.toLocaleString()}</td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">{item.resident.toLocaleString()}명</td>
                                     <td className="border border-gray-300 px-4 py-2 text-center">{item.ref}</td>
                                 </tr>
                             ))}

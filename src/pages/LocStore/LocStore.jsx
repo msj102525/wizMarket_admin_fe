@@ -23,8 +23,8 @@ const LocStore = () => {
     const [filters, setFilters] = useState({}); // 필터 값 상태
     const [excelItems, setExcelItems] = useState(0); // 총 데이터 수
     const [storeName,setStoreName] = useState(null)
-    const [selectedQuarterMin,setSelectedQuarterMin] = useState(null)
-    const [selectedQuarterMax,setSelectedQuarterMax] = useState(null)
+    const [infoYear,setInfoYear] = useState(null)
+    const [infoQuarter,setInfoQuarter] = useState(null)
 
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
 
@@ -66,8 +66,8 @@ const LocStore = () => {
         setCity('');
         setDistrict('');
         setSubDistrict('');
-        setSelectedQuarterMin('');
-        setSelectedQuarterMax('');
+        setInfoYear('');
+        setInfoQuarter('');
         setReference('');
     };
 
@@ -89,8 +89,8 @@ const LocStore = () => {
             district: convertToValue(district),
             subDistrict: convertToValue(subDistrict),
             storeName: convertToValue(storeName),
-            selectedQuarterMin: convertToValue(selectedQuarterMin),
-            selectedQuarterMax: convertToValue(selectedQuarterMax),
+            infoYear: convertToValue(infoYear),
+            infoQuarter: convertToValue(infoQuarter),
             mainCategory: convertToValue(mainCategory),
             subCategory: convertToValue(subCategory),
             detailCategory: convertToValue(detailCategory),
@@ -103,7 +103,7 @@ const LocStore = () => {
             page_size: pageSize,  // 페이지당 항목 수
         };
 
-        console.log(pagingInfo)
+        console.log(filters)
 
         try {
             const response = await axios.post(
@@ -252,10 +252,10 @@ const LocStore = () => {
                                 setReference={setReference}
                                 storeName={storeName}
                                 setStoreName={setStoreName}
-                                selectedQuarterMin={selectedQuarterMin}
-                                setSelectedQuarterMin={setSelectedQuarterMin}
-                                selectedQuarterMax={selectedQuarterMax}
-                                setSelectedQuarterMax={setSelectedQuarterMax}
+                                infoYear={infoYear}
+                                setInfoYear={setInfoYear}
+                                infoQuarter={infoQuarter}
+                                setInfoQuarter={setInfoQuarter}
                                 handleSearch={handleSearch}
                                 handleReset={handleReset}
                             />
