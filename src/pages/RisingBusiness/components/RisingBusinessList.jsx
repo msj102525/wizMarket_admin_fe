@@ -71,7 +71,6 @@ const RisingBusinessList = ({ data }) => {
                 <thead className="bg-[#EEEEEE]">
                     <tr>
                         {[
-                            { key: 'id', label: '번호' },
                             { key: 'rising_business_id', label: '코드' },
                             { key: 'city_name', label: '시/도' },
                             { key: 'district_name', label: '시/군/구' },
@@ -82,7 +81,6 @@ const RisingBusinessList = ({ data }) => {
                             { key: 'growth_rate', label: '증가율' },
                             { key: 'sub_district_rank', label: '지역순위' },
                             { key: 'created_at', label: '작성일' },
-                            { key: 'updated_at', label: '수정일' },
                         ].map(({ key, label }) => (
                             <th
                                 key={key}
@@ -101,7 +99,6 @@ const RisingBusinessList = ({ data }) => {
                                 <td className="text-center py-2 whitespace-nowrap text-sm font-medium text-gray-900 overflow-hidden overflow-ellipsis">
                                     {sortConfig.direction === "descending" ? sortedData.length - indexOfFirstResult - index : indexOfFirstResult + index + 1}
                                 </td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.rising_business_id}</td>
                                 <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.city_name}</td>
                                 <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.district_name}</td>
                                 <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_name}</td>
@@ -111,7 +108,6 @@ const RisingBusinessList = ({ data }) => {
                                 <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 font-semibold overflow-hidden overflow-ellipsis">{item.growth_rate}%</td>
                                 <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_rank}</td>
                                 <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.created_at).toLocaleDateString()}</td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.updated_at).toLocaleDateString()}</td>
                             </tr>
                         ))
                     ) : (
