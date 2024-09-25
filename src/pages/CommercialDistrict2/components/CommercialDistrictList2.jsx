@@ -293,10 +293,10 @@ const CommercialDistrictList2 = ({ data }) => {
                     {currentResults.length > 0 ? (
                         currentResults.map((item) => (
                             <React.Fragment key={item.commercial_district_id}>
-                                <tr>
+                                <tr className=''>
                                     <td className="flex justify-center whitespace-nowrap text-md font-medium text-gray-900 p-2">
                                         <div
-                                            className="w-[11px] cursor-pointer"
+                                            className="w-[11px] cursor-pointer pt-3.5"
                                             onClick={() => toggleRowExpansion(item.commercial_district_id)}
                                         >
                                             <img
