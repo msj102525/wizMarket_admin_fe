@@ -116,7 +116,7 @@ const LocInfoList = ({ data }) => {
                                     </div>
                                 </th>
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
-                                        매출
+                                        업소 평균 매출
                                         <button onClick={() => handleSort('SALES')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                             <span className="text-xs">▲</span>
                                             <span className="text-xs">▼</span>

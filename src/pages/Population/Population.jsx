@@ -34,26 +34,38 @@ const Population = () => {
     for (let i = 0; i < data.length; i += 2) {
       const first = data[i];
       const second = data[i + 1] || {}; // 두 번째 데이터가 없을 경우 빈 객체로 처리
+      const totalPopulationSum = (first.total_population || 0) + (second.total_population || 0);
+
+       // 남자와 여자의 비율 계산
+       const male_population = first.total_population
+
+      const female_population = second.total_population
+
+      const db_age_under_10 = (first.age_under_10 || 0) + (second.age_under_10 || 0)
+      const db_age_10s = (first.age_10s || 0) + (second.age_10s || 0)
+      const db_age_20s = (first.age_20s || 0) + (second.age_20s || 0)
+      const db_age_30s = (first.age_30s || 0) + (second.age_30s || 0)
+      const db_age_40s = (first.age_40s || 0) + (second.age_40s || 0)
+      const db_age_50s = (first.age_50s || 0) + (second.age_50s || 0)
+      const db_age_60_plus = (first.age_60_plus || 0) + (second.age_60_plus || 0)
 
       const merged = {
         pop_id: first.pop_id, // 첫 번째 데이터의 pop_id 사용
         city_name: first.city_name, // 첫 번째 데이터의 지역명 사용
         district_name: first.district_name,
-        subdistrict_name: first.subdistrict_name,
+        sub_district_name: first.sub_district_name,
         reference_date: first.reference_date, // 월 정보도 첫 번째 데이터로 유지
-
-        // 숫자형 데이터는 합산
-        male_percentage: (first.male_percentage || 0) + (second.male_percentage || 0),
-        female_percentage: (first.female_percentage || 0) + (second.female_percentage || 0),
-        under_10: (first.under_10 || 0) + (second.under_10 || 0),
-        age_10s: (first.age_10s || 0) + (second.age_10s || 0),
-        age_20s: (first.age_20s || 0) + (second.age_20s || 0),
-        age_30s: (first.age_30s || 0) + (second.age_30s || 0),
-        age_40s: (first.age_40s || 0) + (second.age_40s || 0),
-        age_50s: (first.age_50s || 0) + (second.age_50s || 0),
-        age_60_plus: (first.age_60_plus || 0) + (second.age_60_plus || 0)
+        total_population: totalPopulationSum,
+        male_population: male_population,  // 계산된 남자 비율
+        female_population: female_population,  // 계산된 여자 비율
+        age_under_10: db_age_under_10,
+        age_10s: db_age_10s,
+        age_20s: db_age_20s,
+        age_30s: db_age_30s,
+        age_40s: db_age_40s,
+        age_50s: db_age_50s,
+        age_60_plus: db_age_60_plus,
       };
-
       mergedData.push(merged);
     }
 
@@ -100,6 +112,7 @@ const Population = () => {
 
     // 연령대 필터 상태 설정
     setAgeFilter({ ageGroupMin: filters.ageGroupMin, ageGroupMax: filters.ageGroupMax });
+    console.log(filters)
 
     try {
       const response = await axios.post(
@@ -111,15 +124,13 @@ const Population = () => {
           },
         }
       );
-
+      console.log(response.data.filtered_data, '합치기 전')
       // 성별 필터가 있는 경우 데이터를 합치지 않고 그대로 보여줌
       const hasGenderFilter = filters.gender === '1' || filters.gender === '2';
 
       // 성별 필터가 없으면 데이터를 합침
       const mergedResults = hasGenderFilter ? response.data.filtered_data : mergeDataPairs(response.data.filtered_data);
-
-
-
+      console.log(mergedResults, '합친 후')
       setSearchResults(mergedResults); // 병합된 데이터를 상태로 저장
     } catch (err) {
       console.error('검색 오류:', err);

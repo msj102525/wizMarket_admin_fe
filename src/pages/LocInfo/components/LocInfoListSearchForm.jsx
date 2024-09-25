@@ -147,7 +147,7 @@ const LocInfoListSearchForm = ({
 
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">
-                            <label className="block mb-1 font-extrabold">매출</label>
+                            <label className="block mb-1 font-extrabold">소득</label>
                         </div>
                         <div className="w-full flex gap-4">
                             <input
