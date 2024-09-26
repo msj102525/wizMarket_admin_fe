@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setCitySel, setDistrictSel, setSubDistrictSel } from '../stores/addressSlice';
 
 const CitySelect = ({
+    reference,
     cities,
     districts,
     subDistricts,
@@ -15,6 +16,8 @@ const CitySelect = ({
 }) => {
 
     const dispatch = useDispatch();
+
+    console.log(reference)
 
     const handleCityChange = (e) => {
         const cityCode = e.target.value;
@@ -48,6 +51,7 @@ const CitySelect = ({
             <select
                 value={city || ""}
                 onChange={handleCityChange}
+                disabled={reference === '출처'}
                 className="p-2 border border-[#DDDDDD] rounded flex-1 block bg-white"
             >
                 <option value="">시/도</option>

@@ -58,6 +58,7 @@ const RisingSearchForm = ({
                     </div>
                     <div className="w-full">
                         <CitySelect
+                            reference={reference}
                             city={city}
                             district={district}
                             subDistrict={subDistrict}
