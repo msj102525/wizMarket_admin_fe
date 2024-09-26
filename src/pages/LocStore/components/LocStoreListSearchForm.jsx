@@ -47,25 +47,7 @@ const LocStoreListSearchForm = ({
 
 
 
-                {/* 지역 검색 */}
-                <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold">지역 검색</label>
-                    </div>
-                    <div className="w-full">
-                        <CitySelect
-                            city={city}
-                            district={district}
-                            subDistrict={subDistrict}
-                            cities={cities}
-                            districts={districts}
-                            subDistricts={subDistricts}
-                            setCity={setCity}
-                            setDistrict={setDistrict}
-                            setSubDistrict={setSubDistrict}
-                        />
-                    </div>
-                </div>
+
 
                 {/* 카테고리 검색 */}
                 <div className="mb-4 flex gap-4">
@@ -89,7 +71,26 @@ const LocStoreListSearchForm = ({
                     </div>
                 </div>
 
-
+                {/* 지역 검색 */}
+                <div className="mb-4 flex gap-4">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold">지역 검색</label>
+                    </div>
+                    <div className="w-full">
+                        <CitySelect
+                            reference={reference}
+                            city={city}
+                            district={district}
+                            subDistrict={subDistrict}
+                            cities={cities}
+                            districts={districts}
+                            subDistricts={subDistricts}
+                            setCity={setCity}
+                            setDistrict={setDistrict}
+                            setSubDistrict={setSubDistrict}
+                        />
+                    </div>
+                </div>
 
                 <p className="text-sm text-gray-500">
                     * 데이터 양이 많아 원활한 검색을 위해 가능한 많은 조건, 좁은 조건을 추가해주세요.
