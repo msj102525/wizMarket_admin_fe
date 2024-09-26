@@ -26,10 +26,7 @@ const Category = () => {
     };
 
     const handleSearch = () => {
-        console.log(mainCategory)
-        console.log(subCategory)
-        console.log(detailCategory)
-        setLoading(true);
+
         setError(null);
 
         const fetchBizCategories = async () => {

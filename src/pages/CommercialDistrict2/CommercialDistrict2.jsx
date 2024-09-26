@@ -70,6 +70,8 @@ const CommercialDistrict2 = () => {
 
     const handleSearch = () => {
 
+        setLoading(true);
+
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial/cd`, {
