@@ -17,7 +17,6 @@ const CitySelect = ({
 
     const dispatch = useDispatch();
 
-    console.log(reference)
 
     const handleCityChange = (e) => {
         const cityCode = e.target.value;

@@ -4,7 +4,7 @@ import Pagination from '../../../components/Pagination';
 import DataLengthDown from '../../../components/DataLengthDown';
 
 const RisingBusinessList = ({ data }) => {
-    const [sortConfig, setSortConfig] = useState({ key: 'rising_business_id', direction: 'descending' });
+    const [sortConfig, setSortConfig] = useState({ key: 'rising_business_id', direction: 'ascending' });
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태
     const resultsPerPage = 20; // 페이지당 표시할 데이터 개수
 
@@ -84,7 +84,7 @@ const RisingBusinessList = ({ data }) => {
                         ].map(({ key, label }) => (
                             <th
                                 key={key}
-                                className="text-center p-4 text-xs font-extrabold text-black uppercase tracking-wider cursor-pointer w-1/12"
+                                className="text-center p-4 text-md font-extrabold text-black uppercase tracking-wider cursor-pointer w-1/12"
                                 onClick={() => requestSort(key)}
                             >
                                 {label} {getSortIndicator(key)}
@@ -96,18 +96,18 @@ const RisingBusinessList = ({ data }) => {
                     {currentResults.length > 0 ? (
                         currentResults.map((item, index) => (
                             <tr key={item.rising_business_id}>
-                                <td className="text-center py-2 whitespace-nowrap text-sm font-medium text-gray-900 overflow-hidden overflow-ellipsis">
+                                <td className="text-center py-2 whitespace-nowrap text-md font-medium text-gray-900 overflow-hidden overflow-ellipsis">
                                     {sortConfig.direction === "descending" ? sortedData.length - indexOfFirstResult - index : indexOfFirstResult + index + 1}
                                 </td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.city_name}</td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.district_name}</td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_name}</td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_main_category_name}</td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_sub_category_name}</td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_detail_category_name}</td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 font-semibold overflow-hidden overflow-ellipsis">{item.growth_rate}%</td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_rank}</td>
-                                <td className="text-center py-2 whitespace-nowrap text-sm text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.created_at).toLocaleDateString()}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.city_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.district_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_main_category_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_sub_category_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_detail_category_name}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 font-semibold overflow-hidden overflow-ellipsis">{item.growth_rate}%</td>
+                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_rank}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.created_at).toLocaleDateString()}</td>
                             </tr>
                         ))
                     ) : (

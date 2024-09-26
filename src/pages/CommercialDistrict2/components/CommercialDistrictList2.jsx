@@ -5,7 +5,7 @@ import DataLengthDown from '../../../components/DataLengthDown';
 // import { useCities } from '../../../hooks/useCities';
 
 const CommercialDistrictList2 = ({ data }) => {
-    const [sortConfig, setSortConfig] = useState({ key: 'commercial_district_id', direction: 'descending' });
+    const [sortConfig, setSortConfig] = useState({ key: 'commercial_district_id', direction: 'ascending' });
     const [currentPage, setCurrentPage] = useState(1);
     const [expandedRows, setExpandedRows] = useState({});
     const resultsPerPage = 20;

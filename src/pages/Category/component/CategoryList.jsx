@@ -4,7 +4,7 @@ import Pagination from '../../../components/Pagination';
 import DataLengthDown from '../../../components/DataLengthDown';
 
 const CategoryList = ({ data }) => {
-    const [sortConfig, setSortConfig] = useState({ key: 'biz_detail_category_id', direction: 'descending' });
+    const [sortConfig, setSortConfig] = useState({ key: 'biz_detail_category_id', direction: 'ascending' });
     const [currentPage, setCurrentPage] = useState(1);
     const resultsPerPage = 20;
 
