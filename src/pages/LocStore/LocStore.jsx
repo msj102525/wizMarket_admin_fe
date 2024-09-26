@@ -6,7 +6,6 @@ import LocStoreListSearchForm from './components/LocStoreListSearchForm';
 import LocStoreList from './components/LocStoreList';
 import SectionHeader from '../../components/SectionHeader';
 import axios from 'axios';
-import * as XLSX from 'xlsx';
 import { useSelector } from 'react-redux';
 import { useCategories } from '../../hooks/useCategories';
 import { useCities } from '../../hooks/useCities';
@@ -19,12 +18,11 @@ const LocStore = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [isList, setIsList] = useState(false);
-    const [totalItems, setTotalItems] = useState(0); // 총 데이터 수
+    const [totalItemsCount, setTotalItemsCount] = useState(0); // 총 데이터 수
     const [filters, setFilters] = useState({}); // 필터 값 상태
-    const [excelItems, setExcelItems] = useState(0); // 총 데이터 수
-    const [storeName,setStoreName] = useState(null)
-    const [infoYear,setInfoYear] = useState(null)
-    const [infoQuarter,setInfoQuarter] = useState(null)
+    const [storeName, setStoreName] = useState(null);
+    const [isLikeSearch, setIsLikeSearch] = useState(null);
+
 
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
 
@@ -66,8 +64,7 @@ const LocStore = () => {
         setCity('');
         setDistrict('');
         setSubDistrict('');
-        setInfoYear('');
-        setInfoQuarter('');
+        setIsLikeSearch('');
         setReference('');
     };
 
@@ -75,12 +72,23 @@ const LocStore = () => {
         setIsList(!isList);
     };
 
-    const handleSearch = async (filters, isPageChange = false) => {
+    const handleSearch = async (filters, page = 1, isPageChange = false) => {
         setLoading(true);
         setError(null);
 
-        const convertToValue = (value, defaultValue = null) => {
+        // 페이지 값이 변경되었을 경우 currentPage를 업데이트
+        if (!isPageChange) {
+            setCurrentPage(1);
+        }
+
+        const convertToValue = (value, defaultValue = null, isNumeric = false) => {
             const defaultCategories = ['대분류', '중분류', '소분류'];
+    
+            if (value === '0') return defaultValue;  // '0'인 경우는 기본값(null)으로 처리
+            if (value && isNumeric) {
+                const numValue = parseInt(value, 10);
+                return isNaN(numValue) ? defaultValue : numValue;
+            }
             return (value && !defaultCategories.includes(value)) ? value : defaultValue;
         };
 
@@ -89,42 +97,33 @@ const LocStore = () => {
             district: convertToValue(district),
             subDistrict: convertToValue(subDistrict),
             storeName: convertToValue(storeName),
-            infoYear: convertToValue(infoYear),
-            infoQuarter: convertToValue(infoQuarter),
             mainCategory: convertToValue(mainCategory),
             subCategory: convertToValue(subCategory),
             detailCategory: convertToValue(detailCategory),
         };
 
-        setFilters(filters); // 검색 시 필터 값을 상태에 저장
+        const matchType = isLikeSearch ? 'LIKE' : '=';  // isIncludeMatch가 체크되었는지에 따라 결정
 
+        setFilters(filters);  // 검색 시 필터 값을 상태에 저장
         const pagingInfo = {
-            page: currentPage,    // 현재 페이지
+            page,    // 현재 페이지, currentPage 대신 page 인자를 사용
             page_size: pageSize,  // 페이지당 항목 수
         };
-
-        console.log(filters)
 
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_store/select_loc_store`,
-                { ...filters, ...pagingInfo }, // 필터 + 페이지 정보
+                { ...filters, matchType, ...pagingInfo },  // 필터 + 페이지 정보
                 {
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 }
             );
-
-            setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
-
-            // 검색 후 처음 로드할 때만 totalItems 설정
+            setSearchResults(response.data.filtered_data);  // 검색 결과를 상태로 저장
             if (!isPageChange) {
-                setTotalItems(response.data.total_items.length); // 총 데이터 수를 첫 검색 후에만 받아옴
-                setExcelItems(response.data.total_items); // 엑셀 다운로드를 위해 전체 데이터 저장
+                setTotalItemsCount(response.data.total_items);  // 총 데이터 수를 첫 검색 후에만 받아옴
             }
-            
-            console.log(response.data.total_items.length, '테스트')
 
         } catch (err) {
             setError('검색 중 오류가 발생했습니다.');
@@ -133,73 +132,68 @@ const LocStore = () => {
         }
     };
 
-    
-    
-    // 엑셀 다운
-    const handleExcelDownload = () => {
-
-        const worksheet = XLSX.utils.json_to_sheet(excelItems); // 전체 데이터를 시트로 변환
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'LocStoreData'); // 시트 이름을 지정
-        XLSX.writeFile(workbook, 'loc_store_data.xlsx'); // 엑셀 파일로 저장
-    };
-
-    // 페이지 변경 핸들러
-    const handlePageChange = (page) => {
-        console.log(page, '페이지')
-        if (page < 1 || page > totalPages) return;
-        setCurrentPage(page);
-        
-        console.log(currentPage, '지금')
-
-        // 페이지 이동 시 기존 필터 값 유지하여 검색, totalItems는 다시 받지 않음
-        handleSearch(filters, true);
-    };
-
-    // 총 페이지 수 계산
-    const totalPages = Math.ceil(totalItems / pageSize);
-
-    // 페이지네이션 버튼 생성
-    const renderPagination = () => {
-        const maxPagesToShow = 10;  // 한 번에 보여줄 최대 페이지 수
-        const pages = [];
-
-        // 시작 페이지와 끝 페이지 계산
-        const startPage = Math.floor((currentPage - 1) / maxPagesToShow) * maxPagesToShow + 1;
-        const endPage = Math.min(startPage + maxPagesToShow - 1, totalPages);
-
-        // 페이지 버튼 생성
-        for (let i = startPage; i <= endPage; i++) {
-            pages.push(
-                <button
-                    key={i}
-                    onClick={() => handlePageChange(i)}
-                    className={`px-2 py-1 border ${currentPage === i ? 'bg-black text-white' : 'bg-white text-black'}`}
-                >
-                    {i}
-                </button>
-            );
+    // 이전 페이지 버튼
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            const newPage = currentPage - 1;
+            setCurrentPage(newPage);  // currentPage를 새 페이지로 설정
+            handleSearch(filters, newPage, true);  // 새 페이지로 검색
         }
+    };
+
+    // 다음 페이지 버튼
+    const handleNextPage = () => {
+        const totalPages = Math.ceil(totalItemsCount / pageSize);  // 총 페이지 수
+        if (currentPage < totalPages) {
+            const newPage = currentPage + 1;
+            setCurrentPage(newPage);  // currentPage를 새 페이지로 설정
+            handleSearch(filters, newPage, true);  // 새 페이지로 검색
+        }
+    };
+
+    // 페이지 번호 클릭 핸들러
+    const handlePageClick = (pageNumber) => {
+        setCurrentPage(pageNumber);  // currentPage 상태를 업데이트
+        handleSearch(filters, pageNumber, true);  // 페이지 변경 시 해당 페이지로 검색
+    };
+
+    // 페이징 처리 로직
+    const renderPagination = () => {
+        const totalPages = Math.ceil(totalItemsCount / pageSize);  // 총 페이지 수
+        const pageGroupSize = 10;  // 페이지 그룹당 10개의 페이지 번호를 보여줄 예정
+        const currentPageGroup = Math.ceil(currentPage / pageGroupSize);  // 현재 페이지 그룹
+
+        // 현재 페이지 그룹의 시작 페이지와 끝 페이지 계산
+        const startPage = (currentPageGroup - 1) * pageGroupSize + 1;
+        const endPage = Math.min(currentPageGroup * pageGroupSize, totalPages);
 
         return (
-            <div className="flex justify-center gap-2 mt-4">
-                {/* 이전 버튼 */}
+            <div className="flex justify-center items-center mt-4">
                 <button
-                    onClick={() => handlePageChange(currentPage - 1)}
+                    onClick={handlePrevPage}
                     disabled={currentPage === 1}
-                    className="px-2 py-1 border bg-white text-black"
+                    className={`px-3 py-1 mx-1 border border-gray-300 rounded ${currentPage === 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100'
+                        }`}
                 >
                     이전
                 </button>
 
-                {/* 페이지 번호 */}
-                {pages}
+                {Array.from({ length: endPage - startPage + 1 }, (_, idx) => startPage + idx).map((pageNumber) => (
+                    <button
+                        key={pageNumber}
+                        onClick={() => handlePageClick(pageNumber)}
+                        className={`px-3 py-1 mx-1 border border-gray-300 rounded ${currentPage === pageNumber ? 'bg-gray-300 text-white font-bold' : 'bg-white text-gray-700 hover:bg-gray-100'
+                            }`}
+                    >
+                        {pageNumber}
+                    </button>
+                ))}
 
-                {/* 다음 버튼 */}
                 <button
-                    onClick={() => handlePageChange(currentPage + 1)}
+                    onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    className="px-2 py-1 border bg-white text-black"
+                    className={`px-3 py-1 mx-1 border border-gray-300 rounded ${currentPage === totalPages ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100'
+                        }`}
                 >
                     다음
                 </button>
@@ -228,7 +222,7 @@ const LocStore = () => {
                             </div>
                         )}
                         <div className='flex-1'>
-                            <LocStoreListSearchForm 
+                            <LocStoreListSearchForm
                                 city={city}
                                 district={district}
                                 subDistrict={subDistrict}
@@ -252,10 +246,8 @@ const LocStore = () => {
                                 setReference={setReference}
                                 storeName={storeName}
                                 setStoreName={setStoreName}
-                                infoYear={infoYear}
-                                setInfoYear={setInfoYear}
-                                infoQuarter={infoQuarter}
-                                setInfoQuarter={setInfoQuarter}
+                                isLikeSearch={isLikeSearch}
+                                setIsLikeSearch={setIsLikeSearch}
                                 handleSearch={handleSearch}
                                 handleReset={handleReset}
                             />
@@ -265,15 +257,9 @@ const LocStore = () => {
                     <section className="w-full mb-4">
                         <div className="flex justify-between items-center">
                             <div>
-                                총 <span className="text-red-500">{totalItems.toLocaleString()}</span> 개
+                                총 <span className="text-red-500">{totalItemsCount.toLocaleString()}</span> 개
                             </div>
-                            <div>
-                                <button
-                                    className="px-4 py-2 bg-white text-black rounded border border-black"
-                                    onClick={handleExcelDownload}>
-                                    엑셀 다운로드
-                                </button>
-                            </div>
+
                         </div>
                     </section>
 
@@ -293,7 +279,9 @@ const LocStore = () => {
                         </div>
 
                         {/* 페이징 처리 */}
-                        {!loading && !error && renderPagination()}
+                        <div className="w-full">
+                            {!loading && !error && renderPagination()}
+                        </div>
                     </section>
                 </main>
             </div>

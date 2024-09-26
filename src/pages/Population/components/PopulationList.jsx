@@ -19,26 +19,20 @@ const PopulationList = ({ data, ageFilter }) => {
     { key: 'age_60_plus', label: '60대 이상', filter: 'age_60_plus' },
   ];
 
-  const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
-  const pageSize = 20;  // 한 페이지에 보여줄 리스트 개수
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });  // 정렬 상태 관리
 
-  // 현재 페이지에 해당하는 데이터 계산
-  const indexOfLastItem = currentPage * pageSize;
-  const indexOfFirstItem = indexOfLastItem - pageSize;
-  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);  // 현재 페이지에 표시할 데이터
 
 
 
   // 정렬 함수
-  const sortedData = [...currentData].sort((a, b) => {
+  const sortedData = [...data].sort((a, b) => {
     if (sortConfig.key) {
       const direction = sortConfig.direction === 'asc' ? 1 : -1;
       if (a[sortConfig.key] < b[sortConfig.key]) return -1 * direction;
       if (a[sortConfig.key] > b[sortConfig.key]) return 1 * direction;
       return 0;
     }
-    return currentData;  // 정렬 상태 없으면 그대로 반환
+    return 0;  // 정렬 상태 없으면 그대로 반환
   });
 
   // 정렬 버튼 클릭 시 호출될 함수
@@ -48,9 +42,7 @@ const PopulationList = ({ data, ageFilter }) => {
       direction = 'desc';
     }
     setSortConfig({ key, direction });
-    console.log(setCurrentPage
 
-    )
   };
 
   const filteredColumns = columns.filter(col => {

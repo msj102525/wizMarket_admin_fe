@@ -38,8 +38,24 @@ const LocStoreList = ({ data }) => {
                 <thead className="bg-gray-200">
                     <tr>
                         <th className="border border-gray-300 px-4 py-2">코드</th>
-                        <th className="border border-gray-300 px-4 py-2">상호명</th>
-                        <th className="border border-gray-300 px-4 py-2">지점명</th>
+                        <th className="border border-gray-300 px-4 py-2">
+                            <div className="flex justify-center items-center">
+                                상호명
+                                <button onClick={() => handleSort('store_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                    <span className="text-xs">▲</span>
+                                    <span className="text-xs">▼</span>
+                                </button>
+                            </div>
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2">
+                            <div className="flex justify-center items-center">
+                                지점명
+                                <button onClick={() => handleSort('branch_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                    <span className="text-xs">▲</span>
+                                    <span className="text-xs">▼</span>
+                                </button>
+                            </div>
+                        </th>
                         <th className="border border-gray-300 px-4 py-2">
                             <div className="flex justify-center items-center">
                                 시/도
@@ -51,7 +67,7 @@ const LocStoreList = ({ data }) => {
                         </th>
                         <th className="border border-gray-300 px-4 py-2">
                             <div className="flex justify-center items-center">
-                            시/군/구
+                                시/군/구
                                 <button onClick={() => handleSort('district_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                     <span className="text-xs">▲</span>
                                     <span className="text-xs">▼</span>
@@ -60,7 +76,7 @@ const LocStoreList = ({ data }) => {
                         </th>
                         <th className="border border-gray-300 px-4 py-2">
                             <div className="flex justify-center items-center">
-                            읍/면/동
+                                읍/면/동
                                 <button onClick={() => handleSort('sub_district_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                     <span className="text-xs">▲</span>
                                     <span className="text-xs">▼</span>
@@ -70,7 +86,7 @@ const LocStoreList = ({ data }) => {
                         <th className="border border-gray-300 px-4 py-2">출처</th>
                         <th className="border border-gray-300 px-4 py-2">
                             <div className="flex justify-center items-center">
-                            대분류
+                                대분류
                                 <button onClick={() => handleSort('large_category_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                     <span className="text-xs">▲</span>
                                     <span className="text-xs">▼</span>
@@ -190,7 +206,7 @@ const LocStoreList = ({ data }) => {
                 <tbody>
                     {sortedData.map((item, index) => (
                         <tr key={index} className="border-t ">
-                            <td className="border border-gray-300 px-4 py-2 text-center ">{item.loc_store_id}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center ">{item.local_store_id}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.store_name}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.branch_name}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.city_name}</td>
@@ -207,9 +223,7 @@ const LocStoreList = ({ data }) => {
                             <td className="border border-gray-300 px-4 py-2 ">{item.dong_info}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.floor_info}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.unit_info}</td>
-                            <td className="border border-gray-300 px-4 py-2 ">
-                                {`${item.info_year}.${item.info_quarter}/4`}
-                            </td>
+                            <td className="border border-gray-300 px-4 py-2 ">2024년 2/4분기</td>
                             <td className="border border-gray-300 px-4 py-2 ">
                                 {item.CREATED_AT.slice(0, 10)}
                             </td>

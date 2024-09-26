@@ -5,10 +5,7 @@ const SearchResultsCount = ({ cities, districts, subDistricts }) => {
         <div className="p-4 rounded-md">
             <div className="flex items-center space-x-8">
                 <p>
-                    검색결과 <span className="text-red-500">총 {cities.length + districts.length + subDistricts.length}개</span>
-                </p>
-                <p>
-                    시/군/구 <span className="text-red-500">({cities.length.toLocaleString()}건)</span>
+                    시/도 <span className="text-red-500">({cities.length.toLocaleString()}건)</span>
                 </p>
                 <p>
                     시/군/구 <span className="text-red-500">({districts.length.toLocaleString()}건)</span>

@@ -94,6 +94,8 @@ const LocInfo = () => {
             residentMax: convertToInt(residentMax),
         };
 
+        console.log()
+
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/select_loc_info`,
@@ -105,7 +107,7 @@ const LocInfo = () => {
                 }
             );
             setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
-            
+            console.log(response.data.filtered_data)
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');
