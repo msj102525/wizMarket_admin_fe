@@ -300,7 +300,7 @@ const LocInfoList = ({ data, statData }) => {
                                                 </td>
                                             </tr>
                                             <tr>
-                                            <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -364,7 +364,7 @@ const LocInfoList = ({ data, statData }) => {
                                                 </td>
                                             </tr>
                                             <tr>
-                                            <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -428,7 +428,7 @@ const LocInfoList = ({ data, statData }) => {
                                                 </td>
                                             </tr>
                                             <tr>
-                                            <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -436,7 +436,7 @@ const LocInfoList = ({ data, statData }) => {
                                                 <td colSpan="1" className="border px-4 py-2 text-center">
                                                     {/* 평균 값 표시 */}
                                                     {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop').map((stat) => (
-                                                        <>{stat.MAX_VALUE}/{stat.MIN_VALUE}</>
+                                                        <>{stat.MAX_VALUE}/{stat.MIN_VALUE}개</>
                                                     ))}
                                                     {/* 각 데이터 컬럼에 대한 통계 표시 */}
                                                 </td>
@@ -465,38 +465,158 @@ const LocInfoList = ({ data, statData }) => {
                                                 <td colSpan="1" className="border px-4 py-2 text-center">
                                                     {/* 평균 값 표시 */}
                                                     {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'move_pop').map((stat) => (
-                                                        <>{stat.MAX_VALUE}/{stat.MIN_VALUE}</>
+                                                        <>{stat.MAX_VALUE}/{stat.MIN_VALUE}명</>
                                                     ))}
                                                     {/* 각 데이터 컬럼에 대한 통계 표시 */}
                                                 </td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center">
                                                     {/* 평균 값 표시 */}
                                                     {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident').map((stat) => (
-                                                        <>{stat.MAX_VALUE}/{stat.MIN_VALUE}</>
+                                                        <>{stat.MAX_VALUE}/{stat.MIN_VALUE}명</>
                                                     ))}
                                                     {/* 각 데이터 컬럼에 대한 통계 표시 */}
                                                 </td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center">
                                                     {/* 평균 값 표시 */}
                                                     {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop').map((stat) => (
-                                                        <>{stat.MAX_VALUE}/{stat.MIN_VALUE}</>
+                                                        <>{stat.MAX_VALUE}/{stat.MIN_VALUE}명</>
                                                     ))}
                                                     {/* 각 데이터 컬럼에 대한 통계 표시 */}
                                                 </td>
                                                 <td colSpan="1" className="border px-4 py-2 text-center">
                                                     {/* 평균 값 표시 */}
                                                     {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident').map((stat) => (
-                                                        <>{stat.MED_VAL.toFixed(1)}개</>
+                                                        <>{stat.MAX_VALUE}/{stat.MIN_VALUE}개</>
                                                     ))}
                                                     {/* 각 데이터 컬럼에 대한 통계 표시 */}
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colSpan="2" className="border px-4 py-2 text-center">통계 - J_Score</td>
-                                                <td colSpan="11" className="border px-4 py-2 text-center">
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">J-Score</td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
                                                     {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop').map((stat) => (
-                                                        <>{stat.J_SCORE.toFixed(1)} / </>
+                                                        <>{stat.J_SCORE.toFixed(1)}</>
                                                     ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'sales').map((stat) => (
+                                                        <>{(stat.J_SCORE.toFixed(1)).toLocaleString()}</>  // 10,000으로 나누고, "만원" 추가
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'income').map((stat) => (
+                                                        <>{(stat.J_SCORE.toFixed(1)).toLocaleString()}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'spend').map((stat) => (
+                                                        <>{(stat.J_SCORE).toFixed(1).toLocaleString()}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'move_pop').map((stat) => (
+                                                        <>{stat.J_SCORE.toFixed(1)}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident').map((stat) => (
+                                                        <>{stat.J_SCORE.toFixed(1)}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop').map((stat) => (
+                                                        <>{stat.J_SCORE.toFixed(1)}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident').map((stat) => (
+                                                        <>{stat.J_SCORE.toFixed(1)}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center"></td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">J-Score</td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop').map((stat) => (
+                                                        <>{stat.J_SCORE.toFixed(1)}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'sales').map((stat) => (
+                                                        <>{(stat.J_SCORE.toFixed(1)).toLocaleString()}</>  // 10,000으로 나누고, "만원" 추가
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'income').map((stat) => (
+                                                        <>{(stat.J_SCORE.toFixed(1)).toLocaleString()}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'spend').map((stat) => (
+                                                        <>{(stat.J_SCORE).toFixed(1).toLocaleString()}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'move_pop').map((stat) => (
+                                                        <>{stat.J_SCORE.toFixed(1)}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident').map((stat) => (
+                                                        <>{stat.J_SCORE.toFixed(1)}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop').map((stat) => (
+                                                        <>{stat.J_SCORE.toFixed(1)}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
+                                                </td>
+                                                <td colSpan="1" className="border px-4 py-2 text-center">
+                                                    {/* 평균 값 표시 */}
+                                                    {statData.filter((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident').map((stat) => (
+                                                        <>{stat.J_SCORE.toFixed(1)}</>
+                                                    ))}
+                                                    {/* 각 데이터 컬럼에 대한 통계 표시 */}
                                                 </td>
                                             </tr>
                                         </>

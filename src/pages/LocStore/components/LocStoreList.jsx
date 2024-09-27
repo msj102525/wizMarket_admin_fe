@@ -94,7 +94,7 @@ const LocStoreList = ({ data }) => {
                 <tbody>
                     {data.map((item, index) => (
                         <tr key={index} className="border-t ">
-                            <td className="border border-gray-300 px-4 py-2 text-center ">{item.local_store_id}</td>
+                            <td className="border border-gray-300 px-4 py-2 text-center ">{item.store_business_number}</td>
                             <td className="border border-gray-300 px-4 py-2">
                                 <p
                                     className="cursor-pointer hover:text-blue-600 inline-block"
