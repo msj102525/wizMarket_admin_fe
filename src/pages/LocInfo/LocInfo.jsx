@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header';
 import Aside from '../../components/Aside';
 import KakaoMap from '../../components/KakaoMap';
@@ -13,8 +13,9 @@ import { useSelector } from 'react-redux';
 
 const LocInfo = () => {
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
-    
+
     const [searchResults, setSearchResults] = useState([]);
+    const [statResults, setStatResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isList, setIsList] = useState(false);
@@ -108,6 +109,22 @@ const LocInfo = () => {
             );
             setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
             console.log(response.data.filtered_data)
+
+            // statistics/select_statistics에 대한 추가 요청
+            const statResponse = await axios.post(
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/statistics/select_statistics`,
+                filters, // 동일한 필터로 요청
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            // 통계 결과를 상태로 저장
+            setStatResults(statResponse.data.statistics_data);
+            console.log(statResponse.data.statistics_data)
+
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');
@@ -115,6 +132,8 @@ const LocInfo = () => {
             setLoading(false);
         }
     };
+
+
 
     const handleReset = () => {
         // 모든 필터 값을 초기화
@@ -159,8 +178,8 @@ const LocInfo = () => {
                             </div>
                         )}
                         <div className='flex-1'>
-                            <LocInfoListSearchForm 
-                                
+                            <LocInfoListSearchForm
+
                                 city={city}
                                 district={district}
                                 subDistrict={subDistrict}
@@ -168,7 +187,7 @@ const LocInfo = () => {
                                 cities={cities}
                                 districts={districts}
                                 subDistricts={subDistricts}
-                                
+
                                 shopMin={shopMin}
                                 move_popMin={move_popMin}
                                 salesMin={salesMin}
@@ -211,7 +230,7 @@ const LocInfo = () => {
 
                                 handleSearch={handleSearch}
                                 handleReset={handleReset}
-                                isList={isList} /> 
+                                isList={isList} />
                         </div>
                     </section>
                     {/* 하단 리스트 */}
@@ -220,7 +239,7 @@ const LocInfo = () => {
                         {error && <p className="text-red-500">오류가 발생했습니다: {error}</p>}  {/* 오류 상태 처리 */}
 
                         {/* 데이터가 있으면 리스트 출력 */}
-                        {!loading && !error && <LocInfoList data={searchResults} />}
+                        {!loading && !error && <LocInfoList data={searchResults} statData={statResults} />}
                     </section>
                 </main>
             </div>
