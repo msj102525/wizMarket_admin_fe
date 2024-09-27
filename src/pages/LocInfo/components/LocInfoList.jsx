@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Pagination from '../../../components/Pagination';
 import DataLengthDown from '../../../components/DataLengthDown';
-import ExpandedRow from './LocInfoListExpandRow'
 
 const LocInfoList = ({ data, statData }) => {
     const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지

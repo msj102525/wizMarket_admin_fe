@@ -2,17 +2,17 @@ import React from 'react';
 
 const LocStoreList = ({ data }) => {
 
-    const handleLinkClick = (event, localStoreId) => {
+    const handleLinkClick = (event, store_business_id) => {
         event.preventDefault();
 
-        const REPORT_TEST_URL = `http://192.168.0.240:3001/wizmarket/report/${localStoreId}`;
+        const REPORT_URL = `http://192.168.0.240:3001/wizmarket/report/${store_business_id}`;
         const width = 394;
         const height = 900;
         const left = window.screenX + (window.outerWidth - width) / 2;
         const top = window.screenY + (window.outerHeight - height) / 2;
 
         window.open(
-            REPORT_TEST_URL,
+            REPORT_URL,
             "_blank",
             `width=${width},height=${height},top=${top},left=${left}`
         );
@@ -98,7 +98,7 @@ const LocStoreList = ({ data }) => {
                             <td className="border border-gray-300 px-4 py-2">
                                 <p
                                     className="cursor-pointer hover:text-blue-600 inline-block"
-                                    onClick={(e) => handleLinkClick(e, item.local_store_id)}
+                                    onClick={(e) => handleLinkClick(e, item.store_business_number)}
                                 >
                                     {item.store_name}
                                 </p>
