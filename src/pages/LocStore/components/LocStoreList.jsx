@@ -2,7 +2,23 @@ import React from 'react';
 
 const LocStoreList = ({ data }) => {
 
-    
+    const handleLinkClick = (event, localStoreId) => {
+        event.preventDefault();
+
+        const REPORT_TEST_URL = `http://192.168.0.240:3001/wizmarket/report/${localStoreId}`;
+        const width = 394;
+        const height = 900;
+        const left = window.screenX + (window.outerWidth - width) / 2;
+        const top = window.screenY + (window.outerHeight - height) / 2;
+
+        window.open(
+            REPORT_TEST_URL,
+            "_blank",
+            `width=${width},height=${height},top=${top},left=${left}`
+        );
+    };
+
+
 
     // 데이터가 없는 경우 처리
     if (!data || data.length === 0) {
@@ -11,14 +27,13 @@ const LocStoreList = ({ data }) => {
 
 
     return (
-        // 테이블을 감싸는 div에 overflow-x-auto 추가하여 스크롤바 위치를 테이블 바깥으로 옮김
         <div className="w-full overflow-x-auto">
-
-
             <table className="min-w-full border-collapse border border-gray-200 text-sm truncate px-4 py-2">
                 <thead className="bg-gray-200">
                     <tr>
-                        <th className="border border-gray-300 px-4 py-2">코드</th>
+                        <th className="border border-gray-300 px-4 py-2">
+                            코드
+                        </th>
                         <th className="border border-gray-300 px-4 py-2">
                             상호명
                         </th>
@@ -72,7 +87,7 @@ const LocStoreList = ({ data }) => {
                             생성일자
                         </th>
                         <th className="border border-gray-300 px-4 py-2">
-                        수정일자
+                            수정일자
                         </th>
                     </tr>
                 </thead>
@@ -80,7 +95,14 @@ const LocStoreList = ({ data }) => {
                     {data.map((item, index) => (
                         <tr key={index} className="border-t ">
                             <td className="border border-gray-300 px-4 py-2 text-center ">{item.local_store_id}</td>
-                            <td className="border border-gray-300 px-4 py-2 ">{item.store_name}</td>
+                            <td className="border border-gray-300 px-4 py-2">
+                                <p
+                                    className="cursor-pointer hover:text-blue-600 inline-block"
+                                    onClick={(e) => handleLinkClick(e, item.local_store_id)}
+                                >
+                                    {item.store_name}
+                                </p>
+                            </td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.branch_name}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.city_name}</td>
                             <td className="border border-gray-300 px-4 py-2 ">{item.district_name}</td>
