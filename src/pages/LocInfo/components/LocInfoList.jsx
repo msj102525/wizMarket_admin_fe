@@ -3,7 +3,7 @@ import Pagination from '../../../components/Pagination';
 import DataLengthDown from '../../../components/DataLengthDown';
 import ExpandedRow from './LocInfoListExpandedRow';
 
-const LocInfoList = ({ data, statData }) => {
+const LocInfoList = ({ data, statData, allCorrData, filterCorrData }) => {
     const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
     const pageSize = 20;  // 한 페이지에 보여줄 리스트 개수
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });  // 정렬 상태 관리
@@ -80,7 +80,7 @@ const LocInfoList = ({ data, statData }) => {
                 <p>검색 결과가 없습니다.</p>
             ) : (
                 <>
-                    <table className="min-w-full mt-4 bg-white border-collapse border border-gray-200">
+                    <table className="min-w-full mt-4">
                         <thead className="bg-gray-200">
                             <tr>
                                 <th className="border border-gray-300 px-4 py-2">상세</th>
@@ -192,7 +192,7 @@ const LocInfoList = ({ data, statData }) => {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="light-gray-text">
                             {currentData.map((item, index) => (
                                 <React.Fragment key={item.loc_info_id}>
                                     {/* 기본 데이터 행 */}
@@ -204,9 +204,9 @@ const LocInfoList = ({ data, statData }) => {
                                             >
                                                 {/* 펼쳐졌을 때 아래 방향 화살표, 그렇지 않으면 오른쪽 방향 화살표 */}
                                                 {expandedRows.includes(item.loc_info_id) ? (
-                                                    <span>&#9660;</span>  // 아래 방향 화살표 (유니코드: ▼)
+                                                    <span>&#xFE3F;</span>  // 아래 방향 화살표 (유니코드: ▼)
                                                 ) : (
-                                                    <span>&#9654;</span>  // 오른쪽 방향 화살표 (유니코드: ▶)
+                                                    <span>&#xFE40;</span>  // 오른쪽 방향 화살표 (유니코드: ▶)
                                                 )}
                                             </button>
                                         </td>
@@ -233,7 +233,15 @@ const LocInfoList = ({ data, statData }) => {
 
                                     {/* 확장된 데이터 행 */}
                                     {/* 확장된 데이터 행 */}
-                                    {expandedRows.includes(item.loc_info_id) && <ExpandedRow item={item} statData={statData} />}
+                                    {expandedRows.includes(item.loc_info_id) && (
+                                    <ExpandedRow 
+                                        item={item} 
+                                        statData={statData} 
+                                        allCorrData={allCorrData} 
+                                        filterCorrData={filterCorrData} 
+                                        className="expanded-row-text"
+                                    />
+                                    )}
                                 </React.Fragment>
                             ))}
                         </tbody>
