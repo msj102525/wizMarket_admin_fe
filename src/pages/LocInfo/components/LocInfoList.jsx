@@ -3,7 +3,6 @@ import Pagination from '../../../components/Pagination';
 import DataLengthDown from '../../../components/DataLengthDown';
 import ExpandedRow from './LocInfoListExpandedRow';
 
-
 const LocInfoList = ({ data, statData }) => {
     const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
     const pageSize = 20;  // 한 페이지에 보여줄 리스트 개수
