@@ -5,7 +5,7 @@ import DataLengthDown from '../../../components/DataLengthDown';
 // import { useCities } from '../../../hooks/useCities';
 
 const CommercialDistrictList2 = ({ data }) => {
-    const [sortConfig, setSortConfig] = useState({ key: 'commercial_district_id', direction: 'ascending' });
+    const [sortConfig, setSortConfig] = useState({ key: 'commercial_district_id', direction: 'descending' });
     const [currentPage, setCurrentPage] = useState(1);
     const [expandedRows, setExpandedRows] = useState({});
     const resultsPerPage = 20;
@@ -258,8 +258,8 @@ const CommercialDistrictList2 = ({ data }) => {
                 <thead className="bg-[#EEEEEE]">
                     <tr>
                         {[
-                            { key: 'toggle', label: 'toggle' },
-                            { key: 'commercial_district_id', label: 'ID' },
+                            { key: 'toggle', label: '펼치기' },
+                            { key: 'commercial_district_id', label: '번호' },
                             { key: 'city_name', label: '시/도' },
                             { key: 'district_name', label: '시/군/구' },
                             { key: 'sub_district_name', label: '읍/면/동' },
@@ -291,22 +291,22 @@ const CommercialDistrictList2 = ({ data }) => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                     {currentResults.length > 0 ? (
-                        currentResults.map((item) => (
-                            <React.Fragment key={item.commercial_district_id}>
+                        currentResults.map((item, idx) => (
+                            <React.Fragment key={idx + 1}>
                                 <tr className=''>
                                     <td className="flex justify-center whitespace-nowrap text-md font-medium text-gray-900 p-2">
                                         <div
                                             className="w-[11px] cursor-pointer pt-3.5"
-                                            onClick={() => toggleRowExpansion(item.commercial_district_id)}
+                                            onClick={() => toggleRowExpansion(idx + 1)}
                                         >
                                             <img
-                                                className={`block w-full h-auto transition-transform duration-200 ${expandedRows[item.commercial_district_id] ? 'transform rotate-180' : ''}`}
+                                                className={`block w-full h-auto transition-transform duration-200 ${expandedRows[idx + 1] ? 'transform rotate-180' : ''}`}
                                                 src={require("../../../assets/form/dropdownArrow.png")}
                                                 alt="toggleImg"
                                             />
                                         </div>
                                     </td>
-                                    <td className="text-center whitespace-nowrap text-md font-medium text-gray-900 p-2">{item.commercial_district_id}</td>
+                                    <td className="text-center whitespace-nowrap text-md font-medium text-gray-900 p-2">{idx + 1}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.city_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.district_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.sub_district_name}</td>
