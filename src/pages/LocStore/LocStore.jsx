@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '../../components/Header';
 import Aside from '../../components/Aside';
 import KakaoMap from '../../components/KakaoMap';
@@ -72,7 +72,15 @@ const LocStore = () => {
         setIsList(!isList);
     };
 
+    const abortControllerRef = useRef(null);  // 초기에는 null
+
     const handleSearch = async (filters, page = 1, isPageChange = false) => {
+        // 이전 요청을 중단하고 새로운 요청을 위해 AbortController 생성
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();  // 이전 요청 취소
+        }
+        abortControllerRef.current = new AbortController();  // 새로운 AbortController 생성
+
         setLoading(true);
         setError(null);
 
@@ -83,7 +91,7 @@ const LocStore = () => {
 
         const convertToValue = (value, defaultValue = null, isNumeric = false) => {
             const defaultCategories = ['대분류', '중분류', '소분류'];
-    
+
             if (value === '0') return defaultValue;  // '0'인 경우는 기본값(null)으로 처리
             if (value && isNumeric) {
                 const numValue = parseInt(value, 10);
@@ -118,6 +126,7 @@ const LocStore = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    signal: abortControllerRef.current.signal,   // 새로운 AbortController의 signal 전달
                 }
             );
             setSearchResults(response.data.filtered_data);  // 검색 결과를 상태로 저장
@@ -126,11 +135,25 @@ const LocStore = () => {
             }
 
         } catch (err) {
-            setError('검색 중 오류가 발생했습니다.');
+            if (axios.isCancel(err)) {
+                console.log('Request canceled', err.message);
+            } else {
+                setError('검색 중 오류가 발생했습니다.');
+            }
         } finally {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();  // 컴포넌트 언마운트 시 요청 중단
+            }
+        };
+    }, []);  // 빈 의존성 배열
+
+
 
     // 이전 페이지 버튼
     const handlePrevPage = () => {
