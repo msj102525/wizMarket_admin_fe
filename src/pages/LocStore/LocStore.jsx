@@ -240,13 +240,13 @@ const LocStore = () => {
                     </section>
 
                     {/* 상단 지도와 검색 폼 */}
-                    <section className="flex gap-4 py-4 mb:flex-col mb:h-[450px]">
+                    <section className="flex gap-4 py-4 mb:flex-col mb:h-[650px]">
                         {!isList && (
-                            <div className='flex-1'>
+                            <div className='flex-1 mb:flex-2'>
                                 <KakaoMap />
                             </div>
                         )}
-                        <div className='flex-1'>
+                        <div className='flex-1 mb:flex-1'>
                             <LocStoreListSearchForm
                                 city={city}
                                 district={district}

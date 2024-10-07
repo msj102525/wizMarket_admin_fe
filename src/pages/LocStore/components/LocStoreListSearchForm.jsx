@@ -44,7 +44,7 @@ const LocStoreListSearchForm = ({
                 {/* 카테고리 검색 */}
                 <div className="mb-4 flex flex-col mb:flex-row gap-4">
                     <div className="w-full mb:w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold text-lg mb:text-2xl">카테고리 검색</label>
+                        <label className="block mb-1 font-extrabold text-lg mb:text-3xl">카테고리 검색</label>
                     </div>
                     <div className="w-full">
                         <CategorySelect
