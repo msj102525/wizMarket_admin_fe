@@ -149,7 +149,7 @@ const KakaoMap = () => {
                 </button>
             </div>
             <div id="map" className="w-full h-full"></div>
-            <div className="hAddr absolute left-2 top-16 rounded bg-white bg-opacity-80 z-10 p-2">
+            <div className="hAddr absolute left-2 top-16 mb:top-24 rounded bg-white bg-opacity-80 z-10 p-2">
                 <span className="title font-bold">지도중심기준 행정동 주소정보</span>
                 <span id="centerAddr" className="block mt-1 font-normal"></span>
             </div>
