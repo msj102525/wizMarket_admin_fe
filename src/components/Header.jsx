@@ -5,18 +5,18 @@ const Header = () => {
     return (
         <header className="div-underline">
             <div className='flex justify-between px-10'>
-                <div className="w-72 h-24 border">
+                <div className="w-72 h-24">
                     <Link to="/">
                         <h1>
                             <img src={require('../assets/header/wiz_market_logo.png')} alt="Wiz-Market_logo" className='block w-full h-auto' />
                         </h1>
                     </Link>
                 </div>
-                <div className="flex border leading-9">
-                    <div className="border p-6 font-normal">
+                <div className="flex leading-9 mb:hidden">
+                    <div className="p-6 font-normal">
                         <p className='text-2xl'>JYes님</p>
                     </div>
-                    <div className="border p-6 font-normal">
+                    <div className="p-6 font-normal">
                         <p className='text-2xl'>Logout</p>
                     </div>
                 </div>
