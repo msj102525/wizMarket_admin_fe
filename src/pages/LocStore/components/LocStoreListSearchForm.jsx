@@ -22,7 +22,7 @@ const LocStoreListSearchForm = ({
                 {/* 상호 검색 */}
                 <div className="mb-4 flex gap-4 items-center">
                     <div className="w-1/6 text-center">
-                        <label className="block mb-1 font-extrabold">상호 검색</label>
+                        <label className="block mb-1 font-extrabold mb:text-3xl">상호 검색</label>
                     </div>
                     <div className="w-full flex gap-4 items-center">
                         <input
@@ -52,7 +52,7 @@ const LocStoreListSearchForm = ({
                 {/* 카테고리 검색 */}
                 <div className="mb-4 flex gap-4">
                     <div className="w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold">카테고리 검색</label>
+                        <label className="block mb-1 font-extrabold mb:text-2xl">카테고리 검색</label>
                     </div>
                     <div className="w-full">
                         <CategorySelect
@@ -74,7 +74,7 @@ const LocStoreListSearchForm = ({
                 {/* 지역 검색 */}
                 <div className="mb-4 flex gap-4">
                     <div className="w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold">지역 검색</label>
+                        <label className="block mb-1 font-extrabold mb:text-3xl">지역 검색</label>
                     </div>
                     <div className="w-full">
                         <CitySelect

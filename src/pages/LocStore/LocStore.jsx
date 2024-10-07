@@ -231,14 +231,16 @@ const LocStore = () => {
         <div>
             <Header />
             <div className="flex">
-                <Aside />
+                <dir className="mb:hidden">
+                    <Aside />
+                </dir>
                 <main className="flex-1 flex flex-col gap-2 min-h-screen p-4 overflow-x-hidden">
                     <section>
                         <SectionHeader title="매장분석" isList={isList} handleToggle={handleToggle} />
                     </section>
 
                     {/* 상단 지도와 검색 폼 */}
-                    <section className="flex gap-4 py-4">
+                    <section className="flex gap-4 py-4 mb:flex-col mb:h-[450px]">
                         {!isList && (
                             <div className='flex-1'>
                                 <KakaoMap />

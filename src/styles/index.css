@@ -41,3 +41,10 @@
       @apply relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:block after:w-full after:h-[2px] after:bg-[#D9D9D9];
     }
   }
+
+  /* Mobile */
+  @media (max-width: 450px) {
+    html { 
+      font-size : 6px; 
+      }    
+  }

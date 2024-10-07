@@ -21,7 +21,7 @@ const CustomSelect = ({ options, value, onChange, placeholder, disabled }) => {
                     {options.map((option) => (
                         <li
                             key={option.value}
-                            className="p-2 hover:bg-gray-100 cursor-pointer border"
+                            className="p-2 hover:bg-gray-100 cursor-pointer border mb:text-3xl"
                             onClick={() => {
                                 onChange(option.value);
                                 setIsOpen(false);
@@ -90,7 +90,7 @@ const CategorySelect = ({
     ];
 
     return (
-        <div className="flex gap-4 w-full">
+        <div className="flex gap-4 w-full flex-wrap mb:text-3xl">
             <CustomSelect
                 options={refOption}
                 value={reference}

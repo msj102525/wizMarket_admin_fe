@@ -4,7 +4,11 @@ module.exports = {
     "./src/index.css",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'mb': { 'max': '450px' }, // 모바일 버전 400px 이하
+      }
+    },
   },
   plugins: [],
 }

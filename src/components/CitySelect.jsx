@@ -46,7 +46,7 @@ const CitySelect = ({
     };
 
     return (
-        <div className="flex gap-4 w-full rounded-lg">
+        <div className="flex gap-4 w-full rounded-lg flex-wrap">
             <select
                 value={city || ""}
                 onChange={handleCityChange}
