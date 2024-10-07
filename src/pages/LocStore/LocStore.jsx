@@ -110,14 +110,14 @@ const LocStore = () => {
             detailCategory: convertToValue(detailCategory),
         };
 
-        const matchType = isLikeSearch ? 'LIKE' : '=';  // isIncludeMatch가 체크되었는지에 따라 결정
-
+        const matchType = isLikeSearch ? '=' : 'LIKE';  // isIncludeMatch가 체크되었는지에 따라 결정
+        
         setFilters(filters);  // 검색 시 필터 값을 상태에 저장
         const pagingInfo = {
             page,    // 현재 페이지, currentPage 대신 page 인자를 사용
             page_size: pageSize,  // 페이지당 항목 수
         };
-
+        console.log(matchType)
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_store/select_loc_store`,
@@ -236,7 +236,7 @@ const LocStore = () => {
                 </dir>
                 <main className="flex-1 flex flex-col gap-2 min-h-screen p-4 overflow-x-hidden">
                     <section>
-                        <SectionHeader title="매장분석" isList={isList} handleToggle={handleToggle} />
+                        <SectionHeader title="매장 정보" isList={isList} handleToggle={handleToggle} />
                     </section>
 
                     {/* 상단 지도와 검색 폼 */}

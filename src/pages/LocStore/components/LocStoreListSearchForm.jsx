@@ -40,14 +40,10 @@ const LocStoreListSearchForm = ({
                                 checked={isLikeSearch}
                                 onChange={(e) => setIsLikeSearch(e.target.checked)} // 체크 시 포함 검색 활성화
                             />
-                            <label htmlFor="includeSearch">포함 검색</label>
+                            <label htmlFor="includeSearch">직접 검색</label>
                         </div>
                     </div>
                 </div>
-
-
-
-
 
                 {/* 카테고리 검색 */}
                 <div className="mb-4 flex gap-4">
