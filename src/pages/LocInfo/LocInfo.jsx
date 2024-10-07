@@ -114,7 +114,7 @@ const LocInfo = () => {
             setAllCorrResults(response.data.all_corr);
             setFilterCorrResults(response.data.filter_corr);
             console.log(response.data.filtered_data)
-            console.log(response.data.filter_corr)
+
 
             // statistics/select_statistics에 대한 추가 요청
             const statResponse = await axios.post(

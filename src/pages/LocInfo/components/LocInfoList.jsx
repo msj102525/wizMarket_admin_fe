@@ -214,20 +214,30 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData }) => {
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.city_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.district_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.sub_district_name}</td>
-                                        <td className="border border-gray-300 px-4 py-2 text-center">{item.shop.toLocaleString()}개</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {Math.floor(item.sales / 10000).toLocaleString()}만원
+                                            {item.shop === '정보 없음' ? '정보 없음' : `${item.shop.toLocaleString()}개`}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {Math.floor(item.income / 10000).toLocaleString()}만원
+                                            {item.sales === '정보 없음' ? '정보 없음' : `${Math.floor(item.sales / 10000).toLocaleString()}만원`}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {Math.floor(item.spend / 10000).toLocaleString()}만원
+                                            {item.income === '정보 없음' ? '정보 없음' : `${Math.floor(item.income / 10000).toLocaleString()}만원`}
                                         </td>
-                                        <td className="border border-gray-300 px-4 py-2 text-center">{item.move_pop.toLocaleString()}명</td>
-                                        <td className="border border-gray-300 px-4 py-2 text-center">{item.resident.toLocaleString()}명</td>
-                                        <td className="border border-gray-300 px-4 py-2 text-center">{item.work_pop.toLocaleString()}명</td>
-                                        <td className="border border-gray-300 px-4 py-2 text-center">{item.house.toLocaleString()}개</td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">
+                                            {item.sales === '정보 없음' ? '정보 없음' : `${Math.floor(item.sales / 10000).toLocaleString()}만원`}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">
+                                            {item.move_pop === '정보 없음' ? '정보 없음' : `${item.move_pop.toLocaleString()}명`}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">
+                                            {item.resident === '정보 없음' ? '정보 없음' : `${item.resident.toLocaleString()}명`}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">
+                                            {item.work_pop === '정보 없음' ? '정보 없음' : `${item.work_pop.toLocaleString()}명`}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">
+                                            {item.house === '정보 없음' ? '정보 없음' : `${item.house.toLocaleString()}명`}
+                                        </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.y_m}</td>
                                     </tr>
 
