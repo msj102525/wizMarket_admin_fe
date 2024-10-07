@@ -33,6 +33,10 @@ const LocStore = () => {
         detailCategory, setDetailCategory, detailCategories
     } = useCategories();
 
+    useEffect(() => {
+        setReference(3);  // reference를 3으로 설정
+    }, [setReference]);
+
     const {
         cities,
         districts,
