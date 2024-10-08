@@ -46,7 +46,7 @@ const LocStoreList = ({ data }) => {
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
                             시/군/구
                         </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
                             읍/면/동
                         </th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">출처</th>
@@ -106,7 +106,7 @@ const LocStoreList = ({ data }) => {
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.branch_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.city_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 ">{item.district_name}</td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.sub_district_name}</td>
+                            <td className="border border-gray-300 px-4 py-2 mb:py-4">{item.sub_district_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">상권정보시스템</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.large_category_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.medium_category_name}</td>

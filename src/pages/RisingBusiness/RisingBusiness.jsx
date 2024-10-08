@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import Aside from '../../components/Aside';
@@ -57,6 +57,10 @@ const RisingBusiness = () => {
         setDistrict,
         setSubDistrict,
     });
+
+    useEffect(() => {
+        setReference(1);
+    }, [setReference])
 
     const handleSearch = () => {
 

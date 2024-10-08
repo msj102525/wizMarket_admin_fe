@@ -17,11 +17,11 @@ const LocStoreListSearchForm = ({
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full">
             <div className="p-4 bg-[#F3F5F7]">
                 {/* 상호 검색 */}
-                <div className="mb-4 flex flex-col mb:flex-row gap-4 items-center">
-                    <div className="w-full mb:w-1/6 text-center">
-                        <label className="block mb-1 font-extrabold text-lg mb:text-3xl">상호 검색</label>
+                <div className="mb-4 flex gap-4  mb:flex-row">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold text-lg mb:text-4xl">상호 검색</label>
                     </div>
-                    <div className="w-full flex flex-col mb:flex-row gap-4 items-center">
+                    <div className="w-full flex gap-4">
                         <input
                             type="text"
                             value={storeName || ""}
@@ -36,17 +36,17 @@ const LocStoreListSearchForm = ({
                                 checked={isLikeSearch}
                                 onChange={(e) => setIsLikeSearch(e.target.checked)}
                             />
-                            <label htmlFor="includeSearch" className="text-sm mb:text-base">포함 검색</label>
+                            <label htmlFor="includeSearch" className="text-sm mb:text-4xl">직접 검색</label>
                         </div>
                     </div>
                 </div>
 
                 {/* 카테고리 검색 */}
-                <div className="mb-4 flex flex-col mb:flex-row gap-4">
-                    <div className="w-full mb:w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold text-lg mb:text-3xl">카테고리 검색</label>
+                <div className="mb-4 flex gap-4  mb:flex-row">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold text-lg mb:text-4xl">카테고리 검색</label>
                     </div>
-                    <div className="w-full">
+                    <div className="w-full flex gap-4">
                         <CategorySelect
                             reference={reference}
                             references={references}
@@ -64,11 +64,11 @@ const LocStoreListSearchForm = ({
                 </div>
 
                 {/* 지역 검색 */}
-                <div className="mb-4 flex flex-col mb:flex-row gap-4">
-                    <div className="w-full mb:w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold text-lg mb:text-3xl">지역 검색</label>
+                <div className="mb-4 flex gap-4  mb:flex-row">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold text-lg mb:text-4xl">지역 검색</label>
                     </div>
-                    <div className="w-full">
+                    <div className="w-full flex gap-4">
                         <CitySelect
                             reference={reference}
                             city={city}

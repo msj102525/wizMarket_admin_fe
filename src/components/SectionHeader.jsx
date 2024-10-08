@@ -5,7 +5,7 @@ const SectionHeader = ({ title, isList, handleToggle, mapDisable }) => {
         <div className="div-underline p-2 flex justify-between py-4">
             <div className='flex gap-4'>
                 <div className='w-1.5 bg-gradient-to-b from-[#E2E2E2] to-[#020202]'></div>
-                <p className='text-3xl font-medium'>{title}</p>
+                <p className='text-3xl font-medium mb:text-5xl'>{title}</p>
             </div>
             {!mapDisable && (
                 <div className='flex'>

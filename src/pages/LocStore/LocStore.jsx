@@ -26,16 +26,14 @@ const LocStore = () => {
 
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
 
+
+
     const {
         reference, setReference, references,
         mainCategory, setMainCategory, mainCategories,
         subCategory, setSubCategory, subCategories,
         detailCategory, setDetailCategory, detailCategories
     } = useCategories();
-
-    useEffect(() => {
-        setReference(3);  // reference를 3으로 설정
-    }, [setReference]);
 
     const {
         cities,
@@ -71,6 +69,10 @@ const LocStore = () => {
         setIsLikeSearch('');
         setReference('');
     };
+
+    useEffect(() => {
+        setReference(3);
+    })
 
     const handleToggle = () => {
         setIsList(!isList);
@@ -115,7 +117,7 @@ const LocStore = () => {
         };
 
         const matchType = isLikeSearch ? '=' : 'LIKE';  // isIncludeMatch가 체크되었는지에 따라 결정
-        
+
         setFilters(filters);  // 검색 시 필터 값을 상태에 저장
         const pagingInfo = {
             page,    // 현재 페이지, currentPage 대신 page 인자를 사용
@@ -199,7 +201,7 @@ const LocStore = () => {
                 <button
                     onClick={handlePrevPage}
                     disabled={currentPage === 1}
-                    className={`px-3 py-1 mx-1 border border-gray-300 rounded ${currentPage === 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100'
+                    className={`px-3 py-1 mx-1 border border-gray-300 rounded mb:px-6 mb:py-3 ${currentPage === 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100'
                         }`}
                 >
                     이전
@@ -209,7 +211,7 @@ const LocStore = () => {
                     <button
                         key={pageNumber}
                         onClick={() => handlePageClick(pageNumber)}
-                        className={`px-3 py-1 mx-1 border border-gray-300 rounded ${currentPage === pageNumber ? 'bg-gray-300 text-white font-bold' : 'bg-white text-gray-700 hover:bg-gray-100'
+                        className={`px-3 py-1 mx-1 border border-gray-300 rounded mb:px-6 mb:py-3 ${currentPage === pageNumber ? 'bg-gray-300 text-white font-bold' : 'bg-white text-gray-700 hover:bg-gray-100'
                             }`}
                     >
                         {pageNumber}
@@ -219,7 +221,7 @@ const LocStore = () => {
                 <button
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    className={`px-3 py-1 mx-1 border border-gray-300 rounded ${currentPage === totalPages ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100'
+                    className={`px-3 py-1 mx-1 border border-gray-300 rounded mb:px-6 mb:py-3 ${currentPage === totalPages ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100'
                         }`}
                 >
                     다음
@@ -244,13 +246,13 @@ const LocStore = () => {
                     </section>
 
                     {/* 상단 지도와 검색 폼 */}
-                    <section className="flex gap-4 py-4 mb:flex-col mb:h-[650px]">
+                    <section className={`flex gap-4 py-4 mb:flex-col ${!isList ? 'mb:h-[550px]' : ''}`}>
                         {!isList && (
-                            <div className='flex-1 mb:flex-2'>
+                            <div className='flex-1'>
                                 <KakaoMap />
                             </div>
                         )}
-                        <div className='flex-1 mb:flex-1'>
+                        <div className='flex-1'>
                             <LocStoreListSearchForm
                                 city={city}
                                 district={district}
@@ -308,13 +310,13 @@ const LocStore = () => {
                         </div>
 
                         {/* 페이징 처리 */}
-                        <div className="w-full">
+                        <div className="w-full mb:pb-40">
                             {!loading && !error && renderPagination()}
                         </div>
                     </section>
                 </main>
             </div>
-        </div>
+        </div >
     );
 };
 
