@@ -47,6 +47,7 @@ const CommercialDistrictList2 = ({ data }) => {
     };
 
     const toggleRowExpansion = useCallback((id) => {
+        console.log("toggle", id);
         setExpandedRows((prevState) => ({
             ...prevState,
             [id]: !prevState[id]
@@ -292,15 +293,15 @@ const CommercialDistrictList2 = ({ data }) => {
                 <tbody className="bg-white divide-y divide-gray-200">
                     {currentResults.length > 0 ? (
                         currentResults.map((item, idx) => (
-                            <React.Fragment key={idx + 1}>
+                            <React.Fragment key={idx}>
                                 <tr className=''>
                                     <td className="flex justify-center whitespace-nowrap text-md  text-gray-900 p-2">
                                         <div
                                             className="w-[11px] cursor-pointer pt-3.5"
-                                            onClick={() => toggleRowExpansion(idx + 1)}
+                                            onClick={() => toggleRowExpansion(idx)}
                                         >
                                             <img
-                                                className={`block w-full h-auto transition-transform duration-200 ${expandedRows[idx + 1] ? 'transform rotate-180' : ''}`}
+                                                className={`block w-full h-auto transition-transform duration-200 ${expandedRows[idx] ? 'transform rotate-180' : ''}`}
                                                 src={require("../../../assets/form/dropdownArrow.png")}
                                                 alt="toggleImg"
                                             />
@@ -326,7 +327,7 @@ const CommercialDistrictList2 = ({ data }) => {
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
                                 </tr>
-                                {expandedRows[item.commercial_district_id] && renderExpandedRow(item)}
+                                {expandedRows[idx] && renderExpandedRow(item)}
                             </React.Fragment>
                         ))
                     ) : (
