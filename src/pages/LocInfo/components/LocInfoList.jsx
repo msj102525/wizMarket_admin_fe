@@ -224,7 +224,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData }) => {
                                             {item.income === '정보 없음' ? '정보 없음' : `${Math.floor(item.income / 10000).toLocaleString()}만원`}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.sales === '정보 없음' ? '정보 없음' : `${Math.floor(item.sales / 10000).toLocaleString()}만원`}
+                                            {item.spend === '정보 없음' ? '정보 없음' : `${Math.floor(item.spend / 10000).toLocaleString()}만원`}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.move_pop === '정보 없음' ? '정보 없음' : `${item.move_pop.toLocaleString()}명`}
