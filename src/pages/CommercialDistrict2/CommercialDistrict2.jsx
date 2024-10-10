@@ -26,8 +26,8 @@ const CommercialDistrict2 = () => {
     const [avgSalesMin, setAvgSalesMin] = useState("");
     const [foodCostMax, setFoodCostMax] = useState("");
     const [foodCostMin, setFoodCostMin] = useState("");
-    const [empCostMax, setEmpCostMax] = useState("");
-    const [empCostMin, setEmpCostMin] = useState("");
+    const [empCostMax, setEmpCostMax] = useState(""); // 인건비X -> 평균 결제
+    const [empCostMin, setEmpCostMin] = useState(""); // 인건비X -> 평균 결제
     const [rentalCostMax, setRentalCostMax] = useState("");
     const [rentalCostMin, setRentalCostMin] = useState("");
     const [avgProfitMax, setAvgProfitMax] = useState("");

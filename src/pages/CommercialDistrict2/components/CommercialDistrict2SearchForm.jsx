@@ -138,7 +138,7 @@ const CommercialDistrict2SearchForm = ({
                 {/* 인건비 */}
                 <div className="mb-4 flex gap-4">
                     <div className="w-1/6 text-center">
-                        <label className="block mb-1 font-extrabold">인건비</label>
+                        <label className="block mb-1 font-extrabold">평균 결제</label>
                     </div>
                     <div className="w-full flex gap-4">
                         <input
