@@ -78,7 +78,7 @@ const CommercialDistrict2 = () => {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial/cd`, {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial/cd2`, {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                     },
@@ -103,6 +103,7 @@ const CommercialDistrict2 = () => {
                         avg_profit_max: parseInt(avgProfitMax) || undefined,
                     },
                 });
+                // console.log(response.data)
                 setData(response.data);
             } catch (error) {
                 console.error('Error fetching data from FastAPI', error);
@@ -214,7 +215,7 @@ const CommercialDistrict2 = () => {
                         {loading && <p>Loading...</p>}
                         {error && <p>Error: {error}</p>}
                         {data && !loading && !error && (
-                            <CommercialDistrictList2 data={data} />
+                            <CommercialDistrictList2 data2={data} />
                         )}
                     </section>
                 </main>

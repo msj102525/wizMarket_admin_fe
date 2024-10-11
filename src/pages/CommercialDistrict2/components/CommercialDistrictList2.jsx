@@ -1,14 +1,26 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useCallback, useMemo } from 'react';
+// import PropTypes from 'prop-types';
 import Pagination from '../../../components/Pagination';
 import DataLengthDown from '../../../components/DataLengthDown';
 // import { useCities } from '../../../hooks/useCities';
 
-const CommercialDistrictList2 = ({ data }) => {
+const CommercialDistrictList2 = ({ data2 }) => {
     const [sortConfig, setSortConfig] = useState({ key: 'commercial_district_id', direction: 'descending' });
     const [currentPage, setCurrentPage] = useState(1);
     const [expandedRows, setExpandedRows] = useState({});
     const resultsPerPage = 20;
+
+    // console.log(data2)
+
+    const data = useMemo(() => {
+        return data2.map(item => item.commercial_district_data) || [];
+    }, [data2]);
+
+    const statisticsData = useMemo(() => {
+        return data2.map(item => item.statistics_data) || [];
+    }, [data2]);
+
+    // console.log(statisticsData)
 
     const sortedData = React.useMemo(() => {
 
@@ -121,134 +133,175 @@ const CommercialDistrictList2 = ({ data }) => {
         ? Object.keys(data[0]).map(key => headerMapping[key] || key)
         : [];
 
-    const renderExpandedRow = (item) => (
+    const renderExpandedRow = (item, index) => (
         <>
+            {console.log(item)}
             <tr>
                 <td colSpan={1}></td>
                 <td colSpan={8} className='border-l'>
                     <tr>
-                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-4">
+                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-2.5 py-4">
                             <p className='text-sm'>요일별<br />평균매출</p>
                         </td>
                         {/* 요일별 데이터 */}
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">월요일 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">화요일 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">수요일 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">목요일 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">금요일 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">토요일 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">일요일</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">월요일 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">화요일 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">수요일 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">목요일 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">금요일 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">토요일 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">일요일</td>
                     </tr>
                     <tr>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_mon)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_tue)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_wed)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_thu)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_fri)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_sat)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_sun)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_mon)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_tue)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_wed)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_thu)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_fri)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_sat)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_sun)}</td>
                     </tr>
                 </td>
-                <td colSpan={5} className='border-l'>
+                <td colSpan={4} className='border-l'>
                     <tr>
                         <td rowSpan="2"></td>
-                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">
+                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">
                             <p className='text-sm'>밀집도</p>
                         </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">전국 밀집도 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">시/도 밀집도 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">군/구 밀집도 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">읍/면/동 밀집도</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">전국 밀집도 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">시/도 밀집도 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">군/구 밀집도 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">읍/면/동 밀집도</td>
                     </tr>
                     <tr>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.national_density)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.city_density)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.district_density)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.sub_district_density)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.national_density)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.city_density)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.district_density)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.sub_district_density)}</td>
                     </tr>
                 </td>
 
                 <td colSpan={6} className='border-l'>
                     <tr>
                         <td rowSpan="2"></td>
-                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">
+                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">
                             <p className='text-sm'>뜨는 메뉴</p>
                         </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">TOP1 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">TOP2 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">TOP3 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">TOP4 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">TOP5</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">TOP1 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">TOP2 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">TOP3 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">TOP4 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">TOP5</td>
                     </tr>
                     <tr>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{item.top_menu_1}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{item.top_menu_2}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{item.top_menu_3}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{item.top_menu_4}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{item.top_menu_5}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{item.top_menu_1}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{item.top_menu_2}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{item.top_menu_3}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{item.top_menu_4}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{item.top_menu_5}</td>
                     </tr>
                 </td>
             </tr>
             <tr>
                 <td colSpan={1}></td>
-                <td colSpan={9} className='border-l'>
+                <td colSpan={6} className='border-l'>
                     <tr>
-                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">
+                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">
                             <p className='text-sm'>시간별<br />평균 매출</p>
                         </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">06-09 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">09-12 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">12-15 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">15-18 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">18-21 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">21-24 | </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">24-06</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">06-09 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">09-12 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">12-15 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">15-18 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">18-21 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">21-24 | </td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">24-06</td>
                     </tr>
                     <tr>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_06_09)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_09_12)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_12_15)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_15_18)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_18_21)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_21_24)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_profit_per_24_06)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_06_09)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_09_12)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_12_15)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_15_18)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_18_21)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_21_24)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_profit_per_24_06)}</td>
                     </tr>
                 </td>
                 <td colSpan={15} className='border-l'>
                     <tr>
                         <td rowSpan="2"></td>
-                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">
+                        <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">
                             <p className='text-sm'>연령별 비중</p>
                         </td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">남 20대 비중 |</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">남 30대 비중 |</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">남 40대 비중 |</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">남 50대 비중 |</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">남 60대 비중 |</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">여 20대 비중 |</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">여 30대 비중 |</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">여 40대 비중 |</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">여 50대 비중 |</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">여 60대 비중</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">남 20대 비중 |</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">남 30대 비중 |</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">남 40대 비중 |</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">남 50대 비중 |</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">남 60대 비중 |</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">여 20대 비중 |</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">여 30대 비중 |</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">여 40대 비중 |</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">여 50대 비중 |</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">여 60대 비중</td>
                     </tr>
                     <tr>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_20)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_30)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_40)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_50)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_60)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_20)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_30)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_40)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_50)}</td>
-                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-1.5 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_60)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_20)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_30)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_40)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_50)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_client_per_m_60)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_20)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_30)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_40)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_50)}</td>
+                        <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">{Intl.NumberFormat().format(item.avg_client_per_f_60)}</td>
                     </tr>
                 </td>
 
             </tr>
-
+            {renderStatisticsData(statisticsData[index])}
         </>
     );
+
+    const renderStatisticsData = (stats) => {
+        const categories = [
+            { key: 'market_size', label: '시장 규모' },
+            { key: 'average_sales', label: '평균 매출' },
+            { key: 'average_payment', label: '평균 결제금액' },
+            { key: 'usage_count', label: '이용 건수' },
+            { key: 'sub_district_density', label: '읍면동 밀집도' }
+        ];
+
+        const statTypes = [
+            { key: 'avg_val', label: '평균' },
+            { key: 'med_val', label: '중앙값' },
+            { key: 'std_val', label: '표준편차' },
+            { key: 'max_val', label: '최대값' },
+            { key: 'min_val', label: '최소값' },
+            { key: 'j_score', label: 'J 점수' }
+        ];
+
+        return (
+            <>
+                {categories.map(category => (
+                    <tr key={category.key}>
+                        <td colSpan={1}></td>
+                        <td colSpan={3} className="px-2">{category.label}</td>
+                        {statTypes.map(statType => (
+                            <td colSpan={2} key={statType.key} className="px-2 py-4">
+                                <div className="text-md">
+                                    <span className="font-medium">{statType.label}: </span>
+                                    {stats[category.key] && typeof stats[category.key][statType.key] === 'number'
+                                        ? stats[category.key][statType.key].toFixed(2)
+                                        : (stats[category.key]?.[statType.key] ?? 0)}
+                                </div>
+                            </td>
+                        ))}
+                    </tr>
+                ))}
+            </>
+        );
+    };
 
     return (
         <div className="flex flex-wrap justify-center">
@@ -311,7 +364,7 @@ const CommercialDistrictList2 = ({ data }) => {
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.city_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.district_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.sub_district_name}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{"출처"}</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{"나이스비즈맵"}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_main_category_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_sub_category_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_detail_category_name}</td>
@@ -327,7 +380,7 @@ const CommercialDistrictList2 = ({ data }) => {
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
                                 </tr>
-                                {expandedRows[idx] && renderExpandedRow(item)}
+                                {expandedRows[idx] && renderExpandedRow(item, indexOfFirstResult + idx)}
                             </React.Fragment>
                         ))
                     ) : (
@@ -346,42 +399,5 @@ const CommercialDistrictList2 = ({ data }) => {
     );
 };
 
-CommercialDistrictList2.propTypes = {
-    data: PropTypes.arrayOf(
-        PropTypes.shape({
-            commercial_district_id: PropTypes.number,
-            city_name: PropTypes.string,
-            district_name: PropTypes.string,
-            sub_district_name: PropTypes.string,
-            biz_main_category_name: PropTypes.string,
-            biz_sub_category_name: PropTypes.string,
-            biz_detail_category_name: PropTypes.string,
-            market_size: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            average_payment: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            usage_count: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            average_sales: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            operating_cost: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            food_cost: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            employee_cost: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            rental_cost: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            tax_cost: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            average_profit: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            avg_profit_per_mon: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            avg_profit_per_tue: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            avg_profit_per_wed: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            avg_profit_per_thu: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            avg_profit_per_fri: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            avg_profit_per_sat: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            avg_profit_per_sun: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
-            top_menu_1: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
-            top_menu_2: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
-            top_menu_3: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
-            top_menu_4: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
-            top_menu_5: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([null])]),
-            created_at: PropTypes.string,
-            updated_at: PropTypes.string,
-        })
-    ).isRequired,
-};
 
 export default CommercialDistrictList2;
