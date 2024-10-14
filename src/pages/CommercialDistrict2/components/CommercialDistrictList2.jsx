@@ -49,7 +49,6 @@ const CommercialDistrictList2 = ({ data2 }) => {
             direction = 'descending';
         }
         setSortConfig({ key, direction });
-        setCurrentPage(1);
     };
 
     const getSortIndicator = (key) => {
@@ -136,6 +135,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
 
     const renderExpandedRow = (item, index) => (
         <>
+            {console.log(item)}
             <tr>
                 <td colSpan={1}></td>
                 <td colSpan={8} className='border-l'>
@@ -346,7 +346,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                 <tbody className="bg-white divide-y divide-gray-200">
                     {currentResults.length > 0 ? (
                         currentResults.map((item, idx) => (
-                            <React.Fragment key={item.commercial_district_id}>
+                            <React.Fragment key={idx}>
                                 <tr className=''>
                                     <td className="flex justify-center whitespace-nowrap text-md  text-gray-900 p-2">
                                         <div
@@ -360,9 +360,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                             />
                                         </div>
                                     </td>
-                                    <td className="text-center whitespace-nowrap text-md  text-gray-900 p-2">
-                                        {indexOfFirstResult + idx + 1}
-                                    </td>
+                                    <td className="text-center whitespace-nowrap text-md  text-gray-900 p-2">{indexOfFirstResult + idx + 1}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.city_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.district_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.sub_district_name}</td>
@@ -382,12 +380,12 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
                                 </tr>
-                                {expandedRows[item.commercial_district_id] && renderExpandedRow(item, indexOfFirstResult + idx)}
+                                {expandedRows[idx] && renderExpandedRow(item, indexOfFirstResult + idx)}
                             </React.Fragment>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="15" className="text-center text-md text-gray-500 py-4">No data available</td>
+                            <td colSpan="15" className="text-center  text-md  text-gray-500 py-4">No data available</td>
                         </tr>
                     )}
                 </tbody>
