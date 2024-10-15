@@ -149,8 +149,10 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                                 <option value="2024-05-31">24년 5월</option>
                                 <option value="2024-06-30">24년 6월</option>
                                 <option value="2024-07-31">24년 7월</option>
+                                <option value="2024-08-31">24년 8월</option>
+                                <option value="2024-09-30">24년 9월</option>
                             </select>~
-                            {/* 최대 연령대 선택 (이하) */}
+
                             <select
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
@@ -164,6 +166,8 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                                 <option value="2024-05-31">24년 5월</option>
                                 <option value="2024-06-30">24년 6월</option>
                                 <option value="2024-07-31">24년 7월</option>
+                                <option value="2024-08-31">24년 8월</option>
+                                <option value="2024-09-30">24년 9월</option>
                             </select>
                         </div>
                     </div>
