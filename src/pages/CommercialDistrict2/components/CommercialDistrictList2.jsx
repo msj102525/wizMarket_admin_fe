@@ -5,16 +5,21 @@ import DataLengthDown from '../../../components/DataLengthDown';
 // import { useCities } from '../../../hooks/useCities';
 
 const CommercialDistrictList2 = ({ data2 }) => {
-    const [sortConfig, setSortConfig] = useState({ key: 'commercial_district_id', direction: 'descending' });
+    const [sortConfig, setSortConfig] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [expandedRows, setExpandedRows] = useState({});
     const resultsPerPage = 20;
 
-    // console.log(data2)
 
     const data = useMemo(() => {
-        return data2.map(item => item.commercial_district_data) || [];
+        return data2.map((item, index) => ({
+            ...item.commercial_district_data,
+            originalIndex: index + 1
+        })) || [];
     }, [data2]);
+
+    console.log(data)
+
 
     const statisticsData = useMemo(() => {
         return data2.map(item => item.statistics_data) || [];
@@ -278,7 +283,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
             { key: 'std_val', label: '표준편차' },
             { key: 'max_val', label: '최대값' },
             { key: 'min_val', label: '최소값' },
-            { key: 'j_score', label: 'J 점수' }
+            { key: 'j_score', label: 'J-Score' }
         ];
 
         return (
@@ -313,7 +318,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                     <tr>
                         {[
                             { key: 'toggle', label: '펼치기' },
-                            { key: 'commercial_district_id', label: '번호' },
+                            { key: 'originalIndex', label: '번호' },
                             { key: 'city_name', label: '시/도' },
                             { key: 'district_name', label: '시/군/구' },
                             { key: 'sub_district_name', label: '읍/면/동' },
@@ -336,7 +341,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                             <th
                                 key={key}
                                 className="text-center p-2 text-md font-extrabold text-black uppercase tracking-wider cursor-pointer"
-                                onClick={() => requestSort(key)}
+                                onClick={() => key !== 'toggle' && requestSort(key)}
                             >
                                 {label} {getSortIndicator(key)}
                             </th>
@@ -360,7 +365,10 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                             />
                                         </div>
                                     </td>
-                                    <td className="text-center whitespace-nowrap text-md  text-gray-900 p-2">{indexOfFirstResult + idx + 1}</td>
+                                    {/* <td className="text-center whitespace-nowrap text-md  text-gray-900 p-2">{indexOfFirstResult + idx + 1}</td> */}
+                                    <td className="text-center whitespace-nowrap text-md  text-gray-900 p-2">
+                                        {item.originalIndex}
+                                    </td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.city_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.district_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.sub_district_name}</td>
@@ -380,7 +388,8 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
                                 </tr>
-                                {expandedRows[idx] && renderExpandedRow(item, indexOfFirstResult + idx)}
+                                {/* {expandedRows[idx] && renderExpandedRow(item, indexOfFirstResult + idx)} */}
+                                {expandedRows[idx] && renderExpandedRow(item, item.originalIndex - 1)}
                             </React.Fragment>
                         ))
                     ) : (
