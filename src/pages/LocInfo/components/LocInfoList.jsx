@@ -183,6 +183,15 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData }) => {
                                 </th>
 
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
+                                    종합 J-Score - 전국
+                                    <button onClick={() => handleSort('j_score')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                        <span className="text-xs">▲</span>
+                                        <span className="text-xs">▼</span>
+                                    </button>
+                                </div>
+                                </th>
+
+                                <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
                                     기준년월
                                     <button onClick={() => handleSort('y_m')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                         <span className="text-xs">▲</span>
@@ -215,28 +224,71 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData }) => {
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.district_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.sub_district_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.shop === '정보 없음' ? '정보 없음' : `${item.shop.toLocaleString()}개`}
+                                            {item.shop === '정보 없음' ? '정보 없음' : `${item.shop.toLocaleString()}개 `}
+                                            (
+                                            {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop')
+                                                ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop').J_SCORE.toFixed(1)
+                                                : "데이터 없음"}
+                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.sales === '정보 없음' ? '정보 없음' : `${Math.floor(item.sales / 10000).toLocaleString()}만원`}
+                                            {item.sales === '정보 없음' ? '정보 없음' : `${Math.floor(item.sales / 10000).toLocaleString()}만원 `}
+                                            (
+                                            {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'sales')
+                                                ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'sales').J_SCORE.toFixed(1)
+                                                : "데이터 없음"}
+                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.income === '정보 없음' ? '정보 없음' : `${Math.floor(item.income / 10000).toLocaleString()}만원`}
+                                            {item.income === '정보 없음' ? '정보 없음' : `${Math.floor(item.income / 10000).toLocaleString()}만원 `}
+                                            (
+                                            {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'income')
+                                                ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'income').J_SCORE.toFixed(1)
+                                                : "데이터 없음"}
+                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.spend === '정보 없음' ? '정보 없음' : `${Math.floor(item.spend / 10000).toLocaleString()}만원`}
+                                            {item.spend === '정보 없음' ? '정보 없음' : `${Math.floor(item.spend / 10000).toLocaleString()}만원 `}
+                                            (
+                                            {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'spend')
+                                                ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'spend').J_SCORE.toFixed(1)
+                                                : "데이터 없음"}
+                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.move_pop === '정보 없음' ? '정보 없음' : `${item.move_pop.toLocaleString()}명`}
+                                            {item.move_pop === '정보 없음' ? '정보 없음' : `${item.move_pop.toLocaleString()}명 `}
+                                            (
+                                            {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'move_pop')
+                                                ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'move_pop').J_SCORE.toFixed(1)
+                                                : "데이터 없음"}
+                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.resident === '정보 없음' ? '정보 없음' : `${item.resident.toLocaleString()}명`}
+                                            {item.resident === '정보 없음' ? '정보 없음' : `${item.resident.toLocaleString()}명 `}
+                                            (
+                                            {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident')
+                                                ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident').J_SCORE.toFixed(1)
+                                                : "데이터 없음"}
+                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.work_pop === '정보 없음' ? '정보 없음' : `${item.work_pop.toLocaleString()}명`}
+                                            {item.work_pop === '정보 없음' ? '정보 없음' : `${item.work_pop.toLocaleString()}명 `}
+                                            (
+                                            {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop')
+                                                ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop').J_SCORE.toFixed(1)
+                                                : "데이터 없음"}
+                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.house === '정보 없음' ? '정보 없음' : `${item.house.toLocaleString()}명`}
+                                            {item.house === '정보 없음' ? '정보 없음' : `${item.house.toLocaleString()}명 `}
+                                            (
+                                            {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'house')
+                                                ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'house').J_SCORE.toFixed(1)
+                                                : "데이터 없음"}
+                                            )
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">
+                                            종합 j_score
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.y_m}</td>
                                     </tr>

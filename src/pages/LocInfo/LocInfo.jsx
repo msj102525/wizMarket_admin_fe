@@ -240,7 +240,11 @@ const LocInfo = () => {
                     </section>
                     {/* 하단 리스트 */}
                     <section className="w-full">
-                        {loading && <p>검색 결과가 없습니다.</p>}  {/* 로딩 상태 처리 */}
+                        {loading && (
+                            <div className="flex justify-center items-center h-64">
+                                <div className="w-16 h-16 border-4 border-blue-500 border-solid border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                        )}
                         {error && <p className="text-red-500">오류가 발생했습니다: {error}</p>}  {/* 오류 상태 처리 */}
 
                         {/* 데이터가 있으면 리스트 출력 */}

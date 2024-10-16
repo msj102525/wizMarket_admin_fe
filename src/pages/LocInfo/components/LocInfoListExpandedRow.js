@@ -70,6 +70,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -142,6 +143,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         </td>
 
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -212,7 +214,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
             return stat ? `${stat.MED_VAL.toFixed(1)}개` : "데이터 없음";
           })()}
         </td>
-
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
@@ -284,7 +286,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
             return stat ? `${stat.MAX_VALUE}/${stat.MIN_VALUE}개` : "데이터 없음";
           })()}
         </td>
-
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
@@ -293,7 +295,6 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">J-Score</td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* J-Score 값 표시 */}
           {(() => {
@@ -358,7 +359,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           })()}
         </td>
 
-
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
@@ -376,6 +377,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">주거 인구</td>
         <td colSpan="1" className="border px-4 py-2 text-center">세대수</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -384,6 +386,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">업소 수</td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -405,6 +408,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           {allCorrData["SHOP"]["SALES"].toFixed(4)}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -436,6 +440,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -459,6 +464,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           {allCorrData["INCOME"]["SPEND"].toFixed(4)}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -496,6 +502,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -529,6 +536,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           {allCorrData["MOVE_POP"]["WORK_POP"].toFixed(4)}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -570,6 +578,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           {allCorrData["WORK_POP"]["RESIDENT"].toFixed(4)}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
@@ -615,6 +624,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           {allCorrData["RESIDENT"]["HOUSE"].toFixed(4)}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
@@ -698,6 +708,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -761,6 +772,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
         </td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
@@ -826,6 +838,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -889,6 +902,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
         </td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
@@ -954,6 +968,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -977,6 +992,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">주거 인구</td>
         <td colSpan="1" className="border px-4 py-2 text-center">세대수</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -985,6 +1001,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">업소 수</td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -1024,6 +1041,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -1085,6 +1103,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -1168,6 +1187,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -1273,6 +1293,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -1400,6 +1421,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -1549,6 +1571,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
@@ -1720,6 +1743,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
     </>
