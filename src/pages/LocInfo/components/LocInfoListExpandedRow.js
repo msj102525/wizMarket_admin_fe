@@ -51,14 +51,14 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
+            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
             return stat ? `${stat.AVG_VAL.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
+            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
             return stat ? `${stat.AVG_VAL.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
@@ -121,7 +121,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 표준편차 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
+            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
             return stat ? `${stat.STD_VAL.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
@@ -129,7 +129,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 표준편차 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
+            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
             return stat ? `${stat.STD_VAL.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
@@ -194,7 +194,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 중위값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
+            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
             return stat ? `${stat.MED_VAL.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
@@ -202,7 +202,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 중위값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
+            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
             return stat ? `${stat.MED_VAL.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
@@ -266,7 +266,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 최대값/최소값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
+            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
             return stat ? `${stat.MAX_VALUE}/${stat.MIN_VALUE}명` : "데이터 없음";
           })()}
         </td>
@@ -274,7 +274,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 최대값/최소값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
+            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
             return stat ? `${stat.MAX_VALUE}/${stat.MIN_VALUE}명` : "데이터 없음";
           })()}
         </td>
@@ -338,7 +338,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* J-Score 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
+            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
             return stat ? stat.J_SCORE.toFixed(1) : "데이터 없음";
           })()}
         </td>
@@ -346,7 +346,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* J-Score 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
+            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
             return stat ? stat.J_SCORE.toFixed(1) : "데이터 없음";
           })()}
         </td>
@@ -688,14 +688,14 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
+          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
             <>{stat.AVG_VAL.toFixed(1)}명</>
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
+          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
             <>{stat.AVG_VAL.toFixed(1)}명</>
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
@@ -753,14 +753,14 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
+          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
             <>{stat.STD_VAL.toFixed(1)}명</>
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
+          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
             <>{stat.STD_VAL.toFixed(1)}명</>
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
@@ -818,14 +818,14 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
+          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
             <>{stat.MED_VAL.toFixed(1)}명</>
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
+          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
             <>{stat.MED_VAL.toFixed(1)}명</>
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
@@ -883,14 +883,14 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
+          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
             <>{stat.MAX_VALUE}/{stat.MIN_VALUE}명</>
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
+          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
             <>{stat.MAX_VALUE}/{stat.MIN_VALUE}명</>
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
@@ -948,14 +948,14 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
+          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
             <>{stat.J_SCORE.toFixed(1)}</>
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
+          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
             <>{stat.J_SCORE.toFixed(1)}</>
           ))}
           {/* 각 데이터 컬럼에 대한 통계 표시 */}

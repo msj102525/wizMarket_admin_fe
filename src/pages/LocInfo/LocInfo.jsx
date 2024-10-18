@@ -241,9 +241,7 @@ const LocInfo = () => {
                     {/* 하단 리스트 */}
                     <section className="w-full">
                         {loading && (
-                            <div className="flex justify-center items-center h-64">
-                                <div className="w-16 h-16 border-4 border-blue-500 border-solid border-t-transparent rounded-full animate-spin"></div>
-                            </div>
+                            <div>검색을 진행해 주세요</div>
                         )}
                         {error && <p className="text-red-500">오류가 발생했습니다: {error}</p>}  {/* 오류 상태 처리 */}
 

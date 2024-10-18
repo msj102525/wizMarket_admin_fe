@@ -264,18 +264,18 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData }) => {
                                             )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.resident === '정보 없음' ? '정보 없음' : `${item.resident.toLocaleString()}명 `}
-                                            (
-                                            {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident')
-                                                ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident').J_SCORE.toFixed(1)
-                                                : "데이터 없음"}
-                                            )
-                                        </td>
-                                        <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.work_pop === '정보 없음' ? '정보 없음' : `${item.work_pop.toLocaleString()}명 `}
                                             (
                                             {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop')
                                                 ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop').J_SCORE.toFixed(1)
+                                                : "데이터 없음"}
+                                            )
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">
+                                            {item.resident === '정보 없음' ? '정보 없음' : `${item.resident.toLocaleString()}명 `}
+                                            (
+                                            {statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident')
+                                                ? statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident').J_SCORE.toFixed(1)
                                                 : "데이터 없음"}
                                             )
                                         </td>
