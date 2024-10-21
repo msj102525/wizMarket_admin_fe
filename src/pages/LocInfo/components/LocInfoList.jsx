@@ -183,7 +183,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                 </th>
 
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
-                                    종합 J-Score - 전국
+                                    Total J-Score
                                     <button onClick={() => handleSort('j_score')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>
