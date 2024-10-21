@@ -1,7 +1,7 @@
 // ExpandedRow.js
 import React from 'react';
 
-const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
+const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, filterForFind }) => {
 
   const isValueAboveThreshold = (value) => value >= 0.7;  // 0.7 이상인지 확인
 
@@ -16,57 +16,57 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop');
-            return stat ? `${stat.AVG_VAL.toFixed(1)}개` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'shop');
+            return stat ? `${stat.avg_val.toFixed(1)}개` : "데이터 없음";
+          })()}
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+
+          {(() => {
+            const stat = statData.find((stat) => stat.target_item === 'sales');
+            return stat ? `${(stat.avg_val / 10000).toLocaleString()}만원` : "데이터 없음";
+          })()}
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+
+          {(() => {
+            const stat = statData.find((stat) => stat.target_item === 'income');
+            return stat ? `${(stat.avg_val / 10000).toLocaleString()}만원` : "데이터 없음";
+          })()}
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+
+          {(() => {
+            const stat = statData.find((stat) => stat.target_item === 'spend');
+            return stat ? `${(stat.avg_val / 10000).toLocaleString()}만원` : "데이터 없음";
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'sales');
-            return stat ? `${(stat.AVG_VAL / 10000).toFixed(1)}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'move_pop');
+            return stat ? `${stat.avg_val.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'income');
-            return stat ? `${(stat.AVG_VAL / 10000).toFixed(1)}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'work_pop');
+            return stat ? `${stat.avg_val.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'spend');
-            return stat ? `${(stat.AVG_VAL / 10000).toFixed(1)}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'resident');
+            return stat ? `${stat.avg_val.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'move_pop');
-            return stat ? `${stat.AVG_VAL.toFixed(1)}명` : "데이터 없음";
-          })()}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
-            return stat ? `${stat.AVG_VAL.toFixed(1)}명` : "데이터 없음";
-          })()}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
-            return stat ? `${stat.AVG_VAL.toFixed(1)}명` : "데이터 없음";
-          })()}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'house');
-            return stat ? `${stat.AVG_VAL.toFixed(1)}개` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'house');
+            return stat ? `${stat.avg_val.toFixed(1)}개` : "데이터 없음";
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -79,66 +79,59 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">표준편차</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 표준편차 값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop');
-            return stat ? `${stat.STD_VAL.toFixed(1)}개` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'shop');
+            return stat ? `${stat.std_val.toFixed(1)}개` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 표준편차 값 표시 */}
+
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'sales');
-            return stat ? `${(stat.STD_VAL / 10000).toFixed(1)}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'sales');
+            return stat ? `${(stat.std_val / 10000).toLocaleString()}만원` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 표준편차 값 표시 */}
+
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'income');
-            return stat ? `${(stat.STD_VAL / 10000).toFixed(1)}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'income');
+            return stat ? `${(stat.std_val / 10000).toLocaleString()}만원` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 표준편차 값 표시 */}
+
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'spend');
-            return stat ? `${(stat.STD_VAL / 10000).toFixed(1)}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'spend');
+            return stat ? `${(stat.std_val / 10000).toLocaleString()}만원` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 표준편차 값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'move_pop');
-            return stat ? `${stat.STD_VAL.toFixed(1)}명` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'move_pop');
+            return stat ? `${stat.std_val.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 표준편차 값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
-            return stat ? `${stat.STD_VAL.toFixed(1)}명` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'work_pop');
+            return stat ? `${stat.std_val.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 표준편차 값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
-            return stat ? `${stat.STD_VAL.toFixed(1)}명` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'resident');
+            return stat ? `${stat.std_val.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 표준편차 값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'house');
-            return stat ? `${stat.STD_VAL.toFixed(1)}개` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'house');
+            return stat ? `${stat.std_val.toFixed(1)}개` : "데이터 없음";
           })()}
         </td>
 
@@ -152,66 +145,59 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">중간값(Mean)</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 중위값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop');
-            return stat ? `${stat.MED_VAL.toFixed(1)}개` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'shop');
+            return stat ? `${stat.med_val.toFixed(1)}개` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 중위값 표시 */}
+
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'sales');
-            return stat ? `${(stat.MED_VAL / 10000).toFixed(1)}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'sales');
+            return stat ? `${(stat.med_val / 10000).toLocaleString()}만원` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 중위값 표시 */}
+
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'income');
-            return stat ? `${(stat.MED_VAL / 10000).toFixed(1)}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'income');
+            return stat ? `${(stat.med_val / 10000).toLocaleString()}만원` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 중위값 표시 */}
+
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'spend');
-            return stat ? `${(stat.MED_VAL / 10000).toFixed(1)}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'spend');
+            return stat ? `${(stat.med_val / 10000).toLocaleString()}만원` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 중위값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'move_pop');
-            return stat ? `${stat.MED_VAL.toFixed(1)}명` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'move_pop');
+            return stat ? `${stat.med_val.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 중위값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
-            return stat ? `${stat.MED_VAL.toFixed(1)}명` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'work_pop');
+            return stat ? `${stat.med_val.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 중위값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
-            return stat ? `${stat.MED_VAL.toFixed(1)}명` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'resident');
+            return stat ? `${stat.med_val.toFixed(1)}명` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 중위값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'house');
-            return stat ? `${stat.MED_VAL.toFixed(1)}개` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'house');
+            return stat ? `${stat.med_val.toFixed(1)}개` : "데이터 없음";
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -224,66 +210,65 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">최대/최소</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 최대값/최소값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop');
-            return stat ? `${stat.MAX_VALUE}/${stat.MIN_VALUE}개` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'shop');
+            return stat ? `${stat.max_val}개 / ${stat.min_val}개` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 최대값/최소값 표시 */}
+          {/* max/min 값 만단위로 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'sales');
-            return stat ? `${(stat.MAX_VALUE / 10000).toLocaleString()}만원 / ${(stat.MIN_VALUE / 10000).toLocaleString()}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'sales');
+            return stat
+              ? `${(stat.max_val / 10000)}만원 / ${(stat.min_val / 10000)}만원`
+              : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 최대값/최소값 표시 */}
+          {/* max/min 값 만단위로 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'income');
-            return stat ? `${(stat.MAX_VALUE / 10000).toLocaleString()}만원 / ${(stat.MIN_VALUE / 10000).toLocaleString()}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'income');
+            return stat
+              ? `${(stat.max_val / 10000)}만원 / ${(stat.min_val / 10000)}만원`
+              : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 최대값/최소값 표시 */}
+          {/* max/min 값 만단위로 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'spend');
-            return stat ? `${(stat.MAX_VALUE / 10000).toLocaleString()}만원 / ${(stat.MIN_VALUE / 10000).toLocaleString()}만원` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'spend');
+            return stat
+              ? `${(stat.max_val / 10000)}만원 / ${(stat.min_val / 10000)}만원`
+              : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 최대값/최소값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'move_pop');
-            return stat ? `${stat.MAX_VALUE}/${stat.MIN_VALUE}명` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'move_pop');
+            return stat ? `${stat.max_val}개 / ${stat.min_val}개` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 최대값/최소값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
-            return stat ? `${stat.MAX_VALUE}/${stat.MIN_VALUE}명` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'work_pop');
+            return stat ? `${stat.max_val}개 / ${stat.min_val}개` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 최대값/최소값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
-            return stat ? `${stat.MAX_VALUE}/${stat.MIN_VALUE}명` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'resident');
+            return stat ? `${stat.max_val}개 / ${stat.min_val}개` : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 최대값/최소값 표시 */}
+          {/* 평균 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'house');
-            return stat ? `${stat.MAX_VALUE}/${stat.MIN_VALUE}개` : "데이터 없음";
+            const stat = statData.find((stat) => stat.target_item === 'house');
+            return stat ? `${stat.max_val}개 / ${stat.min_val}개` : "데이터 없음";
           })()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -296,69 +281,101 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">J-Score</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* J-Score 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop');
-            return stat ? stat.J_SCORE.toFixed(1) : "데이터 없음";
+            const stat = statData.find(
+              (stat) =>
+                stat.city_name === item.city_name &&
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name &&
+                stat.target_item === 'shop'
+            );
+            return stat ? <>{stat.j_score.toFixed(1)}</> : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* J-Score 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'sales');
-            return stat ? stat.J_SCORE.toFixed(1) : "데이터 없음";
+            const stat = statData.find(
+              (stat) =>
+                stat.city_name === item.city_name &&
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name &&
+                stat.target_item === 'sales'
+            );
+            return stat ? <>{stat.j_score.toFixed(1)}</> : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* J-Score 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'income');
-            return stat ? stat.J_SCORE.toFixed(1) : "데이터 없음";
+            const stat = statData.find(
+              (stat) =>
+                stat.city_name === item.city_name &&
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name &&
+                stat.target_item === 'income'
+            );
+            return stat ? <>{stat.j_score.toFixed(1)}</> : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* J-Score 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'spend');
-            return stat ? stat.J_SCORE.toFixed(1) : "데이터 없음";
+            const stat = statData.find(
+              (stat) =>
+                stat.city_name === item.city_name &&
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name &&
+                stat.target_item === 'spend'
+            );
+            return stat ? <>{stat.j_score.toFixed(1)}</> : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* J-Score 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'move_pop');
-            return stat ? stat.J_SCORE.toFixed(1) : "데이터 없음";
+            const stat = statData.find(
+              (stat) =>
+                stat.city_name === item.city_name &&
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name &&
+                stat.target_item === 'move_pop'
+            );
+            return stat ? <>{stat.j_score.toFixed(1)}</> : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* J-Score 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'work_pop');
-            return stat ? stat.J_SCORE.toFixed(1) : "데이터 없음";
+            const stat = statData.find(
+              (stat) =>
+                stat.city_name === item.city_name &&
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name &&
+                stat.target_item === 'work_pop'
+            );
+            return stat ? <>{stat.j_score.toFixed(1)}</> : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* J-Score 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'resident');
-            return stat ? stat.J_SCORE.toFixed(1) : "데이터 없음";
+            const stat = statData.find(
+              (stat) =>
+                stat.city_name === item.city_name &&
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name &&
+                stat.target_item === 'resident'
+            );
+            return stat ? <>{stat.j_score.toFixed(1)}</> : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* J-Score 값 표시 */}
           {(() => {
-            const stat = statData.find((stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'house');
-            return stat ? stat.J_SCORE.toFixed(1) : "데이터 없음";
+            const stat = statData.find(
+              (stat) =>
+                stat.city_name === item.city_name &&
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name &&
+                stat.target_item === 'house'
+            );
+            return stat ? <>{stat.j_score.toFixed(1)}</> : "데이터 없음";
           })()}
         </td>
-
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
@@ -630,82 +647,449 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">L</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {(() => {
-            const stat = statData.find(
-              (stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop'
-            );
-            return stat ? stat.city_name : "데이터 없음"; // stat이 있으면 city_name 출력, 없으면 "데이터 없음"
-          })()}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {(() => {
-            const stat = statData.find(
-              (stat) => stat.sub_district_name === item.sub_district_name && stat.column_name === 'shop'
-            );
-            return stat ? stat.district_name : "데이터 없음"; // stat이 있으면 city_name 출력, 없으면 "데이터 없음"
-          })()}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+          (() => {
+            const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+            let stat;
+
+            // 모든 값이 None일 때 city, district, subDistrict로 필터링
+            if (!city && !district && !subDistrict) {
+              stat = regionStat.find(stat =>
+                stat.city_name === item.city_name &&
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name
+              );
+              // 조건에 맞는 경우 district_name 반환
+              return stat ? stat.district_name : "데이터 없음";  
+            }
+            // city 값만 있을 때 city, subDistrict로 필터링
+            else if (city && !district && !subDistrict) {
+              stat = regionStat.find(stat =>
+                stat.city_name === item.city_name &&
+                stat.sub_district_name === item.sub_district_name
+              );
+              // 조건에 맞는 경우 avg_val 반환
+              return stat ? stat.city_name : "데이터 없음";  
+            }
+            // district 값만 있을 때 city, subDistrict로 필터링
+            else if (city && district && !subDistrict) {
+              stat = regionStat.find(stat =>
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name
+              );
+              // 조건에 맞는 경우 max_val 반환
+              return stat ? stat.district_name : "데이터 없음";  
+            }
+            // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+            else if (city && district && subDistrict) {
+              stat = regionStat.find(stat =>
+                stat.city_name === item.city_name &&
+                stat.district_name === item.district_name &&
+                stat.sub_district_name === item.sub_district_name
+              );
+              // 조건에 맞는 경우 j_score 반환
+              return stat ? stat.district_name : "데이터 없음";  
+            }
+            // 아무 값도 맞지 않으면 데이터 없음 반환
+            return "데이터 없음";
+          })()
+        }
+
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">평균</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'shop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.AVG_VAL.toFixed(1)}개</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+          {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "shop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.avg_val.toFixed(1)}개`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'sales' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.AVG_VAL / 10000).toFixed(1)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "sales" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.avg_val / 10000).toFixed(1)}만원`;   
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'income' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.AVG_VAL / 10000).toFixed(1)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "income" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.avg_val / 10000).toFixed(1)}만원`;  
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'spend' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.AVG_VAL / 10000).toFixed(1)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "spend" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.avg_val / 10000).toFixed(1)}만원`;  
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'move_pop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.AVG_VAL.toFixed(1)}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "move_pop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.avg_val.toFixed(1)}명`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.AVG_VAL.toFixed(1)}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "work_pop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.avg_val.toFixed(1)}명`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.AVG_VAL.toFixed(1)}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "resident" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.avg_val.toFixed(1)}명`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'house' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.AVG_VAL.toFixed(1)}개</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "house" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.avg_val.toFixed(1)}개`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -717,60 +1101,396 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">표준편차</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'shop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.STD_VAL.toFixed(1)}개</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+          {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "shop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.std_val.toFixed(1)}개`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'sales' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.STD_VAL / 10000).toFixed(1)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "sales" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.std_val / 10000).toFixed(1)}만원`;   
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'income' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.STD_VAL / 10000).toFixed(1)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "income" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.std_val / 10000).toFixed(1)}만원`;  
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'spend' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.STD_VAL / 10000).toFixed(1)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "spend" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.std_val / 10000).toFixed(1)}만원`;  
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'move_pop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.STD_VAL.toFixed(1)}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "move_pop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.std_val.toFixed(1)}명`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.STD_VAL.toFixed(1)}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "work_pop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.std_val.toFixed(1)}명`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.STD_VAL.toFixed(1)}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "resident" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.std_val.toFixed(1)}명`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'house' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.STD_VAL.toFixed(1)}개</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "house" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.std_val.toFixed(1)}개`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -782,60 +1502,396 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">중간값(Mean)</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'shop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.MED_VAL.toFixed(1)}개</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+          {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "shop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.med_val.toFixed(1)}개`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'sales' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.MED_VAL / 10000).toFixed(1)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "sales" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.med_val / 10000).toFixed(1)}만원`;   
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'income' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.MED_VAL / 10000).toFixed(1)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "income" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.med_val / 10000).toFixed(1)}만원`;  
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'spend' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.MED_VAL / 10000).toFixed(1)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "spend" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.med_val / 10000).toFixed(1)}만원`;  
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'move_pop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.MED_VAL.toFixed(1)}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "move_pop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.med_val.toFixed(1)}명`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.MED_VAL.toFixed(1)}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "work_pop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.med_val.toFixed(1)}명`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.MED_VAL.toFixed(1)}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "resident" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.med_val.toFixed(1)}명`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'house' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.MED_VAL.toFixed(1)}개</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "house" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.med_val.toFixed(1)}개`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -847,125 +1903,396 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData }) => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">최대/최소</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'shop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.MAX_VALUE}/{stat.MIN_VALUE}개</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+          {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'shop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "shop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.max_val}/${stat.min_val}개`;  // '개' 단위 추가
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'sales' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.MAX_VALUE / 10000)}/{(stat.MIN_VALUE / 10000)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'sales'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "sales" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.max_val / 10000)}/${(stat.min_val / 10000)}만원`;   
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'income' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.MAX_VALUE / 10000)}/{(stat.MIN_VALUE / 10000)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'income'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "income" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.max_val / 10000)}/${(stat.min_val / 10000)}만원`;   
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'spend' && stat.sub_district_id === null).map((stat) => (
-            <>{(stat.MAX_VALUE / 10000)}/{(stat.MIN_VALUE / 10000)}만원</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'spend'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "spend" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${(stat.max_val / 10000)}/${(stat.min_val / 10000)}만원`;   
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'move_pop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.MAX_VALUE}/{stat.MIN_VALUE}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'move_pop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "move_pop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.max_val}/${stat.min_val}명`;
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.MAX_VALUE}/{stat.MIN_VALUE}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'work_pop'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "work_pop" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.max_val}/${stat.min_val}명`;
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.MAX_VALUE}/{stat.MIN_VALUE}명</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'resident'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "resident" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.max_val}/${stat.min_val}명`;
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'house' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.MAX_VALUE}/{stat.MIN_VALUE}개</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center"></td>
-        <td colSpan="1" className="border px-4 py-2 text-center"></td>
-      </tr>
-      <tr>
-        <td colSpan="1" className="border px-4 py-2 text-center"></td>
-        <td colSpan="1" className="border px-4 py-2 text-center"></td>
-        <td colSpan="1" className="border px-4 py-2 text-center"></td>
-        <td colSpan="1" className="border px-4 py-2 text-center"></td>
-        <td colSpan="1" className="border px-4 py-2 text-center">J-Score</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'shop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.J_SCORE.toFixed(1)}</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'sales' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.J_SCORE.toFixed(1)}</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'income' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.J_SCORE.toFixed(1)}</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'spend' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.J_SCORE.toFixed(1)}</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'move_pop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.J_SCORE.toFixed(1)}</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'work_pop' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.J_SCORE.toFixed(1)}</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'resident' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.J_SCORE.toFixed(1)}</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
-        </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">
-          {/* 평균 값 표시 */}
-          {statData.filter((stat) => stat.district_name === item.district_name && stat.column_name === 'house' && stat.sub_district_id === null).map((stat) => (
-            <>{stat.J_SCORE.toFixed(1)}</>
-          ))}
-          {/* 각 데이터 컬럼에 대한 통계 표시 */}
+        {
+            (() => {
+              const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+              let stat;
+
+              // 모든 값이 None일 때 city, district, subDistrict로 필터링
+              if (!city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // city 값만 있을 때 city, subDistrict로 필터링
+              else if (city && !district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // district 값만 있을 때 city, subDistrict로 필터링
+              else if (city && district && !subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === 'house'
+                );
+              }
+              // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+              else if (city && district && subDistrict) {
+                stat = regionStat.find(stat =>
+                  stat.city_name === item.city_name &&
+                  stat.district_name === item.district_name &&
+                  stat.sub_district_name === item.sub_district_name &&
+                  stat.target_item === "house" 
+                );
+              }
+              // 조건에 맞는 stat이 있을 때 j_score 표시
+              if (stat) {
+                return `${stat.max_val}/${stat.min_val}개`;
+              } else {
+                return "데이터 없음";
+              }
+            })()
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>

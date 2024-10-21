@@ -18,6 +18,8 @@ const LocInfo = () => {
     const [statResults, setStatResults] = useState([]);
     const [allCorrResults, setAllCorrResults] = useState([]);
     const [filterCorrResults, setFilterCorrResults] = useState([]);
+    const [regionStat, setRegionStat] = useState([]);
+    const [filterForFind, setFilterForFind] = useState([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -97,9 +99,7 @@ const LocInfo = () => {
             residentMin: convertToInt(residentMin),
             residentMax: convertToInt(residentMax),
         };
-
-        console.log()
-
+        setFilterForFind(filters)
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/select_loc_info`,
@@ -113,23 +113,10 @@ const LocInfo = () => {
             setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
             setAllCorrResults(response.data.all_corr);
             setFilterCorrResults(response.data.filter_corr);
+            setRegionStat(response.data.region_j_score)
+            setStatResults(response.data.total_stat)
+            console.log(response.data.total_stat)
             console.log(response.data.filtered_data)
-
-
-            // statistics/select_statistics에 대한 추가 요청
-            const statResponse = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/statistics/select_statistics`,
-                filters, // 동일한 필터로 요청
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
-
-            // 통계 결과를 상태로 저장
-            setStatResults(statResponse.data.statistics_data);
-
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');
@@ -184,7 +171,6 @@ const LocInfo = () => {
                         )}
                         <div className='flex-1'>
                             <LocInfoListSearchForm
-
                                 city={city}
                                 district={district}
                                 subDistrict={subDistrict}
@@ -246,7 +232,15 @@ const LocInfo = () => {
                         {error && <p className="text-red-500">오류가 발생했습니다: {error}</p>}  {/* 오류 상태 처리 */}
 
                         {/* 데이터가 있으면 리스트 출력 */}
-                        {!loading && !error && <LocInfoList data={searchResults} statData={statResults} allCorrData = {allCorrResults} filterCorrData = {filterCorrResults}/>}
+                        {!loading && !error && 
+                            <LocInfoList 
+                                data={searchResults} 
+                                statData={statResults} 
+                                regionStat = {regionStat} 
+                                filterForFind = {filterForFind} 
+                                allCorrData = {allCorrResults} 
+                                filterCorrData = {filterCorrResults}
+                            />}
                     </section>
                 </main>
             </div>
