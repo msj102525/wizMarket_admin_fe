@@ -115,8 +115,7 @@ const LocInfo = () => {
             setFilterCorrResults(response.data.filter_corr);
             setRegionStat(response.data.region_j_score)
             setStatResults(response.data.total_stat)
-            console.log(response.data.total_stat)
-            console.log(response.data.filtered_data)
+        
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');
@@ -151,6 +150,7 @@ const LocInfo = () => {
         sethouseMax('');
         setresidentMax('');
     };
+    
 
     return (
         <div>
