@@ -658,7 +658,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                             )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            종합 j_score(가중치)
+                                            Total j_score
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.y_m}</td>
                                     </tr>
