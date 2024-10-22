@@ -294,51 +294,49 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
                   stat.sub_district_name === item.sub_district_name &&
                   stat.target_item === 'sales'
                 ); {
-                  (() => {
-                    const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
-                    let stat;
+                  const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+                  let stat;
 
-                    // 모든 값이 None일 때 city, district, subDistrict로 필터링
-                    if (!city && !district && !subDistrict) {
-                      stat = regionStat.find(stat =>
-                        stat.city_name === item.city_name &&
-                        stat.district_name === item.district_name &&
-                        stat.sub_district_name === item.sub_district_name
-                      );
-                      // 조건에 맞는 경우 district_name 반환
-                      return stat ? stat.district_name : "데이터 없음";
-                    }
-                    // city 값만 있을 때 city, subDistrict로 필터링
-                    else if (city && !district && !subDistrict) {
-                      stat = regionStat.find(stat =>
-                        stat.city_name === item.city_name &&
-                        stat.sub_district_name === item.sub_district_name
-                      );
-                      // 조건에 맞는 경우 avg_val 반환
-                      return stat ? stat.city_name : "데이터 없음";
-                    }
-                    // district 값만 있을 때 city, subDistrict로 필터링
-                    else if (city && district && !subDistrict) {
-                      stat = regionStat.find(stat =>
-                        stat.district_name === item.district_name &&
-                        stat.sub_district_name === item.sub_district_name
-                      );
-                      // 조건에 맞는 경우 max_val 반환
-                      return stat ? stat.district_name : "데이터 없음";
-                    }
-                    // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
-                    else if (city && district && subDistrict) {
-                      stat = regionStat.find(stat =>
-                        stat.city_name === item.city_name &&
-                        stat.district_name === item.district_name &&
-                        stat.sub_district_name === item.sub_district_name
-                      );
-                      // 조건에 맞는 경우 j_score 반환
-                      return stat ? stat.district_name : "데이터 없음";
-                    }
-                    // 아무 값도 맞지 않으면 데이터 없음 반환
-                    return "데이터 없음";
-                  })()
+                  // 모든 값이 None일 때 city, district, subDistrict로 필터링
+                  if (!city && !district && !subDistrict) {
+                    stat = regionStat.find(stat =>
+                      stat.city_name === item.city_name &&
+                      stat.district_name === item.district_name &&
+                      stat.sub_district_name === item.sub_district_name
+                    );
+                    // 조건에 맞는 경우 district_name 반환
+                    return stat ? stat.district_name : "데이터 없음";
+                  }
+                  // city 값만 있을 때 city, subDistrict로 필터링
+                  else if (city && !district && !subDistrict) {
+                    stat = regionStat.find(stat =>
+                      stat.city_name === item.city_name &&
+                      stat.sub_district_name === item.sub_district_name
+                    );
+                    // 조건에 맞는 경우 avg_val 반환
+                    return stat ? stat.city_name : "데이터 없음";
+                  }
+                  // district 값만 있을 때 city, subDistrict로 필터링
+                  else if (city && district && !subDistrict) {
+                    stat = regionStat.find(stat =>
+                      stat.district_name === item.district_name &&
+                      stat.sub_district_name === item.sub_district_name
+                    );
+                    // 조건에 맞는 경우 max_val 반환
+                    return stat ? stat.district_name : "데이터 없음";
+                  }
+                  // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+                  else if (city && district && subDistrict) {
+                    stat = regionStat.find(stat =>
+                      stat.city_name === item.city_name &&
+                      stat.district_name === item.district_name &&
+                      stat.sub_district_name === item.sub_district_name
+                    );
+                    // 조건에 맞는 경우 j_score 반환
+                    return stat ? stat.district_name : "데이터 없음";
+                  }
+                  // 아무 값도 맞지 않으면 데이터 없음 반환
+                  return "데이터 없음";
                 }
               }
               // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
