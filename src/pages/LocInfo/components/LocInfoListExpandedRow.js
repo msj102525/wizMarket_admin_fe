@@ -1,8 +1,9 @@
 // ExpandedRow.js
 import React from 'react';
+import CorrDataCell from './LocInfoListExpandedTD';
 
-const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, filterForFind }) => {
-
+const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind }) => {
+  
   return (
     <>
 
@@ -294,52 +295,52 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
                   stat.district_name === item.district_name &&
                   stat.sub_district_name === item.sub_district_name &&
                   stat.target_item === 'sales'
-                ); 
-                  (() => {
-                    const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
-                    let stat;
+                );
+                (() => {
+                  const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
+                  let stat;
 
-                    // 모든 값이 None일 때 city, district, subDistrict로 필터링
-                    if (!city && !district && !subDistrict) {
-                      stat = regionStat.find(stat =>
-                        stat.city_name === item.city_name &&
-                        stat.district_name === item.district_name &&
-                        stat.sub_district_name === item.sub_district_name
-                      );
-                      // 조건에 맞는 경우 district_name 반환
-                      return stat ? stat.district_name : "데이터 없음";
-                    }
-                    // city 값만 있을 때 city, subDistrict로 필터링
-                    else if (city && !district && !subDistrict) {
-                      stat = regionStat.find(stat =>
-                        stat.city_name === item.city_name &&
-                        stat.sub_district_name === item.sub_district_name
-                      );
-                      // 조건에 맞는 경우 avg_val 반환
-                      return stat ? stat.city_name : "데이터 없음";
-                    }
-                    // district 값만 있을 때 city, subDistrict로 필터링
-                    else if (city && district && !subDistrict) {
-                      stat = regionStat.find(stat =>
-                        stat.district_name === item.district_name &&
-                        stat.sub_district_name === item.sub_district_name
-                      );
-                      // 조건에 맞는 경우 max_val 반환
-                      return stat ? stat.district_name : "데이터 없음";
-                    }
-                    // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
-                    else if (city && district && subDistrict) {
-                      stat = regionStat.find(stat =>
-                        stat.city_name === item.city_name &&
-                        stat.district_name === item.district_name &&
-                        stat.sub_district_name === item.sub_district_name
-                      );
-                      // 조건에 맞는 경우 j_score 반환
-                      return stat ? stat.district_name : "데이터 없음";
-                    }
-                    // 아무 값도 맞지 않으면 데이터 없음 반환
-                    return "데이터 없음";
-                  })()
+                  // 모든 값이 None일 때 city, district, subDistrict로 필터링
+                  if (!city && !district && !subDistrict) {
+                    stat = regionStat.find(stat =>
+                      stat.city_name === item.city_name &&
+                      stat.district_name === item.district_name &&
+                      stat.sub_district_name === item.sub_district_name
+                    );
+                    // 조건에 맞는 경우 district_name 반환
+                    return stat ? stat.district_name : "데이터 없음";
+                  }
+                  // city 값만 있을 때 city, subDistrict로 필터링
+                  else if (city && !district && !subDistrict) {
+                    stat = regionStat.find(stat =>
+                      stat.city_name === item.city_name &&
+                      stat.sub_district_name === item.sub_district_name
+                    );
+                    // 조건에 맞는 경우 avg_val 반환
+                    return stat ? stat.city_name : "데이터 없음";
+                  }
+                  // district 값만 있을 때 city, subDistrict로 필터링
+                  else if (city && district && !subDistrict) {
+                    stat = regionStat.find(stat =>
+                      stat.district_name === item.district_name &&
+                      stat.sub_district_name === item.sub_district_name
+                    );
+                    // 조건에 맞는 경우 max_val 반환
+                    return stat ? stat.district_name : "데이터 없음";
+                  }
+                  // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+                  else if (city && district && subDistrict) {
+                    stat = regionStat.find(stat =>
+                      stat.city_name === item.city_name &&
+                      stat.district_name === item.district_name &&
+                      stat.sub_district_name === item.sub_district_name
+                    );
+                    // 조건에 맞는 경우 j_score 반환
+                    return stat ? stat.district_name : "데이터 없음";
+                  }
+                  // 아무 값도 맞지 않으면 데이터 없음 반환
+                  return "데이터 없음";
+                })()
               }
               // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
               else if (city && district && subDistrict) {
@@ -2017,13 +2018,21 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) => data.DISTRICT_NAME === item.district_name // item의 지역 이름과 같은 DISTRICT_NAME을 찾음
-            );
-            return matchingDistrict ? matchingDistrict.DISTRICT_NAME : "데이터 없음"; // 찾은 지역 이름을 출력, 없으면 "데이터 없음" 출력
-          })()}
-        </td>
+  {(() => {
+    // item의 y_m과 같은 날짜의 데이터를 먼저 찾고 그 후 city_name과 district_name을 비교
+    const matchingYear = filterCorrData[item.y_m]; // item의 y_m과 동일한 데이터를 찾음
+
+    if (matchingYear) {
+      const matchingDistrict = matchingYear.find(
+        (data) =>
+          data.DISTRICT_NAME === item.district_name
+      );
+      return matchingDistrict ? matchingDistrict.DISTRICT_NAME : "데이터 없음"; // 일치하는 지역 출력, 없으면 "데이터 없음" 출력
+    } else {
+      return "데이터 없음"; // 날짜가 일치하지 않으면 "데이터 없음" 출력
+    }
+  })()}
+</td>
         <td colSpan="1" className="border px-4 py-2 text-center">상관분석</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">업소 수</td>
@@ -2062,29 +2071,12 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">업소 평균매출</td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.SALES >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.SALES.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SHOP" 
+          thresholdField="SALES" 
+        />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -2102,52 +2094,18 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">평균 소득</td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.INCOME >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.INCOME.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.INCOME >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.INCOME.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SHOP" 
+          thresholdField="INCOME" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SALES" 
+          thresholdField="INCOME" 
+        />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -2164,75 +2122,24 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">평균 소비</td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.SPEND >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.SPEND.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.SPEND >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.SPEND.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "INCOME"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.SPEND >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "INCOME"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.SPEND.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SHOP" 
+          thresholdField="SPEND" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SALES" 
+          thresholdField="SPEND" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="INCOME" 
+          thresholdField="SPEND" 
+        />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -2248,98 +2155,30 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">유동인구</td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.MOVE_POP >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.MOVE_POP.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.MOVE_POP >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.MOVE_POP.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "INCOME"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.MOVE_POP >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "INCOME"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.MOVE_POP.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SPEND"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.MOVE_POP >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SPEND"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.MOVE_POP.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SHOP" 
+          thresholdField="MOVE_POP" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SALES" 
+          thresholdField="MOVE_POP" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="INCOME" 
+          thresholdField="MOVE_POP" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SPEND" 
+          thresholdField="MOVE_POP" 
+        />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -2354,121 +2193,36 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">직장인구</td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.WORK_POP >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.WORK_POP.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.WORK_POP >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.WORK_POP.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "INCOME"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.WORK_POP >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "INCOME"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.WORK_POP.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SPEND"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.WORK_POP >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SPEND"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.WORK_POP.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "MOVE_POP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.WORK_POP >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "MOVE_POP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.WORK_POP.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SHOP" 
+          thresholdField="WORK_POP" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SALES" 
+          thresholdField="WORK_POP" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="INCOME" 
+          thresholdField="WORK_POP" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SPEND" 
+          thresholdField="WORK_POP" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="MOVE_POP" 
+          thresholdField="WORK_POP" 
+        />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -2482,144 +2236,42 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">주거인구</td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.RESIDENT >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.RESIDENT.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.RESIDENT >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.RESIDENT.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "INCOME"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.RESIDENT >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "INCOME"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.RESIDENT.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SPEND"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.RESIDENT >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SPEND"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.RESIDENT.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "MOVE_POP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.RESIDENT >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "MOVE_POP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.RESIDENT.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "WORK_POP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.RESIDENT >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "WORK_POP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.RESIDENT.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SHOP" 
+          thresholdField="RESIDENT" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SALES" 
+          thresholdField="RESIDENT" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="INCOME" 
+          thresholdField="RESIDENT" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SPEND" 
+          thresholdField="RESIDENT" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="MOVE_POP" 
+          thresholdField="RESIDENT" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="WORK_POP" 
+          thresholdField="RESIDENT" 
+        />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -2632,167 +2284,48 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">세대수</td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.HOUSE >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SHOP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.HOUSE.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.HOUSE >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SALES"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.HOUSE.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "INCOME"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.HOUSE >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "INCOME"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.HOUSE.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "SPEND"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.HOUSE >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "SPEND"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.HOUSE.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "MOVE_POP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.HOUSE >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "MOVE_POP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.HOUSE.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "WORK_POP"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.HOUSE >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "WORK_POP"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.HOUSE.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
-        <td
-          colSpan="1"
-          className="border px-4 py-2 text-center"
-          style={{
-            color: (() => {
-              const matchingDistrict = filterCorrData.find(
-                (data) =>
-                  data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                  data.level_1 === "RESIDENT"                    // level_1이 "SHOP"인 조건
-              );
-              return matchingDistrict && matchingDistrict.HOUSE >= 0.7 ? 'red' : 'black'; // 0.7 이상이면 빨간색, 아니면 검정색
-            })()
-          }}
-        >
-          {(() => {
-            const matchingDistrict = filterCorrData.find(
-              (data) =>
-                data.DISTRICT_NAME === item.district_name && // 지역 이름이 일치하고
-                data.level_1 === "RESIDENT"                    // level_1이 "SHOP"인 조건
-            );
-            return matchingDistrict ? matchingDistrict.HOUSE.toFixed(4) : "데이터 없음"; // SALES 값을 출력, 없으면 "데이터 없음"
-          })()}
-        </td>
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SHOP" 
+          thresholdField="HOUSE" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SALES" 
+          thresholdField="HOUSE" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="INCOME" 
+          thresholdField="HOUSE" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="SPEND" 
+          thresholdField="HOUSE" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="MOVE_POP" 
+          thresholdField="HOUSE" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="WORK_POP" 
+          thresholdField="HOUSE" 
+        />
+        <CorrDataCell 
+          item={item} 
+          filterCorrData={filterCorrData} 
+          targetField="RESIDENT" 
+          thresholdField="HOUSE" 
+        />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
