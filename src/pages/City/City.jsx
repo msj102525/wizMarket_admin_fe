@@ -137,7 +137,7 @@ const PageComponent = () => {
                 city_name: cityItem[1],  // 시/도 이름
             }));
     
-            console.log('Results (All Cities):', results);
+
             setFilteredResults(results);
             setCurrentPage(1);
             return;
@@ -153,7 +153,6 @@ const PageComponent = () => {
                 district_name: districtItem[2],  // 군/구 이름
             }));
     
-            console.log('Results (City and Districts):', results);
             setFilteredResults(results);
             setCurrentPage(1);
             return;
@@ -171,7 +170,6 @@ const PageComponent = () => {
                 sub_district_name: subDistrictItem[3],  // 읍/면/동 이름
             }));
     
-            console.log('Results (SubDistricts):', results);
             setFilteredResults(results);
             setCurrentPage(1);
             return;
@@ -193,7 +191,6 @@ const PageComponent = () => {
                 sub_district_name: subDistrictItem[3],  // 읍/면/동 이름
             }));
 
-            console.log('Results (Single SubDistrict):', results);
             setFilteredResults(results);
             setCurrentPage(1);
             return;

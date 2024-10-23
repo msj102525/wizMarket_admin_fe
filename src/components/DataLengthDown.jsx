@@ -9,7 +9,6 @@ const DataLengthDown = ({ data, filename = 'data.xlsx', headers }) => {
             return;
         }
 
-        console.log(data)
 
         // 만약 headers가 주어지지 않으면, data의 첫 번째 객체 키를 기본 헤더로 사용
         const excelHeaders = ['번호', ...(headers || Object.keys(data[0]))]; 

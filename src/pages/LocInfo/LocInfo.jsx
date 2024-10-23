@@ -23,7 +23,7 @@ const LocInfo = () => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isList, setIsList] = useState(false);
+    const [isList, setIsList] = useState(true);
 
 
     const [shopMin, setshopMin] = useState('');
@@ -115,7 +115,7 @@ const LocInfo = () => {
             setFilterCorrResults(response.data.filter_corr);
             setRegionStat(response.data.region_j_score)
             setStatResults(response.data.total_stat)
-        
+            console.log(response.data.region_j_score)
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');

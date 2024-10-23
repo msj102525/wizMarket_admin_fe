@@ -40,7 +40,6 @@ const CommercialDistrict = () => {
         }
     }, [lastYearDate, responseData]);
 
-    console.log(data.length)
 
     return (
         <div>
