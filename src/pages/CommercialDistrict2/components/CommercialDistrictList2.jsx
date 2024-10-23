@@ -297,7 +297,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                 <div className="text-md">
                                     <span className="font-medium">{statType.label}: </span>
                                     {stats[category.key] && typeof stats[category.key][statType.key] === 'number'
-                                        ? stats[category.key][statType.key].toFixed(2)
+                                        ? Intl.NumberFormat().format(stats[category.key][statType.key].toFixed(2))
                                         : (stats[category.key]?.[statType.key] ?? 0)}
                                 </div>
                             </td>
