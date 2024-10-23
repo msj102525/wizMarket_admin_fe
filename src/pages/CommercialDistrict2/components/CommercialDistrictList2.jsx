@@ -146,7 +146,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                 <td colSpan={8} className='border-l'>
                     <tr>
                         <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-2.5 py-4">
-                            <p className='text-sm'>요일별<br />평균매출</p>
+                            <p className='text-sm'>요일별<br />평균매출 (%)</p>
                         </td>
                         {/* 요일별 데이터 */}
                         <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">월요일 | </td>
@@ -171,7 +171,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                     <tr>
                         <td rowSpan="2"></td>
                         <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">
-                            <p className='text-sm'>밀집도</p>
+                            <p className='text-sm'>밀집도 (%)</p>
                         </td>
                         <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">전국 밀집도 | </td>
                         <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">시/도 밀집도 | </td>
@@ -212,7 +212,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                 <td colSpan={6} className='border-l'>
                     <tr>
                         <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">
-                            <p className='text-sm'>시간별<br />평균 매출</p>
+                            <p className='text-sm'>시간별<br />평균 매출 (%)</p>
                         </td>
                         <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">06-09 | </td>
                         <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">09-12 | </td>
@@ -236,7 +236,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                     <tr>
                         <td rowSpan="2"></td>
                         <td rowSpan="2" className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">
-                            <p className='text-sm'>연령별 비중</p>
+                            <p className='text-sm'>연령별 비중 (%)</p>
                         </td>
                         <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">남 20대 비중 |</td>
                         <td className="text-center whitespace-nowrap text-sm  text-gray-900 px-2 py-2">남 30대 비중 |</td>
@@ -395,7 +395,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="15" className="text-center  text-md  text-gray-500 py-4">No data available</td>
+                            <td colSpan="15" className="text-center  text-md  text-gray-500 py-4">데이터가 없습니다.</td>
                         </tr>
                     )}
                 </tbody>
