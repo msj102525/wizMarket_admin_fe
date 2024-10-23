@@ -439,14 +439,14 @@ const LocInfoNationStat = ({ statData, allCorrData }) => {
                             <tr>
                                 <td colSpan="1" className="border px-4 py-2 text-center">평균 소득</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SHOP"]["INCOME"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SHOP"]["INCOME"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SHOP"]["INCOME"]}
+                                    {allCorrData["2024-10-01"]["SHOP"]["INCOME"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SALES"]["INCOME"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SALES"]["INCOME"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SALES"]["INCOME"]}
+                                    {allCorrData["2024-10-01"]["SALES"]["INCOME"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center">1</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -458,19 +458,19 @@ const LocInfoNationStat = ({ statData, allCorrData }) => {
                             <tr>
                                 <td colSpan="1" className="border px-4 py-2 text-center">평균 소비</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SHOP"]["SPEND"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SHOP"]["SPEND"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SHOP"]["SPEND"]}
+                                    {allCorrData["2024-10-01"]["SHOP"]["SPEND"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SALES"]["SPEND"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SALES"]["SPEND"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SALES"]["SPEND"]}
+                                    {allCorrData["2024-10-01"]["SALES"]["SPEND"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["INCOME"]["SPEND"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["INCOME"]["SPEND"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["INCOME"]["SPEND"]}
+                                    {allCorrData["2024-10-01"]["INCOME"]["SPEND"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center">1</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -481,24 +481,24 @@ const LocInfoNationStat = ({ statData, allCorrData }) => {
                             <tr>
                                 <td colSpan="1" className="border px-4 py-2 text-center">유동 인구</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SHOP"]["MOVE_POP"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SHOP"]["MOVE_POP"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SHOP"]["MOVE_POP"]}
+                                    {allCorrData["2024-10-01"]["SHOP"]["MOVE_POP"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SALES"]["MOVE_POP"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SALES"]["MOVE_POP"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SALES"]["MOVE_POP"]}
+                                    {allCorrData["2024-10-01"]["SALES"]["MOVE_POP"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["INCOME"]["MOVE_POP"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["INCOME"]["MOVE_POP"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["INCOME"]["MOVE_POP"]}
+                                    {allCorrData["2024-10-01"]["INCOME"]["MOVE_POP"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SPEND"]["MOVE_POP"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SPEND"]["MOVE_POP"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SPEND"]["MOVE_POP"]}
+                                    {allCorrData["2024-10-01"]["SPEND"]["MOVE_POP"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center">1</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -508,29 +508,29 @@ const LocInfoNationStat = ({ statData, allCorrData }) => {
                             <tr>
                                 <td colSpan="1" className="border px-4 py-2 text-center">직장 인구</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SHOP"]["WORK_POP"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SHOP"]["WORK_POP"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SHOP"]["WORK_POP"]}
+                                    {allCorrData["2024-10-01"]["SHOP"]["WORK_POP"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SALES"]["WORK_POP"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SALES"]["WORK_POP"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SALES"]["WORK_POP"]}
+                                    {allCorrData["2024-10-01"]["SALES"]["WORK_POP"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["INCOME"]["WORK_POP"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["INCOME"]["WORK_POP"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["INCOME"]["WORK_POP"]}
+                                    {allCorrData["2024-10-01"]["INCOME"]["WORK_POP"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SPEND"]["WORK_POP"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SPEND"]["WORK_POP"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SPEND"]["WORK_POP"]}
+                                    {allCorrData["2024-10-01"]["SPEND"]["WORK_POP"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["MOVE_POP"]["WORK_POP"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["MOVE_POP"]["WORK_POP"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["MOVE_POP"]["WORK_POP"]}
+                                    {allCorrData["2024-10-01"]["MOVE_POP"]["WORK_POP"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center">1</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -539,34 +539,34 @@ const LocInfoNationStat = ({ statData, allCorrData }) => {
                             <tr>
                                 <td colSpan="1" className="border px-4 py-2 text-center">주거 인구</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SHOP"]["RESIDENT"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SHOP"]["RESIDENT"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SHOP"]["RESIDENT"]}
+                                    {allCorrData["2024-10-01"]["SHOP"]["RESIDENT"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SALES"]["RESIDENT"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SALES"]["RESIDENT"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SALES"]["RESIDENT"]}
+                                    {allCorrData["2024-10-01"]["SALES"]["RESIDENT"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["INCOME"]["RESIDENT"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["INCOME"]["RESIDENT"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["INCOME"]["RESIDENT"]}
+                                    {allCorrData["2024-10-01"]["INCOME"]["RESIDENT"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SPEND"]["RESIDENT"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SPEND"]["RESIDENT"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SPEND"]["RESIDENT"]}
+                                    {allCorrData["2024-10-01"]["SPEND"]["RESIDENT"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["MOVE_POP"]["RESIDENT"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["MOVE_POP"]["RESIDENT"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["MOVE_POP"]["RESIDENT"]}
+                                    {allCorrData["2024-10-01"]["MOVE_POP"]["RESIDENT"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["WORK_POP"]["RESIDENT"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["WORK_POP"]["RESIDENT"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["WORK_POP"]["RESIDENT"]}
+                                    {allCorrData["2024-10-01"]["WORK_POP"]["RESIDENT"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center">1</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -574,39 +574,39 @@ const LocInfoNationStat = ({ statData, allCorrData }) => {
                             <tr>
                                 <td colSpan="1" className="border px-4 py-2 text-center">세대수</td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SHOP"]["HOUSE"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SHOP"]["HOUSE"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SHOP"]["HOUSE"]}
+                                    {allCorrData["2024-10-01"]["SHOP"]["HOUSE"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SALES"]["HOUSE"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SALES"]["HOUSE"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SALES"]["HOUSE"]}
+                                    {allCorrData["2024-10-01"]["SALES"]["HOUSE"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["INCOME"]["HOUSE"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["INCOME"]["HOUSE"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["INCOME"]["HOUSE"]}
+                                    {allCorrData["2024-10-01"]["INCOME"]["HOUSE"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["SPEND"]["HOUSE"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["SPEND"]["HOUSE"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["SPEND"]["HOUSE"]}
+                                    {allCorrData["2024-10-01"]["SPEND"]["HOUSE"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["MOVE_POP"]["HOUSE"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["MOVE_POP"]["HOUSE"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["MOVE_POP"]["HOUSE"]}
+                                    {allCorrData["2024-10-01"]["MOVE_POP"]["HOUSE"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["WORK_POP"]["HOUSE"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["WORK_POP"]["HOUSE"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["WORK_POP"]["HOUSE"]}
+                                    {allCorrData["2024-10-01"]["WORK_POP"]["HOUSE"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center"
-                                    style={{ color: isValueAboveThreshold(allCorrData["2024-08-01"]["RESIDENT"]["HOUSE"]) ? 'red' : 'black' }}
+                                    style={{ color: isValueAboveThreshold(allCorrData["2024-10-01"]["RESIDENT"]["HOUSE"]) ? 'red' : 'black' }}
                                 >
-                                    {allCorrData["2024-08-01"]["RESIDENT"]["HOUSE"]}
+                                    {allCorrData["2024-10-01"]["RESIDENT"]["HOUSE"]}
                                 </td>
                                 <td colSpan="1" className="border px-4 py-2 text-center">1</td>
                             </tr>
