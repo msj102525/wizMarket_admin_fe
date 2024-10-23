@@ -23,7 +23,7 @@ const RisingBusiness = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isList, setIsList] = useState(false);
+    const [isList, setIsList] = useState(true);
 
     const {
         reference, setReference, references,

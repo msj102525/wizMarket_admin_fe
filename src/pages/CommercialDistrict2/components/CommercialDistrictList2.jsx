@@ -18,7 +18,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
         })) || [];
     }, [data2]);
 
-    console.log(data)
+    // console.log(data)
 
 
     const statisticsData = useMemo(() => {
@@ -64,7 +64,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
     };
 
     const toggleRowExpansion = useCallback((id) => {
-        console.log("toggle", id);
+        // console.log("toggle", id);
         setExpandedRows((prevState) => ({
             ...prevState,
             [id]: !prevState[id]
@@ -140,7 +140,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
 
     const renderExpandedRow = (item, index) => (
         <>
-            {console.log(item)}
+            {/* {console.log(item)} */}
             <tr>
                 <td colSpan={1}></td>
                 <td colSpan={8} className='border-l'>
@@ -270,11 +270,11 @@ const CommercialDistrictList2 = ({ data2 }) => {
 
     const renderStatisticsData = (stats) => {
         const categories = [
-            { key: 'market_size', label: '시장 규모' },
-            { key: 'average_sales', label: '평균 매출' },
-            { key: 'average_payment', label: '평균 결제금액' },
-            { key: 'usage_count', label: '이용 건수' },
-            { key: 'sub_district_density', label: '읍면동 밀집도' }
+            { key: 'market_size', label: '시장 규모 (원)' },
+            { key: 'average_sales', label: '평균 매출 (원)' },
+            { key: 'average_payment', label: '평균 결제금액 (원)' },
+            { key: 'usage_count', label: '이용 건수 (건)' },
+            { key: 'sub_district_density', label: '읍면동 밀집도 (%)' }
         ];
 
         const statTypes = [
@@ -375,8 +375,9 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{"나이스비즈맵"}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_main_category_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_sub_category_name}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_detail_category_name}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.market_size)}</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_detail_category_name}</td><td className="text-center whitespace-nowrap text-md text-gray-500 py-4">
+                                        {Intl.NumberFormat().format(item.market_size / 10000)}만원
+                                    </td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.average_sales)}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.average_payment)}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.usage_count)}</td>

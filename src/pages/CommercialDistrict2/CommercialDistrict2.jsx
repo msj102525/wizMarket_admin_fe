@@ -15,7 +15,7 @@ import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
 const CommercialDistrict2 = () => {
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
 
-    const [isList, setIsList] = useState(false);
+    const [isList, setIsList] = useState(true);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
