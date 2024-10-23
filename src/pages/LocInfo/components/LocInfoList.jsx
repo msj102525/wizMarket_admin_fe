@@ -542,7 +542,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
 
         return (
             <div className="faq-container">
-                <FaqItem question="통계 값 조회" answer={table} />
+                <FaqItem question="전국 통계 값 조회" answer={table} />
             </div>
         );
     };
@@ -744,8 +744,6 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                                             stat.target_item === "shop"  // target_item을 'shop'으로 유지
                                                         );
                                                     }
-
-
                                                     // 조건에 맞는 stat이 있을 때 j_score 표시
                                                     if (stat) {
                                                         return stat.j_score.toFixed(1);

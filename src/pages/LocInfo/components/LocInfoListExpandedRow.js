@@ -293,7 +293,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
                   stat.district_name === item.district_name &&
                   stat.sub_district_name === item.sub_district_name &&
                   stat.target_item === 'sales'
-                ); {
+                ); 
                   (() => {
                     const { city, district, subDistrict } = filterForFind;  // subDistrict로 수정
                     let stat;
@@ -339,7 +339,7 @@ const ExpandedRow = ({ item, statData, allCorrData, filterCorrData, regionStat, 
                     // 아무 값도 맞지 않으면 데이터 없음 반환
                     return "데이터 없음";
                   })()
-                }
+                
               }
               // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
               else if (city && district && subDistrict) {
