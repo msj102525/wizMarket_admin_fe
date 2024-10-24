@@ -19,7 +19,7 @@ const CorrDataCell = ({ item, filterCorrData, targetField, thresholdField }) => 
         color: isAboveThreshold ? 'red' : 'black'
       }}
     >
-      {matchingDistrict ? matchingDistrict[thresholdField] : "데이터 없음"}
+      {matchingDistrict ? matchingDistrict[thresholdField].toFixed(3) : "데이터 없음"}
     </td>
   );
 };

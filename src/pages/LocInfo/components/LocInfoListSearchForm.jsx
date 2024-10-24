@@ -1,27 +1,36 @@
 import React from 'react';
+import Select from 'react-select';
 import SearchResetButtons from '../../../components/SearchResetButton';
-
 import CitySelect from '../../../components/CitySelect';
 
-const LocInfoListSearchForm = ({ 
-    city, district, subDistrict, cities, districts, subDistricts,setCity, setDistrict, setSubDistrict,
-    shopMin,move_popMin,salesMin,work_popMin,incomeMin,spendMin,houseMin,residentMin,
-    shopMax,move_popMax,salesMax,work_popMax,incomeMax,spendMax,houseMax,residentMax,
-    setshopMin,setmove_popMin,setsalesMin,setwork_popMin,setincomeMin,setspendMin,sethouseMin,
-    setresidentMin,setshopMax,setmove_popMax,setsalesMax,setwork_popMax,setincomeMax,setspendMax,sethouseMax,setresidentMax,
-    handleSearch,handleReset,isList 
+const LocInfoListSearchForm = ({
+    city, district, subDistrict, cities, districts, subDistricts, setCity, setDistrict, setSubDistrict,
+    shopMin, move_popMin, salesMin, work_popMin, incomeMin, spendMin, houseMin, residentMin,
+    shopMax, move_popMax, salesMax, work_popMax, incomeMax, spendMax, houseMax, residentMax,
+    setshopMin, setmove_popMin, setsalesMin, setwork_popMin, setincomeMin, setspendMin, sethouseMin,
+    setresidentMin, setshopMax, setmove_popMax, setsalesMax, setwork_popMax, setincomeMax, setspendMax, sethouseMax, setresidentMax,
+    selectedOptions, setSelectedOptions, 
+    handleSearch, handleReset, isList
 }) => {
 
 
+    const options = [
+      { value: '2024-08-01', label: '2024-08' },
+      { value: '2024-10-01', label: '2024-10' },
+    ];
+  
+    const handleChange = (selectedOptions) => {
+      setSelectedOptions(selectedOptions);
+    };
 
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
             <div className="p-4 bg-[#F3F5F7]">
                 <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
+                    <div className="ml-8 text-center content-center">
                         <label className="block mb-1 font-extrabold">지역 검색</label>
                     </div>
-                    <div className="w-full">
+                    <div className={`gap-4 ml-16`}>
                         <CitySelect
                             city={city}
                             district={district}
@@ -249,6 +258,31 @@ const LocInfoListSearchForm = ({
                                 className="p-2 border border-[#DDDDDD] rounded w-1/6"
                                 max={9999}
                                 min={0}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mb-4 flex ">
+                        <div className="w-1/6 text-center content-center">
+                            <label className="block mb-1 font-extrabold">기준 년월</label>
+                        </div>
+                        <div className="">
+                            <Select
+                                isMulti
+                                value={selectedOptions}
+                                onChange={handleChange}
+                                options={options}
+                                classNames={{
+                                    control: (state) => 'p-2 border border-gray-300 rounded-lg', // 전체 컨트롤
+                                    option: (state) =>
+                                      `text-sm py-2 px-4 cursor-pointer ${
+                                        state.isSelected ? 'bg-blue-500 text-white' : 'bg-white text-black'
+                                      } ${state.isFocused ? 'bg-blue-100' : ''}`, // 옵션 아이템 스타일
+                                    multiValue: () => 'bg-blue-500 text-white rounded-lg p-1', // 다중 선택 아이템 스타일
+                                    multiValueLabel: () => 'text-white', // 다중 선택 라벨
+                                    multiValueRemove: () => 'text-white hover:text-red-400 cursor-pointer', // 다중 선택 제거 버튼
+                                    menu: () => 'bg-white border border-gray-300 rounded-lg shadow-lg', // 드롭다운 메뉴 스타일
+                                  }}
                             />
                         </div>
                     </div>

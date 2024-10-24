@@ -44,6 +44,8 @@ const LocInfo = () => {
     const [houseMax, sethouseMax] = useState('');
     const [residentMax, setresidentMax] = useState('');
 
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
     const handleToggle = () => {
         setIsList(!isList);
     };
@@ -75,7 +77,7 @@ const LocInfo = () => {
     const handleSearch = async () => {
         setLoading(true);
         setError(null);
-
+        console.log(selectedOptions)
         const convertToInt = (value) => value ? parseInt(value, 10) : null;
 
         const filters = {
@@ -98,6 +100,7 @@ const LocInfo = () => {
             houseMax: convertToInt(houseMax),
             residentMin: convertToInt(residentMin),
             residentMax: convertToInt(residentMax),
+            selectedOptions: selectedOptions ? selectedOptions.map(option => option.value) : []
         };
         setFilterForFind(filters)
         try {
@@ -115,7 +118,8 @@ const LocInfo = () => {
             setFilterCorrResults(response.data.filter_corr);
             setRegionStat(response.data.region_j_score)
             setStatResults(response.data.total_stat)
-            console.log(response.data.filter_corr)
+
+            console.log(response.data.total_stat)
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');
@@ -149,6 +153,8 @@ const LocInfo = () => {
         setspendMax('');
         sethouseMax('');
         setresidentMax('');
+
+        setSelectedOptions('');
     };
     
 
@@ -197,6 +203,8 @@ const LocInfo = () => {
                                 houseMax={houseMax}
                                 residentMax={residentMax}
 
+                                selectedOptions={selectedOptions}
+
                                 setCity={setCity}
                                 setDistrict={setDistrict}
                                 setSubDistrict={setSubDistrict}
@@ -218,6 +226,8 @@ const LocInfo = () => {
                                 setspendMax={setspendMax}
                                 sethouseMax={sethouseMax}
                                 setresidentMax={setresidentMax}
+
+                                setSelectedOptions={setSelectedOptions}
 
                                 handleSearch={handleSearch}
                                 handleReset={handleReset}
