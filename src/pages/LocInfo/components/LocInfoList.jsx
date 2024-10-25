@@ -437,7 +437,7 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
                                             {item.j_score_rank === null || item.j_score_rank === '-' ? '-' : `${item.j_score_rank.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.j_score_per === null || item.j_score_per === '-' ? '-' : `${item.j_score_rank.toFixed(2)} `}
+                                            {item.j_score_per === null || item.j_score_per === '-' ? '-' : `${item.j_score_per.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.y_m}</td>
                                     </tr>
