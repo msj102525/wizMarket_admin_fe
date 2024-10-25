@@ -80,8 +80,7 @@ const LocInfo = () => {
             const response = await axios.post(`${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/select_nation_stat_corr`);
             setAllCorrResults(response.data.all_corr);
             setStatResults(response.data.total_stat);
-            console.log(response.data.all_corr)
-            console.log(response.data.total_stat)
+
         } catch (err) {
             console.error('초기 데이터 로드 중 오류 발생:', err);
             setError('초기 데이터 로드 중 오류가 발생했습니다.');
@@ -100,7 +99,7 @@ const LocInfo = () => {
     const handleSearch = async () => {
         setLoading(true);
         setError(null);
-        console.log(selectedOptions)
+
         const convertToInt = (value) => value ? parseInt(value, 10) : null;
 
         const filters = {
