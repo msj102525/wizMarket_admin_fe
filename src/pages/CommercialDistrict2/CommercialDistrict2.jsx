@@ -78,7 +78,7 @@ const CommercialDistrict2 = () => {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial/cd2`, {
+                const response = await axios.get(`${process.env.REACT_APP_FASTAPI_BASE_URL}/commercial/cd`, {
                     headers: {
                         'Content-Type': 'application/json; charset=UTF-8',
                     },

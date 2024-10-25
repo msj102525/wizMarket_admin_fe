@@ -283,7 +283,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
             { key: 'std_val', label: '표준편차' },
             { key: 'max_val', label: '최대값' },
             { key: 'min_val', label: '최소값' },
-            { key: 'j_score', label: 'J-Score' }
+            { key: 'j_score', label: 'J-Score_Per' }
         ];
 
         return (
