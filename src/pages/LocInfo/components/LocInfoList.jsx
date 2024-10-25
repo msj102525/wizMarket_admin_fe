@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Pagination from '../../../components/Pagination';
 import DataLengthDown from '../../../components/DataLengthDown';
 import ExpandedRow from './LocInfoListExpandedRow';
-import LocInfoNationStat from './LocInfoNationStat'
 
-const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, filterForFind }) => {
+
+const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterForFind }) => {
     const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
     const pageSize = 20;  // 한 페이지에 보여줄 리스트 개수
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });  // 정렬 상태 관리
@@ -20,6 +20,15 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
         return 0;
     });
 
+    // 정렬 버튼 클릭 시 호출될 함수
+    const handleSort = (key) => {
+        let direction = 'asc';
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        setSortConfig({ key, direction });
+    };
+
     // 페이징 처리
     const indexOfLastItem = currentPage * pageSize;
     const indexOfFirstItem = indexOfLastItem - pageSize;
@@ -32,14 +41,6 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
         setCurrentPage(page);
     };
 
-    // 정렬 버튼 클릭 시 호출될 함수
-    const handleSort = (key) => {
-        let direction = 'asc';
-        if (sortConfig.key === key && sortConfig.direction === 'asc') {
-            direction = 'desc';
-        }
-        setSortConfig({ key, direction });
-    };
 
     const headerMapping = {
         loc_info_id: '입지 정보 코드',
@@ -57,7 +58,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
         y_m: '기준년월'
     };
 
-    const headers = Object.keys(data[0]).map(key => headerMapping[key] || key);
+    const headers = data.length > 0 && data[0] ? Object.keys(data[0]).map(key => headerMapping[key] || key) : [];
 
     // 펼치기
     const [expandedRows, setExpandedRows] = useState([]);
@@ -121,7 +122,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
         if (stat) {
             return stat.j_score_rank.toFixed(1);
         } else {
-            return "데이터 없음";
+            return "-";
         }
     };
 
@@ -176,7 +177,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
         if (stat) {
             return stat.j_score_per.toFixed(1);
         } else {
-            return "데이터 없음";
+            return "-";
         }
     };
 
@@ -185,7 +186,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
     return (
         <div className="p-4">
             <DataLengthDown data={data} headers={headers} filename="LocInfoData.xlsx" />
-            <LocInfoNationStat statData={statData} allCorrData={allCorrData} />
+            
             {currentData.length === 0 ? (
                 <p>검색 결과가 없습니다.</p>
             ) : (
@@ -293,8 +294,8 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                 </th>
 
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
-                                    Total Rank_J-Score(전국)
-                                    <button onClick={() => handleSort('j_score')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                    Rank J-Score(가중치)
+                                    <button onClick={() => handleSort('j_score_rank')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>
                                     </button>
@@ -302,8 +303,8 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                 </th>
 
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
-                                    Total Per_J-Score
-                                    <button onClick={() => handleSort('j_score')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                    Per J-Score(가중치)
+                                    <button onClick={() => handleSort('j_score_per')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>
                                     </button>
@@ -343,7 +344,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.district_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.sub_district_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.shop === null || item.shop === '정보 없음' ? '정보 없음' : `${item.shop.toLocaleString()}개 `}
+                                            {item.shop === null || item.shop === '-' ? '-' : `${item.shop.toLocaleString()}개 `}
                                             (
                                                 {
                                                     findJScoreRankByRegion(item, 'shop', filterForFind, regionStat)
@@ -355,7 +356,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                         </td>
 
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.sales === null || item.sales === '정보 없음' ? '정보 없음' : `${Math.floor(item.sales / 10000).toLocaleString()}만원 `}
+                                            {item.sales === null || item.sales === '-' ? '-' : `${Math.floor(item.sales / 10000).toLocaleString()}만원 `}
                                             (
                                                 {
                                                     findJScoreRankByRegion(item, 'sales', filterForFind, regionStat)
@@ -367,7 +368,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                         </td>
 
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.income === null || item.income === '정보 없음' ? '정보 없음' : `${Math.floor(item.income / 10000).toLocaleString()}만원 `}
+                                            {item.income === null || item.income === '-' ? '-' : `${Math.floor(item.income / 10000).toLocaleString()}만원 `}
                                             (
                                                 {
                                                     findJScoreRankByRegion(item, 'income', filterForFind, regionStat)
@@ -378,7 +379,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                             )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.spend === null || item.spend === '정보 없음' ? '정보 없음' : `${Math.floor(item.spend / 10000).toLocaleString()}만원 `}
+                                            {item.spend === null || item.spend === '-' ? '-' : `${Math.floor(item.spend / 10000).toLocaleString()}만원 `}
                                             (
                                                 {
                                                     findJScoreRankByRegion(item, 'spend', filterForFind, regionStat)
@@ -389,7 +390,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                             )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.move_pop === null || item.move_pop === '정보 없음' ? '정보 없음' : `${item.move_pop.toLocaleString()}명 `}
+                                            {item.move_pop === null || item.move_pop === '-' ? '-' : `${item.move_pop.toLocaleString()}명 `}
                                             (
                                                 {
                                                     findJScoreRankByRegion(item, 'move_pop', filterForFind, regionStat)
@@ -400,7 +401,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                             )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.work_pop === null || item.work_pop === '정보 없음' ? '정보 없음' : `${item.work_pop.toLocaleString()}명 `}
+                                            {item.work_pop === null || item.work_pop === '-' ? '-' : `${item.work_pop.toLocaleString()}명 `}
                                             (
                                                 {
                                                     findJScoreRankByRegion(item, 'work_pop', filterForFind, regionStat)
@@ -411,7 +412,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                             )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.resident === null || item.resident === '정보 없음' ? '정보 없음' : `${item.resident.toLocaleString()}명 `}
+                                            {item.resident === null || item.resident === '-' ? '-' : `${item.resident.toLocaleString()}명 `}
                                             (
                                                 {
                                                     findJScoreRankByRegion(item, 'resident', filterForFind, regionStat)
@@ -422,7 +423,7 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                             )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.house === null || item.house === '정보 없음' ? '정보 없음' : `${item.house.toLocaleString()}명 `}
+                                            {item.house === null || item.house === '-' ? '-' : `${item.house.toLocaleString()}명 `}
                                             (
                                                 {
                                                     findJScoreRankByRegion(item, 'house', filterForFind, regionStat)
@@ -433,24 +434,10 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                             )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {statData.find(stat =>
-                                                stat.ref_date === item.y_m &&
-                                                stat.city_name === item.city_name &&
-                                                stat.district_name === item.district_name &&
-                                                stat.sub_district_name === item.sub_district_name &&
-                                                stat.target_item === "avg_rank_j_score"  // 
-                                            )
-                                                ? `${statData.find(stat =>
-                                                    stat.ref_date === item.y_m &&
-                                                    stat.city_name === item.city_name &&
-                                                    stat.district_name === item.district_name &&
-                                                    stat.sub_district_name === item.sub_district_name &&
-                                                    stat.target_item === "avg_rank_j_score"
-                                                )?.j_score_rank?.toLocaleString()}`  // stat이 존재하면 j_score를 출력
-                                                : '정보 없음'}
+                                            {item.j_score_rank === null || item.j_score_rank === '-' ? '-' : `${item.j_score_rank.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            Total Per_j_score
+                                            {item.j_score_per === null || item.j_score_per === '-' ? '-' : `${item.j_score_rank.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.y_m}</td>
                                     </tr>
@@ -461,7 +448,6 @@ const LocInfoList = ({ data, statData, allCorrData, filterCorrData, regionStat, 
                                         <ExpandedRow
                                             item={item}
                                             statData={statData}
-                                            allCorrData={allCorrData}
                                             filterCorrData={filterCorrData}
                                             regionStat={regionStat}
                                             filterForFind={filterForFind}

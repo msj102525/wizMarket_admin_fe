@@ -55,27 +55,25 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
             <div className="p-4 bg-[#F3F5F7]">
-                <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold">지역 검색</label>
-                    </div>
-                    <div className="w-full">
-                        <CitySelect
-                            city={city}
-                            district={district}
-                            subDistrict={subDistrict}
-                            cities={cities}
-                            districts={districts}
-                            subDistricts={subDistricts}
-                            setCity={setCity}
-                            setDistrict={setDistrict}
-                            setSubDistrict={setSubDistrict}
-                        />
-                    </div>
-                </div>
-
-                {/* 성별 선택 */}
                 <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>
+                    <div className="mb-4 flex gap-4">
+                        <div className="w-1/6 text-center content-center">
+                            <label className="block mb-1 font-extrabold">지역 검색</label>
+                        </div>
+                        <div className="w-full flex gap-4">
+                            <CitySelect
+                                city={city}
+                                district={district}
+                                subDistrict={subDistrict}
+                                cities={cities}
+                                districts={districts}
+                                subDistricts={subDistricts}
+                                setCity={setCity}
+                                setDistrict={setDistrict}
+                                setSubDistrict={setSubDistrict}
+                            />
+                        </div>
+                    </div>
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">
                             <label className="block mb-1 font-extrabold">성별</label>
@@ -84,7 +82,7 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                             <select
                                 value={gender}
                                 onChange={(e) => setGender(e.target.value)}
-                                className="p-2 border border-[#DDDDDD] rounded w-3/4"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
                             >
                                 <option value="">전체</option>
                                 <option value="1">남성</option>
@@ -92,8 +90,10 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                             </select>
                         </div>
                     </div>
-
+                </div>
+                
                     {/* 연령대 선택 */}
+                <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">
                             <label className="block mb-1 font-extrabold">연령대</label>
@@ -102,7 +102,7 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                             <select
                                 value={ageGroupMin}
                                 onChange={(e) => setAgeGroupMin(e.target.value)}
-                                className="p-2 border border-[#DDDDDD] rounded w-1/2"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
                             >
                                 <option value="">이상</option>
                                 <option value="age_under_10">10대 미만</option>
@@ -117,7 +117,7 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                             <select
                                 value={ageGroupMax}
                                 onChange={(e) => setAgeGroupMax(e.target.value)}
-                                className="p-2 border border-[#DDDDDD] rounded w-1/2"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
                             >
                                 <option value="">이하</option>
                                 <option value="age_under_10">10대 미만</option>
@@ -133,13 +133,13 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                     {/* 기간 조회 */}
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">
-                            <label className="block mb-1 font-extrabold">기간</label>
+                            <label className="block mb-1 font-extrabold">기준 년월</label>
                         </div>
                         <div className="w-full flex gap-4">
                             <select
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                                className="p-2 border border-[#DDDDDD] rounded w-1/2"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
                             >
                                 <option value="">이상</option>
                                 <option value="2024-01-31">24년 1월</option>
@@ -156,7 +156,7 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                             <select
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
-                                className="p-2 border border-[#DDDDDD] rounded w-1/2"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
                             >
                                 <option value="">이하</option>
                                 <option value="2024-01-31">24년 1월</option>
@@ -172,8 +172,6 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
             {/* 검색 및 초기화 버튼 */}

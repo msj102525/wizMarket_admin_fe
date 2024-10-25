@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import Pagination from '../../../components/Pagination';
 
 const PopulationList = ({ data, ageFilter }) => {
   const columns = [
@@ -19,9 +19,9 @@ const PopulationList = ({ data, ageFilter }) => {
     { key: 'age_60_plus', label: '60대 이상', filter: 'age_60_plus' },
   ];
 
+  const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
+  const pageSize = 20;  // 한 페이지에 보여줄 리스트 개수
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });  // 정렬 상태 관리
-
-
 
 
   // 정렬 함수
@@ -58,6 +58,18 @@ const PopulationList = ({ data, ageFilter }) => {
     return colIndex >= minIndex && colIndex <= maxIndex;
   });
 
+  // 현재 페이지에 해당하는 데이터 슬라이싱
+  const indexOfLastItem = currentPage * pageSize;
+  const indexOfFirstItem = indexOfLastItem - pageSize;
+  const currentData = sortedData.slice(indexOfFirstItem, indexOfLastItem);  // 정렬된 데이터에서 페이징 적용
+
+  const totalPages = Math.ceil(data.length / pageSize);  // 전체 페이지 수 계산
+
+  // 페이지 변경 함수
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div>
       <table className="min-w-full table-auto">
@@ -79,7 +91,7 @@ const PopulationList = ({ data, ageFilter }) => {
           </tr>
         </thead>
         <tbody>
-          {sortedData.map((row, idx) => (
+          {currentData.map((row, idx) => (
             <tr key={row.pop_id}>
               {filteredColumns.map(col => (
                 <td key={col.key} className="border border-gray-300 px-4 py-2">
@@ -112,7 +124,11 @@ const PopulationList = ({ data, ageFilter }) => {
           ))}
         </tbody>
       </table>
-
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
 
   );

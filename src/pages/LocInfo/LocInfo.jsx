@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import Aside from '../../components/Aside';
 import KakaoMap from '../../components/KakaoMap';
@@ -9,7 +9,7 @@ import SectionHeader from '../../components/SectionHeader';
 import { useCities } from '../../hooks/useCities';
 import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
 import { useSelector } from 'react-redux';
-
+import LocInfoNationStat from './components/LocInfoNationStat'
 
 const LocInfo = () => {
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
@@ -19,6 +19,7 @@ const LocInfo = () => {
     const [allCorrResults, setAllCorrResults] = useState([]);
     const [filterCorrResults, setFilterCorrResults] = useState([]);
     const [regionStat, setRegionStat] = useState([]);
+    const [nationJScoreRank, setNationJScoreRank] = useState([]);
     const [filterForFind, setFilterForFind] = useState([]);
 
     const [loading, setLoading] = useState(true);
@@ -73,6 +74,28 @@ const LocInfo = () => {
     });
 
 
+    const fetchInitialData = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.post(`${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/select_nation_stat_corr`);
+            setAllCorrResults(response.data.all_corr);
+            setStatResults(response.data.total_stat);
+            console.log(response.data.all_corr)
+            console.log(response.data.total_stat)
+        } catch (err) {
+            console.error('초기 데이터 로드 중 오류 발생:', err);
+            setError('초기 데이터 로드 중 오류가 발생했습니다.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // 페이지 로드 시 초기 데이터를 불러오기
+    useEffect(() => {
+        fetchInitialData();
+    }, []);
+
+
     // 필터를 사용해 서버에 검색 요청을 보내는 함수
     const handleSearch = async () => {
         setLoading(true);
@@ -114,12 +137,9 @@ const LocInfo = () => {
                 }
             );
             setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
-            setAllCorrResults(response.data.all_corr);
             setFilterCorrResults(response.data.filter_corr);
-            setRegionStat(response.data.region_j_score)
-            setStatResults(response.data.total_stat)
-
-            console.log(response.data.total_stat)
+            setRegionStat(response.data.region_j_score);
+            setNationJScoreRank(response.data.nation_j_score_rank)
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');
@@ -235,6 +255,9 @@ const LocInfo = () => {
                         </div>
                     </section>
                     {/* 하단 리스트 */}
+                    <section>
+                        <LocInfoNationStat statData={statResults} allCorrData={allCorrResults} />
+                    </section>
                     <section className="w-full">
                         {loading && (
                             <div>검색을 진행해 주세요</div>
@@ -245,7 +268,7 @@ const LocInfo = () => {
                         {!loading && !error && 
                             <LocInfoList 
                                 data={searchResults} 
-                                statData={statResults} 
+                                statData={nationJScoreRank} 
                                 regionStat = {regionStat} 
                                 filterForFind = {filterForFind} 
                                 allCorrData = {allCorrResults} 

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // 헬퍼 함수로 데이터를 찾고 포맷팅
 const getStatValue = (statData, targetItem, field, divisor = 1, unit = '', date) => {
     const stat = statData.find(stat => stat.target_item === targetItem && stat.ref_date === date);
-    return stat && stat[field] ? `${(stat[field] / divisor).toFixed(1)}${unit}` : '데이터 없음';
+    return stat && stat[field] ? `${(stat[field] / divisor).toFixed(1)}${unit}` : '-';
 };
 
 // 최대/최소 값을 모두 표시하는 헬퍼 함수
@@ -12,12 +12,12 @@ const getMaxMinValue = (statData, targetItem, divisor, unit = '', date) => {
     if (stat && stat.max_val !== null && stat.min_val !== null) {
         return `${(stat.max_val / divisor)} / ${(stat.min_val / divisor)}${unit}`;
     }
-    return '데이터 없음';
+    return '-';
 };
 
 const isValueAboveThreshold = (value) => value >= 0.7;  // 0.7 이상인지 확인
 
-const LocInfoNationStat = ({ statData, allCorrData }) => {
+const LocInfoNationStat = ({ statData = [], allCorrData  = []}) => {
 
     const [isOpen, setIsOpen] = useState(false); // 테이블의 열림/닫힘 상태
 
@@ -40,7 +40,7 @@ const LocInfoNationStat = ({ statData, allCorrData }) => {
                     <p className='font-bold mt-4'>
                         {(() => {
                             const stat = statData.find((stat) => stat.target_item === 'shop');
-                            return stat ? `${stat.ref_date} 통계 값` : '데이터 없음';
+                            return stat ? `${stat.ref_date} 통계 값` : '-';
                         })()}
                     </p>
                     <table className="border-collapse border border-gray-300 mt-2">
@@ -108,7 +108,7 @@ const LocInfoNationStat = ({ statData, allCorrData }) => {
                     <p className='font-bold mt-4'>
                         {(() => {
                             const stat = statData.find((stat) => stat.target_item === 'shop');
-                            return stat ? `${stat.ref_date} 상관 분석` : '데이터 없음';
+                            return stat ? `${stat.ref_date} 상관 분석` : '-';
                         })()}
                     </p>
                     <table className="border-collapse border border-gray-300 mt-4">
@@ -337,7 +337,7 @@ const LocInfoNationStat = ({ statData, allCorrData }) => {
                                 <th className="border border-gray-300 px-4 py-2">
                                     {(() => {
                                         const stat = statData.find((stat) => stat.target_item === 'shop');
-                                        return stat ? `${stat.ref_date}` : '데이터 없음';
+                                        return stat ? `${stat.ref_date}` : '-';
                                     })()}
                                 </th>
                                 <th className="border border-gray-300 px-4 py-2">업소 수</th>

@@ -17,7 +17,7 @@ const getStatField = () => {
       stat.district_name === item.district_name &&
       stat.sub_district_name === item.sub_district_name
     );
-    return stat ? stat.district_name : "데이터 없음";
+    return stat ? stat.district_name : "-";
   }
 
   // city 값만 있을 때 city, subDistrict로 필터링
@@ -26,7 +26,7 @@ const getStatField = () => {
       stat.city_name === item.city_name &&
       stat.sub_district_name === item.sub_district_name
     );
-    return stat ? stat.city_name : "데이터 없음";
+    return stat ? stat.city_name : "-";
   }
 
   // district 값만 있을 때 city, subDistrict로 필터링
@@ -35,7 +35,7 @@ const getStatField = () => {
       stat.district_name === item.district_name &&
       stat.sub_district_name === item.sub_district_name
     );
-    return stat ? stat.district_name : "데이터 없음";
+    return stat ? stat.district_name : "-";
   }
 
   // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
@@ -45,11 +45,11 @@ const getStatField = () => {
       stat.district_name === item.district_name &&
       stat.sub_district_name === item.sub_district_name
     );
-    return stat ? stat.district_name : "데이터 없음";
+    return stat ? stat.district_name : "-";
   }
 
-  // 아무 값도 맞지 않으면 데이터 없음 반환
-  return "데이터 없음";
+  // 아무 값도 맞지 않으면 - 반환
+  return "-";
 };
 
 
@@ -123,9 +123,9 @@ const getStatField = () => {
     );
     
     if (stat) {
-      return scoreType === 'rank' ? stat.j_score_rank.toFixed(1) : stat.j_score_per.toFixed(1);
+      return scoreType === 'rank' ? stat.j_score_rank.toFixed(2) : stat.j_score_per.toFixed(2);
     } else {
-      return "데이터 없음";
+      return "-";
     }
   }
   
@@ -286,9 +286,9 @@ const getStatField = () => {
                 (data) =>
                   data.DISTRICT_NAME === item.district_name
               );
-              return matchingDistrict ? matchingDistrict.DISTRICT_NAME : "데이터 없음"; // 일치하는 지역 출력, 없으면 "데이터 없음" 출력
+              return matchingDistrict ? matchingDistrict.DISTRICT_NAME : "-"; // 일치하는 지역 출력, 없으면 "-" 출력
             } else {
-              return "데이터 없음"; // 날짜가 일치하지 않으면 "데이터 없음" 출력
+              return "-"; // 날짜가 일치하지 않으면 "-" 출력
             }
           })()}
         </td>

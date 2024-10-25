@@ -6,7 +6,6 @@ import SectionHeader from '../../components/SectionHeader'; // SectionHeader 컴
 import PopulationSearchForm from './components/PopulationSearchForm';
 import axios from 'axios';
 import PopulationList from './components/PopulationList';
-import Pagination from '../../components/Pagination';
 
 
 const Population = () => {
@@ -18,10 +17,6 @@ const Population = () => {
   // 연령대 필터를 위한 상태
   const [ageFilter, setAgeFilter] = useState({ ageGroupMin: null, ageGroupMax: null });
   const [filters, setFilters] = useState({});  // 필터 상태
-
-  // 페이지네이션을 위한 상태 추가
-  const [currentPage, setCurrentPage] = useState(1);
-  const resultsPerPage = 20; // 한 페이지에 표시할 항목 수
 
   const handleToggle = () => {
     setIsList(!isList);
@@ -112,7 +107,6 @@ const Population = () => {
 
     // 연령대 필터 상태 설정
     setAgeFilter({ ageGroupMin: filters.ageGroupMin, ageGroupMax: filters.ageGroupMax });
-    console.log(filters)
 
     try {
       const response = await axios.post(
@@ -124,13 +118,12 @@ const Population = () => {
           },
         }
       );
-      console.log(response.data.filtered_data, '합치기 전')
       // 성별 필터가 있는 경우 데이터를 합치지 않고 그대로 보여줌
       const hasGenderFilter = filters.gender === '1' || filters.gender === '2';
 
       // 성별 필터가 없으면 데이터를 합침
       const mergedResults = hasGenderFilter ? response.data.filtered_data : mergeDataPairs(response.data.filtered_data);
-      console.log(mergedResults, '합친 후')
+
       setSearchResults(mergedResults); // 병합된 데이터를 상태로 저장
     } catch (err) {
       console.error('검색 오류:', err);
@@ -140,15 +133,7 @@ const Population = () => {
     }
   };
 
-  // 현재 페이지에 해당하는 데이터 슬라이싱
-  const indexOfLastResult = currentPage * resultsPerPage;
-  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
-  const currentResults = searchResults.slice(indexOfFirstResult, indexOfLastResult);
-
-  // 페이지 변경 함수
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  
 
   return (
     <div>
@@ -186,15 +171,10 @@ const Population = () => {
             {error && <p className="text-red-500">오류가 발생했습니다: {error}</p>}
 
             {!loading && !error && (
-              <PopulationList data={currentResults} ageFilter={ageFilter} />
+              <PopulationList data={searchResults} ageFilter={ageFilter} />
             )}
           </section>
-          {/* 페이지네이션 */}
-          <Pagination
-            currentPage={currentPage}
-            totalPages={Math.ceil(searchResults.length / resultsPerPage)}
-            onPageChange={handlePageChange}
-          />
+          
         </main>
       </div>
     </div>
