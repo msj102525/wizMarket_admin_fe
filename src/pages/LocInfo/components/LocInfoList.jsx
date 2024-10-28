@@ -72,113 +72,35 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
         }
     };
 
-    // 필터링 함수로 분리
+    // 지역 필터값에 따른 j_score_rank 찾기 함수
     const findJScoreRankByRegion = (data, targetItem, filterForFind, regionStat) => {
-        const { city, district, subDistrict } = filterForFind;
-        let stat;
-
-        // 모든 값이 None일 때 city, district, subDistrict로 필터링
-        if (!city && !district && !subDistrict) {
-            stat = regionStat.find(stat =>
-                stat.ref_date === data.y_m &&
-                stat.city_name === data.city_name &&
-                stat.district_name === data.district_name &&
-                stat.sub_district_name === data.sub_district_name &&
-                stat.target_item === targetItem
-            );
-        }
-        // city 값만 있을 때 city, subDistrict로 필터링
-        else if (city && !district && !subDistrict) {
-            stat = regionStat.find(stat =>
-                stat.ref_date === data.y_m &&
-                stat.city_name === data.city_name &&
-                stat.district_name === data.district_name &&
-                stat.sub_district_name === data.sub_district_name &&
-                stat.target_item === targetItem
-            );
-        }
-        // district 값만 있을 때 city, subDistrict로 필터링
-        else if (city && district && !subDistrict) {
-            stat = regionStat.find(stat =>
-                stat.ref_date === data.y_m &&
-                stat.city_name === data.city_name &&
-                stat.district_name === data.district_name &&
-                stat.sub_district_name === data.sub_district_name &&
-                stat.target_item === targetItem
-            );
-        }
-        // subDistrict 값만 있을 때 city, district, sub_district로 필터링
-        else if (city && district && subDistrict) {
-            stat = regionStat.find(stat =>
-                stat.ref_date === data.y_m &&
-                stat.city_name === data.city_name &&
-                stat.district_name === data.district_name &&
-                stat.sub_district_name === data.sub_district_name &&
-                stat.target_item === targetItem
-            );
-        }
-
-        // 조건에 맞는 stat이 있을 때 j_score 반환
-        if (stat) {
-            return stat.j_score_rank.toFixed(1);
-        } else {
-            return "-";
-        }
+        
+        const stat = regionStat.find(stat =>
+            stat.ref_date === data.y_m &&
+            stat.city_name === data.city_name &&
+            stat.district_name === data.district_name &&
+            stat.sub_district_name === data.sub_district_name &&
+            stat.target_item === targetItem 
+        );
+    
+        // 조건에 맞는 stat이 있을 때 j_score 반환, 없으면 "-"
+        return stat && stat.j_score_rank !== null ? stat.j_score_rank.toFixed(2) : "-";
     };
 
 
-    // 필터링 함수로 분리
+    // 지역 필터값에 따른 j_score_per 찾기 함수
     const findJScorePerByRegion = (data, targetItem, filterForFind, regionStat) => {
-        const { city, district, subDistrict } = filterForFind;
-        let stat;
-
-        // 모든 값이 None일 때 city, district, subDistrict로 필터링
-        if (!city && !district && !subDistrict) {
-            stat = regionStat.find(stat =>
-                stat.ref_date === data.y_m &&
-                stat.city_name === data.city_name &&
-                stat.district_name === data.district_name &&
-                stat.sub_district_name === data.sub_district_name &&
-                stat.target_item === targetItem
-            );
-        }
-        // city 값만 있을 때 city, subDistrict로 필터링
-        else if (city && !district && !subDistrict) {
-            stat = regionStat.find(stat =>
-                stat.ref_date === data.y_m &&
-                stat.city_name === data.city_name &&
-                stat.district_name === data.district_name &&
-                stat.sub_district_name === data.sub_district_name &&
-                stat.target_item === targetItem
-            );
-        }
-        // district 값만 있을 때 city, subDistrict로 필터링
-        else if (city && district && !subDistrict) {
-            stat = regionStat.find(stat =>
-                stat.ref_date === data.y_m &&
-                stat.city_name === data.city_name &&
-                stat.district_name === data.district_name &&
-                stat.sub_district_name === data.sub_district_name &&
-                stat.target_item === targetItem
-            );
-        }
-        // subDistrict 값만 있을 때 city, district, sub_district로 필터링
-        else if (city && district && subDistrict) {
-            stat = regionStat.find(stat =>
-                stat.ref_date === data.y_m &&
-                stat.city_name === data.city_name &&
-                stat.district_name === data.district_name &&
-                stat.sub_district_name === data.sub_district_name &&
-                stat.target_item === targetItem
-            );
-        }
-
-        // 조건에 맞는 stat이 있을 때 j_score 반환
-        if (stat) {
-            return stat.j_score_per.toFixed(1);
-        } else {
-            return "-";
-        }
+    
+        const stat = regionStat.find(stat =>
+            stat.ref_date === data.y_m &&
+            stat.city_name === data.city_name &&
+            stat.district_name === data.district_name &&
+            stat.sub_district_name === data.sub_district_name &&
+            stat.target_item === targetItem
+        );
+    
+        // 조건에 맞는 stat이 있을 때 j_score_per 반환, 없으면 "-"
+        return stat && stat.j_score_per !== null ? stat.j_score_per.toFixed(2) : "-";
     };
 
  

@@ -5,57 +5,57 @@ import CorrDataCell from './LocInfoListExpandedTD';
 const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind }) => {
 
 
-// 필터 조건에 맞는 지역명 불러오는 함수
-const getStatField = () => {
-  const { city, district, subDistrict } = filterForFind;
-  let stat;
+  // 필터 조건에 맞는 지역명 불러오는 함수
+  const getStatField = () => {
+    const { city, district, subDistrict } = filterForFind;
+    let stat;
 
-  // 모든 값이 None일 때 city, district, sub_district로 필터링
-  if (!city && !district && !subDistrict) {
-    stat = regionStat.find(stat =>
-      stat.city_name === item.city_name &&
-      stat.district_name === item.district_name &&
-      stat.sub_district_name === item.sub_district_name
-    );
-    return stat ? stat.district_name : "-";
-  }
+    // 모든 값이 None일 때 city, district, sub_district로 필터링
+    if (!city && !district && !subDistrict) {
+      stat = regionStat.find(stat =>
+        stat.city_name === item.city_name &&
+        stat.district_name === item.district_name &&
+        stat.sub_district_name === item.sub_district_name
+      );
+      return stat ? stat.district_name : "-";
+    }
 
-  // city 값만 있을 때 city, subDistrict로 필터링
-  if (city && !district && !subDistrict) {
-    stat = regionStat.find(stat =>
-      stat.city_name === item.city_name &&
-      stat.sub_district_name === item.sub_district_name
-    );
-    return stat ? stat.city_name : "-";
-  }
+    // city 값만 있을 때 city, subDistrict로 필터링
+    if (city && !district && !subDistrict) {
+      stat = regionStat.find(stat =>
+        stat.city_name === item.city_name &&
+        stat.sub_district_name === item.sub_district_name
+      );
+      return stat ? stat.city_name : "-";
+    }
 
-  // district 값만 있을 때 city, subDistrict로 필터링
-  if (city && district && !subDistrict) {
-    stat = regionStat.find(stat =>
-      stat.district_name === item.district_name &&
-      stat.sub_district_name === item.sub_district_name
-    );
-    return stat ? stat.district_name : "-";
-  }
+    // district 값만 있을 때 city, subDistrict로 필터링
+    if (city && district && !subDistrict) {
+      stat = regionStat.find(stat =>
+        stat.district_name === item.district_name &&
+        stat.sub_district_name === item.sub_district_name
+      );
+      return stat ? stat.district_name : "-";
+    }
 
-  // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
-  if (city && district && subDistrict) {
-    stat = regionStat.find(stat =>
-      stat.city_name === item.city_name &&
-      stat.district_name === item.district_name &&
-      stat.sub_district_name === item.sub_district_name
-    );
-    return stat ? stat.district_name : "-";
-  }
+    // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
+    if (city && district && subDistrict) {
+      stat = regionStat.find(stat =>
+        stat.city_name === item.city_name &&
+        stat.district_name === item.district_name &&
+        stat.sub_district_name === item.sub_district_name
+      );
+      return stat ? stat.district_name : "-";
+    }
 
-  // 아무 값도 맞지 않으면 - 반환
-  return "-";
-};
+    // 아무 값도 맞지 않으면 - 반환
+    return "-";
+  };
 
 
 
   // 각각의 통계 값 가져오는 함수 분리 (avgField 추가)
-  const getStatValue = (regionStat, item, filterForFind, targetItem, field, divisor ) => {
+  const getStatValue = (regionStat, item, filterForFind, targetItem, field, divisor) => {
     const { city, district, subDistrict } = filterForFind;
     let stat;
 
@@ -97,7 +97,7 @@ const getStatField = () => {
         stat.target_item === targetItem
       );
     }
-    
+
     // 조건에 맞는 stat이 있을 때 avgField 값 표시
     if (stat && stat[field] !== undefined) {
       // min_val 또는 max_val이면 그대로 반환
@@ -121,14 +121,16 @@ const getStatField = () => {
         stat.sub_district_name === item.sub_district_name &&
         stat.target_item === targetItem
     );
-    
+
     if (stat) {
-      return scoreType === 'rank' ? stat.j_score_rank.toFixed(2) : stat.j_score_per.toFixed(2);
+      const score = scoreType === 'rank' ? stat.j_score_rank : stat.j_score_per;
+      return score !== null ? score.toFixed(2) : "-";
     } else {
       return "-";
     }
   }
-  
+
+
 
   return (
     <>
@@ -140,28 +142,28 @@ const getStatField = () => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">J-Score(전체)</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getJScore(statData, item, 'shop', 'rank')}/{getJScore(statData, item, 'shop', 'per')}
+          {getJScore(statData, item, 'shop', 'rank')}/{getJScore(statData, item, 'shop', 'per')}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getJScore(statData, item, 'sales', 'rank')}/{getJScore(statData, item, 'sales', 'per')}
+          {getJScore(statData, item, 'sales', 'rank')}/{getJScore(statData, item, 'sales', 'per')}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getJScore(statData, item, 'income', 'rank')}/{getJScore(statData, item, 'income', 'per')}
+          {getJScore(statData, item, 'income', 'rank')}/{getJScore(statData, item, 'income', 'per')}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getJScore(statData, item, 'spend', 'rank')}/{getJScore(statData, item, 'spend', 'per')}
+          {getJScore(statData, item, 'spend', 'rank')}/{getJScore(statData, item, 'spend', 'per')}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getJScore(statData, item, 'move_pop', 'rank')}/{getJScore(statData, item, 'move_pop', 'per')}
+          {getJScore(statData, item, 'move_pop', 'rank')}/{getJScore(statData, item, 'move_pop', 'per')}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {getJScore(statData, item, 'work_pop', 'rank')}/{getJScore(statData, item, 'work_pop', 'per')}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getJScore(statData, item, 'resident', 'rank')}/{getJScore(statData, item, 'resident', 'per')}
+          {getJScore(statData, item, 'resident', 'rank')}/{getJScore(statData, item, 'resident', 'per')}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getJScore(statData, item, 'house', 'rank')}/{getJScore(statData, item, 'house', 'per')}
+          {getJScore(statData, item, 'house', 'rank')}/{getJScore(statData, item, 'house', 'per')}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -172,11 +174,11 @@ const getStatField = () => {
         <td colSpan="1" className="border px-4 py-2 text-center">L</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getStatField()}  
+          {getStatField()}
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           평균(
-            {getStatField()}  
+          {getStatField()}
           )
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'shop', 'avg_val', 1)}개</td>
@@ -198,7 +200,7 @@ const getStatField = () => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           표준편차(
-            {getStatField()}  
+          {getStatField()}
           )
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'shop', 'std_val', 1)}개</td>
@@ -220,7 +222,7 @@ const getStatField = () => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           중간값(Mean)(
-            {getStatField()}  
+          {getStatField()}
           )
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'shop', 'med_val', 1)}개</td>
@@ -242,32 +244,32 @@ const getStatField = () => {
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           최대/최소(
-            {getStatField()}  
+          {getStatField()}
           )
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getStatValue(regionStat, item, filterForFind, 'shop', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'shop', 'min_val', 1)}개
+          {getStatValue(regionStat, item, filterForFind, 'shop', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'shop', 'min_val', 1)}개
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getStatValue(regionStat, item, filterForFind, 'sales', 'max_val', 10000)} /{getStatValue(regionStat, item, filterForFind, 'sales', 'min_val', 10000)}만원
+          {getStatValue(regionStat, item, filterForFind, 'sales', 'max_val', 10000)} /{getStatValue(regionStat, item, filterForFind, 'sales', 'min_val', 10000)}만원
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getStatValue(regionStat, item, filterForFind, 'income', 'max_val', 10000)} /{getStatValue(regionStat, item, filterForFind, 'income', 'min_val', 10000)}만원
+          {getStatValue(regionStat, item, filterForFind, 'income', 'max_val', 10000)} /{getStatValue(regionStat, item, filterForFind, 'income', 'min_val', 10000)}만원
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getStatValue(regionStat, item, filterForFind, 'spend', 'max_val', 10000)} /{getStatValue(regionStat, item, filterForFind, 'spend', 'min_val', 10000)}만원
+          {getStatValue(regionStat, item, filterForFind, 'spend', 'max_val', 10000)} /{getStatValue(regionStat, item, filterForFind, 'spend', 'min_val', 10000)}만원
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getStatValue(regionStat, item, filterForFind, 'move_pop', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'move_pop', 'min_val', 1)}명
+          {getStatValue(regionStat, item, filterForFind, 'move_pop', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'move_pop', 'min_val', 1)}명
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getStatValue(regionStat, item, filterForFind, 'work_pop', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'work_pop', 'min_val', 1)}명
+          {getStatValue(regionStat, item, filterForFind, 'work_pop', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'work_pop', 'min_val', 1)}명
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getStatValue(regionStat, item, filterForFind, 'resident', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'resident', 'min_val', 1)}명
+          {getStatValue(regionStat, item, filterForFind, 'resident', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'resident', 'min_val', 1)}명
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-        {getStatValue(regionStat, item, filterForFind, 'house', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'house', 'min_val', 1)}개
+          {getStatValue(regionStat, item, filterForFind, 'house', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'house', 'min_val', 1)}개
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
