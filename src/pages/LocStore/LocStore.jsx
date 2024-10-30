@@ -159,6 +159,18 @@ const LocStore = () => {
         };
     }, []);  // 빈 의존성 배열
 
+    // 처음 페이지 버튼
+    const handleFirstPage = () => {
+        setCurrentPage(1);
+        handleSearch(filters, 1, true);
+    };
+
+    // 끝 페이지 버튼
+    const handleLastPage = () => {
+        const totalPages = Math.ceil(totalItemsCount / pageSize);
+        setCurrentPage(totalPages);
+        handleSearch(filters, totalPages, true);
+    };
 
 
     // 이전 페이지 버튼
@@ -188,16 +200,23 @@ const LocStore = () => {
 
     // 페이징 처리 로직
     const renderPagination = () => {
-        const totalPages = Math.ceil(totalItemsCount / pageSize);  // 총 페이지 수
-        const pageGroupSize = 10;  // 페이지 그룹당 10개의 페이지 번호를 보여줄 예정
-        const currentPageGroup = Math.ceil(currentPage / pageGroupSize);  // 현재 페이지 그룹
-
-        // 현재 페이지 그룹의 시작 페이지와 끝 페이지 계산
+        const totalPages = Math.ceil(totalItemsCount / pageSize);
+        const pageGroupSize = 10;
+        const currentPageGroup = Math.ceil(currentPage / pageGroupSize);
         const startPage = (currentPageGroup - 1) * pageGroupSize + 1;
         const endPage = Math.min(currentPageGroup * pageGroupSize, totalPages);
 
         return (
             <div className="flex justify-center items-center mt-4">
+                <button
+                    onClick={handleFirstPage}
+                    disabled={currentPage === 1}
+                    className={`px-3 py-1 mx-1 border border-gray-300 rounded mb:px-6 mb:py-3 ${currentPage === 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100'
+                        }`}
+                >
+                    처음
+                </button>
+
                 <button
                     onClick={handlePrevPage}
                     disabled={currentPage === 1}
@@ -225,6 +244,15 @@ const LocStore = () => {
                         }`}
                 >
                     다음
+                </button>
+
+                <button
+                    onClick={handleLastPage}
+                    disabled={currentPage === totalPages}
+                    className={`px-3 py-1 mx-1 border border-gray-300 rounded mb:px-6 mb:py-3 ${currentPage === totalPages ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100'
+                        }`}
+                >
+                    끝
                 </button>
             </div>
         );

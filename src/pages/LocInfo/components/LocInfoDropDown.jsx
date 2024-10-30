@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const DropdownWithCheckboxes = ({ selectedOptions, setSelectedOptions }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null); // 드롭다운 영역 참조
+
+  useEffect(() => {
+    // 기본 선택 옵션 추가
+    if (!selectedOptions.includes("2024-10-01")) {
+      setSelectedOptions((prev) => [...prev, "2024-10-01"]);
+    }
+  }, [selectedOptions, setSelectedOptions]);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -12,13 +20,29 @@ const DropdownWithCheckboxes = ({ selectedOptions, setSelectedOptions }) => {
     );
   };
 
+  const handleClickOutside = (event) => {
+    // 드롭다운 영역 외부 클릭 시 닫기
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
+
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="px-4 py-2 bg-white text-gray-400 p-2 border border-[#DDDDDD] rounded w-full "
       >
-        기준 년월 선택
+        2024-10
       </button>
 
       {isOpen && (

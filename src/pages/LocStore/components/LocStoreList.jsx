@@ -118,7 +118,9 @@ const LocStoreList = ({ data }) => {
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.dong_info}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden ">{item.floor_info}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.unit_info}</td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4">2024년 2/4분기</td>
+                            <td className="border border-gray-300 px-4 py-2 mb:py-4">
+                                {item.local_year}년 {item.local_quarter}/4분기
+                            </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
                                 {item.CREATED_AT.slice(0, 10)}
                             </td>

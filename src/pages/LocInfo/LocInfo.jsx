@@ -22,7 +22,7 @@ const LocInfo = () => {
     const [nationJScoreRank, setNationJScoreRank] = useState([]);
     const [filterForFind, setFilterForFind] = useState([]);
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [isList, setIsList] = useState(true);
 
@@ -260,9 +260,12 @@ const LocInfo = () => {
                     </section>
                     <section className="w-full">
                         {loading && (
-                            <div>검색을 진행해 주세요</div>
+                            <div className="flex justify-center items-center h-64">
+                                <div className="w-16 h-16 border-4 border-blue-500 border-solid border-t-transparent rounded-full animate-spin"></div>
+                            </div>
                         )}
                         {error && <p className="text-red-500">오류가 발생했습니다: {error}</p>}  {/* 오류 상태 처리 */}
+
 
                         {/* 데이터가 있으면 리스트 출력 */}
                         {!loading && !error && 

@@ -128,10 +128,8 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind
       scoreType === 'rank' ? stat.j_score_rank :
       scoreType === 'per' ? stat.j_score_per :
       stat.j_score;
-      return score !== null ? score.toFixed(2) : "";
-    } else {
-      return "-";
-    }
+      return score !== null ? score.toFixed(2) : "-";
+    } 
   }
 
 
@@ -146,28 +144,52 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">J-Score(전체)</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'shop')}({getJScore(statData, item, 'shop', 'rank')}/{getJScore(statData, item, 'shop', 'per')})
+          {getJScore(statData, item, 'shop') !== "-" 
+              ? `${getJScore(statData, item, 'shop')}(${getJScore(statData, item, 'shop', 'rank')}/${getJScore(statData, item, 'shop', 'per')})`
+              : "-"
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'sales')}({getJScore(statData, item, 'sales', 'rank')}/{getJScore(statData, item, 'sales', 'per')})
+          {getJScore(statData, item, 'sales') !== "-" 
+              ? `${getJScore(statData, item, 'sales')}(${getJScore(statData, item, 'sales', 'rank')}/${getJScore(statData, item, 'sales', 'per')})`
+              : "-"
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'income')}({getJScore(statData, item, 'income', 'rank')}/{getJScore(statData, item, 'income', 'per')})
+          {getJScore(statData, item, 'income') !== "-" 
+              ? `${getJScore(statData, item, 'income')}(${getJScore(statData, item, 'income', 'rank')}/${getJScore(statData, item, 'income', 'per')})`
+              : "-"
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'spend')}({getJScore(statData, item, 'spend', 'rank')}/{getJScore(statData, item, 'spend', 'per')})
+          {getJScore(statData, item, 'spend') !== "-" 
+              ? `${getJScore(statData, item, 'spend')}(${getJScore(statData, item, 'spend', 'rank')}/${getJScore(statData, item, 'spend', 'per')})`
+              : "-"
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'move_pop')}({getJScore(statData, item, 'move_pop', 'rank')}/{getJScore(statData, item, 'move_pop', 'per')})
+          {getJScore(statData, item, 'move_pop') !== "-" 
+              ? `${getJScore(statData, item, 'move_pop')}(${getJScore(statData, item, 'move_pop', 'rank')}/${getJScore(statData, item, 'move_pop', 'per')})`
+              : "-"
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'work_pop')}({getJScore(statData, item, 'work_pop', 'rank')}/{getJScore(statData, item, 'work_pop', 'per')})
+          {getJScore(statData, item, 'work_pop') !== "-" 
+              ? `${getJScore(statData, item, 'work_pop')}(${getJScore(statData, item, 'work_pop', 'rank')}/${getJScore(statData, item, 'work_pop', 'per')})`
+              : "-"
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'resident')}({getJScore(statData, item, 'resident', 'rank')}/{getJScore(statData, item, 'resident', 'per')})
+          {getJScore(statData, item, 'resident') !== "-" 
+              ? `${getJScore(statData, item, 'resident')}(${getJScore(statData, item, 'resident', 'rank')}/${getJScore(statData, item, 'resident', 'per')})`
+              : "-"
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'house')}({getJScore(statData, item, 'house', 'rank')}/{getJScore(statData, item, 'house', 'per')})
+          {getJScore(statData, item, 'house') !== "-" 
+              ? `${getJScore(statData, item, 'house')}(${getJScore(statData, item, 'house', 'rank')}/${getJScore(statData, item, 'house', 'per')})`
+              : "-"
+          }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>

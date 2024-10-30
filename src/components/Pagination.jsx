@@ -5,6 +5,16 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     const startPage = Math.floor((currentPage - 1) / pageSize) * pageSize + 1; // 현재 페이지 그룹의 시작 페이지
     const endPage = Math.min(startPage + pageSize - 1, totalPages); // 현재 페이지 그룹의 끝 페이지
 
+    // 첫 페이지로 이동
+    const handleFirst = () => {
+        onPageChange(1);
+    };
+
+    // 마지막 페이지로 이동
+    const handleLast = () => {
+        onPageChange(totalPages);
+    };
+
     // 이전 페이지로 이동 (1페이지씩 이동)
     const handlePrevious = () => {
         if (currentPage > 1) {
@@ -21,10 +31,20 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
     return (
         <div className="flex justify-center items-center space-x-2 pt-4">
+            {/* 첫 페이지 버튼 */}
+            <button
+                onClick={handleFirst}
+                className="px-4 py-2 border border-gray-300 rounded"
+                disabled={currentPage === 1}
+            >
+                시작
+            </button>
+
             {/* 이전 버튼 */}
             <button
                 onClick={handlePrevious}
                 className="px-4 py-2 border border-gray-300 rounded"
+                disabled={currentPage === 1}
             >
                 이전
             </button>
@@ -44,8 +64,18 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             <button
                 onClick={handleNext}
                 className="px-4 py-2 border border-gray-300 rounded"
+                disabled={currentPage === totalPages}
             >
                 다음
+            </button>
+
+            {/* 마지막 페이지 버튼 */}
+            <button
+                onClick={handleLast}
+                className="px-4 py-2 border border-gray-300 rounded"
+                disabled={currentPage === totalPages}
+            >
+                끝
             </button>
         </div>
     );

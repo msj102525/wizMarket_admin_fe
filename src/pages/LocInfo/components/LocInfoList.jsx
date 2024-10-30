@@ -13,12 +13,26 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
     const sortedData = [...data].sort((a, b) => {
         if (sortConfig.key) {
             const direction = sortConfig.direction === 'asc' ? 1 : -1;
-            if (a[sortConfig.key] < b[sortConfig.key]) return -1 * direction;
-            if (a[sortConfig.key] > b[sortConfig.key]) return 1 * direction;
+    
+            const aValue = a[sortConfig.key];
+            const bValue = b[sortConfig.key];
+    
+            // null 값을 우선 정렬
+            if (aValue === null && bValue !== null) return -1;
+            if (aValue !== null && bValue === null) return 1;
+    
+            // 0 값을 그다음 우선 정렬
+            if (aValue === 0 && bValue !== 0) return -1;
+            if (aValue !== 0 && bValue === 0) return 1;
+    
+            // 일반적인 값 비교
+            if (aValue < bValue) return -1 * direction;
+            if (aValue > bValue) return 1 * direction;
             return 0;
         }
         return 0;
     });
+    
 
     // 정렬 버튼 클릭 시 호출될 함수
     const handleSort = (key) => {
@@ -56,7 +70,8 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
         resident: '주거인구',
         y_m: '기준년월',
         j_score_rank: 'Rank J-Score(가중치)',
-        j_score_per: 'Per J-Score(가중치)'
+        j_score_per: 'Per J-Score(가중치)',
+        j_score: 'J-Score'
     };
 
     const headers = data.length > 0 && data[0] ? Object.keys(data[0]).map(key => headerMapping[key] || key) : [];
@@ -90,32 +105,13 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
     };
 
 
-    
+
 
 
 
     return (
         <div className="p-4">
             <DataLengthDown data={data} headers={headers} filename={`입지정보_${today}.xlsx`} />
-            {/* <DataLengthDown
-                data={{
-                    city_id: data.city_id,
-                    district_id: data.district_id,
-                    sub_district_id: data.sub_district_id,
-                    shop: data.shop,
-                    income: data.income,
-                    spend: data.spend,
-                    move_pop: data.move_pop,
-                    work_pop: data.wokr_pop,
-                    resident: data.resident,
-                    house: data.house,
-                    j_score_rank: data.j_score_rank,
-                    j_score_per: data.j_score_per,
-                    length:data.length
-                }}
-                headers={headers}
-                filename={`입지정보_${today}.xlsx`}
-            /> */}
             {currentData.length === 0 ? (
                 <p>검색 결과가 없습니다.</p>
             ) : (
@@ -223,7 +219,7 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
                                 </th>
 
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
-                                    Rank/% J-Score
+                                    Rank/Per J-Score
                                     <button onClick={() => handleSort('j_score_rank')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>
@@ -274,77 +270,61 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.sub_district_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.shop === null || item.shop === '-' ? '-' : `${item.shop.toLocaleString()}개 `}
-                                            (
-                                            {
-                                                findJScoreByRegion(item, 'shop', regionStat)
+                                            {findJScoreByRegion(item, 'shop', regionStat)
+                                                ? `(${findJScoreByRegion(item, 'shop', regionStat)})`
+                                                : ""
                                             }
-                                            
-                                            )
                                         </td>
 
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.sales === null || item.sales === '-' ? '-' : `${Math.floor(item.sales / 10000).toLocaleString()}만원 `}
-                                            (
-                                            {
-                                                findJScoreByRegion(item, 'sales', regionStat)
+                                            {findJScoreByRegion(item, 'sales', regionStat)
+                                                ? `(${findJScoreByRegion(item, 'sales', regionStat)})`
+                                                : ""
                                             }
-                                            
-                                            )
                                         </td>
 
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.income === null || item.income === '-' ? '-' : `${Math.floor(item.income / 10000).toLocaleString()}만원 `}
-                                            (
-                                            {
-                                                findJScoreByRegion(item, 'income', regionStat)
+                                            {findJScoreByRegion(item, 'income', regionStat)
+                                                ? `(${findJScoreByRegion(item, 'income', regionStat)})`
+                                                : ""
                                             }
-                                            
-                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.spend === null || item.spend === '-' ? '-' : `${Math.floor(item.spend / 10000).toLocaleString()}만원 `}
-                                            (
-                                            {
-                                                findJScoreByRegion(item, 'spend', regionStat)
+                                            {findJScoreByRegion(item, 'spend', regionStat)
+                                                ? `(${findJScoreByRegion(item, 'spend', regionStat)})`
+                                                : ""
                                             }
-                                            
-                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.move_pop === null || item.move_pop === '-' ? '-' : `${item.move_pop.toLocaleString()}명 `}
-                                            (
-                                            {
-                                                findJScoreByRegion(item, 'move_pop', regionStat)
+                                            {findJScoreByRegion(item, 'move_pop', regionStat)
+                                                ? `(${findJScoreByRegion(item, 'move_pop', regionStat)})`
+                                                : ""
                                             }
-                                            
-                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.work_pop === null || item.work_pop === '-' ? '-' : `${item.work_pop.toLocaleString()}명 `}
-                                            (
-                                            {
-                                                findJScoreByRegion(item, 'work_pop', regionStat)
+                                            {findJScoreByRegion(item, 'work_pop', regionStat)
+                                                ? `(${findJScoreByRegion(item, 'work_pop', regionStat)})`
+                                                : ""
                                             }
-                                            
-                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.resident === null || item.resident === '-' ? '-' : `${item.resident.toLocaleString()}명 `}
-                                            (
-                                            {
-                                                findJScoreByRegion(item, 'resident', regionStat)
+                                            {findJScoreByRegion(item, 'resident', regionStat)
+                                                ? `(${findJScoreByRegion(item, 'resident', regionStat)})`
+                                                : ""
                                             }
-                                            
-                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.house === null || item.house === '-' ? '-' : `${item.house.toLocaleString()}개 `}
-                                            (
-                                            {
-                                                findJScoreByRegion(item, 'house', regionStat)
+                                            {findJScoreByRegion(item, 'house', regionStat)
+                                                ? `(${findJScoreByRegion(item, 'house', regionStat)})`
+                                                : ""
                                             }
-                                            
-                                            )
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.j_score_rank === null || item.j_score_rank === '-' ? '-' : `${item.j_score_rank.toFixed(2)} `}/
