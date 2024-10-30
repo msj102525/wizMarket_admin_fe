@@ -105,13 +105,13 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                                 className="p-2 border border-[#DDDDDD] rounded w-1/6"
                             >
                                 <option value="">이상</option>
-                                <option value="age_under_10">10대 미만</option>
+                                <option value="age_under_10s">10대 미만</option>
                                 <option value="age_10s">10대</option>
                                 <option value="age_20s">20대</option>
                                 <option value="age_30s">30대</option>
                                 <option value="age_40s">40대</option>
                                 <option value="age_50s">50대</option>
-                                <option value="age_60_plus">60대 이상</option>
+                                <option value="age_plus_60s">60대 이상</option>
                             </select>~
                             {/* 최대 연령대 선택 (이하) */}
                             <select
@@ -120,13 +120,13 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                                 className="p-2 border border-[#DDDDDD] rounded w-1/6"
                             >
                                 <option value="">이하</option>
-                                <option value="age_under_10">10대 미만</option>
+                                <option value="age_under_10s">10대 미만</option>
                                 <option value="age_10s">10대</option>
                                 <option value="age_20s">20대</option>
                                 <option value="age_30s">30대</option>
                                 <option value="age_40s">40대</option>
                                 <option value="age_50s">50대</option>
-                                <option value="age_60_plus">60대 이상</option>
+                                <option value="age_plus_60s">60대 이상</option>
                             </select>
                         </div>
                     </div>

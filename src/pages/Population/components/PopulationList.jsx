@@ -3,20 +3,20 @@ import Pagination from '../../../components/Pagination';
 
 const PopulationList = ({ data, ageFilter }) => {
   const columns = [
-    { key: 'reference_date', label: '월' },
+    { key: 'ref_date', label: '월' },
     { key: 'city_name', label: '시/도' },
     { key: 'district_name', label: '시/군' },
     { key: 'sub_district_name', label: '읍/면/동' },
     { key: 'total_population', label: '총 인구' },
     { key: 'male_population', label: '남자' },
     { key: 'female_population', label: '여자' },
-    { key: 'age_under_10', label: '10대 미만', filter: 'age_under_10' },
+    { key: 'age_under_10s', label: '10대 미만', filter: 'age_under_10s' },
     { key: 'age_10s', label: '10대 이상', filter: 'age_10s' },
     { key: 'age_20s', label: '20대 이상', filter: 'age_20s' },
     { key: 'age_30s', label: '30대 이상', filter: 'age_30s' },
     { key: 'age_40s', label: '40대 이상', filter: 'age_40s' },
     { key: 'age_50s', label: '50대 이상', filter: 'age_50s' },
-    { key: 'age_60_plus', label: '60대 이상', filter: 'age_60_plus' },
+    { key: 'age_plus_60s', label: '60대 이상', filter: 'age_plus_60s' },
   ];
 
   const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
@@ -51,7 +51,7 @@ const PopulationList = ({ data, ageFilter }) => {
       return true;
     }
 
-    const filterOrder = ['age_under_10', 'age_10s', 'age_20s', 'age_30s', 'age_40s', 'age_50s', 'age_60_plus'];
+    const filterOrder = ['age_under_10s', 'age_10s', 'age_20s', 'age_30s', 'age_40s', 'age_50s', 'age_plus_60s'];
     const minIndex = ageFilter.ageGroupMin ? filterOrder.indexOf(ageFilter.ageGroupMin) : 0;
     const maxIndex = ageFilter.ageGroupMax ? filterOrder.indexOf(ageFilter.ageGroupMax) : filterOrder.length - 1;
     const colIndex = filterOrder.indexOf(col.filter);
@@ -100,8 +100,10 @@ const PopulationList = ({ data, ageFilter }) => {
                       return `${row.male_population || 0}명 (${((row.male_population / row.total_population) * 100).toFixed(1)}%)`;
                     } else if (col.key === 'female_population') {
                       return `${row.female_population || 0}명 (${((row.female_population / row.total_population) * 100).toFixed(1)}%)`;
-                    } else if (col.key === 'age_under_10') {
-                      return `${row.age_under_10 || 0}명 (${((row.age_under_10 / row.total_population) * 100).toFixed(1)}%)`;
+                    } else if (col.key === 'total_population') { // 총 인구 필드에 명 추가
+                      return `${row.total_population || 0}명`;
+                    } else if (col.key === 'age_under_10s') {
+                      return `${row.age_under_10s || 0}명 (${((row.age_under_10s / row.total_population) * 100).toFixed(1)}%)`;
                     } else if (col.key === 'age_10s') {
                       return `${row.age_10s || 0}명 (${((row.age_10s / row.total_population) * 100).toFixed(1)}%)`;
                     } else if (col.key === 'age_20s') {
@@ -112,8 +114,8 @@ const PopulationList = ({ data, ageFilter }) => {
                       return `${row.age_40s || 0}명 (${((row.age_40s / row.total_population) * 100).toFixed(1)}%)`;
                     } else if (col.key === 'age_50s') {
                       return `${row.age_50s || 0}명 (${((row.age_50s / row.total_population) * 100).toFixed(1)}%)`;
-                    } else if (col.key === 'age_60_plus') {
-                      return `${row.age_60_plus || 0}명 (${((row.age_60_plus / row.total_population) * 100).toFixed(1)}%)`;
+                    } else if (col.key === 'age_plus_60s') {
+                      return `${row.age_plus_60s || 0}명 (${((row.age_plus_60s / row.total_population) * 100).toFixed(1)}%)`;
                     } else {
                       return row[col.key];
                     }
@@ -123,6 +125,7 @@ const PopulationList = ({ data, ageFilter }) => {
             </tr>
           ))}
         </tbody>
+
       </table>
       <Pagination
         currentPage={currentPage}

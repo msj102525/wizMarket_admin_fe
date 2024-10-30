@@ -122,7 +122,7 @@ const LocInfo = () => {
             houseMax: convertToInt(houseMax),
             residentMin: convertToInt(residentMin),
             residentMax: convertToInt(residentMax),
-            selectedOptions: selectedOptions ? selectedOptions.map(option => option.value) : []
+            selectedOptions: selectedOptions || []
         };
         setFilterForFind(filters)
         try {
@@ -138,7 +138,8 @@ const LocInfo = () => {
             setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
             setFilterCorrResults(response.data.filter_corr);
             setRegionStat(response.data.region_j_score);
-            setNationJScoreRank(response.data.nation_j_score_rank)
+            setNationJScoreRank(response.data.nation_j_score)
+            // console.log(response.data.region_j_score)
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');

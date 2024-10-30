@@ -1,7 +1,7 @@
 import React from 'react';
-import Select from 'react-select';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import CitySelect from '../../../components/CitySelect';
+import LocInfoDropDown from './LocInfoDropDown';
 
 const LocInfoListSearchForm = ({
     city, district, subDistrict, cities, districts, subDistricts, setCity, setDistrict, setSubDistrict,
@@ -13,15 +13,6 @@ const LocInfoListSearchForm = ({
     handleSearch, handleReset, isList
 }) => {
 
-
-    const options = [
-        { value: '2024-08-01', label: '2024-08' },
-        { value: '2024-10-01', label: '2024-10' },
-    ];
-
-    const handleChange = (selectedOptions) => {
-        setSelectedOptions(selectedOptions);
-    };
 
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
@@ -50,21 +41,9 @@ const LocInfoListSearchForm = ({
                             <label className="block mb-1 font-extrabold">기준 년월</label>
                         </div>
                         <div className="w-full flex gap-4">
-                            <Select
-                                isMulti
-                                value={selectedOptions}
-                                onChange={handleChange}
-                                options={options}
-                                classNames={{
-                                    control: (state) => ' border border-gray-300 rounded-lg', // 전체 컨트롤
-                                    option: (state) =>
-                                        `text-sm cursor-pointer ${state.isSelected ? 'bg-blue-500 text-white' : 'bg-white text-black'
-                                        } ${state.isFocused ? 'bg-blue-100' : ''}`, // 옵션 아이템 스타일
-                                    multiValue: () => 'bg-blue-500 text-white rounded-lg', // 다중 선택 아이템 스타일
-                                    multiValueLabel: () => 'text-white', // 다중 선택 라벨
-                                    multiValueRemove: () => 'text-white hover:text-red-400 cursor-pointer', // 다중 선택 제거 버튼
-                                    menu: () => 'bg-white border border-gray-300 rounded-lg shadow-lg', // 드롭다운 메뉴 스타일
-                                }}
+                            <LocInfoDropDown
+                                selectedOptions = {selectedOptions}
+                                setSelectedOptions = {setSelectedOptions}
                             />
                         </div>
                     </div>
@@ -286,7 +265,6 @@ const LocInfoListSearchForm = ({
                             />
                         </div>
                     </div>
-
                     
                 </div>
             </div>
