@@ -1,6 +1,6 @@
 // ExpandedRow.js
 import React from 'react';
-import CorrDataCell from './LocInfoListExpandedTD';
+import CorrDataCell from './LocInfoListExpandedCorr';
 
 const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind }) => {
 
@@ -17,7 +17,7 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind
         stat.district_name === item.district_name &&
         stat.sub_district_name === item.sub_district_name
       );
-      return stat ? stat.district_name : "-";
+      return stat ? stat.city_name : "-";
     }
 
     // city 값만 있을 때 city, subDistrict로 필터링

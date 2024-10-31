@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Pagination from '../../../components/Pagination';
-import DataLengthDown from '../../../components/DataLengthDown';
 import ExpandedRow from './LocInfoListExpandedRow';
+import * as XLSX from 'xlsx';
 
 
 const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterForFind }) => {
@@ -17,13 +17,19 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
             const aValue = a[sortConfig.key];
             const bValue = b[sortConfig.key];
     
-            // null 값을 우선 정렬
-            if (aValue === null && bValue !== null) return -1;
-            if (aValue !== null && bValue === null) return 1;
-    
-            // 0 값을 그다음 우선 정렬
-            if (aValue === 0 && bValue !== 0) return -1;
-            if (aValue !== 0 && bValue === 0) return 1;
+            if (sortConfig.direction === 'asc') {
+                // 오름차순: null -> 0 -> 값
+                if (aValue === null && bValue !== null) return -1;
+                if (aValue !== null && bValue === null) return 1;
+                if (aValue === 0 && bValue !== 0) return -1;
+                if (aValue !== 0 && bValue === 0) return 1;
+            } else {
+                // 내림차순: 값 -> 0 -> null
+                if (aValue !== null && bValue === null) return -1;
+                if (aValue === null && bValue !== null) return 1;
+                if (aValue !== 0 && bValue === 0) return -1;
+                if (aValue === 0 && bValue !== 0) return 1;
+            }
     
             // 일반적인 값 비교
             if (aValue < bValue) return -1 * direction;
@@ -31,8 +37,8 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
             return 0;
         }
         return 0;
-    });
-    
+    });    
+
 
     // 정렬 버튼 클릭 시 호출될 함수
     const handleSort = (key) => {
@@ -54,28 +60,6 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
-
-
-    const headerMapping = {
-        city_name: '시/도 명',
-        district_name: '시/군/구 명',
-        sub_district_name: '읍/면/동 명',
-        shop: '매장 수',
-        move_pop: '유동 인구',
-        sales: '매출',
-        work_pop: '직장 인구',
-        income: '소득',
-        spend: '소비',
-        house: '세대수',
-        resident: '주거인구',
-        y_m: '기준년월',
-        j_score_rank: 'Rank J-Score(가중치)',
-        j_score_per: 'Per J-Score(가중치)',
-        j_score: 'J-Score'
-    };
-
-    const headers = data.length > 0 && data[0] ? Object.keys(data[0]).map(key => headerMapping[key] || key) : [];
-    const today = new Date().toISOString().split('T')[0];
 
     // 펼치기
     const [expandedRows, setExpandedRows] = useState([]);
@@ -104,14 +88,52 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
         return stat && stat.j_score !== null ? stat.j_score.toFixed(2) : "";
     };
 
-
-
+    const handleExcelDownload = () => {
+        // 필요한 컬럼만 포함된 데이터를 변환합니다.
+        const filteredData = data.map(item => ({
+            '시/도 명': item.city_name,
+            '시/군/구 명': item.district_name,
+            '읍/면/동 명': item.sub_district_name,
+            '업소 수' : item.shop,
+            '업소 평균 매출' : item.sales,
+            '평균 소득' : item.income,
+            '평균 소비' : item.spend,
+            '유동 인구' : item.move_pop,
+            '직장 인구' : item.work_pop,
+            '주거 인구' : item.resident,
+            '세대 수' : item.house,
+            'Rank J-Score' : item.j_score_rank,
+            'Per J-Score' : item.j_score_per,
+            'J-Score' : item.j_score,
+            '기준년월' : item.ref_date,
+        }));
+    
+        // JSON 데이터를 엑셀 시트로 변환
+        const worksheet = XLSX.utils.json_to_sheet(filteredData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+        const today = new Date().toISOString().split('T')[0];
+    
+        // 엑셀 파일 생성 후 다운로드
+        XLSX.writeFile(workbook, `입지 정보_${today}.xlsx`);
+    };
 
 
 
     return (
         <div className="p-4">
-            <DataLengthDown data={data} headers={headers} filename={`입지정보_${today}.xlsx`} />
+            <div className="flex justify-between items-center">
+                <p>
+                    총 <span className="text-red-500">{data.length.toLocaleString()}</span>개
+                </p>
+                <button
+                    className="px-4 py-2 bg-white text-black rounded border border-black"
+                    onClick={handleExcelDownload}
+                >
+                    엑셀 다운로드
+                </button>
+            </div>
+
             {currentData.length === 0 ? (
                 <p>검색 결과가 없습니다.</p>
             ) : (
@@ -229,7 +251,7 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
 
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
                                     J-Score
-                                    <button onClick={() => handleSort('j_score_per')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                    <button onClick={() => handleSort('j_score')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>
                                     </button>
