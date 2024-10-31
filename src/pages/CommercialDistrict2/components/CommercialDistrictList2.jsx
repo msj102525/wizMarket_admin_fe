@@ -283,7 +283,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
             { key: 'std_val', label: '표준편차' },
             { key: 'max_val', label: '최대값' },
             { key: 'min_val', label: '최소값' },
-            { key: 'j_score', label: 'J-Score_Per' }
+            { key: 'j_score', label: 'J-Score' }
         ];
 
         return (
@@ -378,7 +378,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_detail_category_name}</td><td className="text-center whitespace-nowrap text-md text-gray-500 py-4">
                                         {Intl.NumberFormat().format(item.market_size / 10000)}만원
                                     </td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.average_sales)}</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.average_sales / 10000)}만원</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.average_payment)}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.usage_count)}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.operating_cost)}</td>
