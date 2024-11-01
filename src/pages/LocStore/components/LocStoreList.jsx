@@ -19,6 +19,10 @@ const LocStoreList = ({ data }) => {
     };
 
 
+    const handleClick = () => {
+        console.log("버튼이 클릭되었습니다!");
+    }
+
 
     // 데이터가 없는 경우 처리
     if (!data || data.length === 0) {
@@ -36,6 +40,9 @@ const LocStoreList = ({ data }) => {
                         </th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
                             상호명
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            정보 등록
                         </th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             지점명
@@ -83,12 +90,7 @@ const LocStoreList = ({ data }) => {
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
                             기준년분기
                         </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
-                            생성일자
-                        </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
-                            수정일자
-                        </th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -102,6 +104,11 @@ const LocStoreList = ({ data }) => {
                                 >
                                     {item.store_name}
                                 </p>
+                            </td>
+                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                <button onClick={handleClick} className="bg-white text-black px-2 py-1 rounded border border-gray-300 hover:border-gray-400">
+                                    정보 등록
+                                </button>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.branch_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.city_name}</td>
@@ -121,12 +128,7 @@ const LocStoreList = ({ data }) => {
                             <td className="border border-gray-300 px-4 py-2 mb:py-4">
                                 {item.local_year}년 {item.local_quarter}/4분기
                             </td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
-                                {item.CREATED_AT.slice(0, 10)}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2 mb:hidden">
-                                {item.UPDATED_AT.slice(0, 10)}
-                            </td>
+
                         </tr>
                     ))}
                 </tbody>

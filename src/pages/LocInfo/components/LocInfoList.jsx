@@ -4,13 +4,13 @@ import ExpandedRow from './LocInfoListExpandedRow';
 import * as XLSX from 'xlsx';
 
 
-const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterForFind }) => {
+const LocInfoList = ({ searchData = [], statData, filterCorrData, regionStat, filterSet }) => {
     const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
     const pageSize = 20;  // 한 페이지에 보여줄 리스트 개수
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });  // 정렬 상태 관리
 
     // 정렬 함수 (전체 데이터에 대해 적용)
-    const sortedData = [...data].sort((a, b) => {
+    const sortedData = [...searchData].sort((a, b) => {
         if (sortConfig.key) {
             const direction = sortConfig.direction === 'asc' ? 1 : -1;
     
@@ -54,7 +54,7 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
     const indexOfFirstItem = indexOfLastItem - pageSize;
     const currentData = sortedData.slice(indexOfFirstItem, indexOfLastItem);  // 정렬된 데이터에서 페이징 적용
 
-    const totalPages = Math.ceil(data.length / pageSize);  // 전체 페이지 수 계산
+    const totalPages = Math.ceil(searchData.length / pageSize);  // 전체 페이지 수 계산
 
     // 페이지 변경 함수
     const handlePageChange = (page) => {
@@ -74,13 +74,13 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
     };
 
     // 지역 필터값에 따른 j_score_rank 찾기 함수
-    const findJScoreByRegion = (data, targetItem, regionStat) => {
+    const findJScoreByRegion = (searchData, targetItem, regionStat) => {
 
         const stat = regionStat.find(stat =>
-            stat.ref_date === data.y_m &&
-            stat.city_name === data.city_name &&
-            stat.district_name === data.district_name &&
-            stat.sub_district_name === data.sub_district_name &&
+            stat.ref_date === searchData.y_m &&
+            stat.city_name === searchData.city_name &&
+            stat.district_name === searchData.district_name &&
+            stat.sub_district_name === searchData.sub_district_name &&
             stat.target_item === targetItem
         );
 
@@ -90,7 +90,7 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
 
     const handleExcelDownload = () => {
         // 필요한 컬럼만 포함된 데이터를 변환합니다.
-        const filteredData = data.map(item => ({
+        const filteredData = searchData.map(item => ({
             '시/도 명': item.city_name,
             '시/군/구 명': item.district_name,
             '읍/면/동 명': item.sub_district_name,
@@ -124,7 +124,7 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
         <div className="p-4">
             <div className="flex justify-between items-center">
                 <p>
-                    총 <span className="text-red-500">{data.length.toLocaleString()}</span>개
+                    총 <span className="text-red-500">{searchData.length.toLocaleString()}</span>개
                 </p>
                 <button
                     className="px-4 py-2 bg-white text-black rounded border border-black"
@@ -366,7 +366,7 @@ const LocInfoList = ({ data = [], statData, filterCorrData, regionStat, filterFo
                                             statData={statData}
                                             filterCorrData={filterCorrData}
                                             regionStat={regionStat}
-                                            filterForFind={filterForFind}
+                                            filterSet={filterSet}
                                             className="expanded-row-text"
                                         />
                                     )}

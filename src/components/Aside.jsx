@@ -114,6 +114,32 @@ const Aside = () => {
                             </li>
                         </div>
                     </ul>
+                    <ul className='border'>
+                        <li
+                            className="text-xl p-2 flex justify-between items-center cursor-pointer leading-10"
+                            onClick={() => toggleSection('section1')}
+                        >
+                            <div className="flex items-center">
+                                <div className="w-7 h-7">
+                                    <img className='block w-full h-auto' src={require("../assets/aside/aside_cms_img.png")} alt="user-img" />
+                                </div>
+                                <p className='ml-2'>CMS</p>
+                            </div>
+                            <p className='text-4xl'>
+                                {isOpen.section1 ? '-' : '+'}
+                            </p>
+                        </li>
+                        <div
+                            className={`transition-[max-height] duration-300 ease-in-out overflow-hidden ${isOpen.section1 ? 'max-h-[500px]' : 'max-h-0'}`}
+                        >
+                            <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
+                                <Link to="/bizDetailCategoryContent">세부 업종 공통 정보</Link>
+                            </li>
+                            <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
+                                <Link to="/LocStoreContent">매장 추가 정보</Link>
+                            </li>
+                        </div>
+                    </ul>
                 </nav>
 
             </aside>

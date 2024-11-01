@@ -15,12 +15,12 @@ const LocInfo = () => {
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
 
     const [searchResults, setSearchResults] = useState([]);
-    const [statResults, setStatResults] = useState([]);
-    const [allCorrResults, setAllCorrResults] = useState([]);
+    const [initStatResults, setInitStatResults] = useState([]);
+    const [initAllCorrResults, setInitAllCorrResults] = useState([]);
     const [filterCorrResults, setFilterCorrResults] = useState([]);
     const [regionStat, setRegionStat] = useState([]);
     const [nationJScoreRank, setNationJScoreRank] = useState([]);
-    const [filterForFind, setFilterForFind] = useState([]);
+    const [filterSet, setFilterSet] = useState([]);
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -78,9 +78,9 @@ const LocInfo = () => {
         try {
             setLoading(true);
             const response = await axios.post(`${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/select_nation_stat_corr`);
-            setAllCorrResults(response.data.all_corr);
-            setStatResults(response.data.total_stat);
-
+            setInitAllCorrResults(response.data.init_all_corr);
+            setInitStatResults(response.data.init_stat_data);
+            console.log(response.data.init_stat_data)
         } catch (err) {
             console.error('초기 데이터 로드 중 오류 발생:', err);
             setError('초기 데이터 로드 중 오류가 발생했습니다.');
@@ -124,7 +124,7 @@ const LocInfo = () => {
             residentMax: convertToInt(residentMax),
             selectedOptions: selectedOptions || []
         };
-        setFilterForFind(filters)
+        setFilterSet(filters)
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/select_loc_info`,
@@ -256,7 +256,8 @@ const LocInfo = () => {
                     </section>
                     {/* 하단 리스트 */}
                     <section>
-                        <LocInfoNationStat statData={statResults} allCorrData={allCorrResults} />
+                        {/* 통계 정보 */}
+                        <LocInfoNationStat initStatData={initStatResults} initAllCorrData={initAllCorrResults} />
                     </section>
                     <section className="w-full">
                         {loading && (
@@ -270,12 +271,11 @@ const LocInfo = () => {
                         {/* 데이터가 있으면 리스트 출력 */}
                         {!loading && !error && 
                             <LocInfoList 
-                                data={searchResults} 
+                                filterSet = {filterSet}     // 필터값
+                                searchData={searchResults}  // 기본 검색 결과
                                 statData={nationJScoreRank} 
                                 regionStat = {regionStat} 
-                                filterForFind = {filterForFind} 
-                                allCorrData = {allCorrResults} 
-                                filterCorrData = {filterCorrResults}
+                                filterCorrData = {filterCorrResults}    // 검색 결과 지역의 상관 관계
                             />}
                     </section>
                 </main>
