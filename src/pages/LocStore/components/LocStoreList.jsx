@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import LocStoreContentModal from './LocStoreContentModal';
 
 const LocStoreList = ({ data }) => {
 
@@ -19,9 +20,20 @@ const LocStoreList = ({ data }) => {
     };
 
 
-    const handleClick = () => {
-        console.log("버튼이 클릭되었습니다!");
-    }
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedStoreBusinessNumber, setSelectedStoreBusinessNumber] = useState(null);
+
+    const handleClick = (storeBusinessNumber) => {
+        setSelectedStoreBusinessNumber(storeBusinessNumber);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedStoreBusinessNumber(null);
+    };
+
+
 
 
     // 데이터가 없는 경우 처리
@@ -105,8 +117,11 @@ const LocStoreList = ({ data }) => {
                                     {item.store_name}
                                 </p>
                             </td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
-                                <button onClick={handleClick} className="bg-white text-black px-2 py-1 rounded border border-gray-300 hover:border-gray-400">
+                            <td className="border border-gray-300 px-4 py-2 text-center">
+                                <button
+                                    onClick={() => handleClick(item.store_business_number)}
+                                    className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
+                                >
                                     정보 등록
                                 </button>
                             </td>
@@ -133,6 +148,12 @@ const LocStoreList = ({ data }) => {
                     ))}
                 </tbody>
             </table>
+            {/* 모달 컴포넌트 */}
+            <LocStoreContentModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                storeBusinessNumber={selectedStoreBusinessNumber}
+            />
         </div>
     );
 };
