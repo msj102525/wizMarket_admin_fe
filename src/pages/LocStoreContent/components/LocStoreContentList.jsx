@@ -3,9 +3,9 @@ import axios from 'axios';
 import LocStoreModal from './LocStoreContentModal';
 
 const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = [] }) => {
-    const [localStoreContent, setLocalStoreContent] = useState(locStoreContentList); 
+    const [localStoreContent, setLocalStoreContent] = useState(locStoreContentList);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedContentId, setSelectedContentId] = useState(null);
+    const [selectedContent, setSelectedContent] = useState(null);
 
     useEffect(() => {
         setLocalStoreContent(locStoreContentList);  // locStoreContentList가 업데이트될 때 localStoreContent를 업데이트
@@ -35,14 +35,14 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
         }
     };
 
-    const openModal = (contentId) => {
-        setSelectedContentId(contentId);
+    const openModal = (store) => {
+        setSelectedContent(store);
         setIsModalOpen(true);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
-        setSelectedContentId(null);
+        setSelectedContent(null);
     };
 
     return (
@@ -101,7 +101,7 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
                                 <td className="px-4 py-2 border-b text-gray-700">{store.road_name}</td>
                                 <td
                                     className="px-4 py-2 border-b text-blue-600 cursor-pointer"
-                                    onClick={() => openModal(store.local_store_content_id)}
+                                    onClick={() => openModal(store)}
                                 >
                                     {store.title}
                                 </td>
@@ -109,14 +109,12 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
                                 <td className="px-4 py-2 border-b text-gray-700 text-center">
                                     <div
                                         onClick={() => toggleServiceStatus(index)}
-                                        className={`relative inline-flex items-center w-12 h-6 cursor-pointer rounded-full transition-colors ${
-                                            store.is_publish ? 'bg-green-500' : 'bg-gray-300'
-                                        }`}
+                                        className={`relative inline-flex items-center w-12 h-6 cursor-pointer rounded-full transition-colors ${store.is_publish ? 'bg-green-500' : 'bg-gray-300'
+                                            }`}
                                     >
                                         <span
-                                            className={`absolute left-1 h-5 w-5 rounded-full bg-white transition-transform transform ${
-                                                store.is_publish ? 'translate-x-6' : ''
-                                            }`}
+                                            className={`absolute left-1 h-5 w-5 rounded-full bg-white transition-transform transform ${store.is_publish ? 'translate-x-6' : ''
+                                                }`}
                                         ></span>
                                     </div>
                                 </td>
@@ -126,11 +124,16 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
                 </tbody>
             </table>
             {/* 모달 렌더링 */}
-            <LocStoreModal
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                localStoreContentId={selectedContentId}
-            />
+            {selectedContent && (
+                <LocStoreModal
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    localStoreContentId={selectedContent.local_store_content_id}
+                    storeName = {selectedContent.store_name}
+                    roadName = {selectedContent.road_name}
+                    createdAt = {selectedContent.created_at}
+                />
+            )}
         </div>
     );
 };
