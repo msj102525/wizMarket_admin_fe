@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LocStoreModal from './LocStoreContentModal';
+import LocStoreModal from './LocStoreContentDetailModal';
+
 
 const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = [] }) => {
     const [localStoreContent, setLocalStoreContent] = useState(locStoreContentList);
@@ -15,18 +16,19 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
     const toggleServiceStatus = async (index) => {
         // 현재 상태 복사 후 업데이트
         const updatedContent = [...localStoreContent];
-        updatedContent[index].is_publish = !updatedContent[index].is_publish; // 상태 반전
+        updatedContent[index].status = updatedContent[index].status === 'Y' ? 'S' : 'Y'; 
 
         // 로컬 상태 업데이트
         setLocalStoreContent(updatedContent);
+        // console.log(updatedContent)
 
         // 서버 업데이트 API 호출
         try {
             await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/update_loc_store_is_publish`,
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/update_loc_store_content_status`,
                 {
                     local_store_content_id: updatedContent[index].local_store_content_id,
-                    is_publish: updatedContent[index].is_publish,
+                    status: updatedContent[index].status,
                 }
             );
 
@@ -75,7 +77,7 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
                             등록일
                         </th>
                         <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
-                            서비스 게시
+                            리포트 게시
                         </th>
                     </tr>
                 </thead>
@@ -109,15 +111,14 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
                                 <td className="px-4 py-2 border-b text-gray-700 text-center">
                                     <div
                                         onClick={() => toggleServiceStatus(index)}
-                                        className={`relative inline-flex items-center w-12 h-6 cursor-pointer rounded-full transition-colors ${store.is_publish ? 'bg-green-500' : 'bg-gray-300'
-                                            }`}
+                                        className={`relative inline-flex items-center w-12 h-6 cursor-pointer rounded-full transition-colors ${store.status === 'Y' ? 'bg-green-500' : 'bg-gray-300'}`}
                                     >
                                         <span
-                                            className={`absolute left-1 h-5 w-5 rounded-full bg-white transition-transform transform ${store.is_publish ? 'translate-x-6' : ''
-                                                }`}
+                                            className={`absolute left-1 h-5 w-5 rounded-full bg-white transition-transform transform ${store.status === 'Y' ? 'translate-x-6' : ''}`}
                                         ></span>
                                     </div>
                                 </td>
+
                             </tr>
                         );
                     })}
@@ -129,9 +130,9 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
                     isOpen={isModalOpen}
                     onClose={closeModal}
                     localStoreContentId={selectedContent.local_store_content_id}
-                    storeName = {selectedContent.store_name}
-                    roadName = {selectedContent.road_name}
-                    createdAt = {selectedContent.created_at}
+                    storeName={selectedContent.store_name}
+                    roadName={selectedContent.road_name}
+                    createdAt={selectedContent.created_at}
                 />
             )}
         </div>

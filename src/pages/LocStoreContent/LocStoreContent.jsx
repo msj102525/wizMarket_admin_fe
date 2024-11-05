@@ -5,7 +5,6 @@ import Header from '../../components/Header';
 import LocStoreContentList from './components/LocStoreContentList';
 import { Link } from 'react-router-dom';
 
-
 const LocStoreContent = () => {
     const [locStoreContentList, setLocStoreContentList] = useState([]);
     const [locStoreCategoryList, setLocStoreCategoryList] = useState([]);
@@ -18,12 +17,11 @@ const LocStoreContent = () => {
                     `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/select_loc_store_content_list`
                 );
                 setLocStoreContentList(response.data);  // 받아온 데이터를 상태에 저장
-                const locStoreContentData = response.data
+                const locStoreContentData = response.data;
 
                 if (locStoreContentData.length > 0) {
                     const secondResponse = await axios.post(
                         `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/select_loc_store_category`,
-
                         { store_business_number_list: locStoreContentData.map(item => item.store_business_number) } // 필요한 데이터
                     );
                     setLocStoreCategoryList(secondResponse.data); // 두 번째 요청 데이터 설정
@@ -58,11 +56,18 @@ const LocStoreContent = () => {
                         </Link>
                     </section>
 
-                    {/* 받아온 데이터를 LocStoreContentList에 전달 */}
+                    {/* 데이터가 없을 경우 안내 메시지 표시 */}
                     <section className="w-full">
-                        <LocStoreContentList
-                            locStoreContentList={locStoreContentList}
-                            locStoreCategoryList={locStoreCategoryList} />
+                        {locStoreContentList.length === 0 ? (
+                            <p className="text-center text-gray-500 mt-6">
+                                신규 매장 리포트를 작성해주세요.
+                            </p>
+                        ) : (
+                            <LocStoreContentList
+                                locStoreContentList={locStoreContentList}
+                                locStoreCategoryList={locStoreCategoryList}
+                            />
+                        )}
                     </section>
                 </main>
             </div>

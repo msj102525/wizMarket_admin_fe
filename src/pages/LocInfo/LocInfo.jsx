@@ -80,7 +80,7 @@ const LocInfo = () => {
             const response = await axios.post(`${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/select_nation_stat_corr`);
             setInitAllCorrResults(response.data.init_all_corr);
             setInitStatResults(response.data.init_stat_data);
-            console.log(response.data.init_stat_data)
+            // console.log(response.data.init_stat_data)
         } catch (err) {
             console.error('초기 데이터 로드 중 오류 발생:', err);
             setError('초기 데이터 로드 중 오류가 발생했습니다.');
