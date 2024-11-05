@@ -9,6 +9,7 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
     const [content, setContent] = useState("");
     const [existingImages, setExistingImages] = useState([]); // 기존 이미지
     const [newImages, setNewImages] = useState([]); // 새로 추가된 이미지
+    
 
     const fetchStoreData = useCallback(async () => {
         if (!localStoreContentId) return;
@@ -19,7 +20,7 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/select_loc_store_for_detail_content`,
                 { local_store_content_id: localStoreContentId }
             );
-            console.log(response.data)
+
             setLocStoreDetailData(response.data);
             setTitle(response.data.local_store_detail_content.title);
             setContent(response.data.local_store_detail_content.content);

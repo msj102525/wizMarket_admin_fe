@@ -72,7 +72,7 @@ const LocStoreContentModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             // 모달을 닫기 전에 잠시 메시지를 표시
             setTimeout(() => {
                 onClose();
-            }, 2000); // 2초 후 모달 닫기
+            }, 1500); // 2초 후 모달 닫기
     
         } catch (err) {
             console.error('저장 중 오류 발생:', err);
