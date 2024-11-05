@@ -2,12 +2,12 @@
 import React from 'react';
 import CorrDataCell from './LocInfoListExpandedCorr';
 
-const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind }) => {
+const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) => {
 
 
   // 필터 조건에 맞는 지역명 불러오는 함수
   const getStatField = () => {
-    const { city, district, subDistrict } = filterForFind;
+    const { city, district, subDistrict } = filterSet;
     let stat;
 
     // 모든 값이 None일 때 city, district, sub_district로 필터링
@@ -55,8 +55,8 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind
 
 
   // 각각의 통계 값 가져오는 함수 분리 (avgField 추가)
-  const getStatValue = (regionStat, item, filterForFind, targetItem, field, divisor) => {
-    const { city, district, subDistrict } = filterForFind;
+  const getStatValue = (regionStat, item, filterSet, targetItem, field, divisor) => {
+    const { city, district, subDistrict } = filterSet;
     let stat;
 
     // 모든 값이 None일 때 city, district, subDistrict로 필터링
@@ -207,14 +207,14 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind
           {getStatField()}
           )
         </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'shop', 'avg_val', 1)}개</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'sales', 'avg_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'income', 'avg_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'spend', 'avg_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'move_pop', 'avg_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'work_pop', 'avg_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'resident', 'avg_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'house', 'avg_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'shop', 'avg_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'sales', 'avg_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'income', 'avg_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'spend', 'avg_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'move_pop', 'avg_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'work_pop', 'avg_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'resident', 'avg_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'house', 'avg_val', 1)}개</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -229,14 +229,14 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind
           {getStatField()}
           )
         </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'shop', 'std_val', 1)}개</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'sales', 'std_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'income', 'std_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'spend', 'std_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'move_pop', 'std_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'work_pop', 'std_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'resident', 'std_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'house', 'std_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'shop', 'std_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'sales', 'std_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'income', 'std_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'spend', 'std_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'move_pop', 'std_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'work_pop', 'std_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'resident', 'std_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'house', 'std_val', 1)}개</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -251,14 +251,14 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind
           {getStatField()}
           )
         </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'shop', 'med_val', 1)}개</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'sales', 'med_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'income', 'med_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'spend', 'med_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'move_pop', 'med_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'work_pop', 'med_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'resident', 'med_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterForFind, 'house', 'med_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'shop', 'med_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'sales', 'med_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'income', 'med_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'spend', 'med_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'move_pop', 'med_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'work_pop', 'med_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'resident', 'med_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'house', 'med_val', 1)}개</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -274,28 +274,28 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterForFind
           )
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterForFind, 'shop', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'shop', 'min_val', 1)}개
+          {getStatValue(regionStat, item, filterSet, 'shop', 'max_val', 1)} /{getStatValue(regionStat, item, filterSet, 'shop', 'min_val', 1)}개
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterForFind, 'sales', 'max_val', 10000)} /{getStatValue(regionStat, item, filterForFind, 'sales', 'min_val', 10000)}만원
+          {getStatValue(regionStat, item, filterSet, 'sales', 'max_val', 10000)} /{getStatValue(regionStat, item, filterSet, 'sales', 'min_val', 10000)}만원
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterForFind, 'income', 'max_val', 10000)} /{getStatValue(regionStat, item, filterForFind, 'income', 'min_val', 10000)}만원
+          {getStatValue(regionStat, item, filterSet, 'income', 'max_val', 10000)} /{getStatValue(regionStat, item, filterSet, 'income', 'min_val', 10000)}만원
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterForFind, 'spend', 'max_val', 10000)} /{getStatValue(regionStat, item, filterForFind, 'spend', 'min_val', 10000)}만원
+          {getStatValue(regionStat, item, filterSet, 'spend', 'max_val', 10000)} /{getStatValue(regionStat, item, filterSet, 'spend', 'min_val', 10000)}만원
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterForFind, 'move_pop', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'move_pop', 'min_val', 1)}명
+          {getStatValue(regionStat, item, filterSet, 'move_pop', 'max_val', 1)} /{getStatValue(regionStat, item, filterSet, 'move_pop', 'min_val', 1)}명
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterForFind, 'work_pop', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'work_pop', 'min_val', 1)}명
+          {getStatValue(regionStat, item, filterSet, 'work_pop', 'max_val', 1)} /{getStatValue(regionStat, item, filterSet, 'work_pop', 'min_val', 1)}명
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterForFind, 'resident', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'resident', 'min_val', 1)}명
+          {getStatValue(regionStat, item, filterSet, 'resident', 'max_val', 1)} /{getStatValue(regionStat, item, filterSet, 'resident', 'min_val', 1)}명
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterForFind, 'house', 'max_val', 1)} /{getStatValue(regionStat, item, filterForFind, 'house', 'min_val', 1)}개
+          {getStatValue(regionStat, item, filterSet, 'house', 'max_val', 1)} /{getStatValue(regionStat, item, filterSet, 'house', 'min_val', 1)}개
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
