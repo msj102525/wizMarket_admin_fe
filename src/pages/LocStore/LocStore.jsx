@@ -126,7 +126,7 @@ const LocStore = () => {
 
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_store/select_loc_store`,
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc/store/select/store/list`,
                 { ...filters, matchType, ...pagingInfo },  // 필터 + 페이지 정보
                 {
                     headers: {

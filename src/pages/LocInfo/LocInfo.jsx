@@ -77,7 +77,7 @@ const LocInfo = () => {
     const fetchInitialData = async () => {
         try {
             setLoading(true);
-            const response = await axios.post(`${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/select_nation_stat_corr`);
+            const response = await axios.post(`${process.env.REACT_APP_FASTAPI_BASE_URL}/loc/info/select/init/stat/corr`);
             setInitAllCorrResults(response.data.init_all_corr);
             setInitStatResults(response.data.init_stat_data);
             // console.log(response.data.init_stat_data)
@@ -127,7 +127,7 @@ const LocInfo = () => {
         setFilterSet(filters)
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_info/select_loc_info`,
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc/info/select/list`,
                 filters,
                 {
                     headers: {

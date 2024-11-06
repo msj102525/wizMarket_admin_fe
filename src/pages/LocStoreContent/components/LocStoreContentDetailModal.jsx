@@ -17,7 +17,7 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
         setLoading(true);
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/select_loc_store_for_detail_content`,
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/select/detail/content`,
                 { local_store_content_id: localStoreContentId }
             );
 
@@ -43,7 +43,7 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
 
         try {
             await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/delete_loc_store_content`,
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/delete/content`,
                 { local_store_content_id: localStoreContentId }
             );
 
@@ -88,9 +88,13 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
         formData.append("content", content);
 
         // 기존 이미지 파일명만 서버에 전달
-        existingImages.forEach((img) => {
-            formData.append("existing_images", img.local_store_image_url);
-        });
+        if (existingImages && existingImages.length === 0) {
+            formData.append("existing_images", "");  // 빈 리스트를 나타내는 빈 값 전송
+        } else {
+            existingImages.forEach((img) => {
+                formData.append("existing_images", JSON.stringify(existingImages.map(img => img.local_store_image_url)));
+            });
+        }
 
         // 새로 추가된 이미지 파일 전송
         if (newImages.length > 0) {
@@ -102,11 +106,10 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
                 console.log(`${pair[0]}: ${pair[1]}`);
             }
             const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/update_loc_store_content`,
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/update/content`,
                 formData,
                 { headers: { "Content-Type": "multipart/form-data" } }
             );
-            console.log("Update successful:", response.data);
 
             onClose(); // 업데이트 후 모달 닫기
         } catch (error) {

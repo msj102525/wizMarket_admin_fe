@@ -14,14 +14,14 @@ const LocStoreContent = () => {
         const fetchLocStoreContent = async () => {
             try {
                 const response = await axios.get(
-                    `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/select_loc_store_content_list`
+                    `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/select/list`
                 );
                 setLocStoreContentList(response.data);  // 받아온 데이터를 상태에 저장
                 const locStoreContentData = response.data;
 
                 if (locStoreContentData.length > 0) {
                     const secondResponse = await axios.post(
-                        `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/select_loc_store_category`,
+                        `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/select/category`,
                         { store_business_number_list: locStoreContentData.map(item => item.store_business_number) } // 필요한 데이터
                     );
                     setLocStoreCategoryList(secondResponse.data); // 두 번째 요청 데이터 설정
@@ -49,7 +49,7 @@ const LocStoreContent = () => {
                     </section>
 
                     <section className="w-full">
-                        <Link to="/locStore">
+                        <Link to="/loc/store">
                             <button className="bg-blue-400 text-white py-2 px-4 rounded">
                                 매장 정보등록 +
                             </button>

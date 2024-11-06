@@ -1,10 +1,56 @@
-import React  from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Aside from '../../components/Aside';
 import Header from '../../components/Header';
-
+import BizDetailCategoryInsertModal from './components/BizDeatilCategoryContentInsertModal';
+import BizDetailCategoryList from './components/BizDetailCategoryContentList'
+import { useCategories } from '../../hooks/useCategories';
 
 const BizDetailCategoryContent = () => {
-    
+    const {
+        reference, setReference, references,
+        mainCategory, setMainCategory, mainCategories,
+        subCategory, setSubCategory, subCategories,
+        detailCategory, setDetailCategory, detailCategories
+    } = useCategories();
+
+    const [categoryContentList, setCategoryContentList] = useState([]);
+    const [categoryBizCategoryList, setCategoryBizCategoryList] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+
+    useEffect(() => {
+        // 페이지 로딩 시 API 요청 보내기
+        const fetchLocStoreContent = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/select/list`
+                );
+                setCategoryContentList(response.data);  // 받아온 데이터를 상태에 저장
+                const categoryContentData = response.data;
+
+                if (categoryContentData.length > 0) {
+                    const secondResponse = await axios.post(
+                        `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/select/biz/category/list`,
+                        { biz_category_number_list: categoryContentData.map(item => item.detail_category_id) } // 필요한 데이터
+                    );
+                    setCategoryBizCategoryList(secondResponse.data); // 두 번째 요청 데이터 설정
+                }
+            } catch (error) {
+                console.error('데이터 요청 중 오류 발생:', error);
+            }
+        };
+        fetchLocStoreContent();
+    }, []);
+
     return (
         <div>
             <Header />
@@ -21,24 +67,42 @@ const BizDetailCategoryContent = () => {
                     </section>
 
                     <section className="w-full">
-                        <button className="bg-blue-400 text-white py-2 px-4 rounded">
-                            정보등록 +
+                        <button className="bg-blue-400 text-white py-2 px-4 rounded" onClick={() => openModal()}>
+                            업종 정보등록 +
                         </button>
                     </section>
 
                     {/* 데이터가 없을 경우 안내 메시지 표시 */}
                     <section className="w-full">
-                        {/* {locStoreContentList.length === 0 ? (
+                        {categoryContentList.length === 0 ? (
                             <p className="text-center text-gray-500 mt-6">
-                                신규 매장 리포트를 작성해주세요.
+                                신규 업종 리포트를 작성해주세요.
                             </p>
                         ) : (
-                            <LocStoreContentList
-                                locStoreContentList={locStoreContentList}
-                                locStoreCategoryList={locStoreCategoryList}
+                            <BizDetailCategoryList
+                                categoryContentList={categoryContentList}
+                                categoryBizCategoryList={categoryBizCategoryList}
                             />
-                        )} */}
+                        )}
                     </section>
+                    {isModalOpen && (
+                        <BizDetailCategoryInsertModal
+                            isOpen={isModalOpen}
+                            onClose={closeModal}
+                            mainCategory={mainCategory}
+                            setMainCategory={setMainCategory}
+                            mainCategories={mainCategories}
+                            subCategory={subCategory}
+                            setSubCategory={setSubCategory}
+                            subCategories={subCategories}
+                            detailCategory={detailCategory}
+                            setDetailCategory={setDetailCategory}
+                            detailCategories={detailCategories}
+                            reference={reference}
+                            references={references}
+                            setReference={setReference}
+                        />
+                    )}
                 </main>
             </div>
         </div>

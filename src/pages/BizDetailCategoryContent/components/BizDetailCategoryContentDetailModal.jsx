@@ -2,49 +2,49 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import TextEditor from '../../../components/TextEditor';
 
-const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, storeName, roadName, createdAt }) => {
-    const [locStoreDetailData, setLocStoreDetailData] = useState(null);
+const BizDetailCategoryContentDetailModal = ({ isOpen, onClose, categoryContentId, mainCategoryName, subCategoryName, detailCategoryName, createdAt }) => {
+    const [categoryDetailData, setCategoryDetailData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [existingImages, setExistingImages] = useState([]); // 기존 이미지
     const [newImages, setNewImages] = useState([]); // 새로 추가된 이미지
-    
+
 
     const fetchStoreData = useCallback(async () => {
-        if (!localStoreContentId) return;
+        if (!categoryContentId) return;
 
         setLoading(true);
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/select_loc_store_for_detail_content`,
-                { local_store_content_id: localStoreContentId }
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/select/detail/content`,
+                { biz_detail_category_content_id: categoryContentId }
             );
-
-            setLocStoreDetailData(response.data);
-            setTitle(response.data.local_store_detail_content.title);
-            setContent(response.data.local_store_detail_content.content);
+            setCategoryDetailData(response.data);
+            setTitle(response.data.category_detail_content.title);
+            setContent(response.data.category_detail_content.content);
             setExistingImages(response.data.image || []); // 기존 이미지 초기화
+
         } catch (error) {
             console.error("Error fetching store data:", error);
         } finally {
             setLoading(false);
         }
-    }, [localStoreContentId]); // localStoreContentId가 변경될 때만 함수가 재생성됩니다.
+    }, [categoryContentId]);
 
     useEffect(() => {
         if (isOpen) fetchStoreData();
-    }, [isOpen, fetchStoreData]); // 이제 fetchStoreData가 의존성 배열에 안전하게 포함됩니다.
+    }, [isOpen, fetchStoreData]);
 
 
     // 삭제
     const handleDelete = async () => {
-        if (!localStoreContentId) return;
+        if (!categoryContentId) return;
 
         try {
             await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/delete_loc_store_content`,
-                { local_store_content_id: localStoreContentId }
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/delete/content`,
+                { biz_detail_category_content_id: categoryContentId }
             );
 
             // 삭제 후 모달을 닫고 데이터를 갱신
@@ -80,33 +80,33 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
 
     // 수정
     const handleUpdate = async () => {
-        if (!localStoreContentId) return;
+        if (!categoryContentId) return;
 
         const formData = new FormData();
-        formData.append("local_store_content_id", localStoreContentId);
+        formData.append("biz_detail_category_content_id", categoryContentId);
         formData.append("title", title);
         formData.append("content", content);
 
-        // 기존 이미지 파일명만 서버에 전달
-        existingImages.forEach((img) => {
-            formData.append("existing_images", img.local_store_image_url);
-        });
+        // 기존 이미지가 모두 삭제된 경우 빈 문자열을 추가
+        if (existingImages && existingImages.length === 0) {
+            formData.append("existing_images", "");  // 빈 리스트를 나타내는 빈 값 전송
+        } else {
+            existingImages.forEach((img) => {
+                formData.append("existing_images", JSON.stringify(existingImages.map(img => img.biz_detail_category_content_image_url)));
+            });
+        }
 
         // 새로 추가된 이미지 파일 전송
         if (newImages.length > 0) {
             newImages.forEach((img) => formData.append("new_images", img.file));
         }
-        
+
         try {
-            for (const pair of formData.entries()) {
-                console.log(`${pair[0]}: ${pair[1]}`);
-            }
-            const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/update_loc_store_content`,
+            await axios.post(
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/update/content`,
                 formData,
                 { headers: { "Content-Type": "multipart/form-data" } }
             );
-            console.log("Update successful:", response.data);
 
             onClose(); // 업데이트 후 모달 닫기
         } catch (error) {
@@ -121,23 +121,27 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
             <div className="bg-white p-6 rounded-lg shadow-lg w-128">
                 {loading ? (
                     <p className="text-center text-gray-600">Loading...</p>
-                ) : locStoreDetailData ? (
+                ) : categoryDetailData ? (
                     <>
 
                         <div>
-                            <div className="text-center mb-6">
-                                <h2 className="text-3xl font-bold text-gray-800">매장 정보</h2>
-                                <p className="text-gray-500 text-sm mt-2">매장 추가 정보를 확인하고 수정할 수 있습니다.</p>
+                            <div className="text-center mb-8">
+                                <h2 className="text-3xl font-bold text-gray-800">업종 추가 정보</h2>
+                                <p className="text-gray-500 text-sm mt-2">업종 추가 정보를 확인하고 수정할 수 있습니다.</p>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 border-b pb-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6 border-b pb-4">
                                 <div>
-                                    <p className="text-lg font-semibold text-gray-700">매장명</p>
-                                    <p className="text-gray-800">{storeName}</p>
+                                    <p className="text-lg font-semibold text-gray-700">대분류</p>
+                                    <p className="text-gray-800">{mainCategoryName}</p>
                                 </div>
                                 <div>
-                                    <p className="text-lg font-semibold text-gray-700">주소</p>
-                                    <p className="text-gray-800">{roadName}</p>
+                                    <p className="text-lg font-semibold text-gray-700">중분류</p>
+                                    <p className="text-gray-800">{subCategoryName}</p>
+                                </div>
+                                <div>
+                                    <p className="text-lg font-semibold text-gray-700">소분류</p>
+                                    <p className="text-gray-800">{detailCategoryName}</p>
                                 </div>
                                 <div>
                                     <p className="text-lg font-semibold text-gray-700">생성일자</p>
@@ -167,11 +171,9 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
                                 <h3 className="text-lg font-semibold text-gray-700 mb-4">기존 이미지</h3>
                                 <div className="flex gap-4 overflow-x-auto">
                                     {existingImages.map((img, index) => (
-
-                                        
                                         <div key={index} className="relative w-[150px] h-[100px] flex-shrink-0 border rounded-lg overflow-hidden shadow-sm">
                                             <img
-                                                src={`${process.env.REACT_APP_FASTAPI_REPORT_URL}${img.local_store_image_url}`}
+                                                src={`${process.env.REACT_APP_FASTAPI_REPORT_URL}${img.biz_detail_category_content_image_url}`}
                                                 alt={`Store view ${index + 1}`}
                                                 className="w-full h-full object-cover"
                                             />
@@ -184,6 +186,7 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
                                         </div>
                                     ))}
                                 </div>
+
                                 <h3 className="text-lg font-semibold text-gray-700 mt-4 mb-2">새 이미지 추가</h3>
                                 <input type="file" accept="image/*" multiple onChange={handleFileChange} />
                                 <div className="flex gap-4 overflow-x-auto mt-2">
@@ -243,4 +246,4 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
     );
 };
 
-export default LocStoreContentDetailModal;
+export default BizDetailCategoryContentDetailModal;

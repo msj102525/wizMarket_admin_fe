@@ -71,10 +71,10 @@ const Aside = () => {
                                 <Link to="/commercial2">상권분석</Link>
                             </li>
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
-                                <Link to="/locInfo">입지분석</Link>
+                                <Link to="/loc/info">입지분석</Link>
                             </li>
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
-                                <Link to="/locStore">매장정보</Link>
+                                <Link to="/loc/store">매장정보</Link>
                             </li>
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                                 <Link to="/rising">뜨는 업종</Link>
@@ -133,10 +133,10 @@ const Aside = () => {
                             className={`transition-[max-height] duration-300 ease-in-out overflow-hidden ${isOpen.section1 ? 'max-h-[500px]' : 'max-h-0'}`}
                         >
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
-                                <Link to="/bizDetailCategoryContent">세부 업종 공통 정보</Link>
+                                <Link to="/detail/category/content">세부 업종 공통 정보</Link>
                             </li>
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
-                                <Link to="/LocStoreContent">매장 추가 정보</Link>
+                                <Link to="/store/content">매장 추가 정보</Link>
                             </li>
                         </div>
                     </ul>

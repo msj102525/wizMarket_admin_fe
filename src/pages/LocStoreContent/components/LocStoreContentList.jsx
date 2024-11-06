@@ -25,7 +25,7 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
         // 서버 업데이트 API 호출
         try {
             await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/update_loc_store_content_status`,
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/update/status`,
                 {
                     local_store_content_id: updatedContent[index].local_store_content_id,
                     status: updatedContent[index].status,

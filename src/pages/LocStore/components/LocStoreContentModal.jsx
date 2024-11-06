@@ -18,7 +18,7 @@ const LocStoreContentModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                 try {
                     setLoading(true);
                     const response = await axios.post(
-                        `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc_store/select_loc_store_for_content`,
+                        `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc/store/select/init/content`,
                         null,
                         { params: { store_business_number: storeBusinessNumber } }
                     );
@@ -49,31 +49,31 @@ const LocStoreContentModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         formData.append('store_business_number', storeBusinessNumber);
         formData.append('title', title);
         formData.append('content', content);
-    
+
         selectedImages.forEach((image) => {
             formData.append('images', image.file);
         });
-    
+
         try {
             for (const pair of formData.entries()) {
                 console.log(`${pair[0]}: ${pair[1]}`);
             }
             const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/insert_store_content_image`,
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/insert/content`,
                 formData,
                 { headers: { 'Content-Type': 'multipart/form-data' } }
             );
-    
+
             // 성공 시 받은 데이터 상태에 저장
             setData(response.data); // 성공 시 서버에서 받은 데이터를 상태에 저장
             setSaveStatus('success'); // 성공 상태로 설정
             setMessage('저장이 성공적으로 완료되었습니다.');
-    
+
             // 모달을 닫기 전에 잠시 메시지를 표시
             setTimeout(() => {
                 onClose();
             }, 1500); // 2초 후 모달 닫기
-    
+
         } catch (err) {
             console.error('저장 중 오류 발생:', err);
             setSaveStatus('error'); // 실패 상태로 설정
@@ -171,19 +171,25 @@ const LocStoreContentModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         </div>
                     </div>
                 )}
-                <div className="flex justify-end mt-6">
-                    <button
-                        onClick={onClose}
-                        className="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2 hover:bg-gray-400"
-                    >
-                        취소
-                    </button>
-                    <button
-                        onClick={onSave}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    >
-                        저장
-                    </button>
+                <div className="flex justify-between items-center mt-6">
+                    {/* 좌측 닫기 버튼 */}
+                    <div>
+                        <button
+                            onClick={onClose}
+                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2 hover:bg-gray-400"
+                        >
+                            취소
+                        </button>
+                    </div>
+                    {/* 우측 저장 버튼 */}
+                    <div className="flex space-x-4">
+                        <button
+                            onClick={onSave}
+                            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        >
+                            등록
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

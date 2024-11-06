@@ -1,33 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LocStoreModal from './LocStoreContentDetailModal';
+import BizDetailCategoryContentDetailModal from './BizDetailCategoryContentDetailModal';
 
 
-const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = [] }) => {
-    const [localStoreContent, setLocalStoreContent] = useState(locStoreContentList);
+const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCategoryList = [] }) => {
+    const [categoryContent, setCategoryContent] = useState(categoryContentList);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedContent, setSelectedContent] = useState(null);
 
     useEffect(() => {
-        setLocalStoreContent(locStoreContentList);  // locStoreContentList가 업데이트될 때 localStoreContent를 업데이트
-    }, [locStoreContentList]);
+        setCategoryContent(categoryContentList);  // categoryContentList가 업데이트될 때 categoryContent를 업데이트
+    }, [categoryContentList]);
 
     // 서비스 게시 상태를 토글하는 함수
     const toggleServiceStatus = async (index) => {
         // 현재 상태 복사 후 업데이트
-        const updatedContent = [...localStoreContent];
-        updatedContent[index].status = updatedContent[index].status === 'Y' ? 'S' : 'Y'; 
+        const updatedContent = [...categoryContent];
+        updatedContent[index].status = updatedContent[index].status === 'Y' ? 'S' : 'Y';
 
         // 로컬 상태 업데이트
-        setLocalStoreContent(updatedContent);
-        // console.log(updatedContent)
+        setCategoryContent(updatedContent);
 
         // 서버 업데이트 API 호출
         try {
             await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/local_store_content/update_loc_store_content_status`,
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/update/status`,
                 {
-                    local_store_content_id: updatedContent[index].local_store_content_id,
+                    biz_detail_category_content_id: updatedContent[index].biz_detail_category_content_id,
                     status: updatedContent[index].status,
                 }
             );
@@ -37,8 +36,8 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
         }
     };
 
-    const openModal = (store) => {
-        setSelectedContent(store);
+    const openModal = (content, bizCategory) => {
+        setSelectedContent({ content, bizCategory });
         setIsModalOpen(true);
     };
 
@@ -65,12 +64,6 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
                             업종소분류
                         </th>
                         <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
-                            매장명
-                        </th>
-                        <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
-                            도로명 주소
-                        </th>
-                        <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
                             제목
                         </th>
                         <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
@@ -82,39 +75,36 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
                     </tr>
                 </thead>
                 <tbody>
-                    {localStoreContent.map((store, index) => {
-                        const category = locStoreCategoryList.find(
-                            (cat) => cat.store_business_number === store.store_business_number
+                    {categoryContent.map((content, index) => {
+                        const bizCategory = categoryBizCategoryList.find(
+                            (cat) => cat.biz_detail_category_id === content.detail_category_id
                         );
-
                         return (
                             <tr key={index} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-4 py-2 border-b text-gray-700">{store.local_store_content_id}</td>
+                                <td className="px-4 py-2 border-b text-gray-700">{content.biz_detail_category_content_id}</td>
                                 <td className="px-4 py-2 border-b text-gray-700">
-                                    {category ? category.large_category_name : 'N/A'}
+                                    {bizCategory ? bizCategory.biz_main_category_name : 'N/A'}
                                 </td>
                                 <td className="px-4 py-2 border-b text-gray-700">
-                                    {category ? category.medium_category_name : 'N/A'}
+                                    {bizCategory ? bizCategory.biz_sub_category_name : 'N/A'}
                                 </td>
                                 <td className="px-4 py-2 border-b text-gray-700">
-                                    {category ? category.small_category_name : 'N/A'}
+                                    {bizCategory ? bizCategory.biz_detail_category_name : 'N/A'}
                                 </td>
-                                <td className="px-4 py-2 border-b text-gray-700">{store.store_name}</td>
-                                <td className="px-4 py-2 border-b text-gray-700">{store.road_name}</td>
                                 <td
                                     className="px-4 py-2 border-b text-blue-600 cursor-pointer"
-                                    onClick={() => openModal(store)}
+                                    onClick={() => openModal(content, bizCategory)}
                                 >
-                                    {store.title}
+                                    {content.title}
                                 </td>
-                                <td className="px-4 py-2 border-b text-gray-700">{store.created_at}</td>
+                                <td className="px-4 py-2 border-b text-gray-700">{content.created_at}</td>
                                 <td className="px-4 py-2 border-b text-gray-700 text-center">
                                     <div
                                         onClick={() => toggleServiceStatus(index)}
-                                        className={`relative inline-flex items-center w-12 h-6 cursor-pointer rounded-full transition-colors ${store.status === 'Y' ? 'bg-green-500' : 'bg-gray-300'}`}
+                                        className={`relative inline-flex items-center w-12 h-6 cursor-pointer rounded-full transition-colors ${content.status === 'Y' ? 'bg-green-500' : 'bg-gray-300'}`}
                                     >
                                         <span
-                                            className={`absolute left-1 h-5 w-5 rounded-full bg-white transition-transform transform ${store.status === 'Y' ? 'translate-x-6' : ''}`}
+                                            className={`absolute left-1 h-5 w-5 rounded-full bg-white transition-transform transform ${content.status === 'Y' ? 'translate-x-6' : ''}`}
                                         ></span>
                                     </div>
                                 </td>
@@ -126,17 +116,18 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
             </table>
             {/* 모달 렌더링 */}
             {selectedContent && (
-                <LocStoreModal
+                <BizDetailCategoryContentDetailModal
                     isOpen={isModalOpen}
                     onClose={closeModal}
-                    localStoreContentId={selectedContent.local_store_content_id}
-                    storeName={selectedContent.store_name}
-                    roadName={selectedContent.road_name}
-                    createdAt={selectedContent.created_at}
+                    categoryContentId={selectedContent.content.biz_detail_category_content_id}
+                    mainCategoryName={selectedContent.bizCategory?.biz_main_category_name || 'N/A'}
+                    subCategoryName={selectedContent.bizCategory?.biz_sub_category_name || 'N/A'}
+                    detailCategoryName={selectedContent.bizCategory?.biz_detail_category_name || 'N/A'}
+                    createdAt={selectedContent.content.created_at}
                 />
             )}
         </div>
     );
 };
 
-export default LocStoreContentList;
+export default BizDetailCategoryContentList;
