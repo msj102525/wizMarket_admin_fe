@@ -273,8 +273,8 @@ const LocInfo = () => {
                             <LocInfoList 
                                 filterSet = {filterSet}     // 필터값
                                 searchData={searchResults}  // 기본 검색 결과
-                                nationJScore={nationJScore} 
-                                statDataByRegion = {statDataByRegion} 
+                                nationJScore={nationJScore}     
+                                statDataByRegion = {statDataByRegion}  // 검색 결과 지역의 통계 데이터
                                 filterCorrData = {filterCorrResults}    // 검색 결과 지역의 상관 관계
                             />}
                     </section>
