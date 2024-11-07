@@ -38,6 +38,7 @@ const DropdownWithCheckboxes = ({ selectedOptions, setSelectedOptions }) => {
 
   return (
     <div className="relative inline-block w-1/6"  ref={dropdownRef}>
+      {/* <p>{selectedOptions}</p> */}
       <button
         onClick={toggleDropdown}
         className="px-4 py-2 bg-white text-gray-400 p-2 border border-[#DDDDDD] rounded w-full text-left"

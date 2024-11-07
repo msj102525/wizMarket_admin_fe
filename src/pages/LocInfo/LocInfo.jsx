@@ -10,6 +10,7 @@ import { useCities } from '../../hooks/useCities';
 import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
 import { useSelector } from 'react-redux';
 import LocInfoNationStat from './components/LocInfoNationStat'
+import { useLocInfoDataDate } from '../../hooks/useLocInfoDataDate';
 
 const LocInfo = () => {
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
@@ -26,6 +27,7 @@ const LocInfo = () => {
     const [error, setError] = useState(null);
     const [isList, setIsList] = useState(true);
 
+    const { dataDate } = useLocInfoDataDate();
 
     const [shopMin, setshopMin] = useState('');
     const [move_popMin, setmove_popMin] = useState('');
@@ -73,6 +75,11 @@ const LocInfo = () => {
         setSubDistrict,
     });
 
+    // useEffect(() => {
+    //     if (dataDate && dataDate.length > 0) {
+    //         selectedOptions(dataDate.slice().reverse()[0].y_m);
+    //     }
+    // }, [selectedOptions, dataDate])
 
     const fetchInitialData = async () => {
         try {
@@ -174,7 +181,7 @@ const LocInfo = () => {
         sethouseMax('');
         setresidentMax('');
 
-        setSelectedOptions('');
+        setSelectedOptions(dataDate);
     };
     
 
@@ -223,8 +230,6 @@ const LocInfo = () => {
                                 houseMax={houseMax}
                                 residentMax={residentMax}
 
-                                selectedOptions={selectedOptions}
-
                                 setCity={setCity}
                                 setDistrict={setDistrict}
                                 setSubDistrict={setSubDistrict}
@@ -247,6 +252,7 @@ const LocInfo = () => {
                                 sethouseMax={sethouseMax}
                                 setresidentMax={setresidentMax}
 
+                                selectedOptions={selectedOptions}
                                 setSelectedOptions={setSelectedOptions}
 
                                 handleSearch={handleSearch}
