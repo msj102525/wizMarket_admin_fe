@@ -18,8 +18,8 @@ const LocInfo = () => {
     const [initStatResults, setInitStatResults] = useState([]);
     const [initAllCorrResults, setInitAllCorrResults] = useState([]);
     const [filterCorrResults, setFilterCorrResults] = useState([]);
-    const [regionStat, setRegionStat] = useState([]);
-    const [nationJScoreRank, setNationJScoreRank] = useState([]);
+    const [statDataByRegion, setStatDataByRegion] = useState([]);
+    const [nationJScore, setNationJScore] = useState([]);
     const [filterSet, setFilterSet] = useState([]);
 
     const [loading, setLoading] = useState(false);
@@ -137,8 +137,8 @@ const LocInfo = () => {
             );
             setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
             setFilterCorrResults(response.data.filter_corr);
-            setRegionStat(response.data.region_j_score);
-            setNationJScoreRank(response.data.nation_j_score)
+            setStatDataByRegion(response.data.stat_by_region);
+            setNationJScore(response.data.nation_j_score)
             // console.log(response.data.region_j_score)
         } catch (err) {
             console.error('검색 오류:', err);
@@ -273,8 +273,8 @@ const LocInfo = () => {
                             <LocInfoList 
                                 filterSet = {filterSet}     // 필터값
                                 searchData={searchResults}  // 기본 검색 결과
-                                statData={nationJScoreRank} 
-                                regionStat = {regionStat} 
+                                nationJScore={nationJScore} 
+                                statDataByRegion = {statDataByRegion} 
                                 filterCorrData = {filterCorrResults}    // 검색 결과 지역의 상관 관계
                             />}
                     </section>

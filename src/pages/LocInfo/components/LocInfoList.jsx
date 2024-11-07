@@ -4,7 +4,7 @@ import ExpandedRow from './LocInfoListExpandedRow';
 import * as XLSX from 'xlsx';
 
 
-const LocInfoList = ({ searchData = [], statData, filterCorrData, regionStat, filterSet }) => {
+const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataByRegion, filterSet }) => {
     const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
     const pageSize = 20;  // 한 페이지에 보여줄 리스트 개수
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });  // 정렬 상태 관리
@@ -74,9 +74,9 @@ const LocInfoList = ({ searchData = [], statData, filterCorrData, regionStat, fi
     };
 
     // 지역 필터값에 따른 j_score_rank 찾기 함수
-    const findJScoreByRegion = (searchData, targetItem, regionStat) => {
+    const findJScoreByRegion = (searchData, targetItem, statDataByRegion) => {
 
-        const stat = regionStat.find(stat =>
+        const stat = statDataByRegion.find(stat =>
             stat.ref_date === searchData.y_m &&
             stat.city_name === searchData.city_name &&
             stat.district_name === searchData.district_name &&
@@ -292,59 +292,59 @@ const LocInfoList = ({ searchData = [], statData, filterCorrData, regionStat, fi
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.sub_district_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.shop === null || item.shop === '-' ? '-' : `${item.shop.toLocaleString()}개 `}
-                                            {findJScoreByRegion(item, 'shop', regionStat)
-                                                ? `(${findJScoreByRegion(item, 'shop', regionStat)})`
+                                            {findJScoreByRegion(item, 'shop', statDataByRegion)
+                                                ? `(${findJScoreByRegion(item, 'shop', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
 
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.sales === null || item.sales === '-' ? '-' : `${Math.floor(item.sales / 10000).toLocaleString()}만원 `}
-                                            {findJScoreByRegion(item, 'sales', regionStat)
-                                                ? `(${findJScoreByRegion(item, 'sales', regionStat)})`
+                                            {findJScoreByRegion(item, 'sales', statDataByRegion)
+                                                ? `(${findJScoreByRegion(item, 'sales', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
 
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.income === null || item.income === '-' ? '-' : `${Math.floor(item.income / 10000).toLocaleString()}만원 `}
-                                            {findJScoreByRegion(item, 'income', regionStat)
-                                                ? `(${findJScoreByRegion(item, 'income', regionStat)})`
+                                            {findJScoreByRegion(item, 'income', statDataByRegion)
+                                                ? `(${findJScoreByRegion(item, 'income', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.spend === null || item.spend === '-' ? '-' : `${Math.floor(item.spend / 10000).toLocaleString()}만원 `}
-                                            {findJScoreByRegion(item, 'spend', regionStat)
-                                                ? `(${findJScoreByRegion(item, 'spend', regionStat)})`
+                                            {findJScoreByRegion(item, 'spend', statDataByRegion)
+                                                ? `(${findJScoreByRegion(item, 'spend', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.move_pop === null || item.move_pop === '-' ? '-' : `${item.move_pop.toLocaleString()}명 `}
-                                            {findJScoreByRegion(item, 'move_pop', regionStat)
-                                                ? `(${findJScoreByRegion(item, 'move_pop', regionStat)})`
+                                            {findJScoreByRegion(item, 'move_pop', statDataByRegion)
+                                                ? `(${findJScoreByRegion(item, 'move_pop', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.work_pop === null || item.work_pop === '-' ? '-' : `${item.work_pop.toLocaleString()}명 `}
-                                            {findJScoreByRegion(item, 'work_pop', regionStat)
-                                                ? `(${findJScoreByRegion(item, 'work_pop', regionStat)})`
+                                            {findJScoreByRegion(item, 'work_pop', statDataByRegion)
+                                                ? `(${findJScoreByRegion(item, 'work_pop', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.resident === null || item.resident === '-' ? '-' : `${item.resident.toLocaleString()}명 `}
-                                            {findJScoreByRegion(item, 'resident', regionStat)
-                                                ? `(${findJScoreByRegion(item, 'resident', regionStat)})`
+                                            {findJScoreByRegion(item, 'resident', statDataByRegion)
+                                                ? `(${findJScoreByRegion(item, 'resident', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.house === null || item.house === '-' ? '-' : `${item.house.toLocaleString()}개 `}
-                                            {findJScoreByRegion(item, 'house', regionStat)
-                                                ? `(${findJScoreByRegion(item, 'house', regionStat)})`
+                                            {findJScoreByRegion(item, 'house', statDataByRegion)
+                                                ? `(${findJScoreByRegion(item, 'house', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
@@ -363,9 +363,9 @@ const LocInfoList = ({ searchData = [], statData, filterCorrData, regionStat, fi
                                     {expandedRows.includes(item.loc_info_id) && (
                                         <ExpandedRow
                                             item={item}
-                                            statData={statData}
+                                            nationJScore={nationJScore}
                                             filterCorrData={filterCorrData}
-                                            regionStat={regionStat}
+                                            statDataByRegion={statDataByRegion}
                                             filterSet={filterSet}
                                             className="expanded-row-text"
                                         />

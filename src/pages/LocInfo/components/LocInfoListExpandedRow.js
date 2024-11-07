@@ -2,7 +2,7 @@
 import React from 'react';
 import CorrDataCell from './LocInfoListExpandedCorr';
 
-const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) => {
+const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, filterSet }) => {
 
 
   // 필터 조건에 맞는 지역명 불러오는 함수
@@ -12,7 +12,7 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
 
     // 모든 값이 None일 때 city, district, sub_district로 필터링
     if (!city && !district && !subDistrict) {
-      stat = regionStat.find(stat =>
+      stat = statDataByRegion.find(stat =>
         stat.city_name === item.city_name &&
         stat.district_name === item.district_name &&
         stat.sub_district_name === item.sub_district_name
@@ -22,7 +22,7 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
 
     // city 값만 있을 때 city, subDistrict로 필터링
     if (city && !district && !subDistrict) {
-      stat = regionStat.find(stat =>
+      stat = statDataByRegion.find(stat =>
         stat.city_name === item.city_name &&
         stat.sub_district_name === item.sub_district_name
       );
@@ -31,7 +31,7 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
 
     // district 값만 있을 때 city, subDistrict로 필터링
     if (city && district && !subDistrict) {
-      stat = regionStat.find(stat =>
+      stat = statDataByRegion.find(stat =>
         stat.district_name === item.district_name &&
         stat.sub_district_name === item.sub_district_name
       );
@@ -40,7 +40,7 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
 
     // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
     if (city && district && subDistrict) {
-      stat = regionStat.find(stat =>
+      stat = statDataByRegion.find(stat =>
         stat.city_name === item.city_name &&
         stat.district_name === item.district_name &&
         stat.sub_district_name === item.sub_district_name
@@ -55,13 +55,13 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
 
 
   // 각각의 통계 값 가져오는 함수 분리 (avgField 추가)
-  const getStatValue = (regionStat, item, filterSet, targetItem, field, divisor) => {
+  const getStatValue = (statDataByRegion, item, filterSet, targetItem, field, divisor) => {
     const { city, district, subDistrict } = filterSet;
     let stat;
 
     // 모든 값이 None일 때 city, district, subDistrict로 필터링
     if (!city && !district && !subDistrict) {
-      stat = regionStat.find(stat =>
+      stat = statDataByRegion.find(stat =>
         stat.ref_date === item.y_m &&
         stat.city_name === item.city_name &&
         stat.district_name === item.district_name &&
@@ -71,7 +71,7 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
     }
     // city 값만 있을 때 city, subDistrict로 필터링
     else if (city && !district && !subDistrict) {
-      stat = regionStat.find(stat =>
+      stat = statDataByRegion.find(stat =>
         stat.ref_date === item.y_m &&
         stat.city_name === item.city_name &&
         stat.sub_district_name === item.sub_district_name &&
@@ -80,7 +80,7 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
     }
     // district 값만 있을 때 city, subDistrict로 필터링
     else if (city && district && !subDistrict) {
-      stat = regionStat.find(stat =>
+      stat = statDataByRegion.find(stat =>
         stat.ref_date === item.y_m &&
         stat.district_name === item.district_name &&
         stat.sub_district_name === item.sub_district_name &&
@@ -89,7 +89,7 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
     }
     // subDistrict 값만 있을 때 city, district, subDistrict로 필터링
     else if (city && district && subDistrict) {
-      stat = regionStat.find(stat =>
+      stat = statDataByRegion.find(stat =>
         stat.ref_date === item.y_m &&
         stat.city_name === item.city_name &&
         stat.district_name === item.district_name &&
@@ -113,8 +113,8 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
     }
   };
 
-  function getJScore(statData, item, targetItem, scoreType) {
-    const stat = statData.find(
+  function getJScore(nationJScore, item, targetItem, scoreType) {
+    const stat = nationJScore.find(
       (stat) =>
         stat.city_name === item.city_name &&
         stat.district_name === item.district_name &&
@@ -144,50 +144,50 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">J-Score(전체)</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'shop') !== "-" 
-              ? `${getJScore(statData, item, 'shop')}(${getJScore(statData, item, 'shop', 'rank')}/${getJScore(statData, item, 'shop', 'per')})`
+          {getJScore(nationJScore, item, 'shop') !== "-" 
+              ? `${getJScore(nationJScore, item, 'shop')}(${getJScore(nationJScore, item, 'shop', 'rank')}/${getJScore(nationJScore, item, 'shop', 'per')})`
               : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'sales') !== "-" 
-              ? `${getJScore(statData, item, 'sales')}(${getJScore(statData, item, 'sales', 'rank')}/${getJScore(statData, item, 'sales', 'per')})`
+          {getJScore(nationJScore, item, 'sales') !== "-" 
+              ? `${getJScore(nationJScore, item, 'sales')}(${getJScore(nationJScore, item, 'sales', 'rank')}/${getJScore(nationJScore, item, 'sales', 'per')})`
               : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'income') !== "-" 
-              ? `${getJScore(statData, item, 'income')}(${getJScore(statData, item, 'income', 'rank')}/${getJScore(statData, item, 'income', 'per')})`
+          {getJScore(nationJScore, item, 'income') !== "-" 
+              ? `${getJScore(nationJScore, item, 'income')}(${getJScore(nationJScore, item, 'income', 'rank')}/${getJScore(nationJScore, item, 'income', 'per')})`
               : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'spend') !== "-" 
-              ? `${getJScore(statData, item, 'spend')}(${getJScore(statData, item, 'spend', 'rank')}/${getJScore(statData, item, 'spend', 'per')})`
+          {getJScore(nationJScore, item, 'spend') !== "-" 
+              ? `${getJScore(nationJScore, item, 'spend')}(${getJScore(nationJScore, item, 'spend', 'rank')}/${getJScore(nationJScore, item, 'spend', 'per')})`
               : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'move_pop') !== "-" 
-              ? `${getJScore(statData, item, 'move_pop')}(${getJScore(statData, item, 'move_pop', 'rank')}/${getJScore(statData, item, 'move_pop', 'per')})`
+          {getJScore(nationJScore, item, 'move_pop') !== "-" 
+              ? `${getJScore(nationJScore, item, 'move_pop')}(${getJScore(nationJScore, item, 'move_pop', 'rank')}/${getJScore(nationJScore, item, 'move_pop', 'per')})`
               : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'work_pop') !== "-" 
-              ? `${getJScore(statData, item, 'work_pop')}(${getJScore(statData, item, 'work_pop', 'rank')}/${getJScore(statData, item, 'work_pop', 'per')})`
+          {getJScore(nationJScore, item, 'work_pop') !== "-" 
+              ? `${getJScore(nationJScore, item, 'work_pop')}(${getJScore(nationJScore, item, 'work_pop', 'rank')}/${getJScore(nationJScore, item, 'work_pop', 'per')})`
               : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'resident') !== "-" 
-              ? `${getJScore(statData, item, 'resident')}(${getJScore(statData, item, 'resident', 'rank')}/${getJScore(statData, item, 'resident', 'per')})`
+          {getJScore(nationJScore, item, 'resident') !== "-" 
+              ? `${getJScore(nationJScore, item, 'resident')}(${getJScore(nationJScore, item, 'resident', 'rank')}/${getJScore(nationJScore, item, 'resident', 'per')})`
               : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(statData, item, 'house') !== "-" 
-              ? `${getJScore(statData, item, 'house')}(${getJScore(statData, item, 'house', 'rank')}/${getJScore(statData, item, 'house', 'per')})`
+          {getJScore(nationJScore, item, 'house') !== "-" 
+              ? `${getJScore(nationJScore, item, 'house')}(${getJScore(nationJScore, item, 'house', 'rank')}/${getJScore(nationJScore, item, 'house', 'per')})`
               : "-"
           }
         </td>
@@ -207,14 +207,14 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
           {getStatField()}
           )
         </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'shop', 'avg_val', 1)}개</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'sales', 'avg_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'income', 'avg_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'spend', 'avg_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'move_pop', 'avg_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'work_pop', 'avg_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'resident', 'avg_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'house', 'avg_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'shop', 'avg_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'sales', 'avg_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'income', 'avg_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'spend', 'avg_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'move_pop', 'avg_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'work_pop', 'avg_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'resident', 'avg_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'house', 'avg_val', 1)}개</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -229,14 +229,14 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
           {getStatField()}
           )
         </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'shop', 'std_val', 1)}개</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'sales', 'std_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'income', 'std_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'spend', 'std_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'move_pop', 'std_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'work_pop', 'std_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'resident', 'std_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'house', 'std_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'shop', 'std_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'sales', 'std_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'income', 'std_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'spend', 'std_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'move_pop', 'std_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'work_pop', 'std_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'resident', 'std_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'house', 'std_val', 1)}개</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -251,14 +251,14 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
           {getStatField()}
           )
         </td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'shop', 'med_val', 1)}개</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'sales', 'med_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'income', 'med_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'spend', 'med_val', 10000)}만원</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'move_pop', 'med_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'work_pop', 'med_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'resident', 'med_val', 1)}명</td>
-        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(regionStat, item, filterSet, 'house', 'med_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'shop', 'med_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'sales', 'med_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'income', 'med_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'spend', 'med_val', 10000)}만원</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'move_pop', 'med_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'work_pop', 'med_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'resident', 'med_val', 1)}명</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'house', 'med_val', 1)}개</td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -274,28 +274,28 @@ const ExpandedRow = ({ item, statData, filterCorrData, regionStat, filterSet }) 
           )
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterSet, 'shop', 'max_val', 1)} /{getStatValue(regionStat, item, filterSet, 'shop', 'min_val', 1)}개
+          {getStatValue(statDataByRegion, item, filterSet, 'shop', 'max_val', 1)} /{getStatValue(statDataByRegion, item, filterSet, 'shop', 'min_val', 1)}개
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterSet, 'sales', 'max_val', 10000)} /{getStatValue(regionStat, item, filterSet, 'sales', 'min_val', 10000)}만원
+          {getStatValue(statDataByRegion, item, filterSet, 'sales', 'max_val', 10000)} /{getStatValue(statDataByRegion, item, filterSet, 'sales', 'min_val', 10000)}만원
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterSet, 'income', 'max_val', 10000)} /{getStatValue(regionStat, item, filterSet, 'income', 'min_val', 10000)}만원
+          {getStatValue(statDataByRegion, item, filterSet, 'income', 'max_val', 10000)} /{getStatValue(statDataByRegion, item, filterSet, 'income', 'min_val', 10000)}만원
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterSet, 'spend', 'max_val', 10000)} /{getStatValue(regionStat, item, filterSet, 'spend', 'min_val', 10000)}만원
+          {getStatValue(statDataByRegion, item, filterSet, 'spend', 'max_val', 10000)} /{getStatValue(statDataByRegion, item, filterSet, 'spend', 'min_val', 10000)}만원
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterSet, 'move_pop', 'max_val', 1)} /{getStatValue(regionStat, item, filterSet, 'move_pop', 'min_val', 1)}명
+          {getStatValue(statDataByRegion, item, filterSet, 'move_pop', 'max_val', 1)} /{getStatValue(statDataByRegion, item, filterSet, 'move_pop', 'min_val', 1)}명
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterSet, 'work_pop', 'max_val', 1)} /{getStatValue(regionStat, item, filterSet, 'work_pop', 'min_val', 1)}명
+          {getStatValue(statDataByRegion, item, filterSet, 'work_pop', 'max_val', 1)} /{getStatValue(statDataByRegion, item, filterSet, 'work_pop', 'min_val', 1)}명
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterSet, 'resident', 'max_val', 1)} /{getStatValue(regionStat, item, filterSet, 'resident', 'min_val', 1)}명
+          {getStatValue(statDataByRegion, item, filterSet, 'resident', 'max_val', 1)} /{getStatValue(statDataByRegion, item, filterSet, 'resident', 'min_val', 1)}명
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getStatValue(regionStat, item, filterSet, 'house', 'max_val', 1)} /{getStatValue(regionStat, item, filterSet, 'house', 'min_val', 1)}개
+          {getStatValue(statDataByRegion, item, filterSet, 'house', 'max_val', 1)} /{getStatValue(statDataByRegion, item, filterSet, 'house', 'min_val', 1)}개
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
