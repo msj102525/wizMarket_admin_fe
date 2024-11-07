@@ -26,7 +26,6 @@ const BizDetailCategoryContent = () => {
         setIsModalOpen(false);
     };
 
-
     useEffect(() => {
         // 페이지 로딩 시 API 요청 보내기
         const fetchLocStoreContent = async () => {

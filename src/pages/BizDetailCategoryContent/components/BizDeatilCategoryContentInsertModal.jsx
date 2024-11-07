@@ -27,18 +27,25 @@ const BizDeatilCategoryContentInsertModal = ({
             setError(null); // 모달 열 때마다 에러 상태 초기화
             setReference(1)
         }
-    }, [isOpen]);
+    }, [isOpen, setReference]);
 
-    const MAX_FILES = 5;
 
     const onSave = async () => {
-        if (selectedImages.length > MAX_FILES) {
-            setError(`파일은 최대 ${MAX_FILES}개까지 업로드할 수 있습니다.`);
+        setLoading(true); // 로딩 상태 시작
+        setError(null); // 이전 에러 초기화
+
+        // 입력값 유효성 검사
+        if (!title.trim() || !content.trim() || typeof detailCategory === 'string') {
+            setSaveStatus('error');
+            setMessage('제목, 내용, 및 카테고리를 올바르게 입력해 주세요.');
+            setLoading(false); // 로딩 상태 종료
+            setTimeout(() => {
+                setSaveStatus(null); // 상태 초기화
+                setMessage(''); // 메시지 초기화
+            }, 1500);
             return;
         }
 
-        setLoading(true); // 로딩 상태 시작
-        setError(null); // 이전 에러 초기화
         const formData = new FormData();
         formData.append('detail_category', detailCategory);
         formData.append('title', title);
@@ -58,14 +65,14 @@ const BizDeatilCategoryContentInsertModal = ({
             setMessage('저장이 성공적으로 완료되었습니다.');
 
             setTimeout(() => {
-                onClose();
-            }, 1500);
+                window.location.reload(); // 새로고침
+            }, 1500); // 성공 메시지 표시 후 새로고침
         } catch (err) {
             console.error('저장 중 오류 발생:', err);
             setSaveStatus('error');
             setError('저장 중 오류가 발생했습니다.');
         } finally {
-            setLoading(false); // 로딩 상태 종료
+            setLoading(false);
             setTimeout(() => {
                 setSaveStatus(null);
                 setMessage('');
@@ -74,13 +81,27 @@ const BizDeatilCategoryContentInsertModal = ({
     };
 
 
+    // 이미지 파일 변경
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
         const newImages = files.map((file) => ({
             file,
             previewUrl: URL.createObjectURL(file),
         }));
-        setSelectedImages((prevImages) => [...prevImages, ...newImages].slice(0, 4));
+
+        // 이미지가 4장을 초과할 경우 경고 메시지 표시
+        if (selectedImages.length + newImages.length > 4) {
+            setSaveStatus('error');
+            setMessage('이미지는 최대 4장까지 가능합니다.');
+            setTimeout(() => {
+                setSaveStatus(null);
+                setMessage('');
+            }, 1500); // 1.5초 후 경고 메시지 초기화
+            return;
+        }
+
+        // 최대 4장까지 추가
+        setSelectedImages((prevImages) => [...prevImages, ...newImages]);
     };
 
     const removeImage = (index) => {
@@ -151,7 +172,7 @@ const BizDeatilCategoryContentInsertModal = ({
                     </div>
 
                     <div className="mb-6">
-                        <label className="block text-lg font-semibold text-gray-700 mb-2">이미지 선택(최대 4장)</label>
+                        <label className="block text-lg font-semibold text-gray-700 mb-2">이미지 선택 (최대 4장)</label>
                         <input
                             type="file"
                             accept="image/*"

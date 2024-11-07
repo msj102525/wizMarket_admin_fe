@@ -45,6 +45,19 @@ const LocStoreContentModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     }, [isOpen]);
 
     const onSave = async () => {
+
+        // 입력값 유효성 검사
+        if (!title.trim() || !content.trim()) {
+            setSaveStatus('error');
+            setMessage('제목 및 내용을 올바르게 입력해 주세요.');
+            setLoading(false); // 로딩 상태 종료
+            setTimeout(() => {
+                setSaveStatus(null); // 상태 초기화
+                setMessage(''); // 메시지 초기화
+            }, 1500); 
+            return;
+        }
+
         const formData = new FormData();
         formData.append('store_business_number', storeBusinessNumber);
         formData.append('title', title);
@@ -86,13 +99,27 @@ const LocStoreContentModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         }
     };
 
+    // 이미지 파일 변경
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
         const newImages = files.map((file) => ({
             file,
             previewUrl: URL.createObjectURL(file),
         }));
-        setSelectedImages((prevImages) => [...prevImages, ...newImages].slice(0, 4));
+
+        // 이미지가 4장을 초과할 경우 경고 메시지 표시
+        if (selectedImages.length + newImages.length > 4) {
+            setSaveStatus('error');
+            setMessage('이미지는 최대 4장까지 가능합니다.');
+            setTimeout(() => {
+                setSaveStatus(null);
+                setMessage('');
+            }, 1500); // 1.5초 후 경고 메시지 초기화
+            return;
+        }
+
+        // 최대 4장까지 추가
+        setSelectedImages((prevImages) => [...prevImages, ...newImages]);
     };
 
     const removeImage = (index) => {
