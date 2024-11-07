@@ -3,10 +3,22 @@ import axios from 'axios';
 import BizDetailCategoryContentDetailModal from './BizDetailCategoryContentDetailModal';
 
 
-const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCategoryList = [] }) => {
+const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCategoryList = [], onUpdate, onDelete }) => {
     const [categoryContent, setCategoryContent] = useState(categoryContentList);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedContent, setSelectedContent] = useState(null);
+
+    // 날짜 형식 변환 함수
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월을 2자리로
+        const day = String(date.getDate()).padStart(2, '0'); // 일을 2자리로
+        const hours = String(date.getHours()).padStart(2, '0'); // 시를 2자리로
+        const minutes = String(date.getMinutes()).padStart(2, '0'); // 분을 2자리로
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    };
 
     useEffect(() => {
         setCategoryContent(categoryContentList);  // categoryContentList가 업데이트될 때 categoryContent를 업데이트
@@ -97,7 +109,7 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
                                 >
                                     {content.title}
                                 </td>
-                                <td className="px-4 py-2 border-b text-gray-700">{content.created_at}</td>
+                                <td className="px-4 py-2 border-b text-gray-700">{formatDate(content.created_at)}</td>
                                 <td className="px-4 py-2 border-b text-gray-700 text-center">
                                     <div
                                         onClick={() => toggleServiceStatus(index)}
@@ -119,6 +131,8 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
                 <BizDetailCategoryContentDetailModal
                     isOpen={isModalOpen}
                     onClose={closeModal}
+                    onUpdate={onUpdate}
+                    onDelete={onDelete}
                     categoryContentId={selectedContent.content.biz_detail_category_content_id}
                     mainCategoryName={selectedContent.bizCategory?.biz_main_category_name || 'N/A'}
                     subCategoryName={selectedContent.bizCategory?.biz_sub_category_name || 'N/A'}

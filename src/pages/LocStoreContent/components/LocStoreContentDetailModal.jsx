@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import TextEditor from '../../../components/TextEditor';
 
-const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, storeName, roadName, createdAt }) => {
+const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, storeName, roadName, createdAt, onUpdate, onDelete }) => {
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -11,6 +11,18 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
     const [saveStatus, setSaveStatus] = useState(null);
     const [message, setMessage] = useState('');
     const [error, setError] = useState(null);
+
+    // 날짜 형식 변환 함수
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월을 2자리로
+        const day = String(date.getDate()).padStart(2, '0'); // 일을 2자리로
+        const hours = String(date.getHours()).padStart(2, '0'); // 시를 2자리로
+        const minutes = String(date.getMinutes()).padStart(2, '0'); // 분을 2자리로
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    };
 
     const fetchStoreData = useCallback(async () => {
         if (!localStoreContentId) return;
@@ -40,24 +52,21 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
     // 삭제
     const handleDelete = async () => {
         if (!localStoreContentId) return;
-
         try {
-            await axios.post(
+            const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/delete/content`,
                 { local_store_content_id: localStoreContentId }
             );
-
-            setSaveStatus('success');
-            setMessage('삭제가 성공적으로 완료되었습니다.');
-
-            setTimeout(() => {
-                setSaveStatus(null);
-                setMessage('');
-                onClose(); // 모달 닫기
+            if (response.status === 200) {
+                setSaveStatus('success');
+                setMessage('삭제가 성공적으로 완료되었습니다.');
+                onDelete(localStoreContentId); // 부모 컴포넌트로 삭제된 ID 전달
                 setTimeout(() => {
-                    window.location.reload(); // 새로고침
-                }, 500); // 새로고침까지 약간의 지연 추가
-            }, 1500); // 성공 메시지를 1.5초 동안 표시
+                    setSaveStatus(null);
+                    setMessage('');
+                    onClose(); // 모달 닫기
+                }, 1500);
+            }
         } catch (error) {
             console.error("Error deleting store content:", error);
         } finally {
@@ -138,24 +147,22 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
             newImages.forEach((img) => formData.append("new_images", img.file));
         }
         try {
-            for (const pair of formData.entries()) {
-                console.log(`${pair[0]}: ${pair[1]}`);
-            }
-            await axios.post(
+            const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/update/content`,
                 formData,
                 { headers: { "Content-Type": "multipart/form-data" } }
             );
             setSaveStatus('success');
             setMessage('수정이 성공적으로 완료되었습니다.');
+
+            const updatedItem = response.data;
+            onUpdate(updatedItem); // 부모 컴포넌트로 업데이트된 데이터 전달
+
             setTimeout(() => {
                 setSaveStatus(null);
                 setMessage('');
                 onClose(); // 모달 닫기
-                setTimeout(() => {
-                    window.location.reload(); // 새로고침
-                }, 500); // 새로고침까지 약간의 지연 추가
-            }, 1500); // 성공 메시지를 1.5초 동안 표시
+            }, 1500);
 
         } catch (error) {
             console.error('수정 중 오류 발생:', error);
@@ -208,7 +215,7 @@ const LocStoreContentDetailModal = ({ isOpen, onClose, localStoreContentId, stor
                         </div>
                         <div>
                             <p className="text-lg font-semibold text-gray-700">생성일자</p>
-                            <p className="text-gray-800">{createdAt}</p>
+                            <p className="text-gray-800">{formatDate(createdAt)}</p>
                         </div>
                     </div>
 

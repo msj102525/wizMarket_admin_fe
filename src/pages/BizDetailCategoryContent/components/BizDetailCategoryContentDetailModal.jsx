@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import TextEditor from '../../../components/TextEditor';
 
-const BizDetailCategoryContentDetailModal = ({ isOpen, onClose, categoryContentId, mainCategoryName, subCategoryName, detailCategoryName, createdAt }) => {
+const BizDetailCategoryContentDetailModal = ({ isOpen, onClose, categoryContentId, mainCategoryName, subCategoryName, detailCategoryName, createdAt, onUpdate, onDelete }) => {
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -11,6 +11,18 @@ const BizDetailCategoryContentDetailModal = ({ isOpen, onClose, categoryContentI
     const [saveStatus, setSaveStatus] = useState(null);
     const [message, setMessage] = useState('');
     const [error, setError] = useState(null);
+
+    // 날짜 형식 변환 함수
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월을 2자리로
+        const day = String(date.getDate()).padStart(2, '0'); // 일을 2자리로
+        const hours = String(date.getHours()).padStart(2, '0'); // 시를 2자리로
+        const minutes = String(date.getMinutes()).padStart(2, '0'); // 분을 2자리로
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    };
 
     const fetchCategoryData = useCallback(async () => {
         if (!categoryContentId) return;
@@ -41,24 +53,22 @@ const BizDetailCategoryContentDetailModal = ({ isOpen, onClose, categoryContentI
     // 삭제
     const handleDelete = async () => {
         if (!categoryContentId) return;
-
         try {
-            await axios.post(
+            const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/delete/content`,
                 { biz_detail_category_content_id: categoryContentId }
             );
 
-            setSaveStatus('success');
-            setMessage('삭제가 성공적으로 완료되었습니다.');
-
-            setTimeout(() => {
-                setSaveStatus(null);
-                setMessage('');
-                onClose(); // 모달 닫기
+            if (response.status === 200) {
+                setSaveStatus('success');
+                setMessage('삭제가 성공적으로 완료되었습니다.');
+                onDelete(categoryContentId); // 부모 컴포넌트로 삭제된 ID 전달
                 setTimeout(() => {
-                    window.location.reload(); // 새로고침
-                }, 500); // 새로고침까지 약간의 지연 추가
-            }, 1500); // 성공 메시지를 1.5초 동안 표시
+                    setSaveStatus(null);
+                    setMessage('');
+                    onClose(); // 모달 닫기
+                }, 1500);
+            }
         } catch (error) {
             console.error("Error deleting store content:", error);
         } finally {
@@ -89,7 +99,7 @@ const BizDetailCategoryContentDetailModal = ({ isOpen, onClose, categoryContentI
             file,
             previewUrl: URL.createObjectURL(file),
         }));
-    
+
         // 이미지가 4장을 초과할 경우 경고 메시지 표시
         if (existingImages.length + newImages.length + newImageFiles.length > 4) {
             setSaveStatus('error');
@@ -100,7 +110,7 @@ const BizDetailCategoryContentDetailModal = ({ isOpen, onClose, categoryContentI
             }, 1500); // 1.5초 후 경고 메시지 초기화
             return;
         }
-    
+
         // 이미지 추가
         setNewImages((prev) => [...prev, ...newImageFiles]);
     };
@@ -118,7 +128,7 @@ const BizDetailCategoryContentDetailModal = ({ isOpen, onClose, categoryContentI
             setTimeout(() => {
                 setSaveStatus(null); // 상태 초기화
                 setMessage(''); // 메시지 초기화
-            }, 1500); 
+            }, 1500);
             return;
         }
 
@@ -135,30 +145,27 @@ const BizDetailCategoryContentDetailModal = ({ isOpen, onClose, categoryContentI
                 formData.append("existing_images", JSON.stringify(existingImages.map(img => img.biz_detail_category_content_image_url)));
             });
         }
-
         // 새로 추가된 이미지 파일 전송
         if (newImages.length > 0) {
             newImages.forEach((img) => formData.append("new_images", img.file));
         }
-
         try {
-            await axios.post(
+            const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/update/content`,
                 formData,
                 { headers: { "Content-Type": "multipart/form-data" } }
             );
-
             setSaveStatus('success');
             setMessage('수정이 성공적으로 완료되었습니다.');
+
+            const updatedItem = response.data;
+            onUpdate(updatedItem); // 부모 컴포넌트로 업데이트된 데이터 전달
 
             setTimeout(() => {
                 setSaveStatus(null);
                 setMessage('');
                 onClose(); // 모달 닫기
-                setTimeout(() => {
-                    window.location.reload(); // 새로고침
-                }, 500); // 새로고침까지 약간의 지연 추가
-            }, 1500); // 성공 메시지를 1.5초 동안 표시
+            }, 1500);
 
         } catch (error) {
             console.error('수정 중 오류 발생:', error);
@@ -215,7 +222,7 @@ const BizDetailCategoryContentDetailModal = ({ isOpen, onClose, categoryContentI
                     </div>
                     <div>
                         <p className="text-lg font-semibold text-gray-700">생성일자</p>
-                        <p className="text-gray-800">{createdAt}</p>
+                        <p className="text-gray-800">{formatDate(createdAt)}</p>
                     </div>
                 </div>
 

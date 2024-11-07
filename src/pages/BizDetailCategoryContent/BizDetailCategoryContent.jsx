@@ -26,9 +26,29 @@ const BizDetailCategoryContent = () => {
         setIsModalOpen(false);
     };
 
+    const onInsert = (newItem, newBizCategoryData) => {
+        setCategoryContentList((prevList) => [...prevList, newItem]);
+        setCategoryBizCategoryList((prevList) => [...prevList, ...newBizCategoryData]);
+    };
+
+    const onUpdate = (updatedItem) => {
+        setCategoryContentList((prevList) =>
+            prevList.map((item) =>
+                item.biz_detail_category_content_id === updatedItem.biz_detail_category_content_id ? updatedItem : item
+            )
+        );
+    };
+
+    const onDelete = (itemId) => {
+        setCategoryContentList((prevList) =>
+            prevList.filter((item) => item.biz_detail_category_content_id !== itemId)
+        );
+    };
+    
+
     useEffect(() => {
         // 페이지 로딩 시 API 요청 보내기
-        const fetchLocStoreContent = async () => {
+        const fetchCategoryContent = async () => {
             try {
                 const response = await axios.get(
                     `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/select/list`
@@ -47,7 +67,7 @@ const BizDetailCategoryContent = () => {
                 console.error('데이터 요청 중 오류 발생:', error);
             }
         };
-        fetchLocStoreContent();
+        fetchCategoryContent();
     }, []);
 
     return (
@@ -81,6 +101,8 @@ const BizDetailCategoryContent = () => {
                             <BizDetailCategoryList
                                 categoryContentList={categoryContentList}
                                 categoryBizCategoryList={categoryBizCategoryList}
+                                onUpdate={onUpdate}
+                                onDelete={onDelete}
                             />
                         )}
                     </section>
@@ -88,6 +110,7 @@ const BizDetailCategoryContent = () => {
                         <BizDetailCategoryInsertModal
                             isOpen={isModalOpen}
                             onClose={closeModal}
+                            onInsert={onInsert}
                             mainCategory={mainCategory}
                             setMainCategory={setMainCategory}
                             mainCategories={mainCategories}

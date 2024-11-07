@@ -4,7 +4,7 @@ import TextEditor from '../../../components/TextEditor';
 import CategorySelect from '../../../components/CategorySelect';
 
 const BizDeatilCategoryContentInsertModal = ({
-    isOpen, onClose,
+    isOpen, onClose, onInsert,
     mainCategory, setMainCategory, mainCategories,
     subCategory, setSubCategory, subCategories,
     detailCategory, setDetailCategory, detailCategories,
@@ -56,17 +56,30 @@ const BizDeatilCategoryContentInsertModal = ({
         });
 
         try {
-            await axios.post(
+            const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/insert/content`,
                 formData,
                 { headers: { 'Content-Type': 'multipart/form-data' } }
             );
+            const newItem = response.data;
+
+            // 두 번째 요청으로 biz category 데이터 가져오기
+            const secondResponse = await axios.post(
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/select/biz/category/list`,
+                { biz_category_number_list: [newItem.detail_category_id] }
+            );
+            const newBizCategoryData = secondResponse.data;
+            console.log(secondResponse.data)
+
             setSaveStatus('success');
             setMessage('저장이 성공적으로 완료되었습니다.');
 
+            // 성공 콜백에 첫 번째 요청 데이터와 두 번째 요청 데이터를 전달
+            onInsert(newItem, newBizCategoryData);
+
             setTimeout(() => {
-                window.location.reload(); // 새로고침
-            }, 1500); // 성공 메시지 표시 후 새로고침
+                onClose();
+            }, 1500);
         } catch (err) {
             console.error('저장 중 오류 발생:', err);
             setSaveStatus('error');

@@ -9,6 +9,20 @@ const LocStoreContent = () => {
     const [locStoreContentList, setLocStoreContentList] = useState([]);
     const [locStoreCategoryList, setLocStoreCategoryList] = useState([]);
 
+    const onUpdate = (updatedItem) => {
+        setLocStoreContentList((prevList) =>
+            prevList.map((item) =>
+                item.local_store_content_id === updatedItem.local_store_content_id ? updatedItem : item
+            )
+        );
+    };
+
+    const onDelete = (itemId) => {
+        setLocStoreContentList((prevList) =>
+            prevList.filter((item) => item.local_store_content_id !== itemId)
+        );
+    };
+
     useEffect(() => {
         // 페이지 로딩 시 API 요청 보내기
         const fetchLocStoreContent = async () => {
@@ -66,6 +80,8 @@ const LocStoreContent = () => {
                             <LocStoreContentList
                                 locStoreContentList={locStoreContentList}
                                 locStoreCategoryList={locStoreCategoryList}
+                                onUpdate={onUpdate}
+                                onDelete={onDelete}
                             />
                         )}
                     </section>

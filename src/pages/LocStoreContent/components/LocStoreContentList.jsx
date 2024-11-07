@@ -3,7 +3,7 @@ import axios from 'axios';
 import LocStoreModal from './LocStoreContentDetailModal';
 
 
-const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = [] }) => {
+const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = [], onUpdate, onDelete }) => {
     const [localStoreContent, setLocalStoreContent] = useState(locStoreContentList);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedContent, setSelectedContent] = useState(null);
@@ -12,11 +12,24 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
         setLocalStoreContent(locStoreContentList);  // locStoreContentList가 업데이트될 때 localStoreContent를 업데이트
     }, [locStoreContentList]);
 
+    // 날짜 형식 변환 함수
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 월을 2자리로
+        const day = String(date.getDate()).padStart(2, '0'); // 일을 2자리로
+        const hours = String(date.getHours()).padStart(2, '0'); // 시를 2자리로
+        const minutes = String(date.getMinutes()).padStart(2, '0'); // 분을 2자리로
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    };
+
+
     // 서비스 게시 상태를 토글하는 함수
     const toggleServiceStatus = async (index) => {
         // 현재 상태 복사 후 업데이트
         const updatedContent = [...localStoreContent];
-        updatedContent[index].status = updatedContent[index].status === 'Y' ? 'S' : 'Y'; 
+        updatedContent[index].status = updatedContent[index].status === 'Y' ? 'S' : 'Y';
 
         // 로컬 상태 업데이트
         setLocalStoreContent(updatedContent);
@@ -107,7 +120,7 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
                                 >
                                     {store.title}
                                 </td>
-                                <td className="px-4 py-2 border-b text-gray-700">{store.created_at}</td>
+                                <td className="px-4 py-2 border-b text-gray-700">{formatDate(store.created_at)}</td>
                                 <td className="px-4 py-2 border-b text-gray-700 text-center">
                                     <div
                                         onClick={() => toggleServiceStatus(index)}
@@ -129,6 +142,8 @@ const LocStoreContentList = ({ locStoreContentList = [], locStoreCategoryList = 
                 <LocStoreModal
                     isOpen={isModalOpen}
                     onClose={closeModal}
+                    onUpdate={onUpdate}
+                    onDelete={onDelete}
                     localStoreContentId={selectedContent.local_store_content_id}
                     storeName={selectedContent.store_name}
                     roadName={selectedContent.road_name}
