@@ -131,6 +131,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
         top_menu_5: '뜨는 메뉴 TOP5',
         created_at: '생성일시',
         updated_at: '수정일시',
+        y_m: '기준날짜'
     };
 
 
@@ -335,8 +336,9 @@ const CommercialDistrictList2 = ({ data2 }) => {
                             { key: 'employee_cost', label: '인건비' },
                             { key: 'rental_cost', label: '임대료' },
                             { key: 'tax_cost', label: '세금' },
-                            { key: 'created_at', label: '생성일시' },
-                            { key: 'updated_at', label: '수정일시' },
+                            // { key: 'created_at', label: '생성일시' },
+                            // { key: 'updated_at', label: '수정일시' },
+                            { key: 'y_m', label: '기준날짜' },
                         ].map(({ key, label }) => (
                             <th
                                 key={key}
@@ -386,8 +388,9 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.employee_cost)}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.rental_cost)}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.tax_cost)}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td>
+                                    {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td> */}
+                                    {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td> */}
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.y_m).toLocaleDateString()}</td>
                                 </tr>
                                 {/* {expandedRows[idx] && renderExpandedRow(item, indexOfFirstResult + idx)} */}
                                 {expandedRows[idx] && renderExpandedRow(item, item.originalIndex - 1)}
