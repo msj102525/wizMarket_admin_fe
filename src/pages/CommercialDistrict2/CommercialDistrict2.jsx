@@ -10,6 +10,7 @@ import CommercialDistrict2SearchForm from './components/CommercialDistrict2Searc
 import { useCategories } from '../../hooks/useCategories';
 import { useCities } from '../../hooks/useCities';
 import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
+import { useCommercialDistrictDataDate } from '../../hooks/useCommercialDistrictDataDate';
 
 
 const CommercialDistrict2 = () => {
@@ -32,6 +33,9 @@ const CommercialDistrict2 = () => {
     const [rentalCostMin, setRentalCostMin] = useState("");
     const [avgProfitMax, setAvgProfitMax] = useState("");
     const [avgProfitMin, setAvgProfitMin] = useState("");
+    const [refDate, setRefDate] = useState([]);
+
+    const { dataDate } = useCommercialDistrictDataDate();
 
 
     const {
@@ -63,9 +67,13 @@ const CommercialDistrict2 = () => {
         setSubDistrict,
     });
 
+
     useEffect(() => {
         setReference(1)
-    }, [setReference])
+        if (dataDate && dataDate.length > 0) {
+            setRefDate(dataDate.slice().reverse()[0].y_m);
+        }
+    }, [setReference, dataDate])
 
 
     const handleToggle = () => {
@@ -101,6 +109,7 @@ const CommercialDistrict2 = () => {
                         rental_cost_max: parseInt(rentalCostMax) || undefined,
                         avg_profit_min: parseInt(avgProfitMin) || undefined,
                         avg_profit_max: parseInt(avgProfitMax) || undefined,
+                        y_m: refDate || undefined,
                     },
                 });
                 // console.log(response.data)
@@ -138,6 +147,7 @@ const CommercialDistrict2 = () => {
         setRentalCostMin("");
         setAvgProfitMax("");
         setAvgProfitMin("");
+        setRefDate(dataDate);
     };
 
 
@@ -208,6 +218,9 @@ const CommercialDistrict2 = () => {
                                 setRentalCostMin={setRentalCostMin}
                                 setAvgProfitMax={setAvgProfitMax}
                                 setAvgProfitMin={setAvgProfitMin}
+                                dataDate={dataDate}
+                                refDate={refDate}
+                                setRefDate={setRefDate}
                             />
                         </div>
                     </section>
