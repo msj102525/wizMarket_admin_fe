@@ -75,12 +75,6 @@ const LocInfo = () => {
         setSubDistrict,
     });
 
-    // useEffect(() => {
-    //     if (dataDate && dataDate.length > 0) {
-    //         selectedOptions(dataDate.slice().reverse()[0].y_m);
-    //     }
-    // }, [selectedOptions, dataDate])
-
     const fetchInitialData = async () => {
         try {
             setLoading(true);
@@ -183,7 +177,7 @@ const LocInfo = () => {
 
         setSelectedOptions(dataDate);
     };
-    
+
 
     return (
         <div>
@@ -193,6 +187,7 @@ const LocInfo = () => {
                 <main className="flex-1 flex flex-col gap-2 min-h-screen p-4">
                     <section>
                         <SectionHeader title="입지분석" isList={isList} handleToggle={handleToggle} />
+
                     </section>
 
                     {/* 상단 지도와 검색 폼 */}
@@ -255,6 +250,8 @@ const LocInfo = () => {
                                 selectedOptions={selectedOptions}
                                 setSelectedOptions={setSelectedOptions}
 
+                                dataDate = {dataDate}
+
                                 handleSearch={handleSearch}
                                 handleReset={handleReset}
                                 isList={isList} />
@@ -275,13 +272,13 @@ const LocInfo = () => {
 
 
                         {/* 데이터가 있으면 리스트 출력 */}
-                        {!loading && !error && 
-                            <LocInfoList 
-                                filterSet = {filterSet}     // 필터값
+                        {!loading && !error &&
+                            <LocInfoList
+                                filterSet={filterSet}     // 필터값
                                 searchData={searchResults}  // 기본 검색 결과
-                                nationJScore={nationJScore}     
-                                statDataByRegion = {statDataByRegion}  // 검색 결과 지역의 통계 데이터
-                                filterCorrData = {filterCorrResults}    // 검색 결과 지역의 상관 관계
+                                nationJScore={nationJScore}
+                                statDataByRegion={statDataByRegion}  // 검색 결과 지역의 통계 데이터
+                                filterCorrData={filterCorrResults}    // 검색 결과 지역의 상관 관계
                             />}
                     </section>
                 </main>

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import { useCities } from '../../../hooks/useCities';
 import CitySelect from '../../../components/CitySelect';
 
-const PopulationSearchForm = ({ onSearch, isList }) => {
+const PopulationSearchForm = ({ onSearch, isList, dataDate }) => {
     const {
         cities,
         districts,
@@ -14,42 +14,49 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
         setCity,
         setDistrict,
         setSubDistrict,
-    } = useCities(); // useCities 훅 사용
+    } = useCities();
 
-    // 성별 및 연령대 상태 추가
     const [gender, setGender] = useState('');
     const [ageGroupMin, setAgeGroupMin] = useState('');
     const [ageGroupMax, setAgeGroupMax] = useState('');
+
+    // 기준 년월 초기값 설정
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
 
+    useEffect(() => {
+        // dataDate가 로드되면 startDate와 endDate를 마지막 날짜로 설정
+        if (dataDate?.length > 0) {
+            const lastDate = dataDate[dataDate.length - 1].ref_date;
+            setStartDate(lastDate);
+            setEndDate(lastDate);
+        }
+    }, [dataDate]);
+
 
     const handleSearch = () => {
-        // 필터링된 데이터 (빈 값 제거)
         const filters = {
-            ...(city && city !== 0 && { city }),              // city가 0이 아니면 추가
-            ...(district && district !== 0 && { district }),  // district가 0이 아니면 추가
-            ...(subDistrict && subDistrict !== 0 && { subDistrict }),  // subDistrict가 0이 아니면 추가
-            ...(gender && gender !== 0 && { gender }),  // gender가 0이 아니면 추가
-            ...(ageGroupMin && { ageGroupMin }),              // ageGroup은 문자열이므로 빈 값만 체크
-            ...(ageGroupMax && { ageGroupMax }),              // ageGroup은 문자열이므로 빈 값만 체크
-            ...(startDate && { startDate }),              // ageGroup은 문자열이므로 빈 값만 체크
-            ...(endDate && { endDate }),              // ageGroup은 문자열이므로 빈 값만 체크
+            ...(city && city !== 0 && { city }),
+            ...(district && district !== 0 && { district }),
+            ...(subDistrict && subDistrict !== 0 && { subDistrict }),
+            ...(gender && gender !== 0 && { gender }),
+            ...(ageGroupMin && { ageGroupMin }),
+            ...(ageGroupMax && { ageGroupMax }),
+            ...(startDate && { startDate }),
+            ...(endDate && { endDate }),
         };
-
-        onSearch(filters);  // 부모 컴포넌트에서 전달받은 onSearch 호출
+        onSearch(filters);
     };
 
     const handleReset = () => {
-        // 모든 필터 값을 초기화
         setCity('');
         setDistrict('');
         setSubDistrict('');
         setGender('');
         setAgeGroupMin('');
         setAgeGroupMax('');
-        setStartDate('');
-        setEndDate('');
+        setStartDate(dataDate?.[dataDate.length - 1]?.ref_date || '');
+        setEndDate(dataDate?.[dataDate.length - 1]?.ref_date || '');
     };
 
     return (
@@ -91,8 +98,7 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                         </div>
                     </div>
                 </div>
-                
-                    {/* 연령대 선택 */}
+
                 <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">
@@ -113,7 +119,6 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                                 <option value="age_50s">50대</option>
                                 <option value="age_plus_60s">60대 이상</option>
                             </select>~
-                            {/* 최대 연령대 선택 (이하) */}
                             <select
                                 value={ageGroupMax}
                                 onChange={(e) => setAgeGroupMax(e.target.value)}
@@ -130,7 +135,6 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                             </select>
                         </div>
                     </div>
-                    {/* 기간 조회 */}
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">
                             <label className="block mb-1 font-extrabold">기준 년월</label>
@@ -142,39 +146,29 @@ const PopulationSearchForm = ({ onSearch, isList }) => {
                                 className="p-2 border border-[#DDDDDD] rounded w-1/6"
                             >
                                 <option value="">이상</option>
-                                <option value="2024-01-31">24년 1월</option>
-                                <option value="2024-02-29">24년 2월</option>
-                                <option value="2024-03-31">24년 3월</option>
-                                <option value="2024-04-30">24년 4월</option>
-                                <option value="2024-05-31">24년 5월</option>
-                                <option value="2024-06-30">24년 6월</option>
-                                <option value="2024-07-31">24년 7월</option>
-                                <option value="2024-08-31">24년 8월</option>
-                                <option value="2024-09-30">24년 9월</option>
+                                {dataDate?.map((date) => (
+                                    <option key={date.ref_date} value={date.ref_date}>
+                                        {date.ref_date.substring(0, 7)}
+                                    </option>
+                                ))}
                             </select>~
-
                             <select
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
                                 className="p-2 border border-[#DDDDDD] rounded w-1/6"
                             >
                                 <option value="">이하</option>
-                                <option value="2024-01-31">24년 1월</option>
-                                <option value="2024-02-29">24년 2월</option>
-                                <option value="2024-03-31">24년 3월</option>
-                                <option value="2024-04-30">24년 4월</option>
-                                <option value="2024-05-31">24년 5월</option>
-                                <option value="2024-06-30">24년 6월</option>
-                                <option value="2024-07-31">24년 7월</option>
-                                <option value="2024-08-31">24년 8월</option>
-                                <option value="2024-09-30">24년 9월</option>
+                                {dataDate?.map((date) => (
+                                    <option key={date.ref_date} value={date.ref_date}>
+                                        {date.ref_date.substring(0, 7)}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* 검색 및 초기화 버튼 */}
             <div className="py-2 ">
                 <SearchResetButtons onSearch={handleSearch} onReset={handleReset} />
             </div>

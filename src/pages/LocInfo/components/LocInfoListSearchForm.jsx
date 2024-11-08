@@ -9,7 +9,7 @@ const LocInfoListSearchForm = ({
     shopMax, move_popMax, salesMax, work_popMax, incomeMax, spendMax, houseMax, residentMax,
     setshopMin, setmove_popMin, setsalesMin, setwork_popMin, setincomeMin, setspendMin, sethouseMin,
     setresidentMin, setshopMax, setmove_popMax, setsalesMax, setwork_popMax, setincomeMax, setspendMax, sethouseMax, setresidentMax,
-    selectedOptions, setSelectedOptions,
+    selectedOptions, setSelectedOptions, dataDate,
     handleSearch, handleReset, isList
 }) => {
 
@@ -42,8 +42,9 @@ const LocInfoListSearchForm = ({
                         </div>
                         <div className="w-full flex gap-4">
                             <LocInfoDropDown
-                                selectedOptions = {selectedOptions}
-                                setSelectedOptions = {setSelectedOptions}
+                                selectedOptions={selectedOptions}
+                                setSelectedOptions={setSelectedOptions}
+                                dataDate = {dataDate}
                             />
                         </div>
                     </div>
@@ -265,7 +266,7 @@ const LocInfoListSearchForm = ({
                             />
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 

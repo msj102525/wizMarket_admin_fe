@@ -1,22 +1,24 @@
 import { useState, useEffect, useRef } from "react";
 
-const DropdownWithCheckboxes = ({ selectedOptions, setSelectedOptions }) => {
+const DropdownWithCheckboxes = ({ selectedOptions, setSelectedOptions, dataDate }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasDefault, setHasDefault] = useState(false); // 기본값 설정 여부 상태
   const dropdownRef = useRef(null); // 드롭다운 영역 참조
 
   useEffect(() => {
-    // 기본 선택 옵션 추가
-    if (!selectedOptions.includes("2024-10-01")) {
-      setSelectedOptions((prev) => [...prev, "2024-10-01"]);
+    // 기본 선택 옵션을 가장 마지막 날짜로 설정 (한 번만 실행)
+    if (!hasDefault && dataDate && dataDate.length > 0) {
+      setSelectedOptions((prev) => [...prev, dataDate[dataDate.length - 1].y_m]);
+      setHasDefault(true); // 기본값 설정 후 hasDefault를 true로 설정
     }
-  }, [selectedOptions, setSelectedOptions]);
+  }, [dataDate, hasDefault, setSelectedOptions]);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
-    setSelectedOptions(prev =>
-      checked ? [...prev, value] : prev.filter(option => option !== value)
+    setSelectedOptions((prev) =>
+      checked ? [...prev, value] : prev.filter((option) => option !== value)
     );
   };
 
@@ -37,37 +39,28 @@ const DropdownWithCheckboxes = ({ selectedOptions, setSelectedOptions }) => {
   }, [isOpen]);
 
   return (
-    <div className="relative inline-block w-1/6"  ref={dropdownRef}>
-      {/* <p>{selectedOptions}</p> */}
+    <div className="relative inline-block w-1/6" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="px-4 py-2 bg-white text-gray-400 p-2 border border-[#DDDDDD] rounded w-full text-left"
       >
-        2024-10
+        {selectedOptions.length > 0 ? selectedOptions[selectedOptions.length - 1].substring(0, 7) : "Select Date"}
       </button>
 
       {isOpen && (
         <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10 p-3">
-          <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              value="2024-10-01"
-              onChange={handleCheckboxChange}
-              checked={selectedOptions.includes("2024-10-01")}
-              className="form-checkbox"
-            />
-            <span>2024-10</span>
-          </label>
-          <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              value="2024-08-01"
-              onChange={handleCheckboxChange}
-              checked={selectedOptions.includes("2024-08-01")}
-              className="form-checkbox"
-            />
-            <span>2024-08</span>
-          </label>
+          {dataDate.map((date, index) => (
+            <label key={index} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                value={date.y_m}
+                onChange={handleCheckboxChange}
+                checked={selectedOptions.includes(date.y_m)}
+                className="form-checkbox"
+              />
+              <span>{date.y_m.substring(0, 7)}</span>
+            </label>
+          ))}
         </div>
       )}
     </div>

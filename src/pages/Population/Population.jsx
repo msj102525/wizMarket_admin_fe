@@ -6,13 +6,15 @@ import SectionHeader from '../../components/SectionHeader'; // SectionHeader 컴
 import PopulationSearchForm from './components/PopulationSearchForm';
 import axios from 'axios';
 import PopulationList from './components/PopulationList';
-
+import { usePopulationDataDate } from '../../hooks/usePopulationDataDate';
 
 const Population = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isList, setIsList] = useState(false);
+
+  const { dataDate } = usePopulationDataDate();
 
   // 연령대 필터를 위한 상태
   const [ageFilter, setAgeFilter] = useState({ ageGroupMin: null, ageGroupMax: null });
@@ -151,7 +153,7 @@ const Population = () => {
               </div>
             )}
             <div className='flex-1'>
-              <PopulationSearchForm onSearch={handleSearch} isList={isList} />
+              <PopulationSearchForm onSearch={handleSearch} isList={isList} dataDate = {dataDate}/>
             </div>
           </section>
 
@@ -173,7 +175,6 @@ const Population = () => {
               <PopulationList data={searchResults} ageFilter={ageFilter} />
             )}
           </section>
-          
         </main>
       </div>
     </div>

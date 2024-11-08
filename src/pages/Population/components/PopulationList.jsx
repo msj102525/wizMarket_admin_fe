@@ -92,15 +92,15 @@ const PopulationList = ({ data, ageFilter }) => {
         </thead>
         <tbody>
           {currentData.map((row, idx) => (
-            <tr key={row.pop_id}>
+            <tr key={`${row.pop_id || idx}`}>
               {filteredColumns.map(col => (
-                <td key={col.key} className="border border-gray-300 px-4 py-2">
+                <td key={`${row.pop_id || idx}-${col.key}`} className="border border-gray-300 px-4 py-2">
                   {(() => {
                     if (col.key === 'male_population') {
                       return `${row.male_population || 0}명 (${((row.male_population / row.total_population) * 100).toFixed(1)}%)`;
                     } else if (col.key === 'female_population') {
                       return `${row.female_population || 0}명 (${((row.female_population / row.total_population) * 100).toFixed(1)}%)`;
-                    } else if (col.key === 'total_population') { // 총 인구 필드에 명 추가
+                    } else if (col.key === 'total_population') {
                       return `${row.total_population || 0}명`;
                     } else if (col.key === 'age_under_10s') {
                       return `${row.age_under_10s || 0}명 (${((row.age_under_10s / row.total_population) * 100).toFixed(1)}%)`;
