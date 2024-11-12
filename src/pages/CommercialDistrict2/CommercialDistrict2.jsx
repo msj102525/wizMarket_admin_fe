@@ -18,7 +18,7 @@ const CommercialDistrict2 = () => {
 
     const [isList, setIsList] = useState(true);
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const [marketSizeMax, setMarketSizeMax] = useState("");
@@ -225,7 +225,11 @@ const CommercialDistrict2 = () => {
                         </div>
                     </section>
                     <section className="pb-10">
-                        {loading && <p>Loading...</p>}
+                        {loading &&
+                            <div className="flex h-64">
+                                <div className="w-16 h-16 border-4 border-blue-500 border-solid border-t-transparent rounded-full animate-spin"></div>
+                            </div>
+                        }
                         {error && <p>Error: {error}</p>}
                         {data && !loading && !error && (
                             <CommercialDistrictList2 data2={data} />
