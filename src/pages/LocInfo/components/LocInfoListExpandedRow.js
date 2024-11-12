@@ -132,6 +132,23 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
     } 
   }
 
+  function getJScoreNonOutliers(nationJScore, item, targetItem, scoreType) {
+    const stat = nationJScore.find(
+      (stat) =>
+        stat.city_name === item.city_name &&
+        stat.district_name === item.district_name &&
+        stat.sub_district_name === item.sub_district_name &&
+        stat.target_item === targetItem &&
+        stat.ref_date === item.y_m
+    );
+
+    if (stat) {
+      const score = 
+      scoreType === 'per' ? stat.j_score_per_non_outliers :
+      stat.j_score_non_outliers;
+      return score !== null ? score.toFixed(2) : "-";
+    } 
+  }
 
 
   return (
@@ -194,6 +211,68 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+      </tr>
+      <tr>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center">J-Score(이상치 제거)</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+          {getJScoreNonOutliers(nationJScore, item, 'shop') !== "-" 
+              ? `${getJScoreNonOutliers(nationJScore, item, 'shop')}(${getJScore(nationJScore, item, 'shop', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'shop', 'per')})`
+              : "-"
+          }
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+          {getJScoreNonOutliers(nationJScore, item, 'sales') !== "-" 
+              ? `${getJScoreNonOutliers(nationJScore, item, 'sales')}(${getJScore(nationJScore, item, 'sales', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'sales', 'per')})`
+              : "-"
+          }
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+          {getJScoreNonOutliers(nationJScore, item, 'income') !== "-" 
+              ? `${getJScoreNonOutliers(nationJScore, item, 'income')}(${getJScore(nationJScore, item, 'income', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'income', 'per')})`
+              : "-"
+          }
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+          {getJScoreNonOutliers(nationJScore, item, 'spend') !== "-" 
+              ? `${getJScoreNonOutliers(nationJScore, item, 'spend')}(${getJScore(nationJScore, item, 'spend', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'spend', 'per')})`
+              : "-"
+          }
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+          {getJScoreNonOutliers(nationJScore, item, 'move_pop') !== "-" 
+              ? `${getJScoreNonOutliers(nationJScore, item, 'move_pop')}(${getJScore(nationJScore, item, 'move_pop', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'move_pop', 'per')})`
+              : "-"
+          }
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+          {getJScoreNonOutliers(nationJScore, item, 'work_pop') !== "-" 
+              ? `${getJScoreNonOutliers(nationJScore, item, 'work_pop')}(${getJScore(nationJScore, item, 'work_pop', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'work_pop', 'per')})`
+              : "-"
+          }
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+          {getJScoreNonOutliers(nationJScore, item, 'resident') !== "-" 
+              ? `${getJScoreNonOutliers(nationJScore, item, 'resident')}(${getJScore(nationJScore, item, 'resident', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'resident', 'per')})`
+              : "-"
+          }
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center">
+          {getJScoreNonOutliers(nationJScore, item, 'house') !== "-" 
+              ? `${getJScoreNonOutliers(nationJScore, item, 'house')}(${getJScore(nationJScore, item, 'house', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'house', 'per')})`
+              : "-"
+          }
+        </td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -215,6 +294,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'work_pop', 'avg_val', 1)}명</td>
         <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'resident', 'avg_val', 1)}명</td>
         <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'house', 'avg_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -240,6 +321,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -259,6 +342,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'work_pop', 'med_val', 1)}명</td>
         <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'resident', 'med_val', 1)}명</td>
         <td colSpan="1" className="border px-4 py-2 text-center">{getStatValue(statDataByRegion, item, filterSet, 'house', 'med_val', 1)}개</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -300,6 +385,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -333,6 +420,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -341,6 +430,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center">업소 수</td>
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -374,6 +465,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -394,6 +487,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
           thresholdField="INCOME"
         />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -428,6 +523,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
           thresholdField="SPEND"
         />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -467,6 +564,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
           thresholdField="MOVE_POP"
         />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -516,6 +615,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
       </tr>
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -560,6 +661,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
           thresholdField="RESIDENT"
         />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -614,6 +717,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
           thresholdField="HOUSE"
         />
         <td colSpan="1" className="border px-4 py-2 text-center">1</td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>

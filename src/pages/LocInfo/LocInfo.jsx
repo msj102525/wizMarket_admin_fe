@@ -140,7 +140,7 @@ const LocInfo = () => {
             setFilterCorrResults(response.data.filter_corr);
             setStatDataByRegion(response.data.stat_by_region);
             setNationJScore(response.data.nation_j_score)
-            // console.log(response.data.region_j_score)
+            console.log(response.data.filtered_data)
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');

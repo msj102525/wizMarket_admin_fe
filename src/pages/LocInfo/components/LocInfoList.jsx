@@ -73,7 +73,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
         }
     };
 
-    // 지역 필터값에 따른 j_score_rank 찾기 함수
+    // 지역 필터값에 따른 j_score 찾기 함수
     const findJScoreByRegion = (searchData, targetItem, statDataByRegion) => {
 
         const stat = statDataByRegion.find(stat =>
@@ -86,6 +86,21 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
 
         // 조건에 맞는 stat이 있을 때 j_score 반환, 없으면 "-"
         return stat && stat.j_score !== null ? stat.j_score.toFixed(2) : "";
+    };
+
+    // 지역 필터값에 따른 j_score 찾기 함수
+    const findJScoreByRegionNonOutliners = (searchData, targetItem, statDataByRegion) => {
+
+        const stat = statDataByRegion.find(stat =>
+            stat.ref_date === searchData.y_m &&
+            stat.city_name === searchData.city_name &&
+            stat.district_name === searchData.district_name &&
+            stat.sub_district_name === searchData.sub_district_name &&
+            stat.target_item === targetItem
+        );
+
+        // 조건에 맞는 stat이 있을 때 j_score 반환, 없으면 "-"
+        return stat && stat.j_score_non_outliers !== null ? stat.j_score_non_outliers.toFixed(2) : "";
     };
 
     const handleExcelDownload = () => {
@@ -259,6 +274,24 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                 </th>
 
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
+                                    Per J-Score (이상치 제거)
+                                    <button onClick={() => handleSort('j_score_per_non_outliers')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                        <span className="text-xs">▲</span>
+                                        <span className="text-xs">▼</span>
+                                    </button>
+                                </div>
+                                </th>
+
+                                <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
+                                    J-Score(이상치 제거)
+                                    <button onClick={() => handleSort('j_score_non_outliers')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                        <span className="text-xs">▲</span>
+                                        <span className="text-xs">▼</span>
+                                    </button>
+                                </div>
+                                </th>
+
+                                <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
                                     기준년월
                                     <button onClick={() => handleSort('y_m')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                         <span className="text-xs">▲</span>
@@ -293,7 +326,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.shop === null || item.shop === '-' ? '-' : `${item.shop.toLocaleString()}개 `}
                                             {findJScoreByRegion(item, 'shop', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'shop', statDataByRegion)})`
+                                                ? `(${findJScoreByRegion(item, 'shop', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'shop', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
@@ -301,7 +334,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.sales === null || item.sales === '-' ? '-' : `${Math.floor(item.sales / 10000).toLocaleString()}만원 `}
                                             {findJScoreByRegion(item, 'sales', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'sales', statDataByRegion)})`
+                                                ? `(${findJScoreByRegion(item, 'sales', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'sales', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
@@ -309,42 +342,42 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.income === null || item.income === '-' ? '-' : `${Math.floor(item.income / 10000).toLocaleString()}만원 `}
                                             {findJScoreByRegion(item, 'income', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'income', statDataByRegion)})`
+                                                ? `(${findJScoreByRegion(item, 'income', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'income', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.spend === null || item.spend === '-' ? '-' : `${Math.floor(item.spend / 10000).toLocaleString()}만원 `}
                                             {findJScoreByRegion(item, 'spend', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'spend', statDataByRegion)})`
+                                                ? `(${findJScoreByRegion(item, 'spend', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'spend', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.move_pop === null || item.move_pop === '-' ? '-' : `${item.move_pop.toLocaleString()}명 `}
                                             {findJScoreByRegion(item, 'move_pop', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'move_pop', statDataByRegion)})`
+                                                ? `(${findJScoreByRegion(item, 'move_pop', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'move_pop', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.work_pop === null || item.work_pop === '-' ? '-' : `${item.work_pop.toLocaleString()}명 `}
                                             {findJScoreByRegion(item, 'work_pop', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'work_pop', statDataByRegion)})`
+                                                ? `(${findJScoreByRegion(item, 'work_pop', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'work_pop', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.resident === null || item.resident === '-' ? '-' : `${item.resident.toLocaleString()}명 `}
                                             {findJScoreByRegion(item, 'resident', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'resident', statDataByRegion)})`
+                                                ? `(${findJScoreByRegion(item, 'resident', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'resident', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.house === null || item.house === '-' ? '-' : `${item.house.toLocaleString()}개 `}
                                             {findJScoreByRegion(item, 'house', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'house', statDataByRegion)})`
+                                                ? `(${findJScoreByRegion(item, 'house', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'house', statDataByRegion)})`
                                                 : ""
                                             }
                                         </td>
@@ -354,6 +387,13 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.j_score === null || item.j_score === '-' ? '-' : `${item.j_score.toFixed(2)} `}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">
+                                            {item.j_score_rank === null || item.j_score_rank === '-' ? '-' : `${item.j_score_rank.toFixed(2)} `}/
+                                            {item.j_score_per_non_outliers === null || item.j_score_per_non_outliers === '-' ? '-' : `${item.j_score_per_non_outliers.toFixed(2)} `}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">                                          
+                                            {item.j_score_non_outliers === null || item.j_score_non_outliers === '-' ? '-' : `${item.j_score_non_outliers.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.y_m}</td>
                                     </tr>
