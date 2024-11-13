@@ -176,6 +176,9 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                     *기본 검색 시 괄호는 해당하는 항목에 대한 이상치 제거 전/후 J-Score
                 </p>
                 <p className="text-s mb:text-sm text-gray-500">
+                    *기본 검색 시 J-Score는 검색한 지역 범위 내에서 점수
+                </p>
+                <p className="text-s mb:text-sm text-gray-500">
                     *확장 검색 시 괄호는 Rank 와 Per J-Score (Rank는 제거 사항 아님)
                 </p>
 
@@ -207,7 +210,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                         <thead className="bg-gray-200">
                             <tr>
                                 <th className="border border-gray-300 px-4 py-2">상세</th>
-                                <th className="border border-gray-300 px-4 py-2">ID</th>
+                                <th className="border border-gray-300 px-4 py-2">IDX</th>
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
                                     시/도
                                     <button onClick={() => handleSort('city_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
@@ -366,80 +369,110 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                                 )}
                                             </button>
                                         </td>
-                                        <td className="border border-gray-300 px-4 py-2 text-center">loc_info_{item.sub_district_id}</td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.city_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.district_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.sub_district_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.shop === null || item.shop === '-' ? '-' : `${item.shop.toLocaleString()}개 `}
                                             {findJScoreByRegion(item, 'shop', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'shop', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'shop', statDataByRegion)})`
-                                                : ""
-                                            }
+                                                ? `(${findJScoreByRegion(item, 'shop', statDataByRegion)}/`
+                                                : ""}
+                                            {findJScoreByRegionNonOutliners(item, 'shop', statDataByRegion) && (
+                                                <strong>{findJScoreByRegionNonOutliners(item, 'shop', statDataByRegion)}</strong>
+                                            )}
+                                            {findJScoreByRegion(item, 'shop', statDataByRegion) ? ")" : ""}
                                         </td>
 
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.sales === null || item.sales === '-' ? '-' : `${Math.floor(item.sales / 10000).toLocaleString()}만원 `}
                                             {findJScoreByRegion(item, 'sales', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'sales', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'sales', statDataByRegion)})`
-                                                : ""
-                                            }
+                                                ? `(${findJScoreByRegion(item, 'sales', statDataByRegion)}/`
+                                                : ""}
+                                            {findJScoreByRegionNonOutliners(item, 'sales', statDataByRegion) && (
+                                                <strong>{findJScoreByRegionNonOutliners(item, 'sales', statDataByRegion)}</strong>
+                                            )}
+                                            {findJScoreByRegion(item, 'sales', statDataByRegion) ? ")" : ""}
                                         </td>
 
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.income === null || item.income === '-' ? '-' : `${Math.floor(item.income / 10000).toLocaleString()}만원 `}
                                             {findJScoreByRegion(item, 'income', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'income', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'income', statDataByRegion)})`
-                                                : ""
-                                            }
+                                                ? `(${findJScoreByRegion(item, 'income', statDataByRegion)}/`
+                                                : ""}
+                                            {findJScoreByRegionNonOutliners(item, 'income', statDataByRegion) && (
+                                                <strong>{findJScoreByRegionNonOutliners(item, 'income', statDataByRegion)}</strong>
+                                            )}
+                                            {findJScoreByRegion(item, 'income', statDataByRegion) ? ")" : ""}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.spend === null || item.spend === '-' ? '-' : `${Math.floor(item.spend / 10000).toLocaleString()}만원 `}
                                             {findJScoreByRegion(item, 'spend', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'spend', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'spend', statDataByRegion)})`
-                                                : ""
-                                            }
+                                                ? `(${findJScoreByRegion(item, 'spend', statDataByRegion)}/`
+                                                : ""}
+                                            {findJScoreByRegionNonOutliners(item, 'spend', statDataByRegion) && (
+                                                <strong>{findJScoreByRegionNonOutliners(item, 'spend', statDataByRegion)}</strong>
+                                            )}
+                                            {findJScoreByRegion(item, 'spend', statDataByRegion) ? ")" : ""}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.move_pop === null || item.move_pop === '-' ? '-' : `${item.move_pop.toLocaleString()}명 `}
                                             {findJScoreByRegion(item, 'move_pop', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'move_pop', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'move_pop', statDataByRegion)})`
-                                                : ""
-                                            }
+                                                ? `(${findJScoreByRegion(item, 'move_pop', statDataByRegion)}/`
+                                                : ""}
+                                            {findJScoreByRegionNonOutliners(item, 'move_pop', statDataByRegion) && (
+                                                <strong>{findJScoreByRegionNonOutliners(item, 'move_pop', statDataByRegion)}</strong>
+                                            )}
+                                            {findJScoreByRegion(item, 'move_pop', statDataByRegion) ? ")" : ""}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.work_pop === null || item.work_pop === '-' ? '-' : `${item.work_pop.toLocaleString()}명 `}
                                             {findJScoreByRegion(item, 'work_pop', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'work_pop', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'work_pop', statDataByRegion)})`
-                                                : ""
-                                            }
+                                                ? `(${findJScoreByRegion(item, 'work_pop', statDataByRegion)}/`
+                                                : ""}
+                                            {findJScoreByRegionNonOutliners(item, 'work_pop', statDataByRegion) && (
+                                                <strong>{findJScoreByRegionNonOutliners(item, 'work_pop', statDataByRegion)}</strong>
+                                            )}
+                                            {findJScoreByRegion(item, 'work_pop', statDataByRegion) ? ")" : ""}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.resident === null || item.resident === '-' ? '-' : `${item.resident.toLocaleString()}명 `}
                                             {findJScoreByRegion(item, 'resident', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'resident', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'resident', statDataByRegion)})`
-                                                : ""
-                                            }
+                                                ? `(${findJScoreByRegion(item, 'resident', statDataByRegion)}/`
+                                                : ""}
+                                            {findJScoreByRegionNonOutliners(item, 'resident', statDataByRegion) && (
+                                                <strong>{findJScoreByRegionNonOutliners(item, 'resident', statDataByRegion)}</strong>
+                                            )}
+                                            {findJScoreByRegion(item, 'resident', statDataByRegion) ? ")" : ""}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.house === null || item.house === '-' ? '-' : `${item.house.toLocaleString()}개 `}
                                             {findJScoreByRegion(item, 'house', statDataByRegion)
-                                                ? `(${findJScoreByRegion(item, 'house', statDataByRegion)}/${findJScoreByRegionNonOutliners(item, 'house', statDataByRegion)})`
-                                                : ""
-                                            }
+                                                ? `(${findJScoreByRegion(item, 'house', statDataByRegion)}/`
+                                                : ""}
+                                            {findJScoreByRegionNonOutliners(item, 'house', statDataByRegion) && (
+                                                <strong>{findJScoreByRegionNonOutliners(item, 'house', statDataByRegion)}</strong>
+                                            )}
+                                            {findJScoreByRegion(item, 'house', statDataByRegion) ? ")" : ""}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.j_score_rank === null || item.j_score_rank === '-' ? '-' : `${item.j_score_rank.toFixed(2)} `}/
                                             {item.j_score_per === null || item.j_score_per === '-' ? '-' : `${item.j_score_per.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.j_score_per_non_outliers === null || item.j_score_per_non_outliers === '-' ? '-' : `${item.j_score_per_non_outliers.toFixed(2)} `}
+                                            {item.j_score_per_non_outliers === null || item.j_score_per_non_outliers === '-' 
+                                                ? '-' 
+                                                : <strong>{item.j_score_per_non_outliers.toFixed(2)}</strong>
+                                            }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.j_score === null || item.j_score === '-' ? '-' : `${item.j_score.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.j_score_non_outliers === null || item.j_score_non_outliers === '-' ? '-' : `${item.j_score_non_outliers.toFixed(2)} `}
+                                            {item.j_score_non_outliers === null || item.j_score_non_outliers === '-' 
+                                                ? '-' 
+                                                : <strong>{item.j_score_non_outliers.toFixed(2)}</strong>
+                                            }
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.y_m}</td>
                                     </tr>

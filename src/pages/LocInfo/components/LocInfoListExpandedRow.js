@@ -124,12 +124,12 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
     );
 
     if (stat) {
-      const score = 
-      scoreType === 'rank' ? stat.j_score_rank :
-      scoreType === 'per' ? stat.j_score_per :
-      stat.j_score;
+      const score =
+        scoreType === 'rank' ? stat.j_score_rank :
+          scoreType === 'per' ? stat.j_score_per :
+            stat.j_score;
       return score !== null ? score.toFixed(2) : "-";
-    } 
+    }
   }
 
   function getJScoreNonOutliers(nationJScore, item, targetItem, scoreType) {
@@ -143,11 +143,11 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
     );
 
     if (stat) {
-      const score = 
-      scoreType === 'per' ? stat.j_score_per_non_outliers :
-      stat.j_score_non_outliers;
+      const score =
+        scoreType === 'per' ? stat.j_score_per_non_outliers :
+          stat.j_score_non_outliers;
       return score !== null ? score.toFixed(2) : "-";
-    } 
+    }
   }
 
 
@@ -157,55 +157,55 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
       <tr>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
-        <td colSpan="1" className="border px-4 py-2 text-center"></td>
+        <td colSpan="1" className="border px-4 py-2 text-center">전국</td>
         <td colSpan="1" className="border px-4 py-2 text-center">이상치 제거 전</td>
         <td colSpan="1" className="border px-4 py-2 text-center">J-Score</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(nationJScore, item, 'shop') !== "-" 
-              ? `${getJScore(nationJScore, item, 'shop')}(${getJScore(nationJScore, item, 'shop', 'rank')}/${getJScore(nationJScore, item, 'shop', 'per')})`
-              : "-"
+          {getJScore(nationJScore, item, 'shop') !== "-"
+            ? `${getJScore(nationJScore, item, 'shop')}(${getJScore(nationJScore, item, 'shop', 'rank')}/${getJScore(nationJScore, item, 'shop', 'per')})`
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(nationJScore, item, 'sales') !== "-" 
-              ? `${getJScore(nationJScore, item, 'sales')}(${getJScore(nationJScore, item, 'sales', 'rank')}/${getJScore(nationJScore, item, 'sales', 'per')})`
-              : "-"
+          {getJScore(nationJScore, item, 'sales') !== "-"
+            ? `${getJScore(nationJScore, item, 'sales')}(${getJScore(nationJScore, item, 'sales', 'rank')}/${getJScore(nationJScore, item, 'sales', 'per')})`
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(nationJScore, item, 'income') !== "-" 
-              ? `${getJScore(nationJScore, item, 'income')}(${getJScore(nationJScore, item, 'income', 'rank')}/${getJScore(nationJScore, item, 'income', 'per')})`
-              : "-"
+          {getJScore(nationJScore, item, 'income') !== "-"
+            ? `${getJScore(nationJScore, item, 'income')}(${getJScore(nationJScore, item, 'income', 'rank')}/${getJScore(nationJScore, item, 'income', 'per')})`
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(nationJScore, item, 'spend') !== "-" 
-              ? `${getJScore(nationJScore, item, 'spend')}(${getJScore(nationJScore, item, 'spend', 'rank')}/${getJScore(nationJScore, item, 'spend', 'per')})`
-              : "-"
+          {getJScore(nationJScore, item, 'spend') !== "-"
+            ? `${getJScore(nationJScore, item, 'spend')}(${getJScore(nationJScore, item, 'spend', 'rank')}/${getJScore(nationJScore, item, 'spend', 'per')})`
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(nationJScore, item, 'move_pop') !== "-" 
-              ? `${getJScore(nationJScore, item, 'move_pop')}(${getJScore(nationJScore, item, 'move_pop', 'rank')}/${getJScore(nationJScore, item, 'move_pop', 'per')})`
-              : "-"
+          {getJScore(nationJScore, item, 'move_pop') !== "-"
+            ? `${getJScore(nationJScore, item, 'move_pop')}(${getJScore(nationJScore, item, 'move_pop', 'rank')}/${getJScore(nationJScore, item, 'move_pop', 'per')})`
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(nationJScore, item, 'work_pop') !== "-" 
-              ? `${getJScore(nationJScore, item, 'work_pop')}(${getJScore(nationJScore, item, 'work_pop', 'rank')}/${getJScore(nationJScore, item, 'work_pop', 'per')})`
-              : "-"
+          {getJScore(nationJScore, item, 'work_pop') !== "-"
+            ? `${getJScore(nationJScore, item, 'work_pop')}(${getJScore(nationJScore, item, 'work_pop', 'rank')}/${getJScore(nationJScore, item, 'work_pop', 'per')})`
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(nationJScore, item, 'resident') !== "-" 
-              ? `${getJScore(nationJScore, item, 'resident')}(${getJScore(nationJScore, item, 'resident', 'rank')}/${getJScore(nationJScore, item, 'resident', 'per')})`
-              : "-"
+          {getJScore(nationJScore, item, 'resident') !== "-"
+            ? `${getJScore(nationJScore, item, 'resident')}(${getJScore(nationJScore, item, 'resident', 'rank')}/${getJScore(nationJScore, item, 'resident', 'per')})`
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScore(nationJScore, item, 'house') !== "-" 
-              ? `${getJScore(nationJScore, item, 'house')}(${getJScore(nationJScore, item, 'house', 'rank')}/${getJScore(nationJScore, item, 'house', 'per')})`
-              : "-"
+          {getJScore(nationJScore, item, 'house') !== "-"
+            ? `${getJScore(nationJScore, item, 'house')}(${getJScore(nationJScore, item, 'house', 'rank')}/${getJScore(nationJScore, item, 'house', 'per')})`
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
@@ -221,51 +221,99 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center">이상치 제거 후</td>
         <td colSpan="1" className="border px-4 py-2 text-center">J-Score</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScoreNonOutliers(nationJScore, item, 'shop') !== "-" 
-              ? `${getJScoreNonOutliers(nationJScore, item, 'shop')}(${getJScore(nationJScore, item, 'shop', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'shop', 'per')})`
-              : "-"
+          {getJScoreNonOutliers(nationJScore, item, 'shop') !== "-"
+            ? (
+              <>
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'shop')}</strong>
+                ({getJScore(nationJScore, item, 'shop', 'rank')}/
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'shop', 'per')}</strong>)
+              </>
+            )
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScoreNonOutliers(nationJScore, item, 'sales') !== "-" 
-              ? `${getJScoreNonOutliers(nationJScore, item, 'sales')}(${getJScore(nationJScore, item, 'sales', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'sales', 'per')})`
-              : "-"
+          {getJScoreNonOutliers(nationJScore, item, 'sales') !== "-"
+            ? (
+              <>
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'sales')}</strong>
+                ({getJScore(nationJScore, item, 'sales', 'rank')}/
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'sales', 'per')}</strong>)
+              </>
+            )
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScoreNonOutliers(nationJScore, item, 'income') !== "-" 
-              ? `${getJScoreNonOutliers(nationJScore, item, 'income')}(${getJScore(nationJScore, item, 'income', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'income', 'per')})`
-              : "-"
+          {getJScoreNonOutliers(nationJScore, item, 'income') !== "-"
+            ? (
+              <>
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'income')}</strong>
+                ({getJScore(nationJScore, item, 'income', 'rank')}/
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'income', 'per')}</strong>)
+              </>
+            )
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScoreNonOutliers(nationJScore, item, 'spend') !== "-" 
-              ? `${getJScoreNonOutliers(nationJScore, item, 'spend')}(${getJScore(nationJScore, item, 'spend', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'spend', 'per')})`
-              : "-"
+          {getJScoreNonOutliers(nationJScore, item, 'spend') !== "-"
+            ? (
+              <>
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'spend')}</strong>
+                ({getJScore(nationJScore, item, 'spend', 'rank')}/
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'spend', 'per')}</strong>)
+              </>
+            )
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScoreNonOutliers(nationJScore, item, 'move_pop') !== "-" 
-              ? `${getJScoreNonOutliers(nationJScore, item, 'move_pop')}(${getJScore(nationJScore, item, 'move_pop', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'move_pop', 'per')})`
-              : "-"
+          {getJScoreNonOutliers(nationJScore, item, 'move_pop') !== "-"
+            ? (
+              <>
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'move_pop')}</strong>
+                ({getJScore(nationJScore, item, 'move_pop', 'rank')}/
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'move_pop', 'per')}</strong>)
+              </>
+            )
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScoreNonOutliers(nationJScore, item, 'work_pop') !== "-" 
-              ? `${getJScoreNonOutliers(nationJScore, item, 'work_pop')}(${getJScore(nationJScore, item, 'work_pop', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'work_pop', 'per')})`
-              : "-"
+          {getJScoreNonOutliers(nationJScore, item, 'work_pop') !== "-"
+            ? (
+              <>
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'work_pop')}</strong>
+                ({getJScore(nationJScore, item, 'work_pop', 'rank')}/
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'work_pop', 'per')}</strong>)
+              </>
+            )
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScoreNonOutliers(nationJScore, item, 'resident') !== "-" 
-              ? `${getJScoreNonOutliers(nationJScore, item, 'resident')}(${getJScore(nationJScore, item, 'resident', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'resident', 'per')})`
-              : "-"
+          {getJScoreNonOutliers(nationJScore, item, 'resident') !== "-"
+            ? (
+              <>
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'resident')}</strong>
+                ({getJScore(nationJScore, item, 'resident', 'rank')}/
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'resident', 'per')}</strong>)
+              </>
+            )
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center">
-          {getJScoreNonOutliers(nationJScore, item, 'house') !== "-" 
-              ? `${getJScoreNonOutliers(nationJScore, item, 'house')}(${getJScore(nationJScore, item, 'house', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'house', 'per')})`
-              : "-"
+          {getJScoreNonOutliers(nationJScore, item, 'house') !== "-"
+            ? (
+              <>
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'house')}</strong>
+                ({getJScore(nationJScore, item, 'house', 'rank')}/
+                <strong>{getJScoreNonOutliers(nationJScore, item, 'house', 'per')}</strong>)
+              </>
+            )
+            : "-"
           }
         </td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
