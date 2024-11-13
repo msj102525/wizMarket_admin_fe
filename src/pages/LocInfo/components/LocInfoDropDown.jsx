@@ -44,7 +44,9 @@ const DropdownWithCheckboxes = ({ selectedOptions, setSelectedOptions, dataDate 
         onClick={toggleDropdown}
         className="px-4 py-2 bg-white text-gray-400 p-2 border border-[#DDDDDD] rounded w-full text-left"
       >
-        {selectedOptions.length > 0 ? selectedOptions[selectedOptions.length - 1].substring(0, 7) : "Select Date"}
+        {selectedOptions.length > 0 && typeof selectedOptions[selectedOptions.length - 1] === 'string'
+          ? selectedOptions[selectedOptions.length - 1].substring(0, 7)
+          : "Select Date"}
       </button>
 
       {isOpen && (

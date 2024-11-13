@@ -171,7 +171,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                     엑셀 다운로드
                 </button>
             </div>
-            <div className='p-4'>
+            <div className='p-2'>
                 <p className="text-s mb:text-sm text-gray-500">
                     *기본 검색 시 괄호는 해당하는 항목에 대한 이상치 제거 전/후 J-Score
                 </p>
@@ -182,7 +182,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
             </div>
             <div className='p-2'>
                 <button onClick={toggleOpen} className="text-s mb:text-sm text-gray-500 px-2 py-1 mb-1 border border-gray-500 border-2 rounded">
-                    {isOpen ? '가이드 닫기' : '가이드 보기'}
+                    {isOpen ? '가이드 닫기' : '이상치 가이드'}
                 </button>
                 {isOpen && (
                     <div className='mt-4 ml-4'>
@@ -200,7 +200,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
 
 
             {currentData.length === 0 ? (
-                <p>검색 결과가 없습니다.</p>
+                <p className='mt-4 ml-4'>검색 결과가 없습니다.</p>
             ) : (
                 <>
                     <table className="min-w-full mt-4">
