@@ -158,8 +158,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
-        <td colSpan="1" className="border px-4 py-2 text-center"></td>
-        <td colSpan="1" className="border px-4 py-2 text-center">J-Score(전체)</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">이상치 제거 전</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">J-Score</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {getJScore(nationJScore, item, 'shop') !== "-" 
               ? `${getJScore(nationJScore, item, 'shop')}(${getJScore(nationJScore, item, 'shop', 'rank')}/${getJScore(nationJScore, item, 'shop', 'per')})`
@@ -218,8 +218,8 @@ const ExpandedRow = ({ item, nationJScore, filterCorrData, statDataByRegion, fil
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
         <td colSpan="1" className="border px-4 py-2 text-center"></td>
-        <td colSpan="1" className="border px-4 py-2 text-center"></td>
-        <td colSpan="1" className="border px-4 py-2 text-center">J-Score(이상치 제거)</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">이상치 제거 후</td>
+        <td colSpan="1" className="border px-4 py-2 text-center">J-Score</td>
         <td colSpan="1" className="border px-4 py-2 text-center">
           {getJScoreNonOutliers(nationJScore, item, 'shop') !== "-" 
               ? `${getJScoreNonOutliers(nationJScore, item, 'shop')}(${getJScore(nationJScore, item, 'shop', 'rank')}/${getJScoreNonOutliers(nationJScore, item, 'shop', 'per')})`

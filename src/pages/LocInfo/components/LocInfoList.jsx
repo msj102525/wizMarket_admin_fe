@@ -13,10 +13,10 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
     const sortedData = [...searchData].sort((a, b) => {
         if (sortConfig.key) {
             const direction = sortConfig.direction === 'asc' ? 1 : -1;
-    
+
             const aValue = a[sortConfig.key];
             const bValue = b[sortConfig.key];
-    
+
             if (sortConfig.direction === 'asc') {
                 // 오름차순: null -> 0 -> 값
                 if (aValue === null && bValue !== null) return -1;
@@ -30,14 +30,14 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                 if (aValue !== 0 && bValue === 0) return -1;
                 if (aValue === 0 && bValue !== 0) return 1;
             }
-    
+
             // 일반적인 값 비교
             if (aValue < bValue) return -1 * direction;
             if (aValue > bValue) return 1 * direction;
             return 0;
         }
         return 0;
-    });    
+    });
 
 
     // 정렬 버튼 클릭 시 호출될 함수
@@ -109,28 +109,51 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
             '시/도 명': item.city_name,
             '시/군/구 명': item.district_name,
             '읍/면/동 명': item.sub_district_name,
-            '업소 수' : item.shop,
-            '업소 평균 매출' : item.sales,
-            '평균 소득' : item.income,
-            '평균 소비' : item.spend,
-            '유동 인구' : item.move_pop,
-            '직장 인구' : item.work_pop,
-            '주거 인구' : item.resident,
-            '세대 수' : item.house,
-            'Rank J-Score' : item.j_score_rank,
-            'Per J-Score' : item.j_score_per,
-            'J-Score' : item.j_score,
-            '기준년월' : item.ref_date,
+            '업소 수': item.shop,
+            '업소 평균 매출': item.sales,
+            '평균 소득': item.income,
+            '평균 소비': item.spend,
+            '유동 인구': item.move_pop,
+            '직장 인구': item.work_pop,
+            '주거 인구': item.resident,
+            '세대 수': item.house,
+            'Rank J-Score': item.j_score_rank,
+            'Per J-Score(제거 전)': item.j_score_per,
+            'Per J-Score(제거 후)': item.j_score_per_non_outliers,
+            'J-Score(제거 전)': item.j_score,
+            'J-Score(제거 후)': item.j_score_non_outliers,
+            '기준년월': item.ref_date,
         }));
-    
+
         // JSON 데이터를 엑셀 시트로 변환
-        const worksheet = XLSX.utils.json_to_sheet(filteredData);
+        const worksheet = XLSX.utils.json_to_sheet([]);
+
+        // 첫 행에 문구 삽입
+        XLSX.utils.sheet_add_aoa(worksheet, [['* 이상치 제거 방법 : 항목별 내림차순 정렬 후 1번 값 - 2번 값 > 항목의 표준 편차 -> 이상치로 판단 후 제거']], { origin: 'A1' });
+
+        // 2행에 헤더 수동으로 추가
+        const headers = [
+            '시/도 명', '시/군/구 명', '읍/면/동 명', '업소 수', '업소 평균 매출', '평균 소득',
+            '평균 소비', '유동 인구', '직장 인구', '주거 인구', '세대 수', 'Rank J-Score',
+            'Per J-Score(제거 전)', 'Per J-Score(제거 후)', 'J-Score(제거 전)', 'J-Score(제거 후)',
+            '기준년월'
+        ];
+        XLSX.utils.sheet_add_aoa(worksheet, [headers], { origin: 'A2' });
+
+        // 데이터는 A3부터 삽입, 헤더 추가 방지를 위해 skipHeader: true 설정
+        XLSX.utils.sheet_add_json(worksheet, filteredData, { origin: 'A3', skipHeader: true });
+
+        // 엑셀 파일 생성 및 다운로드
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
         const today = new Date().toISOString().split('T')[0];
-    
-        // 엑셀 파일 생성 후 다운로드
         XLSX.writeFile(workbook, `입지 정보_${today}.xlsx`);
+    };
+
+    const [isOpen, setIsOpen] = useState(false); // 테이블의 열림/닫힘 상태
+
+    const toggleOpen = () => {
+        setIsOpen(!isOpen); // 열고 닫는 상태를 반전시킴
     };
 
 
@@ -148,6 +171,33 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                     엑셀 다운로드
                 </button>
             </div>
+            <div className='p-4'>
+                <p className="text-s mb:text-sm text-gray-500">
+                    *기본 검색 시 괄호는 해당하는 항목에 대한 이상치 제거 전/후 J-Score
+                </p>
+                <p className="text-s mb:text-sm text-gray-500">
+                    *확장 검색 시 괄호는 Rank 와 Per J-Score (Rank는 제거 사항 아님)
+                </p>
+
+            </div>
+            <div className='p-2'>
+                <button onClick={toggleOpen} className="text-s mb:text-sm text-gray-500 px-2 py-1 mb-1 border border-gray-500 border-2 rounded">
+                    {isOpen ? '가이드 닫기' : '가이드 보기'}
+                </button>
+                {isOpen && (
+                    <div className='mt-4 ml-4'>
+                        <p className="text-s mb:text-sm text-gray-500">
+                            1. 각 동마다 항목 별 값 내림차순 정렬                                                                              
+                        </p>
+                        <p className="text-s mb:text-sm text-gray-500">2. 1번 값 - 2번 값이 항목의 표준편차 보다 클 경우 이상치로 판단 후 제거</p>
+                        <p className="text-s mb:text-sm text-gray-500">3. 최대 3번까지 시행</p>
+                        <p className="text-s mb:text-sm text-gray-500">4. 제거 된 이상치는 10점으로 계산</p>
+                        <p className="text-s mb:text-sm text-gray-500">5. 이상치를 제외 후 최대 값 추출 후 Per J-Score 계산</p>
+                        <p className="text-s mb:text-sm text-gray-500">6. 새로 계산된 Per J-Score와 기존의 Rank J-Score의 평균 &rarr; 최종 J-Score</p>
+                    </div>
+                )}
+            </div>
+
 
             {currentData.length === 0 ? (
                 <p>검색 결과가 없습니다.</p>
@@ -263,16 +313,6 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                     </button>
                                 </div>
                                 </th>
-
-                                <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
-                                    J-Score
-                                    <button onClick={() => handleSort('j_score')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
-                                        <span className="text-xs">▲</span>
-                                        <span className="text-xs">▼</span>
-                                    </button>
-                                </div>
-                                </th>
-
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
                                     Per J-Score (이상치 제거)
                                     <button onClick={() => handleSort('j_score_per_non_outliers')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
@@ -281,7 +321,14 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                     </button>
                                 </div>
                                 </th>
-
+                                <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
+                                    J-Score
+                                    <button onClick={() => handleSort('j_score')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                        <span className="text-xs">▲</span>
+                                        <span className="text-xs">▼</span>
+                                    </button>
+                                </div>
+                                </th>
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
                                     J-Score(이상치 제거)
                                     <button onClick={() => handleSort('j_score_non_outliers')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
@@ -386,13 +433,12 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                             {item.j_score_per === null || item.j_score_per === '-' ? '-' : `${item.j_score_per.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
+                                            {item.j_score_per_non_outliers === null || item.j_score_per_non_outliers === '-' ? '-' : `${item.j_score_per_non_outliers.toFixed(2)} `}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.j_score === null || item.j_score === '-' ? '-' : `${item.j_score.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.j_score_rank === null || item.j_score_rank === '-' ? '-' : `${item.j_score_rank.toFixed(2)} `}/
-                                            {item.j_score_per_non_outliers === null || item.j_score_per_non_outliers === '-' ? '-' : `${item.j_score_per_non_outliers.toFixed(2)} `}
-                                        </td>
-                                        <td className="border border-gray-300 px-4 py-2 text-center">                                          
                                             {item.j_score_non_outliers === null || item.j_score_non_outliers === '-' ? '-' : `${item.j_score_non_outliers.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.y_m}</td>
