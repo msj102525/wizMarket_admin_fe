@@ -1,21 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import CitySelect from '../../../components/CitySelect';
 import LocInfoDropDown from './LocInfoDropDown';
 
 const LocInfoListSearchForm = ({
     city, district, subDistrict, cities, districts, subDistricts, setCity, setDistrict, setSubDistrict,
-    shopMin, move_popMin, salesMin, work_popMin, incomeMin, spendMin, houseMin, residentMin,
-    shopMax, move_popMax, salesMax, work_popMax, incomeMax, spendMax, houseMax, residentMax,
-    setshopMin, setmove_popMin, setsalesMin, setwork_popMin, setincomeMin, setspendMin, sethouseMin,
-    setresidentMin, setshopMax, setmove_popMax, setsalesMax, setwork_popMax, setincomeMax, setspendMax, sethouseMax, setresidentMax,
+    shopMin, move_popMin, salesMin, work_popMin, incomeMin, spendMin, houseMin, residentMin, jScoreMin,
+    shopMax, move_popMax, salesMax, work_popMax, incomeMax, spendMax, houseMax, residentMax, jScoreMax,
+    setshopMin, setmove_popMin, setsalesMin, setwork_popMin, setincomeMin, setspendMin, sethouseMin, setresidentMin, setJScoreMin,
+    setshopMax, setmove_popMax, setsalesMax, setwork_popMax, setincomeMax, setspendMax, sethouseMax, setresidentMax, setJScoreMax,
     selectedOptions, setSelectedOptions, dataDate,
     handleSearch, handleReset, isList
 }) => {
 
 
+    useEffect(() => {
+        const handleEnterKeyPress = (e) => {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        };
+
+        window.addEventListener('keydown', handleEnterKeyPress);
+
+        return () => {
+            window.removeEventListener('keydown', handleEnterKeyPress);
+        };
+    }, [handleSearch]);
+
     return (
-        <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
+        <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full">
             <div className="p-4 bg-[#F3F5F7]">
                 <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>
                     <div className="mb-4 flex gap-4">
@@ -44,7 +58,7 @@ const LocInfoListSearchForm = ({
                             <LocInfoDropDown
                                 selectedOptions={selectedOptions}
                                 setSelectedOptions={setSelectedOptions}
-                                dataDate = {dataDate}
+                                dataDate={dataDate}
                             />
                         </div>
                     </div>
@@ -262,6 +276,32 @@ const LocInfoListSearchForm = ({
                                 placeholder="이하"
                                 className="p-2 border border-[#DDDDDD] rounded w-1/6"
                                 max={9999}
+                                min={0}
+                            />
+                        </div>
+                    </div>
+                    <div className="mb-4 flex gap-4">
+                        <div className="w-1/6 text-center content-center">
+                            <label className="block mb-1 font-extrabold">J-Score</label>
+                        </div>
+                        <div className="w-full flex gap-4">
+                            <input
+                                type="number"
+                                value={jScoreMin || ""}
+                                onChange={(e) => setJScoreMin(e.target.value)}
+                                placeholder="이상"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                                max={10}
+                                min={0}
+                            />
+                            <p className='content-center'>~</p>
+                            <input
+                                type="number"
+                                value={jScoreMax || ""}
+                                onChange={(e) => setJScoreMax(e.target.value)}
+                                placeholder="이하"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                                max={10}
                                 min={0}
                             />
                         </div>

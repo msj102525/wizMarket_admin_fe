@@ -37,6 +37,7 @@ const LocInfo = () => {
     const [spendMin, setspendMin] = useState('');
     const [houseMin, sethouseMin] = useState('');
     const [residentMin, setresidentMin] = useState('');
+    const [jScoreMin, setJScoreMin] = useState('');
 
     const [shopMax, setshopMax] = useState('');
     const [move_popMax, setmove_popMax] = useState('');
@@ -46,6 +47,7 @@ const LocInfo = () => {
     const [spendMax, setspendMax] = useState('');
     const [houseMax, sethouseMax] = useState('');
     const [residentMax, setresidentMax] = useState('');
+    const [jScoreMax, setJScoreMax] = useState('');
 
     const [selectedOptions, setSelectedOptions] = useState([]);
 
@@ -123,7 +125,9 @@ const LocInfo = () => {
             houseMax: convertToInt(houseMax),
             residentMin: convertToInt(residentMin),
             residentMax: convertToInt(residentMax),
-            selectedOptions: selectedOptions || []
+            jScoreMin: convertToInt(jScoreMin),
+            jScoreMax: convertToInt(jScoreMax),
+            selectedOptions: selectedOptions || [],
         };
         setFilterSet(filters)
         try {
@@ -140,7 +144,6 @@ const LocInfo = () => {
             setFilterCorrResults(response.data.filter_corr);
             setStatDataByRegion(response.data.stat_by_region);
             setNationJScore(response.data.nation_j_score)
-            console.log(response.data.filtered_data)
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');
@@ -165,6 +168,7 @@ const LocInfo = () => {
         setspendMin('');
         sethouseMin('');
         setresidentMin('');
+        setJScoreMin('');
 
         setshopMax('');
         setmove_popMax('');
@@ -174,6 +178,7 @@ const LocInfo = () => {
         setspendMax('');
         sethouseMax('');
         setresidentMax('');
+        setJScoreMax('');
 
         setSelectedOptions(dataDate);
     };
@@ -215,6 +220,7 @@ const LocInfo = () => {
                                 spendMin={spendMin}
                                 houseMin={houseMin}
                                 residentMin={residentMin}
+                                jScoreMin={jScoreMin}
 
                                 shopMax={shopMax}
                                 move_popMax={move_popMax}
@@ -224,6 +230,7 @@ const LocInfo = () => {
                                 spendMax={spendMax}
                                 houseMax={houseMax}
                                 residentMax={residentMax}
+                                jScoreMax = {jScoreMax}
 
                                 setCity={setCity}
                                 setDistrict={setDistrict}
@@ -237,6 +244,7 @@ const LocInfo = () => {
                                 setspendMin={setspendMin}
                                 sethouseMin={sethouseMin}
                                 setresidentMin={setresidentMin}
+                                setJScoreMin = {setJScoreMin}
 
                                 setshopMax={setshopMax}
                                 setmove_popMax={setmove_popMax}
@@ -246,6 +254,7 @@ const LocInfo = () => {
                                 setspendMax={setspendMax}
                                 sethouseMax={sethouseMax}
                                 setresidentMax={setresidentMax}
+                                setJScoreMax={setJScoreMax}
 
                                 selectedOptions={selectedOptions}
                                 setSelectedOptions={setSelectedOptions}
@@ -254,7 +263,8 @@ const LocInfo = () => {
 
                                 handleSearch={handleSearch}
                                 handleReset={handleReset}
-                                isList={isList} />
+                                isList={isList}                           
+                                />
                         </div>
                     </section>
                     {/* 하단 리스트 */}
