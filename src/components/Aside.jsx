@@ -6,6 +6,7 @@ const Aside = () => {
         section1: true,
         section2: true,
         section3: true,
+        section4: true,
     });
 
     const toggleSection = (section) => {
@@ -117,7 +118,7 @@ const Aside = () => {
                     <ul className='border'>
                         <li
                             className="text-xl p-2 flex justify-between items-center cursor-pointer leading-10"
-                            onClick={() => toggleSection('section1')}
+                            onClick={() => toggleSection('section4')}
                         >
                             <div className="flex items-center">
                                 <div className="w-7 h-7">
@@ -126,11 +127,11 @@ const Aside = () => {
                                 <p className='ml-2'>CMS</p>
                             </div>
                             <p className='text-4xl'>
-                                {isOpen.section1 ? '-' : '+'}
+                                {isOpen.section4 ? '-' : '+'}
                             </p>
                         </li>
                         <div
-                            className={`transition-[max-height] duration-300 ease-in-out overflow-hidden ${isOpen.section1 ? 'max-h-[500px]' : 'max-h-0'}`}
+                            className={`transition-[max-height] duration-300 ease-in-out overflow-hidden ${isOpen.section4 ? 'max-h-[500px]' : 'max-h-0'}`}
                         >
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                                 <Link to="/detail/category/content">세부 업종 공통 정보</Link>
