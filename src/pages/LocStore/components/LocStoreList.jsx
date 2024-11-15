@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import LocStoreContentModal from './LocStoreContentModal';
+import AdsModal from './AdsModal';
 
 const LocStoreList = ({ data }) => {
 
@@ -21,6 +22,7 @@ const LocStoreList = ({ data }) => {
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [adsModalOpen, setAdsModalOpen] = useState(false);
     const [selectedStoreBusinessNumber, setSelectedStoreBusinessNumber] = useState(null);
 
     const handleClick = (storeBusinessNumber) => {
@@ -30,6 +32,16 @@ const LocStoreList = ({ data }) => {
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setSelectedStoreBusinessNumber(null);
+    };
+
+    const handleAdsClick = (storeBusinessNumber) => {
+        setSelectedStoreBusinessNumber(storeBusinessNumber);
+        setAdsModalOpen(true);
+    };
+
+    const closeAdsModal = () => {
+        setAdsModalOpen(false);
         setSelectedStoreBusinessNumber(null);
     };
 
@@ -124,6 +136,13 @@ const LocStoreList = ({ data }) => {
                                 >
                                     정보 등록
                                 </button>
+                                <span className="mx-2">/</span>
+                                <button
+                                    onClick={() => handleAdsClick(item.store_business_number)}
+                                    className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
+                                >
+                                    ADS
+                                </button>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.branch_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.city_name}</td>
@@ -152,6 +171,11 @@ const LocStoreList = ({ data }) => {
             <LocStoreContentModal
                 isOpen={isModalOpen}
                 onClose={closeModal}
+                storeBusinessNumber={selectedStoreBusinessNumber}
+            />
+            <AdsModal
+                isOpen={adsModalOpen}
+                onClose={closeAdsModal}
                 storeBusinessNumber={selectedStoreBusinessNumber}
             />
         </div>

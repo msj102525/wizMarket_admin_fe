@@ -139,6 +139,9 @@ const Aside = () => {
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                                 <Link to="/store/content">매장 추가 정보</Link>
                             </li>
+                            <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
+                                <Link to="/ads">ADS</Link>
+                            </li>
                         </div>
                     </ul>
                 </nav>
