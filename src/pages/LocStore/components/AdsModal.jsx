@@ -15,6 +15,8 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [message, setMessage] = useState(''); // 성공 또는 실패 메시지
     const [useOption, setUseOption] = useState('');
     const [modelOption, setModelOption] = useState('');
+    const [imageSize, setImageSize] = useState(null);
+    const [combineImageText, setCombineImageText] = useState(null)
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -136,6 +138,14 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         }
     };
 
+    // Base64 데이터를 Blob으로 변환하는 유틸리티 함수
+    const base64ToBlob = (base64, contentType = "image/png") => {
+        const byteCharacters = atob(base64.split(",")[1]);
+        const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
+        const byteArray = new Uint8Array(byteNumbers);
+        return new Blob([byteArray], { type: contentType });
+    };
+
     // 이미지 생성
     const generateImage = async () => {
         setImageLoading(true)
@@ -153,8 +163,18 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                 { headers: { 'Content-Type': 'application/json' } }
             );
             // 성공 시 받은 데이터 상태에 저장
-            console.log(response.data)
-            setSelectedImages([{ type: "ai", previewUrl: response.data.image }]);
+            const { image: base64Image } = response.data; // AI로 생성된 Base64 이미지
+            // Base64 -> Blob -> File 변환
+            const aiImageBlob = base64ToBlob(base64Image);
+            const aiImageFile = new File([aiImageBlob], "ai-generated-image.png", { type: "image/png" });
+            // selectedImages에 추가
+            setSelectedImages([
+                {
+                    type: "ai",
+                    file: aiImageFile, // File 객체로 저장
+                    previewUrl: URL.createObjectURL(aiImageBlob), // 미리보기 URL
+                },
+            ]);
             setSaveStatus('success'); // 성공 상태로 설정
             setMessage('생성이 성공적으로 완료되었습니다.');
             setImageLoading(false)
@@ -184,9 +204,15 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         }
         const formData = new FormData();
         formData.append('content', content);
-        selectedImages.forEach((image) => {
-            formData.append('image', image.file);
-        });
+        formData.append('image_width', imageSize.width);
+        formData.append('image_height', imageSize.height);
+        if (selectedImages.length > 0 && selectedImages[0].file) {
+            formData.append("image", selectedImages[0].file);
+        } else {
+            setSaveStatus("error");
+            setMessage("이미지를 업로드하거나 AI로 생성해주세요.");
+            return;
+        }
         for (const [key, value] of formData.entries()) {
             console.log(`${key}:`, value);
         }
@@ -197,7 +223,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                 { headers: { 'Content-Type': 'multipart/form-data' } }
             );
             // 성공 시 받은 데이터 상태에 저장
-            setData(response.data); // 성공 시 서버에서 받은 데이터를 상태에 저장
+            setCombineImageText(response.data.image); // Base64 이미지 설정
             setSaveStatus('success'); // 성공 상태로 설정
             setMessage('생성이 성공적으로 완료되었습니다.');
         } catch (err) {
@@ -482,6 +508,13 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                             src={selectedImages[0].previewUrl}
                                             alt="미리보기"
                                             className="w-full h-full object-cover rounded"
+                                            onLoad={(e) => {
+                                                const imgElement = e.target;
+                                                setImageSize({
+                                                    width: imgElement.naturalWidth,
+                                                    height: imgElement.naturalHeight,
+                                                });
+                                            }}
                                         />
                                         <button
                                             className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
@@ -489,6 +522,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                         >
                                             &times;
                                         </button>
+                                        {imageSize && (
+                                            <p className="mt-2 text-center text-sm text-gray-600">
+                                                Size: {imageSize.width} x {imageSize.height} px
+                                            </p>
+                                        )}
                                     </div>
                                 )
                             )}
@@ -505,45 +543,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         <div className="mb-6">
                             <label className="block text-lg font-semibold text-gray-700 mb-2">결과물</label>
                             <div className="border border-gray-300 rounded p-0 max-h-screen overflow-auto">
-                                {selectedImages.map((image, index) => {
-                                    // 옵션에 따른 비율 설정
-                                    let aspectRatio = '4 / 3'; // 기본 비율
-
-                                    if (useOption === 'story') {
-                                        aspectRatio = '9 / 16'; // 9:16 비율
-                                    } else if (useOption === 'post') {
-                                        aspectRatio = '1 / 1'; // 1:1 비율
-                                    } else if (useOption === 'thumbnail') {
-                                        aspectRatio = '16 / 9'; // 16:9 비율
-                                    } else if (useOption === 'banner') {
-                                        aspectRatio = '8 / 1'; // 약 8:1 비율
-                                    }
-
-                                    return (
-                                        <div
-                                            key={index}
-                                            className="mb-6 flex justify-center items-center rounded border border-gray-200 overflow-hidden"
-                                            style={{
-                                                aspectRatio: aspectRatio,
-                                                width: '100%',
-                                                position: 'relative',
-                                            }}
-                                        >
-                                            <img
-                                                src={image.previewUrl}
-                                                alt={`결과물 ${index + 1}`}
-                                                style={{
-                                                    position: 'absolute',
-                                                    top: 0,
-                                                    left: 0,
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    objectFit: 'cover',
-                                                }}
-                                            />
-                                        </div>
-                                    );
-                                })}
+                                {combineImageText ? (
+                                    <img src={combineImageText} alt="결과 이미지" className="w-full h-auto" />
+                                ) : (
+                                    <p className="text-center text-gray-500 p-4">이미지를 생성 중입니다...</p>
+                                )}
                             </div>
                         </div>
 
