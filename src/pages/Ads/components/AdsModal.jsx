@@ -38,23 +38,23 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         commercial_district_max_sales_m_age,
                         commercial_district_max_sales_f_age,
                     } = response.data;
-    
+
                     const [maxSalesDay, maxSalesDayValue] = Array.isArray(commercial_district_max_sales_day)
                         ? commercial_district_max_sales_day
                         : [null, null];
-    
+
                     const [maxSalesTime, maxSalesTimeValue] = Array.isArray(commercial_district_max_sales_time)
                         ? commercial_district_max_sales_time
                         : [null, null];
-    
+
                     const [maxSalesMale, maxSalesMaleValue] = Array.isArray(commercial_district_max_sales_m_age)
                         ? commercial_district_max_sales_m_age
                         : [null, null];
-    
+
                     const [maxSalesFemale, maxSalesFemaleValue] = Array.isArray(commercial_district_max_sales_f_age)
                         ? commercial_district_max_sales_f_age
                         : [null, null];
-    
+
                     const updatedData = {
                         ...response.data,
                         maxSalesDay,
@@ -97,9 +97,9 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_50S: "여자 50대",
                         COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_60_OVER: "여자 60대 이상",
                     };
-    
+
                     setData(updatedData);
-    
+
                     setPrompt(`매장명 : ${updatedData.store_name || "값 없음"}
 주소 : ${updatedData.road_name || "값 없음"}
 업종 : ${updatedData.detail_category_name || "값 없음"}
@@ -122,7 +122,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         };
         fetchInitialData();
     }, [isOpen, storeBusinessNumber, useOption, title]);
-    
+
     useEffect(() => {
         if (isOpen) {
             setSelectedImages([]);
@@ -150,7 +150,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         }
         setContentLoading(true)
         const basicInfo = {
-            gpt_role : gptRole,
+            gpt_role: gptRole,
             prompt: prompt,
             detail_content: detailContent
         };
@@ -332,7 +332,16 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-[800px] max-h-[80vh] overflow-auto">
-                <h2 className="text-2xl font-semibold mb-4">ADS 등록</h2>
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-semibold">ADS 등록</h2>
+                    <button
+                        onClick={onClose} // 모달 닫기 함수
+                        className="text-gray-500 hover:text-gray-800 focus:outline-none"
+                        aria-label="Close"
+                    >
+                        ✕
+                    </button>
+                </div>
 
                 {loading && <p>로딩 중...</p>}
                 {error && <p className="text-red-500">{error}</p>}
@@ -350,6 +359,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
 
                 {data && (
                     <div className="w-full">
+
                         <div className="mb-6">
                             <p className="text-xl">매장 명: {data.store_name} - {data.road_name}</p>
                         </div>
@@ -422,8 +432,8 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                             <label className="block text-lg font-semibold text-gray-700 mb-2">gpt 프롬프트</label>
                             <textarea
                                 rows={3}
-                                value = {gptRole}
-                                onChange={(e) => setGptRole(e.target.value)} 
+                                value={gptRole}
+                                onChange={(e) => setGptRole(e.target.value)}
                                 className="border border-gray-300 rounded w-full px-3 py-2"
                             />
                         </div>
@@ -431,8 +441,8 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                             <label className="block text-lg font-semibold text-gray-700 mb-2">전달 내용</label>
                             <textarea
                                 rows={10}
-                                value = {prompt}
-                                onChange={(e) => setPrompt(e.target.value)} 
+                                value={prompt}
+                                onChange={(e) => setPrompt(e.target.value)}
                                 className="border border-gray-300 rounded w-full px-3 py-2"
                             />
                         </div>
