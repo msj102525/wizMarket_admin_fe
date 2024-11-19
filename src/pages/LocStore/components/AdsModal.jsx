@@ -143,7 +143,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             use_option: useOption,
             ai_model_option: modelOption,
             title: title,
-            content: content,
             store_name: data.store_name,
             detail_category_name: data.detail_category_name,
         };
@@ -322,7 +321,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 <option value="MMS">MMS (263x362)</option>
                                 <option value="youtube thumbnail">유튜브 썸네일 (412x232)</option>
                                 <option value="instagram story">인스타 스토리 (412x732)</option>
-                                <option value="instagram feed">인스타 피드 (412x412)</option>
+                                <option value="instagram feed">인스타 피드 (412x514)</option>
                                 <option value="naver blog">네이버 블로그</option>
                                 <option value="google advertising banner">배너 (377x377)</option>
                             </select>
@@ -478,7 +477,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 </div>
                             ) : (
                                 selectedImages.length > 0 && (
-                                    <div className="relative w-48 h-48">
+                                    <div className="relative">
                                         <img
                                             src={selectedImages[0].previewUrl}
                                             alt="미리보기"
