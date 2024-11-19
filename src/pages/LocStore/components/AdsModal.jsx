@@ -78,6 +78,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             setContent('');
             setUseOption('');
             setModelOption('');
+            setCombineImageText('');
             setSaveStatus(null); // 모달 열 때마다 저장 상태 초기화
         }
     }, [isOpen]);
@@ -203,6 +204,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             return;
         }
         const formData = new FormData();
+        formData.append('store_name', data.store_name);
         formData.append('content', content);
         formData.append('image_width', imageSize.width);
         formData.append('image_height', imageSize.height);
@@ -237,7 +239,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             }, 3000); // 3초 후 메시지 숨기기
         }
     };
-
 
 
     const onSave = async () => {
