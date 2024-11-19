@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import LocStoreContentModal from './LocStoreContentModal';
-import AdsModal from './AdsModal';
+import AdsModal from '../../Ads/components/AdsModal';
 
 const LocStoreList = ({ data }) => {
 

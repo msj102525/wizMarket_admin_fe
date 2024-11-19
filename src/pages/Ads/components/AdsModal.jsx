@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TextEditor from '../../../components/TextEditor';
+import TextEditor from '../../../components/TextEditor'
 
 const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [loading, setLoading] = useState(false);
@@ -17,6 +17,10 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [modelOption, setModelOption] = useState('');
     const [imageSize, setImageSize] = useState(null);
     const [combineImageText, setCombineImageText] = useState(null)
+    const [prompt, setPrompt] = useState('');
+    const [gptRole, setGptRole] = useState('');
+    const [detailContent, setDetailContent] = useState('');
+
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -32,24 +36,26 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         commercial_district_max_sales_day,
                         commercial_district_max_sales_time,
                         commercial_district_max_sales_m_age,
-                        commercial_district_max_sales_f_age
+                        commercial_district_max_sales_f_age,
                     } = response.data;
+    
                     const [maxSalesDay, maxSalesDayValue] = Array.isArray(commercial_district_max_sales_day)
                         ? commercial_district_max_sales_day
                         : [null, null];
-
+    
                     const [maxSalesTime, maxSalesTimeValue] = Array.isArray(commercial_district_max_sales_time)
                         ? commercial_district_max_sales_time
                         : [null, null];
-
+    
                     const [maxSalesMale, maxSalesMaleValue] = Array.isArray(commercial_district_max_sales_m_age)
                         ? commercial_district_max_sales_m_age
                         : [null, null];
-
+    
                     const [maxSalesFemale, maxSalesFemaleValue] = Array.isArray(commercial_district_max_sales_f_age)
                         ? commercial_district_max_sales_f_age
                         : [null, null];
-                    setData({
+    
+                    const updatedData = {
                         ...response.data,
                         maxSalesDay,
                         maxSalesDayValue,
@@ -58,19 +64,65 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         maxSalesMale,
                         maxSalesMaleValue,
                         maxSalesFemale,
-                        maxSalesFemaleValue
-                    });
+                        maxSalesFemaleValue,
+                    };
+                    const dayMap = {
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_SUN: "일요일",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_MON: "월요일",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_TUE: "화요일",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_WED: "수요일",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_THU: "목요일",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_FRI: "금요일",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_SAT: "토요일",
+                    };
+                    const timeMap = {
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_06_09: "06~09시",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_09_12: "09~12시",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_12_15: "12~15시",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_15_18: "15~18시",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_18_21: "18~21시",
+                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_21_24: "21~24시",
+                    };
+                    const maleMap = {
+                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_20S: "남자 20대",
+                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_30S: "남자 30대",
+                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_40S: "남자 40대",
+                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_50S: "남자 50대",
+                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_60_OVER: "남자 60대 이상",
+                    };
+                    const femaleMap = {
+                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_20S: "여자 20대",
+                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_30S: "여자 30대",
+                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_40S: "여자 40대",
+                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_50S: "여자 50대",
+                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_60_OVER: "여자 60대 이상",
+                    };
+    
+                    setData(updatedData);
+    
+                    setPrompt(`매장명 : ${updatedData.store_name || "값 없음"}
+주소 : ${updatedData.road_name || "값 없음"}
+업종 : ${updatedData.detail_category_name || "값 없음"}
+채널 : ${useOption ? `${useOption} 용 이미지` : "값 없음"}
+용도 : ${title ? `${title} 용` : "값 없음"}
+월 매출 : ${updatedData.loc_info_average_sales_k * 1000 || 0}원
+매출이 가장 높은 요일 : ${dayMap[updatedData.maxSalesDay] || updatedData.maxSalesDay || "값 없음"} - ${updatedData.maxSalesDayValue || "값 없음"}%
+매출이 가장 높은 시간대 : ${timeMap[updatedData.maxSalesTime] || updatedData.maxSalesTime || "값 없음"} - ${updatedData.maxSalesTimeValue || "값 없음"}%
+매출이 가장 높은 남성 연령대 : ${maleMap[updatedData.maxSalesMale] || updatedData.maxSalesMale || "값 없음"} - ${updatedData.maxSalesMaleValue || "값 없음"}%
+매출이 가장 높은 여성 연령대 : ${femaleMap[updatedData.maxSalesFemale] || updatedData.maxSalesFemale || "값 없음"} - ${updatedData.maxSalesFemaleValue || "값 없음"}%
+                    `);
+                    setGptRole('다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다.\n내용에 부합하는 광고문구를 30자 내외로 작성해주세요.\n<br> 태그를 사용해 줄 나눔해서 작성해주세요.')
                 } catch (err) {
-                    console.error('초기 데이터 로드 중 오류 발생:', err);
-                    setError('초기 데이터 로드 중 오류가 발생했습니다.');
+                    console.error("초기 데이터 로드 중 오류 발생:", err);
+                    setError("초기 데이터 로드 중 오류가 발생했습니다.");
                 } finally {
                     setLoading(false);
                 }
             }
         };
         fetchInitialData();
-    }, [isOpen, storeBusinessNumber]);
-
+    }, [isOpen, storeBusinessNumber, useOption, title]);
+    
     useEffect(() => {
         if (isOpen) {
             setSelectedImages([]);
@@ -82,7 +134,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             setSaveStatus(null); // 모달 열 때마다 저장 상태 초기화
         }
     }, [isOpen]);
-
 
     // 문구 생성
     const generateContent = async () => {
@@ -99,24 +150,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         }
         setContentLoading(true)
         const basicInfo = {
-            use_option: useOption,
-            title: title,
-            store_name: data.store_name,
-            road_name: data.road_name,
-            city_name: data.city_name,
-            district_name: data.district_name,
-            sub_district_name: data.sub_district_name,
-            detail_category_name: data.detail_category_name,
-            loc_info_average_sales_k: data.loc_info_average_sales_k,
-            max_sales_day: data.maxSalesDay,
-            max_sales_day_value: data.maxSalesDayValue,
-            max_sales_time: data.maxSalesTime,
-            max_sales_time_value: data.maxSalesTimeValue,
-            max_sales_male: data.maxSalesMale,
-            max_sales_male_value: data.maxSalesMaleValue,
-            max_sales_female: data.maxSalesFemale,
-            max_sales_female_value: data.maxSalesFemaleValue,
+            gpt_role : gptRole,
+            prompt: prompt,
+            detail_content: detailContent
         };
+        console.log(basicInfo)
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/generate/content`,
@@ -290,10 +328,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             }, 3000); // 3초 후 메시지 숨기기
         }
     };
-
-
     if (!isOpen) return null;
-
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-[800px] max-h-[80vh] overflow-auto">
@@ -318,25 +353,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         <div className="mb-6">
                             <p className="text-xl">매장 명: {data.store_name} - {data.road_name}</p>
                         </div>
-                        홍보 문구 생성 프롬프트
-                        <div className="mb-6">
-                            <p className="text-l">매장 명: {data.store_name}</p>
-                            <p className="text-l">업종: {data.detail_category_name}</p>
-                            <p className="text-l">주제 : {title} 용</p>
-                            <p className="text-l">채널 : {useOption} 이미지에 사용</p>
-                            <p className="text-l">주소 : {data.road_name}</p>
-                            <p className="text-l">평균 월매출 : {data.loc_info_average_sales_k} *K</p>
-                            <p className="text-l">매출이 가장 높은 요일: {data.maxSalesDay} - {data.maxSalesDayValue}</p>
-                            <p className="text-l">매출이 가장 높은 시간: {data.maxSalesTime} - {data.maxSalesTimeValue}</p>
-                            <p className="text-l">매출이 가장 높은 남자 연령대: {data.maxSalesMale} - {data.maxSalesMaleValue}</p>
-                            <p className="text-l">매출이 가장 높은 요일: {data.maxSalesFemale} - {data.maxSalesFemaleValue}</p>
-                            <div>
-                                <p className="text-l">다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다.</p>
-                                <p className="text-l">내용에 부합하는 광고문구를 30자 이내로 작성해주세요.</p>
-                                <p className="text-l">슬로건 마다 나눔자 xx 태그를 사용해서 줄 나눔 해주세요.</p>
-                            </div>
-                        </div>
-
                         <div className="mb-6">
                             <label className="block text-lg font-semibold text-gray-700 mb-2">채널 선택</label>
                             <select
@@ -346,11 +362,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                             >
                                 <option value="">형태를 선택하세요</option>
                                 <option value="MMS">MMS (263x362)</option>
-                                <option value="youtube thumbnail">유튜브 썸네일 (412x232)</option>
-                                <option value="instagram story">인스타 스토리 (412x732)</option>
-                                <option value="instagram feed">인스타 피드 (412x514)</option>
-                                <option value="naver blog">네이버 블로그</option>
-                                <option value="google advertising banner">배너 (377x377)</option>
+                                <option value="유튜브 썸네일">유튜브 썸네일 (412x232)</option>
+                                <option value="인스타그램 스토리">인스타 스토리 (412x732)</option>
+                                <option value="인스타그램 피드">인스타 피드 (412x514)</option>
+                                <option value="네이버 블로그">네이버 블로그</option>
+                                <option value="배너">배너 (377x377)</option>
                             </select>
                         </div>
                         <div className="mb-6">
@@ -367,17 +383,17 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 onChange={(e) => setTitle(e.target.value)}
                             >
                                 <option value="">주제를 선택하세요</option>
-                                <option value="store introduction">매장 소개</option>
-                                <option value="event">이벤트</option>
-                                <option value="product introduction">상품 소개</option>
-                                <option value="reservation">예약</option>
-                                <option value="season greetings">시즌인사</option>
-                                <option value="thanks">감사</option>
-                                <option value="notification">공지</option>
-                                <option value="Other">기타</option>
+                                <option value="매장 소개">매장 소개</option>
+                                <option value="이벤트">이벤트</option>
+                                <option value="상품 소개">상품 소개</option>
+                                <option value="예약">예약</option>
+                                <option value="시즌인사">시즌인사</option>
+                                <option value="감사">감사</option>
+                                <option value="공지">공지</option>
+                                <option value="기타">기타</option>
                             </select>
                             {/* 기타 선택 시 추가 입력란 */}
-                            {title === "Other" && (
+                            {title === "기타" && (
                                 <div className="mt-4">
                                     <input
                                         type="text"
@@ -389,11 +405,42 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 </div>
                             )}
                         </div>
-
                         <div className="mb-6 w-full">
                             <div className="flex items-center justify-between mb-2">
                                 <label className="text-lg font-semibold text-gray-700">
                                     주제 세부 정보:
+                                </label>
+                            </div>
+                            <div className="relative">
+                                <TextEditor
+                                    content={detailContent}
+                                    setContent={setDetailContent}
+                                />
+                            </div>
+                        </div>
+                        <div className="mb-6">
+                            <label className="block text-lg font-semibold text-gray-700 mb-2">gpt 프롬프트</label>
+                            <textarea
+                                rows={3}
+                                value = {gptRole}
+                                onChange={(e) => setGptRole(e.target.value)} 
+                                className="border border-gray-300 rounded w-full px-3 py-2"
+                            />
+                        </div>
+                        <div className="mb-6">
+                            <label className="block text-lg font-semibold text-gray-700 mb-2">전달 내용</label>
+                            <textarea
+                                rows={10}
+                                value = {prompt}
+                                onChange={(e) => setPrompt(e.target.value)} 
+                                className="border border-gray-300 rounded w-full px-3 py-2"
+                            />
+                        </div>
+
+                        <div className="mb-6 w-full">
+                            <div className="flex items-center justify-between mb-2">
+                                <label className="text-lg font-semibold text-gray-700">
+                                    문구:
                                 </label>
                                 <button
                                     type="button"
