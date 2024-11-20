@@ -57,7 +57,7 @@ const AdsContent = () => {
                         <div className="div-underline p-2 flex justify-between py-4">
                             <div className="flex gap-4 items-center">
                                 <div className="w-1.5 h-8 bg-gradient-to-b from-gray-300 to-black"></div>
-                                <p className="text-3xl font-medium mb:text-5xl">ADS</p>
+                                <p className="text-3xl font-medium mb:text-5xl">Wiz-ADS</p>
                             </div>
                         </div>
                     </section>

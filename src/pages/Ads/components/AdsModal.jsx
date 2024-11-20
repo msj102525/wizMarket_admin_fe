@@ -6,7 +6,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
-    const [selectedImages, setSelectedImages] = useState([]);
+    const [selectedImages, setSelectedImages] = useState([]); // 파일 업로드 기존 이미지
     const [imageLoding, setImageLoading] = useState(false)
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -21,6 +21,14 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [gptRole, setGptRole] = useState('');
     const [detailContent, setDetailContent] = useState('');
 
+    const optionSizes = {
+        MMS: { width: 263, height: 362 },
+        "유튜브 썸네일": { width: 412, height: 232 },
+        "인스타그램 스토리": { width: 412, height: 732 },
+        "인스타그램 피드": { width: 412, height: 514 },
+        "네이버 블로그": { width: 400, height: 400 },
+        "배너": { width: 377, height: 377 },
+    };
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -111,7 +119,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
 매출이 가장 높은 남성 연령대 : ${maleMap[updatedData.maxSalesMale] || updatedData.maxSalesMale || "값 없음"} - ${updatedData.maxSalesMaleValue || "값 없음"}%
 매출이 가장 높은 여성 연령대 : ${femaleMap[updatedData.maxSalesFemale] || updatedData.maxSalesFemale || "값 없음"} - ${updatedData.maxSalesFemaleValue || "값 없음"}%
                     `);
-                    setGptRole('다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다.\n내용에 부합하는 광고문구를 30자 내외로 작성해주세요.\n<br> 태그를 사용해 줄 나눔해서 작성해주세요.')
+                    setGptRole('다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다.\n내용에 부합하는 문구를 <br> 태그를 사용해 각각 30자 내외로 3개 작성해주세요.')
                 } catch (err) {
                     console.error("초기 데이터 로드 중 오류 발생:", err);
                     setError("초기 데이터 로드 중 오류가 발생했습니다.");
@@ -131,6 +139,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             setUseOption('');
             setModelOption('');
             setCombineImageText('');
+            setDetailContent('');
             setSaveStatus(null); // 모달 열 때마다 저장 상태 초기화
         }
     }, [isOpen]);
@@ -154,7 +163,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             prompt: prompt,
             detail_content: detailContent
         };
-        console.log(basicInfo)
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/generate/content`,
@@ -234,50 +242,81 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         if (!title.trim() || !content.trim()) {
             setSaveStatus('error');
             setMessage('주제 혹은 문구를 올바르게 입력해 주세요.');
-            setLoading(false); // 로딩 상태 종료
             setTimeout(() => {
-                setSaveStatus(null); // 상태 초기화
-                setMessage(''); // 메시지 초기화
+                setSaveStatus(null);
+                setMessage('');
             }, 1500);
             return;
         }
+    
         const formData = new FormData();
         formData.append('store_name', data.store_name);
         formData.append('content', content);
-        formData.append('image_width', imageSize.width);
-        formData.append('image_height', imageSize.height);
+        console.log(content)
+        const resizedWidth = optionSizes[useOption]?.width || null;
+        const resizedHeight = optionSizes[useOption]?.height || null;
+    
+        // 리사이즈된 이미지 생성 및 추가
         if (selectedImages.length > 0 && selectedImages[0].file) {
-            formData.append("image", selectedImages[0].file);
+            const file = selectedImages[0].file;
+            if (resizedWidth && resizedHeight) {
+                const img = new Image();
+                img.src = URL.createObjectURL(file);
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = resizedWidth;
+                    canvas.height = resizedHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, resizedWidth, resizedHeight);
+    
+                    // Canvas를 Blob으로 변환하여 FormData에 추가
+                    canvas.toBlob((blob) => {
+                        const resizedFile = new File([blob], file.name, { type: file.type });
+                        formData.append('image', resizedFile);
+                        formData.append('image_width', resizedWidth);
+                        formData.append('image_height', resizedHeight);
+    
+                        // 서버로 전송
+                        sendFormData(formData);
+                    }, file.type);
+                };
+            } else {
+                // 리사이즈 크기가 없으면 원본 이미지와 크기를 전송
+                formData.append('image', file);
+                formData.append('image_width', imageSize.width);
+                formData.append('image_height', imageSize.height);
+    
+                // 서버로 전송
+                sendFormData(formData);
+            }
         } else {
-            setSaveStatus("error");
-            setMessage("이미지를 업로드하거나 AI로 생성해주세요.");
+            setSaveStatus('error');
+            setMessage('이미지를 업로드하거나 AI로 생성해주세요.');
             return;
         }
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
-        }
+    };
+    
+    const sendFormData = async (formData) => {
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/combine/image/text`,
                 formData,
                 { headers: { 'Content-Type': 'multipart/form-data' } }
             );
-            // 성공 시 받은 데이터 상태에 저장
-            setCombineImageText(response.data.image); // Base64 이미지 설정
-            setSaveStatus('success'); // 성공 상태로 설정
+            setCombineImageText(response.data.image);
+            setSaveStatus('success');
             setMessage('생성이 성공적으로 완료되었습니다.');
         } catch (err) {
             console.error('저장 중 오류 발생:', err);
-            setSaveStatus('error'); // 실패 상태로 설정
+            setSaveStatus('error');
             setMessage('저장 중 오류가 발생했습니다.');
         } finally {
             setTimeout(() => {
                 setSaveStatus(null);
                 setMessage('');
-            }, 3000); // 3초 후 메시지 숨기기
+            }, 3000);
         }
     };
-
 
     const onSave = async () => {
         // 입력값 유효성 검사
@@ -336,7 +375,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                     <h2 className="text-2xl font-semibold">ADS 등록</h2>
                     <button
                         onClick={onClose} // 모달 닫기 함수
-                        className="text-gray-500 hover:text-gray-800 focus:outline-none"
+                        className="text-2xl text-red-500 hover:text-red-800 focus:outline-none"
                         aria-label="Close"
                     >
                         ✕
@@ -450,7 +489,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         <div className="mb-6 w-full">
                             <div className="flex items-center justify-between mb-2">
                                 <label className="text-lg font-semibold text-gray-700">
-                                    문구:
+                                    문구: (3문장 권장)
                                 </label>
                                 <button
                                     type="button"
@@ -482,9 +521,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                     </div>
                                 ) : (
                                     // 로딩이 끝나면 TextEditor 표시
-                                    <TextEditor
-                                        content={content}
-                                        setContent={setContent}
+                                    <textarea
+                                        rows={5}
+                                        value={content}
+                                        onChange={(e) => setContent(e.target.value)}
+                                        className="border border-gray-300 rounded w-full px-3 py-2"
                                     />
                                 )}
                             </div>
@@ -534,11 +575,14 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 accept="image/*"
                                 className="border border-gray-300 rounded w-full px-3 py-2"
                                 onChange={(e) => {
+                                    if (!useOption) {
+                                        e.target.value = null; // 선택된 파일 초기화
+                                        return;
+                                    }
                                     const file = e.target.files[0];
                                     if (file) {
                                         const img = new Image();
                                         img.src = URL.createObjectURL(file);
-
                                         img.onload = () => {
                                             setSelectedImages([
                                                 {
@@ -552,7 +596,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                         };
                                     }
                                 }}
+                                disabled={!useOption} // 선택 안 됐을 경우 비활성화
                             />
+                            {!useOption && (
+                                <p className="text-sm text-red-500 mt-2">이미지를 업로드하려면 채널을 먼저 선택하세요.</p>
+                            )}
                         </div>
                         <div className="mt-4 flex justify-center">
                             {imageLoding ? (
@@ -561,34 +609,41 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 </div>
                             ) : (
                                 selectedImages.length > 0 && (
-                                    <div className="relative">
-                                        <img
-                                            src={selectedImages[0].previewUrl}
-                                            alt="미리보기"
-                                            className="w-full h-full object-cover rounded"
-                                            onLoad={(e) => {
-                                                const imgElement = e.target;
-                                                setImageSize({
-                                                    width: imgElement.naturalWidth,
-                                                    height: imgElement.naturalHeight,
-                                                });
-                                            }}
-                                        />
-                                        <button
-                                            className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
-                                            onClick={() => setSelectedImages([])}
-                                        >
-                                            &times;
-                                        </button>
-                                        {imageSize && (
-                                            <p className="mt-2 text-center text-sm text-gray-600">
-                                                Size: {imageSize.width} x {imageSize.height} px
+                                    <div className="mt-4 flex justify-center">
+                                        <div>
+                                            {/* 미리보기 이미지 */}
+                                            <img
+                                                src={selectedImages[0]?.previewUrl} // 미리보기 URL 사용
+                                                alt="미리보기"
+                                                style={{
+                                                    width: `${optionSizes[useOption]?.width || 'auto'}px`, // useOption에 따른 가로 크기
+                                                    height: `${optionSizes[useOption]?.height || 'auto'}px`, // useOption에 따른 세로 크기
+                                                    objectFit: "contain", // 이미지 왜곡 방지
+                                                }}
+                                                className="rounded"
+                                            />
+                                            {/* 삭제 버튼 */}
+                                            <button
+                                                className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+                                                onClick={() => setSelectedImages([])}
+                                            >
+                                                &times;
+                                            </button>
+                                            {/* 크기 정보 표시 */}
+                                            {imageSize && (
+                                                <p className="mt-2 text-center text-sm text-gray-600">
+                                                    원본 크기: {imageSize.width} x {imageSize.height} px
+                                                </p>
+                                            )}
+                                            <p className="mt-2 text-center text-sm text-blue-600">
+                                                리사이즈된 크기: {optionSizes[useOption]?.width} x {optionSizes[useOption]?.height} px
                                             </p>
-                                        )}
+                                        </div>
                                     </div>
                                 )
                             )}
                         </div>
+
                         <div className="mt-4 flex justify-center">
                             <button
                                 onClick={generateAds}
@@ -602,7 +657,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                             <label className="block text-lg font-semibold text-gray-700 mb-2">결과물</label>
                             <div className="border border-gray-300 rounded p-0 max-h-screen overflow-auto">
                                 {combineImageText ? (
-                                    <img src={combineImageText} alt="결과 이미지" className="w-full h-auto" />
+                                    <img src={combineImageText} alt="결과 이미지" className="h-auto" />
                                 ) : (
                                     <p className="text-center text-gray-500 p-4">이미지를 생성 중입니다...</p>
                                 )}
