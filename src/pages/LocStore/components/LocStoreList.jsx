@@ -130,18 +130,20 @@ const LocStoreList = ({ data }) => {
                                 </p>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 text-center">
-                                <button
-                                    onClick={() => handleClick(item.store_business_number)}
-                                    className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
-                                >
-                                    정보 등록
-                                </button>
-                                <button
-                                    onClick={() => handleAdsClick(item.store_business_number)}
-                                    className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
-                                >
-                                    wizAd
-                                </button>
+                                <div className="flex justify-center space-x-3">
+                                    <button
+                                        onClick={() => handleClick(item.store_business_number)}
+                                        className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
+                                    >
+                                        정보 등록
+                                    </button>
+                                    <button
+                                        onClick={() => handleAdsClick(item.store_business_number)}
+                                        className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
+                                    >
+                                        wizAd
+                                    </button>
+                                </div>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.branch_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.city_name}</td>

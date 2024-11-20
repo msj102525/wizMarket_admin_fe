@@ -8,18 +8,23 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [data, setData] = useState(null);
     const [selectedImages, setSelectedImages] = useState([]); // 파일 업로드 기존 이미지
     const [imageLoding, setImageLoading] = useState(false)
-    const [title, setTitle] = useState("매장 소개");
+    
     const [content, setContent] = useState('');
     const [contentLoading, setContentLoading] = useState(false)
     const [saveStatus, setSaveStatus] = useState(null); // 저장 상태
     const [message, setMessage] = useState(''); // 성공 또는 실패 메시지
+    
     const [useOption, setUseOption] = useState("MMS");
+    const [title, setTitle] = useState("매장 소개");
+
     const [modelOption, setModelOption] = useState('');
     const [imageSize, setImageSize] = useState(null);
     const [combineImageText, setCombineImageText] = useState(null)
     const [prompt, setPrompt] = useState('');
     const [gptRole, setGptRole] = useState('');
     const [detailContent, setDetailContent] = useState('');
+    const [aiPrompt, setAiPrompt] = useState('');
+
 
     const optionSizes = {
         MMS: { width: 263, height: 362 },
@@ -29,6 +34,8 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         "네이버 블로그": { width: 400, height: 400 },
         "배너": { width: 377, height: 377 },
     };
+
+    useEffect(() => {})
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -108,8 +115,8 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
 
                     setData(updatedData);
                     setImageSize(null)
-                    setTitle("매장 소개")
-                    setUseOption("MMS")
+                    // setTitle("매장 소개")
+                    // setUseOption("MMS")
                     setPrompt(`매장명 : ${updatedData.store_name || "값 없음"}
 주소 : ${updatedData.road_name || "값 없음"}
 업종 : ${updatedData.detail_category_name || "값 없음"}
@@ -126,6 +133,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
 - 매장명과 주소 하단에 포함
 - 주제 세부정보 내용을 바탕으로 40자 내외로 작성
 - 특수기호, 이모티콘은 빼주세요.`);
+                    setAiPrompt(`${updatedData.detail_category_name} ${`${title} 용`} `);
                 } catch (err) {
                     console.error("초기 데이터 로드 중 오류 발생:", err);
                     setError("초기 데이터 로드 중 오류가 발생했습니다.");
@@ -205,9 +213,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         const basicInfo = {
             use_option: useOption,
             ai_model_option: modelOption,
-            title: title,
-            store_name: data.store_name,
-            detail_category_name: data.detail_category_name,
+            ai_prompt: aiPrompt,
         };
         try {
             const response = await axios.post(
@@ -377,7 +383,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-[800px] max-h-[80vh] overflow-auto">
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-semibold">ADS 등록</h2>
+                    <h2 className="text-2xl font-semibold">WizAd 등록</h2>
                     <button
                         onClick={onClose} // 모달 닫기 함수
                         className="text-2xl text-red-500 hover:text-red-800 focus:outline-none"
@@ -403,11 +409,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
 
                 {data && (
                     <div className="w-full">
-
                         <div className="mb-6">
                             <p className="text-xl">매장 명: {data.store_name} - {data.road_name}</p>
                         </div>
-                        <div className="mb-6">
+                        <hr className="h-1 bg-black border-none"></hr>
+                        <div className="mb-6 mt-6">
                             <label className="block text-lg font-semibold text-gray-700 mb-2">채널 선택</label>
                             <select
                                 className="border border-gray-300 rounded w-full px-3 py-2"
@@ -488,11 +494,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 className="border border-gray-300 rounded w-full px-3 py-2"
                             />
                         </div>
-
-                        <div className="mb-6 w-full">
+                        <hr className="h-1 bg-black border-none"></hr>
+                        <div className="mb-6 mt-6 w-full">
                             <div className="flex items-center justify-between mb-2">
                                 <label className="text-lg font-semibold text-gray-700">
-                                    문구: (3문장 권장)
+                                    생성 문구: 
                                 </label>
                                 <button
                                     type="button"
@@ -533,8 +539,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 )}
                             </div>
                         </div>
-
-                        <div className="mb-6">
+                        <hr className="h-1 bg-black border-none"></hr>
+                        <div className="mb-6 mt-6">
+                            <p className='text-2xl font-bold'>이미지</p>                        
+                        </div>
+                        <div className="mb-6 mt-6">
                             <label className="block text-lg font-semibold text-gray-700 mb-2">모델</label>
                             <select
                                 className="border border-gray-300 rounded w-full px-3 py-2"
@@ -547,6 +556,15 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 <option value="food">음식 특화</option>
                                 <option value="dalle">달리3(GPT)</option>
                             </select>
+                        </div>
+                        <div className="mb-6">
+                            <label className="block text-lg font-semibold text-gray-700 mb-2">ai 전달 내용</label>
+                            <textarea
+                                rows={3}
+                                value={aiPrompt}
+                                onChange={(e) => setAiPrompt(e.target.value)}
+                                className="border border-gray-300 rounded w-full px-3 py-2"
+                            />
                         </div>
                         <div className="mb-6">
                             <div className="flex items-center justify-between mb-2">
@@ -654,11 +672,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         {/* 이미지 결과물 영역 */}
                         <div className="mb-6">
                             <label className="block text-lg font-semibold text-gray-700 mb-2">결과물</label>
-                            <div className="border border-gray-300 rounded p-0 max-h-screen overflow-auto">
+                            <div className="max-h-screen overflow-auto">
                                 {combineImageText ? (
                                     <img src={combineImageText} alt="결과 이미지" className="h-auto" />
                                 ) : (
-                                    <p className="text-center text-gray-500 p-4">이미지를 생성 중입니다...</p>
+                                    <p className="text-center text-gray-500 p-4"></p>
                                 )}
                             </div>
                         </div>
