@@ -8,12 +8,12 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [data, setData] = useState(null);
     const [selectedImages, setSelectedImages] = useState([]); // 파일 업로드 기존 이미지
     const [imageLoding, setImageLoading] = useState(false)
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState("매장 소개");
     const [content, setContent] = useState('');
     const [contentLoading, setContentLoading] = useState(false)
     const [saveStatus, setSaveStatus] = useState(null); // 저장 상태
     const [message, setMessage] = useState(''); // 성공 또는 실패 메시지
-    const [useOption, setUseOption] = useState('');
+    const [useOption, setUseOption] = useState("MMS");
     const [modelOption, setModelOption] = useState('');
     const [imageSize, setImageSize] = useState(null);
     const [combineImageText, setCombineImageText] = useState(null)
@@ -107,7 +107,9 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                     };
 
                     setData(updatedData);
-
+                    setImageSize(null)
+                    setTitle("매장 소개")
+                    setUseOption("MMS")
                     setPrompt(`매장명 : ${updatedData.store_name || "값 없음"}
 주소 : ${updatedData.road_name || "값 없음"}
 업종 : ${updatedData.detail_category_name || "값 없음"}
@@ -119,7 +121,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
 매출이 가장 높은 남성 연령대 : ${maleMap[updatedData.maxSalesMale] || updatedData.maxSalesMale || "값 없음"} - ${updatedData.maxSalesMaleValue || "값 없음"}%
 매출이 가장 높은 여성 연령대 : ${femaleMap[updatedData.maxSalesFemale] || updatedData.maxSalesFemale || "값 없음"} - ${updatedData.maxSalesFemaleValue || "값 없음"}%
                     `);
-                    setGptRole('다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다.\n내용에 부합하는 문구를 <br> 태그를 사용해 각각 30자 내외로 3개 작성해주세요.')
+                    setGptRole(`다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다.
+아래 내용을 바탕으로 재미있고 키치한 내용으로 광고 문구를 작성해주세요.
+- 매장명과 주소 하단에 포함
+- 주제 세부정보 내용을 바탕으로 40자 내외로 작성
+- 특수기호, 이모티콘은 빼주세요.`);
                 } catch (err) {
                     console.error("초기 데이터 로드 중 오류 발생:", err);
                     setError("초기 데이터 로드 중 오류가 발생했습니다.");
@@ -252,7 +258,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         const formData = new FormData();
         formData.append('store_name', data.store_name);
         formData.append('content', content);
-        console.log(content)
         const resizedWidth = optionSizes[useOption]?.width || null;
         const resizedHeight = optionSizes[useOption]?.height || null;
     
@@ -409,7 +414,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 value={useOption}
                                 onChange={(e) => setUseOption(e.target.value)}
                             >
-                                <option value="">형태를 선택하세요</option>
                                 <option value="MMS">MMS (263x362)</option>
                                 <option value="유튜브 썸네일">유튜브 썸네일 (412x232)</option>
                                 <option value="인스타그램 스토리">인스타 스토리 (412x732)</option>
@@ -431,7 +435,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                             >
-                                <option value="">주제를 선택하세요</option>
                                 <option value="매장 소개">매장 소개</option>
                                 <option value="이벤트">이벤트</option>
                                 <option value="상품 소개">상품 소개</option>
@@ -454,6 +457,15 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 </div>
                             )}
                         </div>
+                        <div className="mb-6">
+                            <label className="block text-lg font-semibold text-gray-700 mb-2">gpt 프롬프트</label>
+                            <textarea
+                                rows={5}
+                                value={gptRole}
+                                onChange={(e) => setGptRole(e.target.value)}
+                                className="border border-gray-300 rounded w-full px-3 py-2"
+                            />
+                        </div>
                         <div className="mb-6 w-full">
                             <div className="flex items-center justify-between mb-2">
                                 <label className="text-lg font-semibold text-gray-700">
@@ -468,18 +480,9 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                             </div>
                         </div>
                         <div className="mb-6">
-                            <label className="block text-lg font-semibold text-gray-700 mb-2">gpt 프롬프트</label>
-                            <textarea
-                                rows={3}
-                                value={gptRole}
-                                onChange={(e) => setGptRole(e.target.value)}
-                                className="border border-gray-300 rounded w-full px-3 py-2"
-                            />
-                        </div>
-                        <div className="mb-6">
                             <label className="block text-lg font-semibold text-gray-700 mb-2">전달 내용</label>
                             <textarea
-                                rows={10}
+                                rows={11}
                                 value={prompt}
                                 onChange={(e) => setPrompt(e.target.value)}
                                 className="border border-gray-300 rounded w-full px-3 py-2"
@@ -596,11 +599,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                         };
                                     }
                                 }}
-                                disabled={!useOption} // 선택 안 됐을 경우 비활성화
                             />
-                            {!useOption && (
-                                <p className="text-sm text-red-500 mt-2">이미지를 업로드하려면 채널을 먼저 선택하세요.</p>
-                            )}
                         </div>
                         <div className="mt-4 flex justify-center">
                             {imageLoding ? (

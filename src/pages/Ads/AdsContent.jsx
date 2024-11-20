@@ -57,7 +57,7 @@ const AdsContent = () => {
                         <div className="div-underline p-2 flex justify-between py-4">
                             <div className="flex gap-4 items-center">
                                 <div className="w-1.5 h-8 bg-gradient-to-b from-gray-300 to-black"></div>
-                                <p className="text-3xl font-medium mb:text-5xl">Wiz-ADS</p>
+                                <p className="text-3xl font-medium mb:text-5xl">wizAd</p>
                             </div>
                         </div>
                     </section>
@@ -65,7 +65,7 @@ const AdsContent = () => {
                     <section className="w-full">
                         <Link to="/loc/store">
                             <button className="bg-blue-400 text-white py-2 px-4 rounded">
-                                ADS 등록 +
+                                wizAd 등록 +
                             </button>
                         </Link>
                     </section>
@@ -74,7 +74,7 @@ const AdsContent = () => {
                     <section className="w-full">
                         {locStoreAdsList.length === 0 ? (
                             <p className="text-center text-gray-500 mt-6">
-                                신규 ADS를 작성해주세요.
+                                신규 wizAd를 작성해주세요.
                             </p>
                         ) : (
                             <LocStoreAdsList

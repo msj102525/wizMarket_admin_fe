@@ -136,12 +136,11 @@ const LocStoreList = ({ data }) => {
                                 >
                                     정보 등록
                                 </button>
-                                <span className="mx-2">/</span>
                                 <button
                                     onClick={() => handleAdsClick(item.store_business_number)}
                                     className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
                                 >
-                                    ADS
+                                    wizAd
                                 </button>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.branch_name}</td>
