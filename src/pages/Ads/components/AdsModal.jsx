@@ -8,12 +8,12 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [data, setData] = useState(null);
     const [selectedImages, setSelectedImages] = useState([]); // 파일 업로드 기존 이미지
     const [imageLoding, setImageLoading] = useState(false)
-    
+
     const [content, setContent] = useState('');
     const [contentLoading, setContentLoading] = useState(false)
     const [saveStatus, setSaveStatus] = useState(null); // 저장 상태
     const [message, setMessage] = useState(''); // 성공 또는 실패 메시지
-    
+
     const [useOption, setUseOption] = useState("MMS");
     const [title, setTitle] = useState("매장 소개");
 
@@ -34,8 +34,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         "네이버 블로그": { width: 400, height: 400 },
         "배너": { width: 377, height: 377 },
     };
-
-    useEffect(() => {})
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -81,59 +79,12 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         maxSalesFemale,
                         maxSalesFemaleValue,
                     };
-                    const dayMap = {
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_SUN: "일요일",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_MON: "월요일",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_TUE: "화요일",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_WED: "수요일",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_THU: "목요일",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_FRI: "금요일",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_SAT: "토요일",
-                    };
-                    const timeMap = {
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_06_09: "06~09시",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_09_12: "09~12시",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_12_15: "12~15시",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_15_18: "15~18시",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_18_21: "18~21시",
-                        COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_21_24: "21~24시",
-                    };
-                    const maleMap = {
-                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_20S: "남자 20대",
-                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_30S: "남자 30대",
-                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_40S: "남자 40대",
-                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_50S: "남자 50대",
-                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_60_OVER: "남자 60대 이상",
-                    };
-                    const femaleMap = {
-                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_20S: "여자 20대",
-                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_30S: "여자 30대",
-                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_40S: "여자 40대",
-                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_50S: "여자 50대",
-                        COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_60_OVER: "여자 60대 이상",
-                    };
+
 
                     setData(updatedData);
                     setImageSize(null)
-                    // setTitle("매장 소개")
-                    // setUseOption("MMS")
-                    setPrompt(`매장명 : ${updatedData.store_name || "값 없음"}
-주소 : ${updatedData.road_name || "값 없음"}
-업종 : ${updatedData.detail_category_name || "값 없음"}
-채널 : ${useOption ? `${useOption} 용 이미지` : "값 없음"}
-용도 : ${title ? `${title} 용` : "값 없음"}
-월 매출 : ${updatedData.loc_info_average_sales_k * 1000 || 0}원
-매출이 가장 높은 요일 : ${dayMap[updatedData.maxSalesDay] || updatedData.maxSalesDay || "값 없음"} - ${updatedData.maxSalesDayValue || "값 없음"}%
-매출이 가장 높은 시간대 : ${timeMap[updatedData.maxSalesTime] || updatedData.maxSalesTime || "값 없음"} - ${updatedData.maxSalesTimeValue || "값 없음"}%
-매출이 가장 높은 남성 연령대 : ${maleMap[updatedData.maxSalesMale] || updatedData.maxSalesMale || "값 없음"} - ${updatedData.maxSalesMaleValue || "값 없음"}%
-매출이 가장 높은 여성 연령대 : ${femaleMap[updatedData.maxSalesFemale] || updatedData.maxSalesFemale || "값 없음"} - ${updatedData.maxSalesFemaleValue || "값 없음"}%
-                    `);
-                    setGptRole(`다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다.
-아래 내용을 바탕으로 재미있고 키치한 내용으로 광고 문구를 작성해주세요.
-- 매장명과 주소 하단에 포함
-- 주제 세부정보 내용을 바탕으로 40자 내외로 작성
-- 특수기호, 이모티콘은 빼주세요.`);
-                    setAiPrompt(`${updatedData.detail_category_name} ${`${title} 용`} `);
+                    setUseOption("MMS")
+                    setTitle("매장 소개")
                 } catch (err) {
                     console.error("초기 데이터 로드 중 오류 발생:", err);
                     setError("초기 데이터 로드 중 오류가 발생했습니다.");
@@ -143,7 +94,61 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             }
         };
         fetchInitialData();
-    }, [isOpen, storeBusinessNumber, useOption, title]);
+    }, [isOpen, storeBusinessNumber]);
+
+    useEffect(() => {
+        if (data) {
+            const dayMap = {
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_SUN: "일요일",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_MON: "월요일",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_TUE: "화요일",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_WED: "수요일",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_THU: "목요일",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_FRI: "금요일",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_SAT: "토요일",
+            };
+            const timeMap = {
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_06_09: "06~09시",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_09_12: "09~12시",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_12_15: "12~15시",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_15_18: "15~18시",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_18_21: "18~21시",
+                COMMERCIAL_DISTRICT_AVERAGE_SALES_PERCENT_21_24: "21~24시",
+            };
+            const maleMap = {
+                COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_20S: "남자 20대",
+                COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_30S: "남자 30대",
+                COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_40S: "남자 40대",
+                COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_50S: "남자 50대",
+                COMMERCIAL_DISTRICT_AVG_CLIENT_PER_M_60_OVER: "남자 60대 이상",
+            };
+            const femaleMap = {
+                COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_20S: "여자 20대",
+                COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_30S: "여자 30대",
+                COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_40S: "여자 40대",
+                COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_50S: "여자 50대",
+                COMMERCIAL_DISTRICT_AVG_CLIENT_PER_F_60_OVER: "여자 60대 이상",
+            };
+            setPrompt(`매장명 : ${data.store_name || "값 없음"}
+주소 : ${data.road_name || "값 없음"}
+업종 : ${data.detail_category_name || "값 없음"}
+월 매출 : ${data.loc_info_average_sales_k * 1000 || 0}원
+매출이 가장 높은 요일 : ${dayMap[data.maxSalesDay] || data.maxSalesDay || "값 없음"} - ${data.maxSalesDayValue || "값 없음"}%
+매출이 가장 높은 시간대 : ${timeMap[data.maxSalesTime] || data.maxSalesTime || "값 없음"} - ${data.maxSalesTimeValue || "값 없음"}%
+매출이 가장 높은 남성 연령대 : ${maleMap[data.maxSalesMale] || data.maxSalesMale || "값 없음"} - ${data.maxSalesMaleValue || "값 없음"}%
+매출이 가장 높은 여성 연령대 : ${femaleMap[data.maxSalesFemale] || data.maxSalesFemale || "값 없음"} - ${data.maxSalesFemaleValue || "값 없음"}%
+                                    `);
+
+            setGptRole(`다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다.
+아래 내용을 바탕으로 재미있고 키치한 내용으로 광고 문구를 작성해주세요.
+- 매장명과 주소 하단에 포함
+- 주제 세부정보 내용을 바탕으로 40자 내외로 작성
+- 특수기호, 이모티콘은 빼주세요.`);
+
+            setAiPrompt(`${data.detail_category_name} ${title || "값 없음"} 용`);
+        }
+    }, [data, useOption, title]);
+
 
     useEffect(() => {
         if (isOpen) {
@@ -260,13 +265,13 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             }, 1500);
             return;
         }
-    
+
         const formData = new FormData();
         formData.append('store_name', data.store_name);
         formData.append('content', content);
         const resizedWidth = optionSizes[useOption]?.width || null;
         const resizedHeight = optionSizes[useOption]?.height || null;
-    
+
         // 리사이즈된 이미지 생성 및 추가
         if (selectedImages.length > 0 && selectedImages[0].file) {
             const file = selectedImages[0].file;
@@ -279,14 +284,14 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                     canvas.height = resizedHeight;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, resizedWidth, resizedHeight);
-    
+
                     // Canvas를 Blob으로 변환하여 FormData에 추가
                     canvas.toBlob((blob) => {
                         const resizedFile = new File([blob], file.name, { type: file.type });
                         formData.append('image', resizedFile);
                         formData.append('image_width', resizedWidth);
                         formData.append('image_height', resizedHeight);
-    
+
                         // 서버로 전송
                         sendFormData(formData);
                     }, file.type);
@@ -296,7 +301,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                 formData.append('image', file);
                 formData.append('image_width', imageSize.width);
                 formData.append('image_height', imageSize.height);
-    
+
                 // 서버로 전송
                 sendFormData(formData);
             }
@@ -306,7 +311,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             return;
         }
     };
-    
+
     const sendFormData = async (formData) => {
         try {
             const response = await axios.post(
@@ -379,11 +384,16 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         }
     };
     if (!isOpen) return null;
+
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-[800px] max-h-[80vh] overflow-auto">
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-semibold">WizAd 등록</h2>
+                    <div>
+                        <h2 className="text-2xl font-semibold">wizAd</h2>
+                        <h5 className="text-l">간편한 고객 맞춤형 자동 AI광고 만들기</h5>
+                        <h5 className="text-l">Create easy, personalized, automated AI ads</h5>
+                    </div>
                     <button
                         onClick={onClose} // 모달 닫기 함수
                         className="text-2xl text-red-500 hover:text-red-800 focus:outline-none"
@@ -392,7 +402,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         ✕
                     </button>
                 </div>
-
                 {loading && <p>로딩 중...</p>}
                 {error && <p className="text-red-500">{error}</p>}
 
@@ -408,13 +417,22 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                 )}
 
                 {data && (
-                    <div className="w-full">
+                    <div className="w-full border border-black p-3">
                         <div className="mb-6">
-                            <p className="text-xl">매장 명: {data.store_name} - {data.road_name}</p>
+                            <p className="text-xl">매장 명: {data.store_name} </p>
                         </div>
-                        <hr className="h-1 bg-black border-none"></hr>
+                        <div className="mb-6">
+                            <label className="block text-lg text-gray-700 mb-2">매장 세부 정보</label>
+                            <textarea
+                                rows={9}
+                                value={prompt}
+                                onChange={(e) => setPrompt(e.target.value)}
+                                className="border border-gray-300 rounded w-full px-3 py-2"
+                            />
+                        </div>
+                        <hr className="border-t border-black opacity-100" />
                         <div className="mb-6 mt-6">
-                            <label className="block text-lg font-semibold text-gray-700 mb-2">채널 선택</label>
+                            <label className="block text-lg text-gray-700 mb-2">광고 채널 선택</label>
                             <select
                                 className="border border-gray-300 rounded w-full px-3 py-2"
                                 value={useOption}
@@ -485,20 +503,12 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 />
                             </div>
                         </div>
-                        <div className="mb-6">
-                            <label className="block text-lg font-semibold text-gray-700 mb-2">전달 내용</label>
-                            <textarea
-                                rows={11}
-                                value={prompt}
-                                onChange={(e) => setPrompt(e.target.value)}
-                                className="border border-gray-300 rounded w-full px-3 py-2"
-                            />
-                        </div>
+                        
                         <hr className="h-1 bg-black border-none"></hr>
                         <div className="mb-6 mt-6 w-full">
                             <div className="flex items-center justify-between mb-2">
                                 <label className="text-lg font-semibold text-gray-700">
-                                    생성 문구: 
+                                    생성 문구:
                                 </label>
                                 <button
                                     type="button"
@@ -541,7 +551,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         </div>
                         <hr className="h-1 bg-black border-none"></hr>
                         <div className="mb-6 mt-6">
-                            <p className='text-2xl font-bold'>이미지</p>                        
+                            <p className='text-2xl font-bold'>이미지</p>
                         </div>
                         <div className="mb-6 mt-6">
                             <label className="block text-lg font-semibold text-gray-700 mb-2">모델</label>
