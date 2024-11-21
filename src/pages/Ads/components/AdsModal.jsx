@@ -31,7 +31,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [aiPrompt, setAiPrompt] = useState('');   // 이미지 생성 프롬프트
     const [isAiPromptVisible, setAiPromptVisible] = useState(true);  // 지시 내용 접히기
     const [imageLoding, setImageLoading] = useState(false)  // 이미지 생성 로딩
-    
+
     const [combineImageText, setCombineImageText] = useState(null)  // 텍스트 + 이미지 결과물
 
     const optionSizes = {
@@ -120,7 +120,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                     setUseOption("문자메시지")
                     setTitle("매장 소개")
                     setModelOption("dalle")
-                    setStyleOption("광고포스터")
                 } catch (err) {
                     console.error("초기 데이터 로드 중 오류 발생:", err);
                     setError("초기 데이터 로드 중 오류가 발생했습니다.");
@@ -172,20 +171,26 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
             const dayName = days[today.getDay()];
 
-            const formattedToday = `${yyyy}-${mm}-${dd} (${dayName})`;
+            // 시간, 분, 초 추가
+            const hours = String(today.getHours()).padStart(2, '0');
+            const minutes = String(today.getMinutes()).padStart(2, '0');
+
+            // 포맷팅
+            const formattedToday = `${yyyy}-${mm}-${dd} (${dayName}) ${hours}:${minutes}`;
             setStoreInfo(`매장명 : ${data.store_name || "값 없음"}
 주소 : ${data.road_name || "값 없음"}
 업종 : ${data.detail_category_name || "값 없음"}
 매출이 가장 높은 요일 : ${dayMap[data.maxSalesDay] || data.maxSalesDay || "값 없음"}
 매출이 가장 높은 시간대 : ${timeMap[data.maxSalesTime] || data.maxSalesTime || "값 없음"}
 매출이 가장 높은 남성 연령대 : ${maleMap[data.maxSalesMale] || data.maxSalesMale || "값 없음"}
-매출이 가장 높은 여성 연령대 : ${femaleMap[data.maxSalesFemale] || data.maxSalesFemale || "값 없음"}`);   
-            setGptRole(`다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다.
-아래 내용을 바탕으로 재미있고 키치한 내용으로 광고 문구를 작성해주세요.
-- 주제 세부 정보 내용을 바탕으로 30자 이상, 50자 이내로 작성
-- 특수기호, 이모티콘은 빼주세요.
-광고 채널 : ${useOption}
-주제 : ${title}`);
+매출이 가장 높은 여성 연령대 : ${femaleMap[data.maxSalesFemale] || data.maxSalesFemale || "값 없음"}`);
+            setGptRole(`다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다. 
+잘 어울리는 광고 문구를 생성해주세요.
+- 현재 날짜, 날씨, 시간, 계절 등의 상황에 어울릴 것
+- 주제 세부 정보 내용을 바탕으로 40자 이상 60자 이내로 작성할 것
+- 특수기호, 이모티콘은 제외할 것
+- 광고 채널 : ${useOption} 형태로 작성할 것
+- 주제 : ${title} 형태로 작성할 것`);
             setPrompt(`매장명 : ${data.store_name || "값 없음"}
 주소 : ${data.road_name || "값 없음"}
 업종 : ${data.detail_category_name || "값 없음"}
@@ -226,7 +231,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             setContent(response.data.content); // 성공 시 서버에서 받은 데이터를 상태에 저장
             setSaveStatus('success'); // 성공 상태로 설정
             setContentLoading(false)
-            
         } catch (err) {
             console.error('저장 중 오류 발생:', err);
             setSaveStatus('error'); // 실패 상태로 설정
@@ -263,6 +267,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                 { headers: { 'Content-Type': 'application/json' } }
             );
             // 성공 시 받은 데이터 상태에 저장
+            console.log(response.data)
             const { image: base64Image } = response.data; // AI로 생성된 Base64 이미지
             // Base64 -> Blob -> File 변환
             const aiImageBlob = base64ToBlob(base64Image);
@@ -704,18 +709,34 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                             <select
                                 className="border border-gray-300 rounded w-full px-3 py-2"
                                 value={styleOption}
-                                onChange={(e) => setStyleOption(e.target.value)}
+                                onChange={(e) => {
+                                    const newStyleOption = e.target.value;
+                                    setStyleOption(newStyleOption);
+                                    setAiPrompt(`다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠 이미지를 생성해주세요.
+- ${content || "값 없음"}
+- 용도 : ${useOption || "값 없음"}
+- 주제 : ${title || "값 없음"} 용
+- 매장명 : ${data?.store_name || "값 없음"}
+- 주소 : ${data?.road_name || "값 없음"}
+- 업종 : ${data?.detail_category_name || "값 없음"}
+- 스타일 : ${newStyleOption || "값 없음"}`);
+                                }}
                             >
                                 <option value="">이미지 생성 스타일을 선택하세요</option>
                                 <option value="일본 애니메이션">일본 애니메이션</option>
                                 <option value="만화">만화책 만화</option>
                                 <option value="사진">사진</option>
                                 <option value="3D 그래픽">3D 그래픽</option>
+                                <option value="2D animation">2D animation</option>
+                                <option value="Illustration">Illustration</option>
+                                <option value="Paper Craft">Paper Craft</option>
+                                <option value="Diorama">Diorama</option>
                                 <option value="아이소메트릭">아이소메트릭</option>
                                 <option value="광고포스터">광고포스터.전단지</option>
                                 <option value="판타지">판타지</option>
                                 <option value="타이포그래픽">타이포그래픽</option>
                             </select>
+
                         </div>
                         <div className="mb-6 flex items-center justify-between">
                             <label className="block text-lg text-gray-700 mb-2">
@@ -739,7 +760,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         {isAiPromptVisible && (
                             <div className="mb-6">
                                 <textarea
-                                    rows={8}
+                                    rows={11}
                                     value={aiPrompt}
                                     onChange={(e) => setAiPrompt(e.target.value)}
                                     className="border border-gray-300 rounded w-full px-3 py-2"
@@ -816,8 +837,8 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                                 style={{
                                                     width: `${optionSizes[useOption]?.width || 'auto'}px`, // useOption의 가로 크기로 맞춤
                                                     height: `${optionSizes[useOption]?.width && imageSize?.width && imageSize?.height
-                                                            ? (optionSizes[useOption].width / imageSize.width) * imageSize.height // 비율에 맞춘 세로 크기
-                                                            : 'auto'
+                                                        ? (optionSizes[useOption].width / imageSize.width) * imageSize.height // 비율에 맞춘 세로 크기
+                                                        : 'auto'
                                                         }px`,
                                                 }}
                                                 className="rounded object-contain"
@@ -861,7 +882,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                             <label className="block text-lg text-gray-700 mb-2 text-center p-4">
                                 이미지 결과물
                             </label>
-                            <div className="max-h-screen overflow-auto">
+                            <div className="max-h-screen overflow-auto flex justify-center items-center">
                                 {combineImageText ? (
                                     <img src={combineImageText} alt="결과 이미지" className="h-auto" />
                                 ) : (
@@ -869,7 +890,6 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 )}
                             </div>
                         </div>
-
                     </div>
                 )}
                 <div className="flex justify-end items-center mt-6 space-x-4">
