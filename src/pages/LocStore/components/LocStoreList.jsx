@@ -7,7 +7,7 @@ const LocStoreList = ({ data }) => {
     const handleLinkClick = (event, store_business_id) => {
         event.preventDefault();
 
-        const REPORT_URL = `http://192.168.0.240:3001/wizmarket/report/${store_business_id}`;
+        const REPORT_URL = `${process.env.REACT_APP_REPORT}/wizmarket/report/${store_business_id}`;
         const width = 394;
         const height = 900;
         const left = window.screenX + (window.outerWidth - width) / 2;
