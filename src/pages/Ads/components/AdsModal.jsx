@@ -32,7 +32,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [isAiPromptVisible, setAiPromptVisible] = useState(true);  // 지시 내용 접히기
     const [imageLoding, setImageLoading] = useState(false)  // 이미지 생성 로딩
 
-    const [combineImageText, setCombineImageText] = useState(null)  // 텍스트 + 이미지 결과물
+    const [combineImageTexts, setCombineImageTexts] = useState([]); // 텍스트 + 이미지 결과물
 
     const optionSizes = {
         "문자메시지": { width: 263, height: 362 },
@@ -57,7 +57,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         setUseOption("문자메시지"); // 초기값 유지
         setModelOption('');
         setImageSize(null);
-        setCombineImageText('');
+        setCombineImageTexts('');
         setPrompt('');
         setGptRole('');
         setDetailContent('');
@@ -377,7 +377,8 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                 formData,
                 { headers: { 'Content-Type': 'multipart/form-data' } }
             );
-            setCombineImageText(response.data.image);
+            // 두 개의 이미지를 상태로 저장
+            setCombineImageTexts(response.data.images);
             setSaveStatus('success');
             setMessage('생성이 성공적으로 완료되었습니다.');
         } catch (err) {
@@ -882,9 +883,16 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                             <label className="block text-lg text-gray-700 mb-2 text-center p-4">
                                 이미지 결과물
                             </label>
-                            <div className="max-h-screen overflow-auto flex justify-center items-center">
-                                {combineImageText ? (
-                                    <img src={combineImageText} alt="결과 이미지" className="h-auto" />
+                            <div className="max-h-screen overflow-auto flex flex-row items-center justify-center space-x-4">
+                                {combineImageTexts.length > 0 ? (
+                                    combineImageTexts.map((image, index) => (
+                                        <img
+                                            key={index}
+                                            src={image}
+                                            alt={`결과 이미지 ${index + 1}`}
+                                            className="h-auto my-4"
+                                        />
+                                    ))
                                 ) : (
                                     <p className="text-center text-gray-500 p-4">[ ]</p>
                                 )}
