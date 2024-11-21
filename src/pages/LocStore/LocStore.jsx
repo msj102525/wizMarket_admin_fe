@@ -17,7 +17,7 @@ const LocStore = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [isList, setIsList] = useState(false);
+    const [isList, setIsList] = useState(true);
     const [totalItemsCount, setTotalItemsCount] = useState(0); // 총 데이터 수
     const [filters, setFilters] = useState({}); // 필터 값 상태
     const [storeName, setStoreName] = useState(null);
