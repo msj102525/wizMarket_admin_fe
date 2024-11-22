@@ -77,6 +77,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         const fetchInitialData = async () => {
             if (isOpen) {
                 try {
+                    // console.log("Request URL:", `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/generate/image`);
                     setLoading(true);
                     const response = await axios.post(
                         `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/select/init/info`,
@@ -272,6 +273,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             ai_model_option: modelOption,
             ai_prompt: aiPrompt,
         };
+        
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/generate/image`,
