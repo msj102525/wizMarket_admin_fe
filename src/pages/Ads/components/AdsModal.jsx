@@ -17,7 +17,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [gptRole, setGptRole] = useState(''); // gpt 역할 부여 - 지시 내용
     const [isGptRoleVisible, setIsGptRoleVisible] = useState(true);  // 지시 내용 접히기
     const [prompt, setPrompt] = useState(''); // gpt 내용 부여 - 전달 내용
-    const [isPromptVisible, setIsPromptVisible] = useState(true);  // 지시 내용 접히기
+    const [isPromptVisible, setIsPromptVisible] = useState(true);  // 전달 내용 접히기
 
     const [content, setContent] = useState(''); // gpt 문구 생성 결과물
     const [contentLoading, setContentLoading] = useState(false) // gpt 문구 생성 로딩
@@ -27,15 +27,17 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
     const [imageSize, setImageSize] = useState(null);   // 이미지 사이즈
 
     const [modelOption, setModelOption] = useState(''); // 이미지 생성 모델 옵션
-    const [styleOption, setStyleOption] = useState('')  // 이미지 생성 스타일 옵션
+    const [styleOption, setStyleOption] = useState('Illustration')  // 이미지 생성 스타일 옵션
     const [aiPrompt, setAiPrompt] = useState('');   // 이미지 생성 프롬프트
     const [isAiPromptVisible, setAiPromptVisible] = useState(true);  // 지시 내용 접히기
     const [imageLoding, setImageLoading] = useState(false)  // 이미지 생성 로딩
+    const [imageErrorMessage, setImageErrorMessage] = useState('');   // 이미지 생성 에러
 
-    const [combineImageTexts, setCombineImageTexts] = useState([]); // 텍스트 + 이미지 결과물
+    const [combineImageText, setCombineImageText] = useState(null)  // 텍스트 + 이미지 결과물
+    // const [combineImageTexts, setCombineImageTexts] = useState([]);  // 템플릿 2개
 
     const optionSizes = {
-        "문자메시지": { width: 263, height: 362 },
+        "문자메시지": { width: 333, height: 458 },
         "유튜브 썸네일": { width: 412, height: 232 },
         "인스타그램 스토리": { width: 412, height: 732 },
         "인스타그램 피드": { width: 412, height: 514 },
@@ -57,7 +59,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         setUseOption("문자메시지"); // 초기값 유지
         setModelOption('');
         setImageSize(null);
-        setCombineImageTexts('');
+        setCombineImageText('');
         setPrompt('');
         setGptRole('');
         setDetailContent('');
@@ -81,6 +83,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         null,
                         { params: { store_business_number: storeBusinessNumber } }
                     );
+                    // console.log(response.data)
                     const {
                         commercial_district_max_sales_day,
                         commercial_district_max_sales_time,
@@ -195,12 +198,21 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
 주소 : ${data.road_name || "값 없음"}
 업종 : ${data.detail_category_name || "값 없음"}
 날짜 : ${formattedToday}
+날씨 : ${data.main}, ${data.temp}℃
 매출이 가장 높은 시간대 : ${timeMap[data.maxSalesTime] || data.maxSalesTime || "값 없음"}
 매출이 가장 높은 남성 연령대 : ${maleMap[data.maxSalesMale] || data.maxSalesMale || "값 없음"}
 매출이 가장 높은 여성 연령대 : ${femaleMap[data.maxSalesFemale] || data.maxSalesFemale || "값 없음"}
 주제 세부 정보 : ${detailContent}`);
+            setAiPrompt(`다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠 이미지를 생성해주세요.
+- ${content || "값 없음"}
+- 용도 : ${useOption || "값 없음"}
+- 주제 : ${title || "값 없음"} 용
+- 매장명 : ${data?.store_name || "값 없음"}
+- 주소 : ${data?.road_name || "값 없음"}
+- 업종 : ${data?.detail_category_name || "값 없음"}
+- 스타일 : ${styleOption || "값 없음"}`);
         }
-    }, [data, useOption, title, detailContent]);
+    }, [data, useOption, title, detailContent, content, styleOption]);
 
     // 문구 생성
     const generateContent = async () => {
@@ -286,7 +298,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         } catch (err) {
             console.error('생성 중 오류 발생:', err);
             setSaveStatus('error'); // 실패 상태로 설정
-            setMessage('생성 중 오류가 발생했습니다.');
+            setImageErrorMessage('생성 중 오류가 발생했습니다.');
         } finally {
             setImageLoading(false); // 로딩 상태 종료
             setTimeout(() => {
@@ -377,8 +389,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                 formData,
                 { headers: { 'Content-Type': 'multipart/form-data' } }
             );
-            // 두 개의 이미지를 상태로 저장
-            setCombineImageTexts(response.data.images);
+            setCombineImageText(response.data.image);
             setSaveStatus('success');
             setMessage('생성이 성공적으로 완료되었습니다.');
         } catch (err) {
@@ -392,6 +403,31 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             }, 3000);
         }
     };
+
+    // 템플릿 2개 처리
+    // const sendFormData = async (formData) => {
+    //     try {
+    //         const response = await axios.post(
+    //             `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/combine/image/text`,
+    //             formData,
+    //             { headers: { 'Content-Type': 'multipart/form-data' } }
+    //         );
+    //         // 두 개의 이미지를 상태로 저장
+    //         setCombineImageTexts(response.data.images);
+    //         setSaveStatus('success');
+    //         setMessage('생성이 성공적으로 완료되었습니다.');
+    //     } catch (err) {
+    //         console.error('저장 중 오류 발생:', err);
+    //         setSaveStatus('error');
+    //         setMessage('저장 중 오류가 발생했습니다.');
+    //     } finally {
+    //         setTimeout(() => {
+    //             setSaveStatus(null);
+    //             setMessage('');
+    //         }, 3000);
+    //     }
+    // };
+
 
     const onSave = async () => {
         // 입력값 유효성 검사
@@ -517,7 +553,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 value={useOption}
                                 onChange={(e) => setUseOption(e.target.value)}
                             >
-                                <option value="문자메시지">문자메시지 (263x362)</option>
+                                <option value="문자메시지">문자메시지 (333x458)</option>
                                 <option value="유튜브 썸네일">유튜브 썸네일 (412x232)</option>
                                 <option value="인스타그램 스토리">인스타 스토리 (412x732)</option>
                                 <option value="인스타그램 피드">인스타 피드 (412x514)</option>
@@ -577,7 +613,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         </div>
                         <hr className="border-t border-black opacity-100" />
                         <div className="mb-6 mt-6 flex items-center justify-between">
-                            <label className="block text-lg text-gray-700 mb-2">
+                            <label className="block text-lg text-gray-700">
                                 AI에게 명령할 내용 (지시문)
                             </label>
                             <button
@@ -606,7 +642,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                             </div>
                         )}
                         <div className="mb-6 flex items-center justify-between">
-                            <label className="block text-lg text-gray-700 mb-2">
+                            <label className="block text-lg text-gray-700">
                                 세부 내용 (DB+정보직접입력)
                             </label>
                             <button
@@ -627,7 +663,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         {isPromptVisible && (
                             <div className="mb-6">
                                 <textarea
-                                    rows={8}
+                                    rows={10}
                                     value={prompt}
                                     onChange={(e) => setPrompt(e.target.value)}
                                     className="border border-gray-300 rounded w-full px-3 py-2"
@@ -725,7 +761,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                             >
                                 <option value="">이미지 생성 스타일을 선택하세요</option>
                                 <option value="일본 애니메이션">일본 애니메이션</option>
-                                <option value="만화">만화책 만화</option>
+                                <option value="만화책 만화">만화책 만화</option>
                                 <option value="사진">사진</option>
                                 <option value="3D 그래픽">3D 그래픽</option>
                                 <option value="2D animation">2D animation</option>
@@ -733,14 +769,14 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 <option value="Paper Craft">Paper Craft</option>
                                 <option value="Diorama">Diorama</option>
                                 <option value="아이소메트릭">아이소메트릭</option>
-                                <option value="광고포스터">광고포스터.전단지</option>
+                                <option value="광고포스터.전단지">광고포스터.전단지</option>
                                 <option value="판타지">판타지</option>
                                 <option value="타이포그래픽">타이포그래픽</option>
                             </select>
 
                         </div>
                         <div className="mb-6 flex items-center justify-between">
-                            <label className="block text-lg text-gray-700 mb-2">
+                            <label className="block text-lg text-gray-700">
                                 이미지 생성 Prompt
                             </label>
                             <button
@@ -828,6 +864,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 <div className="flex justify-center items-center w-48 h-48">
                                     <div className="w-6 h-6 border-4 border-blue-500 border-solid border-t-transparent rounded-full animate-spin"></div>
                                 </div>
+                            ) : imageErrorMessage ? (
+                                // 에러 메시지 표시
+                                <div className="text-red-500 text-center mt-4">
+                                    {imageErrorMessage}
+                                </div>
                             ) : (
                                 selectedImages.length > 0 && (
                                     <div className="mt-4 flex justify-center">
@@ -838,8 +879,8 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                                 style={{
                                                     width: `${optionSizes[useOption]?.width || 'auto'}px`, // useOption의 가로 크기로 맞춤
                                                     height: `${optionSizes[useOption]?.width && imageSize?.width && imageSize?.height
-                                                        ? (optionSizes[useOption].width / imageSize.width) * imageSize.height // 비율에 맞춘 세로 크기
-                                                        : 'auto'
+                                                            ? (optionSizes[useOption].width / imageSize.width) * imageSize.height // 비율에 맞춘 세로 크기
+                                                            : 'auto'
                                                         }px`,
                                                 }}
                                                 className="rounded object-contain"
@@ -851,25 +892,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                             >
                                                 &times;
                                             </button>
-                                            {/* 크기 정보 표시 */}
-                                            {imageSize && (
-                                                <p className="mt-2 text-center text-sm text-gray-600">
-                                                    원본 크기: {imageSize.width} x {imageSize.height} px
-                                                </p>
-                                            )}
-                                            <p className="mt-2 text-center text-sm text-blue-600">
-                                                리사이즈된 크기: {optionSizes[useOption]?.width} x{' '}
-                                                {optionSizes[useOption]?.width && imageSize?.width && imageSize?.height
-                                                    ? Math.round((optionSizes[useOption].width / imageSize.width) * imageSize.height)
-                                                    : 'auto'}{' '}
-                                                px
-                                            </p>
                                         </div>
                                     </div>
                                 )
                             )}
                         </div>
-
                         <div className="mt-4 flex justify-center">
                             <button
                                 onClick={generateAds}
@@ -880,21 +907,12 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                         </div>
                         {/* 이미지 결과물 영역 */}
                         <div className="mt-4">
-                            <label className="block text-lg text-gray-700 mb-2 text-center p-4">
-                                이미지 결과물
-                            </label>
-                            <div className="max-h-screen overflow-auto flex flex-row items-center justify-center space-x-4">
-                                {combineImageTexts.length > 0 ? (
-                                    combineImageTexts.map((image, index) => (
-                                        <img
-                                            key={index}
-                                            src={image}
-                                            alt={`결과 이미지 ${index + 1}`}
-                                            className="h-auto my-4"
-                                        />
-                                    ))
+
+                            <div className="max-h-screen overflow-auto flex justify-center items-center">
+                                {combineImageText ? (
+                                    <img src={combineImageText} alt="결과 이미지" className="h-auto" />
                                 ) : (
-                                    <p className="text-center text-gray-500 p-4">[ ]</p>
+                                    <p className="text-center text-gray-500 p-4">이미지를 생성해주세요</p>
                                 )}
                             </div>
                         </div>
