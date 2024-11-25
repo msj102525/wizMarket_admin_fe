@@ -6,11 +6,10 @@ import LocStoreAdsList from './components/AdsContentList';
 import { Link } from 'react-router-dom';
 
 const AdsContent = () => {
-    const [locStoreAdsList, setLocStoreAdsList] = useState([]);
-    const [locStoreCategoryList, setLocStoreCategoryList] = useState([]);
+    const [AdsList, setAdsList] = useState([]);
 
     const onUpdate = (updatedItem) => {
-        setLocStoreAdsList((prevList) =>
+        setAdsList((prevList) =>
             prevList.map((item) =>
                 item.local_store_content_id === updatedItem.local_store_content_id ? updatedItem : item
             )
@@ -18,7 +17,7 @@ const AdsContent = () => {
     };
 
     const onDelete = (itemId) => {
-        setLocStoreAdsList((prevList) =>
+        setAdsList((prevList) =>
             prevList.filter((item) => item.local_store_content_id !== itemId)
         );
     };
@@ -30,16 +29,7 @@ const AdsContent = () => {
                 const response = await axios.get(
                     `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/select/list`
                 );
-                setLocStoreAdsList(response.data);  // 받아온 데이터를 상태에 저장
-                const locStoreContentData = response.data;
-
-                if (locStoreContentData.length > 0) {
-                    const secondResponse = await axios.post(
-                        `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/select/category`,
-                        { store_business_number_list: locStoreContentData.map(item => item.store_business_number) } // 필요한 데이터
-                    );
-                    setLocStoreCategoryList(secondResponse.data); // 두 번째 요청 데이터 설정
-                }
+                setAdsList(response.data);  // 받아온 데이터를 상태에 저장
             } catch (error) {
                 console.error('데이터 요청 중 오류 발생:', error);
             }
@@ -72,14 +62,13 @@ const AdsContent = () => {
 
                     {/* 데이터가 없을 경우 안내 메시지 표시 */}
                     <section className="w-full">
-                        {locStoreAdsList.length === 0 ? (
+                        {AdsList.length === 0 ? (
                             <p className="text-center text-gray-500 mt-6">
                                 신규 wizAd를 작성해주세요.
                             </p>
                         ) : (
                             <LocStoreAdsList
-                                locStoreAdsList={locStoreAdsList}
-                                locStoreCategoryList={locStoreCategoryList}
+                                AdsList={AdsList}
                                 onUpdate={onUpdate}
                                 onDelete={onDelete}
                             />

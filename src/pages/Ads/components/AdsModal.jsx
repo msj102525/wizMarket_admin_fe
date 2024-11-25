@@ -267,6 +267,15 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
 
     // 이미지 생성
     const generateImage = async () => {
+        if (!modelOption.trim() || !styleOption.trim()) {
+            setSaveStatus('error');
+            setImageErrorMessage('생성 모델 혹은 스타일을 올바르게 지정해 주세요.');
+            setTimeout(() => {
+                setSaveStatus(null);
+                setImageErrorMessage('');
+            }, 1500);
+            return;
+        }
         setImageLoading(true)
         const basicInfo = {
             use_option: useOption,
@@ -281,7 +290,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                 { headers: { 'Content-Type': 'application/json' } }
             );
             // 성공 시 받은 데이터 상태에 저장
-            console.log(response.data)
+            // console.log(response.data)
             const { image: base64Image } = response.data; // AI로 생성된 Base64 이미지
             // Base64 -> Blob -> File 변환
             const aiImageBlob = base64ToBlob(base64Image);
@@ -314,14 +323,13 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         // 입력값 유효성 검사
         if (!title.trim() || !content.trim()) {
             setSaveStatus('error');
-            setMessage('주제 혹은 문구를 올바르게 입력해 주세요.');
+            setImageErrorMessage('문구를 올바르게 입력해 주세요.');
             setTimeout(() => {
                 setSaveStatus(null);
-                setMessage('');
+                setImageErrorMessage('');
             }, 1500);
             return;
         }
-
         const formData = new FormData();
         formData.append('store_name', data.store_name);
         formData.append('road_name', data.road_name)
@@ -371,14 +379,13 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                     formData.append('image', file);
                     formData.append('image_width', originalWidth);
                     formData.append('image_height', originalHeight);
-
                     // 서버로 전송
                     sendFormData(formData);
                 }
             };
         } else {
             setSaveStatus('error');
-            setMessage('이미지를 업로드하거나 AI로 생성해주세요.');
+            setImageErrorMessage('이미지를 업로드하거나 AI로 생성해주세요.');
             return;
         }
     };
@@ -397,7 +404,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         } catch (err) {
             console.error('저장 중 오류 발생:', err);
             setSaveStatus('error');
-            setMessage('저장 중 오류가 발생했습니다.');
+            setImageErrorMessage('저장 중 오류가 발생했습니다.');
         } finally {
             setTimeout(() => {
                 setSaveStatus(null);
@@ -433,25 +440,33 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
 
     const onSave = async () => {
         // 입력값 유효성 검사
-        if (!title.trim() || !content.trim()) {
+        if (!useOption.trim() || !title.trim()) {
             setSaveStatus('error');
-            setMessage('제목 및 내용을 올바르게 입력해 주세요.');
+            setImageErrorMessage('광고 채널 혹은 주제를 올바르게 선택해 주세요.');
             setLoading(false); // 로딩 상태 종료
             setTimeout(() => {
                 setSaveStatus(null); // 상태 초기화
-                setMessage(''); // 메시지 초기화
+                setImageErrorMessage(''); // 메시지 초기화
             }, 1500);
             return;
         }
-
+        console.log(base64ToBlob(combineImageText))
         const formData = new FormData();
         formData.append('store_business_number', storeBusinessNumber);
+        formData.append('use_option', useOption);
         formData.append('title', title);
+        formData.append('detail_title', detailContent);
         formData.append('content', content);
+        // 이미지 추가 처리
+        if (combineImageText) {
+            const blob = base64ToBlob(combineImageText);
+            formData.append('image', blob); // Blob 추가, 세 번째 파라미터는 파일 이름
+        }
 
-        selectedImages.forEach((image) => {
-            formData.append('images', image.file);
-        });
+        // console.log('FormData Type:', Object.prototype.toString.call(formData));
+        // for (let [key, value] of formData.entries()) {
+        //     console.log(`${key}:`, value instanceof File ? value.name : value);
+        // }
 
         try {
             const response = await axios.post(
@@ -462,7 +477,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
             // 성공 시 받은 데이터 상태에 저장
             setData(response.data); // 성공 시 서버에서 받은 데이터를 상태에 저장
             setSaveStatus('success'); // 성공 상태로 설정
-            setMessage('저장이 성공적으로 완료되었습니다.');
+            setImageErrorMessage('저장이 성공적으로 완료되었습니다.');
 
             // 모달을 닫기 전에 잠시 메시지를 표시
             setTimeout(() => {
@@ -472,11 +487,11 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         } catch (err) {
             console.error('저장 중 오류 발생:', err);
             setSaveStatus('error'); // 실패 상태로 설정
-            setMessage('저장 중 오류가 발생했습니다.');
+            setImageErrorMessage('저장 중 오류가 발생했습니다.');
         } finally {
             setTimeout(() => {
                 setSaveStatus(null);
-                setMessage('');
+                setImageErrorMessage('');
             }, 3000); // 3초 후 메시지 숨기기
         }
     };
@@ -555,6 +570,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 value={useOption}
                                 onChange={(e) => setUseOption(e.target.value)}
                             >
+                                <option value="">채널을 선택해 주세요</option>
                                 <option value="문자메시지">문자메시지 (333x458)</option>
                                 <option value="유튜브 썸네일">유튜브 썸네일 (412x232)</option>
                                 <option value="인스타그램 스토리">인스타 스토리 (412x732)</option>
@@ -576,6 +592,7 @@ const AdsModal = ({ isOpen, onClose, storeBusinessNumber }) => {
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                             >
+                                <option value="">주제를 선택해 주세요</option>
                                 <option value="매장 소개">매장 소개</option>
                                 <option value="이벤트">이벤트</option>
                                 <option value="상품 소개">상품 소개</option>

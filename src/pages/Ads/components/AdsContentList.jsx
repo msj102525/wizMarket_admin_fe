@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LocStoreModal from './AdsContentDetailModal';
+import AdsContentDetailModal from './AdsContentDetailModal';
 
 
-const AdsContentList = ({ locStoreContentList = [], locStoreCategoryList = [], onUpdate, onDelete }) => {
-    const [localStoreContent, setLocalStoreContent] = useState(locStoreContentList);
+const AdsContentList = ({ AdsList = [], onUpdate, onDelete }) => {
+    const [AdsListContent, setAdsListContent] = useState(AdsList);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedContent, setSelectedContent] = useState(null);
 
     useEffect(() => {
-        setLocalStoreContent(locStoreContentList);  // locStoreContentList가 업데이트될 때 localStoreContent를 업데이트
-    }, [locStoreContentList]);
+        setAdsListContent(AdsList);  // AdsList 업데이트될 때 setAdsListContent 업데이트
+    }, [AdsList]);
 
     // 날짜 형식 변환 함수
     const formatDate = (dateString) => {
@@ -28,11 +28,11 @@ const AdsContentList = ({ locStoreContentList = [], locStoreCategoryList = [], o
     // 서비스 게시 상태를 토글하는 함수
     const toggleServiceStatus = async (index) => {
         // 현재 상태 복사 후 업데이트
-        const updatedContent = [...localStoreContent];
+        const updatedContent = [...AdsListContent];
         updatedContent[index].status = updatedContent[index].status === 'Y' ? 'S' : 'Y';
 
         // 로컬 상태 업데이트
-        setLocalStoreContent(updatedContent);
+        setAdsListContent(updatedContent);
         // console.log(updatedContent)
 
         // 서버 업데이트 API 호출
@@ -44,14 +44,13 @@ const AdsContentList = ({ locStoreContentList = [], locStoreCategoryList = [], o
                     status: updatedContent[index].status,
                 }
             );
-
         } catch (error) {
             console.error('Error updating store publish status:', error);
         }
     };
 
-    const openModal = (store) => {
-        setSelectedContent(store);
+    const openModal = (ads) => {
+        setSelectedContent(ads);
         setIsModalOpen(true);
     };
 
@@ -69,13 +68,7 @@ const AdsContentList = ({ locStoreContentList = [], locStoreCategoryList = [], o
                             id
                         </th>
                         <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
-                            업종대분류
-                        </th>
-                        <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
-                            업종중분류
-                        </th>
-                        <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
-                            업종소분류
+                            미리보기
                         </th>
                         <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
                             매장명
@@ -84,50 +77,62 @@ const AdsContentList = ({ locStoreContentList = [], locStoreCategoryList = [], o
                             도로명 주소
                         </th>
                         <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
-                            제목
+                            광고 채널
+                        </th>
+                        <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
+                            주제
+                        </th>
+                        <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
+                            세부 주제
                         </th>
                         <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
                             등록일
                         </th>
                         <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
-                            리포트 게시
+                            ADS 게시
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {localStoreContent.map((store, index) => {
-                        const category = locStoreCategoryList.find(
-                            (cat) => cat.store_business_number === store.store_business_number
-                        );
-
+                    {AdsListContent.map((ads, index) => {
                         return (
                             <tr key={index} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-4 py-2 border-b text-gray-700">{store.local_store_content_id}</td>
-                                <td className="px-4 py-2 border-b text-gray-700">
-                                    {category ? category.large_category_name : 'N/A'}
+                                <td className="px-4 py-2 border-b text-gray-700">{ads.ads_id}</td>
+                                <td className="px-4 py-2 border-b text-gray-700 relative">
+                                    <div className="mt-2 relative group">
+                                        <img
+                                            className="block w-5 h-5"
+                                            src={require("../../../assets/adsList/ads_list.png")}
+                                            alt="user-img"
+                                        />
+                                        {/* 마우스 오버 시 표시할 이미지 */}
+                                        <div className="absolute left-8 top-0 hidden group-hover:block">
+                                            <img
+                                                src={ads.ads_image_url}
+                                                alt="Ad Preview"
+                                                className="w-40 h-auto border border-gray-300 rounded shadow-md"
+                                            />
+                                        </div>
+                                    </div>
                                 </td>
-                                <td className="px-4 py-2 border-b text-gray-700">
-                                    {category ? category.medium_category_name : 'N/A'}
-                                </td>
-                                <td className="px-4 py-2 border-b text-gray-700">
-                                    {category ? category.small_category_name : 'N/A'}
-                                </td>
-                                <td className="px-4 py-2 border-b text-gray-700">{store.store_name}</td>
-                                <td className="px-4 py-2 border-b text-gray-700">{store.road_name}</td>
+                                <td className="px-4 py-2 border-b text-gray-700">{ads.store_name}</td>
+                                <td className="px-4 py-2 border-b text-gray-700">{ads.road_name}</td>
+                                <td className="px-4 py-2 border-b text-gray-700">{ads.use_option}</td>
                                 <td
                                     className="px-4 py-2 border-b text-blue-600 cursor-pointer"
-                                    onClick={() => openModal(store)}
+                                    onClick={() => openModal(ads)}
                                 >
-                                    {store.title}
+                                    {ads.title}
                                 </td>
-                                <td className="px-4 py-2 border-b text-gray-700">{formatDate(store.created_at)}</td>
+                                <td className="px-4 py-2 border-b text-gray-700">{ads.detail_title}</td>
+                                <td className="px-4 py-2 border-b text-gray-700">{formatDate(ads.created_at)}</td>
                                 <td className="px-4 py-2 border-b text-gray-700 text-center">
                                     <div
                                         onClick={() => toggleServiceStatus(index)}
-                                        className={`relative inline-flex items-center w-12 h-6 cursor-pointer rounded-full transition-colors ${store.status === 'Y' ? 'bg-green-500' : 'bg-gray-300'}`}
+                                        className={`relative inline-flex items-center w-12 h-6 cursor-pointer rounded-full transition-colors ${ads.status === 'Y' ? 'bg-green-500' : 'bg-gray-300'}`}
                                     >
                                         <span
-                                            className={`absolute left-1 h-5 w-5 rounded-full bg-white transition-transform transform ${store.status === 'Y' ? 'translate-x-6' : ''}`}
+                                            className={`absolute left-1 h-5 w-5 rounded-full bg-white transition-transform transform ${ads.status === 'Y' ? 'translate-x-6' : ''}`}
                                         ></span>
                                     </div>
                                 </td>
@@ -139,7 +144,7 @@ const AdsContentList = ({ locStoreContentList = [], locStoreCategoryList = [], o
             </table>
             {/* 모달 렌더링 */}
             {selectedContent && (
-                <LocStoreModal
+                <AdsContentDetailModal
                     isOpen={isModalOpen}
                     onClose={closeModal}
                     onUpdate={onUpdate}
