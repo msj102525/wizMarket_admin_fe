@@ -10,6 +10,7 @@ import SectionHeader from '../../components/SectionHeader';
 import { useCategories } from '../../hooks/useCategories';
 import { useCities } from '../../hooks/useCities';
 import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
+import { useRisingBusinessDataDate } from '../../hooks/useCommercialDistrictDataDate';
 
 const RisingBusiness = () => {
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
@@ -24,6 +25,9 @@ const RisingBusiness = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [isList, setIsList] = useState(true);
+    const [refDate, setRefDate] = useState([]);
+
+    const { dataDate } = useRisingBusinessDataDate();
 
     const {
         reference, setReference, references,
@@ -59,8 +63,12 @@ const RisingBusiness = () => {
     });
 
     useEffect(() => {
-        setReference(1);
-    }, [setReference])
+        setReference(1)
+        // console.log(refDate)
+        if (dataDate && dataDate.length > 0) {
+            setRefDate(dataDate.slice().reverse()[0].y_m);
+        }
+    }, [setReference, dataDate])
 
     const handleSearch = () => {
 
@@ -84,7 +92,8 @@ const RisingBusiness = () => {
                         growth_rate_min: parseFloat(increaseRateMin) || undefined,
                         growth_rate_max: parseFloat(increaseRateMax) || undefined,
                         rank_min: parseInt(rankMin) || undefined,
-                        rank_max: parseInt(rankMax) || undefined
+                        rank_max: parseInt(rankMax) || undefined,
+                        y_m: refDate || undefined,
                     },
                 });
                 setData(response.data);
@@ -112,6 +121,7 @@ const RisingBusiness = () => {
         setIncreaseRateMax(null);
         setRankMin(null);
         setRankMax(null);
+        setRefDate(dataDate);
     };
 
     return (
@@ -174,6 +184,9 @@ const RisingBusiness = () => {
                                 setRankMax={setRankMax}
                                 handleSearch={handleSearch}
                                 handleReset={handleReset}
+                                dataDate={dataDate}
+                                refDate={refDate}
+                                setRefDate={setRefDate}
                             />
                         </div>
                     </section>

@@ -54,6 +54,7 @@ const RisingBusinessList = ({ data }) => {
         biz_detail_category_name: '소분류명',
         growth_rate: '증가율',
         sub_district_rank: '읍/면/동 순위',
+        y_m: '기준날짜',
         created_at: '생성날짜',
         updated_at: '수정날짜',
     };
@@ -80,7 +81,7 @@ const RisingBusinessList = ({ data }) => {
                             { key: 'biz_detail_category_name', label: '소분류' },
                             { key: 'growth_rate', label: '증가율' },
                             { key: 'sub_district_rank', label: '지역순위' },
-                            { key: 'created_at', label: '작성일' },
+                            { key: 'y_m', label: '기준날짜' },
                         ].map(({ key, label }) => (
                             <th
                                 key={key}
@@ -107,7 +108,7 @@ const RisingBusinessList = ({ data }) => {
                                 <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_detail_category_name}</td>
                                 <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 font-semibold overflow-hidden overflow-ellipsis">{item.growth_rate}%</td>
                                 <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_rank}</td>
-                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.created_at).toLocaleDateString()}</td>
+                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.y_m).toLocaleDateString()}</td>
                             </tr>
                         ))
                     ) : (

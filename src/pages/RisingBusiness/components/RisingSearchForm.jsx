@@ -11,7 +11,8 @@ const RisingSearchForm = ({
     setCity, setDistrict, setSubDistrict,
     increaseRateMin, increaseRateMax, rankMin, rankMax,
     setIncreaseRateMin, setIncreaseRateMax, setRankMin, setRankMax,
-    handleSearch, handleReset
+    handleSearch, handleReset,
+    dataDate, setRefDate
 }) => {
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
@@ -124,6 +125,30 @@ const RisingSearchForm = ({
                             min={1}
                         />
 
+                    </div>
+                </div>
+                {/* 기준 날짜 */}
+                <div className="mb-4 flex gap-4">
+                    <div className="w-1/6 text-center">
+                        <label className="block mb-1 font-extrabold">기준 날짜</label>
+                    </div>
+                    <div className="w-full flex gap-4">
+                        <select
+                            className='p-2 border border-[#DDDDDD] rounded w-1/6'
+                            onChange={(e) => setRefDate(e.target.value)}
+                        >
+                            {dataDate && dataDate.length > 0 ? (
+                                dataDate.slice().reverse().map((item, index) => (
+                                    <option key={index} value={item.y_m}>
+                                        {item.y_m}
+                                    </option>
+                                ))
+                            )
+                                : (
+                                    <option value="-">-</option>
+                                )}
+                            <option value="">-</option>
+                        </select>
                     </div>
                 </div>
             </div>
