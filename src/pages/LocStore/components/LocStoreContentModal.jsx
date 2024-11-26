@@ -66,11 +66,7 @@ const LocStoreContentModal = ({ isOpen, onClose, storeBusinessNumber }) => {
         selectedImages.forEach((image) => {
             formData.append('images', image.file);
         });
-
         try {
-            for (const pair of formData.entries()) {
-                console.log(`${pair[0]}: ${pair[1]}`);
-            }
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/insert/content`,
                 formData,

@@ -34,13 +34,13 @@ const AdsContentList = ({ AdsList = [], onUpdate, onDelete }) => {
         // 로컬 상태 업데이트
         setAdsListContent(updatedContent);
         // console.log(updatedContent)
-
+        // console.log(updatedContent[index].ads_id)
         // 서버 업데이트 API 호출
         try {
             await axios.post(
-                `${process.env.REACT_APP_FASTAPI_BASE_URL}/store/content/update/status`,
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/update/status`,
                 {
-                    local_store_content_id: updatedContent[index].local_store_content_id,
+                    ads_id: updatedContent[index].ads_id,
                     status: updatedContent[index].status,
                 }
             );

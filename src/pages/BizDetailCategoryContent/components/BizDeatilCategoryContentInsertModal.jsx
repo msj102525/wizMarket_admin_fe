@@ -69,7 +69,7 @@ const BizDeatilCategoryContentInsertModal = ({
                 { biz_category_number_list: [newItem.detail_category_id] }
             );
             const newBizCategoryData = secondResponse.data;
-            console.log(secondResponse.data)
+            // console.log(secondResponse.data)
 
             setSaveStatus('success');
             setMessage('저장이 성공적으로 완료되었습니다.');

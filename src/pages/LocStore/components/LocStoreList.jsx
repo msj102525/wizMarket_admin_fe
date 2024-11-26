@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import LocStoreContentModal from './LocStoreContentModal';
-import AdsModal from '../../Ads/components/AdsModal';
 
 const LocStoreList = ({ data }) => {
 
@@ -20,29 +19,24 @@ const LocStoreList = ({ data }) => {
         );
     };
 
-    // const handleModalClick = (event, storeBusinessNumber) => {
-    //     event.preventDefault();
+    const handleModalClick = (event, storeBusinessNumber) => {
+        event.preventDefault();
     
-    //     const REPORT_URL = `${process.env.REACT_APP_ADS}/ads/${storeBusinessNumber}`;
-    //     const width = 500;
-    //     const height = 800;
+        const REPORT_URL = `${process.env.REACT_APP_ADS}/ads/${storeBusinessNumber}`;
+        const width = 500;
+        const height = 800;
+        const left = window.screenX + (window.innerWidth / 4) * 2 + (window.innerWidth / 4 - width) / 2;
+        const top = window.screenY + (window.outerHeight - height) / 2;
     
-    //     // X축 위치 계산: 가로를 4등분하여 3번째 구간의 중앙에 위치
-    //     const left = window.screenX + (window.innerWidth / 4) * 2 + (window.innerWidth / 4 - width) / 2;
-    
-    //     // Y축은 중앙 그대로 유지
-    //     const top = window.screenY + (window.innerHeight - height) / 2;
-    
-    //     window.open(
-    //         REPORT_URL,
-    //         "_blank",
-    //         `width=${width},height=${height},top=${top},left=${left}`
-    //     );
-    // };
+        window.open(
+            REPORT_URL,
+            "_blank",
+            `width=${width},height=${height},top=${top},left=${left}`
+        );
+    };
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [adsModalOpen, setAdsModalOpen] = useState(false);
     const [selectedStoreBusinessNumber, setSelectedStoreBusinessNumber] = useState(null);
 
     const handleClick = (storeBusinessNumber) => {
@@ -54,19 +48,6 @@ const LocStoreList = ({ data }) => {
         setIsModalOpen(false);
         setSelectedStoreBusinessNumber(null);
     };
-
-    const handleAdsClick = (storeBusinessNumber) => {
-        setSelectedStoreBusinessNumber(storeBusinessNumber);
-        setAdsModalOpen(true);
-    };
-
-    const closeAdsModal = () => {
-        setAdsModalOpen(false);
-        setSelectedStoreBusinessNumber(null);
-    };
-
-
-
 
     // 데이터가 없는 경우 처리
     if (!data || data.length === 0) {
@@ -157,18 +138,18 @@ const LocStoreList = ({ data }) => {
                                     >
                                         정보 등록
                                     </button>
-                                    <button
+                                    {/* <button
                                         onClick={(e) => handleAdsClick(item.store_business_number)}
                                         className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
                                     >
                                         wizAd
-                                    </button>
-                                    {/* <button
+                                    </button> */}
+                                    <button
                                         onClick={(e) => handleModalClick(e, item.store_business_number)}
                                         className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
                                     >
                                         wizAd
-                                    </button> */}
+                                    </button>
                                 </div>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.branch_name}</td>
@@ -200,11 +181,7 @@ const LocStoreList = ({ data }) => {
                 onClose={closeModal}
                 storeBusinessNumber={selectedStoreBusinessNumber}
             />
-            <AdsModal
-                isOpen={adsModalOpen}
-                onClose={closeAdsModal}
-                storeBusinessNumber={selectedStoreBusinessNumber}
-            />
+            
         </div>
     );
 };
