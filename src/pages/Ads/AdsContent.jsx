@@ -4,6 +4,8 @@ import Aside from '../../components/Aside';
 import Header from '../../components/Header';
 import LocStoreAdsList from './components/AdsContentList';
 import { Link } from 'react-router-dom';
+import AdsSearchFrom from './components/AdsSearchFrom';
+
 
 const AdsContent = () => {
     const [AdsList, setAdsList] = useState([]);
@@ -60,7 +62,9 @@ const AdsContent = () => {
                             </button>
                         </Link>
                     </section>
-
+                    <div>
+                    <AdsSearchFrom></AdsSearchFrom>
+                </div>
                     {/* 데이터가 없을 경우 안내 메시지 표시 */}
                     <section className="w-full">
                         {AdsList.length === 0 ? (

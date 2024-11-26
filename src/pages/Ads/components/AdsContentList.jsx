@@ -6,7 +6,7 @@ const AdsContentList = ({ AdsList = [], onUpdate, onDelete }) => {
     const [AdsListContent, setAdsListContent] = useState(AdsList);
     const [previewImage, setPreviewImage] = useState(null); // 미리보기 이미지 URL
     const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 }); // 미리보기 위치
-
+       // 주제 용도
     useEffect(() => {
         setAdsListContent(AdsList);
     }, [AdsList]);
@@ -87,6 +87,7 @@ const AdsContentList = ({ AdsList = [], onUpdate, onDelete }) => {
         <>
             {/* 테이블 */}
             <div className="overflow-x-auto">
+                
                 <table className="table-fixed min-w-full bg-white border border-gray-300 text-left shadow-md rounded-lg">
                     <thead>
                         <tr>
@@ -154,7 +155,7 @@ const AdsContentList = ({ AdsList = [], onUpdate, onDelete }) => {
                     <img
                         src={previewImage}
                         alt="Preview"
-                        className="w-80 h-auto border border-gray-300 rounded shadow-md"
+                        className="w-auto h-auto border border-gray-300 rounded shadow-md"
                     />
                 </div>
             )}

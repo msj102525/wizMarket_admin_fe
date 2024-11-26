@@ -12,7 +12,7 @@ const LocInfoListSearchForm = ({
     selectedOptions, setSelectedOptions, dataDate,
     handleSearch, handleReset, isList
 }) => {
-
+    
 
     useEffect(() => {
         const handleEnterKeyPress = (e) => {
