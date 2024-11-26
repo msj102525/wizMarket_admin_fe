@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import CitySelect from '../../../components/CitySelect';
 import CategorySelect from '../../../components/CategorySelect';
@@ -13,36 +13,110 @@ const LocStoreListSearchForm = ({
     isLikeSearch, setIsLikeSearch,
     handleSearch, handleReset
 }) => {
+    const [recentSearches, setRecentSearches] = useState([]);
+    const [showRecent, setShowRecent] = useState(false); // 최근 검색어 표시 상태
+
+    // Load recent searches from localStorage
+    useEffect(() => {
+        const savedSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+        setRecentSearches(savedSearches);
+    }, []);
+
+    // Update recent searches in localStorage
+    const saveSearchTerm = (term) => {
+        const updatedSearches = [term, ...recentSearches.filter((item) => item !== term)].slice(0, 5);
+        setRecentSearches(updatedSearches);
+        localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+    };
+
+    const handleSearchClick = () => {
+        if (storeName.trim()) {
+            saveSearchTerm(storeName);
+        }
+        handleSearch();
+    };
+
+    const handleDeleteSearchTerm = (term) => {
+        const updatedSearches = recentSearches.filter((item) => item !== term);
+        setRecentSearches(updatedSearches);
+        localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+    };
+
+    const handleDeleteAll = () => {
+        setRecentSearches([]);
+        localStorage.removeItem('recentSearches');
+    };
+
     return (
-        <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full">
+        <div className="relative border border-[#DDDDDD] rounded-lg shadow-md w-full">
             <div className="p-4 bg-[#F3F5F7]">
                 {/* 상호 검색 */}
-                <div className="mb-4 flex gap-4  mb:flex-row">
+                <div className="mb-4 flex gap-4 mb:flex-row">
                     <div className="w-1/6 text-center content-center">
                         <label className="block mb-1 font-extrabold text-lg mb:text-4xl">상호 검색</label>
                     </div>
-                    <div className="w-full flex gap-4">
-                        <input
-                            type="text"
-                            value={storeName || ""}
-                            onChange={(e) => setStoreName(e.target.value)}
-                            placeholder="상호명을 입력하세요"
-                            className="p-2 border border-[#DDDDDD] rounded w-full"
-                        />
-                        <div className="flex items-center gap-2 w-full mb:w-1/6">
+                    <div className="relative w-full">
+                        <div className="flex gap-4">
                             <input
-                                type="checkbox"
-                                id="includeSearch"
-                                checked={isLikeSearch}
-                                onChange={(e) => setIsLikeSearch(e.target.checked)}
+                                type="text"
+                                value={storeName || ""}
+                                onChange={(e) => setStoreName(e.target.value)}
+                                onFocus={() => setShowRecent(true)} // 포커스 시 최근 검색어 표시
+                                onBlur={() => setTimeout(() => setShowRecent(false), 200)} // 포커스 해제 시 숨기기
+                                placeholder="상호명을 입력하세요"
+                                className="p-2 border border-[#DDDDDD] rounded w-full"
                             />
-                            <label htmlFor="includeSearch" className="text-sm mb:text-4xl">직접 검색</label>
+                            <div className="flex items-center gap-2 w-full mb:w-1/6">
+                                <input
+                                    type="checkbox"
+                                    id="includeSearch"
+                                    checked={isLikeSearch}
+                                    onChange={(e) => setIsLikeSearch(e.target.checked)}
+                                />
+                                <label htmlFor="includeSearch" className="text-sm mb:text-4xl">직접 검색</label>
+                            </div>
                         </div>
+                        {/* 최근 검색어 */}
+                        {showRecent && (
+                            <div className="absolute top-full left-0 w-1/2 bg-white border border-gray-300 rounded shadow-lg z-10">
+                                <div className="flex justify-between p-2">
+                                    <span className="font-bold text-gray-700">최근 검색어</span>
+                                    <button
+                                        className="text-sm text-red-500"
+                                        onClick={handleDeleteAll}
+                                    >
+                                        전체 삭제
+                                    </button>
+                                </div>
+                                <ul>
+                                    {recentSearches.map((term, index) => (
+                                        <li
+                                            key={index}
+                                            className="flex justify-between p-2 hover:bg-gray-100 cursor-pointer"
+                                            onClick={() => {
+                                                setStoreName(term); // 검색어 입력란에 설정
+                                            }}
+                                        >
+                                            <span>{term}</span>
+                                            <button
+                                                className="text-sm text-red-500"
+                                                onClick={(e) => {
+                                                    e.stopPropagation(); // 부모 클릭 이벤트 차단
+                                                    handleDeleteSearchTerm(term);
+                                                }}
+                                            >
+                                                삭제
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
                 </div>
 
                 {/* 카테고리 검색 */}
-                <div className="mb-4 flex gap-4  mb:flex-row">
+                <div className="mb-4 flex gap-4 mb:flex-row">
                     <div className="w-1/6 text-center content-center">
                         <label className="block mb-1 font-extrabold text-lg mb:text-4xl">카테고리 검색</label>
                     </div>
@@ -59,12 +133,13 @@ const LocStoreListSearchForm = ({
                             subCategories={subCategories}
                             detailCategory={detailCategory}
                             setDetailCategory={setDetailCategory}
-                            detailCategories={detailCategories} />
+                            detailCategories={detailCategories}
+                        />
                     </div>
                 </div>
 
                 {/* 지역 검색 */}
-                <div className="mb-4 flex gap-4  mb:flex-row">
+                <div className="mb-4 flex gap-4 mb:flex-row">
                     <div className="w-1/6 text-center content-center">
                         <label className="block mb-1 font-extrabold text-lg mb:text-4xl">지역 검색</label>
                     </div>
@@ -91,7 +166,7 @@ const LocStoreListSearchForm = ({
 
             {/* 검색 및 초기화 버튼 */}
             <div className="py-2">
-                <SearchResetButtons onSearch={handleSearch} onReset={handleReset} />
+                <SearchResetButtons onSearch={handleSearchClick} onReset={handleReset} />
             </div>
         </div>
     );
