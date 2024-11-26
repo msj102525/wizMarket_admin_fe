@@ -64,7 +64,7 @@ const AdsContentDetailModal = ({ isOpen, onClose, localStoreContentId, storeName
                 setTimeout(() => {
                     setSaveStatus(null);
                     setMessage('');
-                    onClose(); // 모달 닫기
+                    ; // 모달 닫기
                 }, 1500);
             }
         } catch (error) {

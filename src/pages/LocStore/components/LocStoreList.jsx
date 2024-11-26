@@ -22,14 +22,14 @@ const LocStoreList = ({ data }) => {
     const handleModalClick = (event, storeBusinessNumber) => {
         event.preventDefault();
     
-        const REPORT_URL = `${process.env.REACT_APP_ADS}/ads/${storeBusinessNumber}`;
+        const ADS_URL = `${process.env.REACT_APP_ADS}/ads/${storeBusinessNumber}`;
         const width = 500;
         const height = 800;
         const left = window.screenX + (window.innerWidth / 4) * 2 + (window.innerWidth / 4 - width) / 2;
         const top = window.screenY + (window.outerHeight - height) / 2;
     
         window.open(
-            REPORT_URL,
+            ADS_URL,
             "_blank",
             `width=${width},height=${height},top=${top},left=${left}`
         );

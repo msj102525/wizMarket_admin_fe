@@ -29,6 +29,7 @@ const AdsContent = () => {
                 const response = await axios.get(
                     `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/select/list`
                 );
+                // console.log(response.data)
                 setAdsList(response.data);  // 받아온 데이터를 상태에 저장
             } catch (error) {
                 console.error('데이터 요청 중 오류 발생:', error);
