@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-const AdsContentList = ({ AdsList = [], onUpdate, onDelete }) => {
+const AdsContentList = ({ AdsList = []}) => {
     const [AdsListContent, setAdsListContent] = useState(AdsList);
     const [previewImage, setPreviewImage] = useState(null); // 미리보기 이미지 URL
     const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 }); // 미리보기 위치
+
+
+    useEffect(() => {
+        console.log("AdsList 데이터 타입:", Array.isArray(AdsList)); // true이면 배열
+        console.log("AdsList 데이터:", AdsList);
+    }, [AdsList]);
+
        // 주제 용도
     useEffect(() => {
         setAdsListContent(AdsList);
@@ -92,7 +99,7 @@ const AdsContentList = ({ AdsList = [], onUpdate, onDelete }) => {
                     <thead>
                         <tr>
                             <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">id</th>
-                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold w-[80px]">image</th>
+                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold w-[90px]">미리보기</th>
                             <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">매장명</th>
                             <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">도로명 주소</th>
                             <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">광고 채널</th>

@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 
 const AdsSearchFrom = ({
-
     storeName, setStoreName,
+    useOption, setUseOption,
+    title, setTitle,
     isLikeSearch, setIsLikeSearch,
     handleSearch, handleReset
 }) => {
     const [recentSearches, setRecentSearches] = useState([]);
     const [showRecent, setShowRecent] = useState(false); // 최근 검색어 표시 상태
-    const [title, setTitle] = useState();
-    const [useOption, setUseOption] = useState();
+
 
     // Load recent searches from localStorage
     useEffect(() => {
@@ -114,10 +114,11 @@ const AdsSearchFrom = ({
                     </div>
                     <select
                         className="border border-gray-300 rounded w-full px-3 py-2"
-                        value={useOption}
+                        value={useOption || ''}
                         onChange={(e) => setUseOption(e.target.value)}
                     >
-                        <option value="문자메시지">문자메시지 (333x458)</option>
+                        <option value="">광고 채널을 선택하세요</option>
+                        <option value="문자메시지">문자메시지</option>
                         <option value="유튜브 썸네일">유튜브 썸네일 (412x232)</option>
                         <option value="인스타그램 스토리">인스타 스토리 (412x732)</option>
                         <option value="인스타그램 피드">인스타 피드 (412x514)</option>
@@ -129,9 +130,10 @@ const AdsSearchFrom = ({
                     </div>
                     <select
                         className="border border-gray-300 rounded w-full px-3 py-2"
-                        value={title}
+                        value={title || ''}
                         onChange={(e) => setTitle(e.target.value)}
                     >
+                        <option value="">주제를 선택하세요</option>
                         <option value="매장 소개">매장 소개</option>
                         <option value="이벤트">이벤트</option>
                         <option value="상품 소개">상품 소개</option>
@@ -148,7 +150,6 @@ const AdsSearchFrom = ({
                 </div>
 
             </div>
-
             {/* 검색 및 초기화 버튼 */}
             <div className="py-2">
                 <SearchResetButtons onSearch={handleSearchClick} onReset={handleReset} />
