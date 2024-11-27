@@ -7,6 +7,8 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
     const [categoryContent, setCategoryContent] = useState(categoryContentList);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedContent, setSelectedContent] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null); // 미리보기 이미지 URL
+    const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 }); // 미리보기 위치
 
     // 날짜 형식 변환 함수
     const formatDate = (dateString) => {
@@ -48,6 +50,17 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
         }
     };
 
+    // 미리보기 이미지 설정
+    const showPreview = (imageUrl, event) => {
+        const { clientX, clientY } = event; // 마우스 위치
+        setPreviewImage(imageUrl);
+        setPreviewPosition({ x: clientX + 10, y: clientY + 10 }); // 마우스 근처에 이미지 표시
+    };
+
+    const hidePreview = () => {
+        setPreviewImage(null); // 미리보기 숨기기
+    };
+
     const openModal = (content, bizCategory) => {
         setSelectedContent({ content, bizCategory });
         setIsModalOpen(true);
@@ -66,6 +79,7 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
                         <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
                             id
                         </th>
+                        <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold w-[90px]">미리보기</th>
                         <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">
                             업종대분류
                         </th>
@@ -94,6 +108,17 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
                         return (
                             <tr key={index} className="hover:bg-gray-50 transition-colors">
                                 <td className="px-4 py-2 border-b text-gray-700">{content.biz_detail_category_content_id}</td>
+                                <td className="px-4 py-2 border-b text-gray-700 relative">
+                                    <img
+                                        className="block w-4 h-4"
+                                        src={require("../../../assets/adsList/ads_list.png")}
+                                        alt="user-img"
+                                        onMouseEnter={(e) =>
+                                            showPreview(`${process.env.REACT_APP_FASTAPI_BASE_URL}${content.biz_detail_category_content_image_url}`, e)
+                                        }
+                                        onMouseLeave={hidePreview}
+                                    />
+                                </td>
                                 <td className="px-4 py-2 border-b text-gray-700">
                                     {bizCategory ? bizCategory.biz_main_category_name : 'N/A'}
                                 </td>
@@ -139,6 +164,21 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
                     detailCategoryName={selectedContent.bizCategory?.biz_detail_category_name || 'N/A'}
                     createdAt={selectedContent.content.created_at}
                 />
+            )}
+            {previewImage && (
+                <div
+                    className="fixed z-50 pointer-events-none"
+                    style={{
+                        top: `${previewPosition.y}px`,
+                        left: `${previewPosition.x}px`,
+                    }}
+                >
+                    <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="w-auto h-auto border border-gray-300 rounded shadow-md"
+                    />
+                </div>
             )}
         </div>
     );
