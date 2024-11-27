@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Aside from '../../components/Aside';
 import Header from '../../components/Header';
-import LocStoreAdsList from './components/AdsContentList';
+import AdsContentList from './components/AdsContentList';
 import { Link } from 'react-router-dom';
 import AdsSearchFrom from './components/AdsSearchFrom';
 
@@ -22,7 +22,6 @@ const AdsContent = () => {
                 const response = await axios.get(
                     `${process.env.REACT_APP_FASTAPI_BASE_URL}/ads/select/list`
                 );
-                
                 setAdsList(response.data);  // 받아온 데이터를 상태에 저장
             } catch (error) {
                 console.error('데이터 요청 중 오류 발생:', error);
@@ -40,7 +39,6 @@ const AdsContent = () => {
             title : title,
             match_type : matchType
         };
-        console.log(filters)
         
         try {
             const response = await axios.post(
@@ -112,7 +110,7 @@ const AdsContent = () => {
                                 신규 wizAd를 작성해주세요.
                             </p>
                         ) : (
-                            <LocStoreAdsList
+                            <AdsContentList
                                 AdsList={AdsList}
                             />
                         )}

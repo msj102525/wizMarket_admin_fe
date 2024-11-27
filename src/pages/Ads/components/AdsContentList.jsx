@@ -8,10 +8,9 @@ const AdsContentList = ({ AdsList = []}) => {
     const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 }); // 미리보기 위치
 
 
-    useEffect(() => {
-        console.log("AdsList 데이터 타입:", Array.isArray(AdsList)); // true이면 배열
-        console.log("AdsList 데이터:", AdsList);
-    }, [AdsList]);
+    // useEffect(() => {
+    //     console.log("AdsList 데이터:", AdsList);
+    // }, [AdsList]);
 
        // 주제 용도
     useEffect(() => {
@@ -72,7 +71,7 @@ const AdsContentList = ({ AdsList = []}) => {
 
     const handleModalClick = (event, ads) => {
         event.preventDefault();
-    
+
         const encodedParams = new URLSearchParams(ads).toString();
         const ADS_URL = `${process.env.REACT_APP_ADS}/ads/detail?${encodedParams}`;
         const width = 500;
@@ -119,7 +118,7 @@ const AdsContentList = ({ AdsList = []}) => {
                                         src={require("../../../assets/adsList/ads_list.png")}
                                         alt="user-img"
                                         onMouseEnter={(e) =>
-                                            showPreview(`${process.env.REACT_APP_FASTAPI_ADS_URL}${ads.ads_image_url}`, e)
+                                            showPreview(`${process.env.REACT_APP_FASTAPI_ADS_URL}${ads.ads_final_image_url}`, e)
                                         }
                                         onMouseLeave={hidePreview}
                                     />
