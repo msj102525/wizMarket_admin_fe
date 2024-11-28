@@ -55,7 +55,6 @@ const BizDetailCategoryContent = () => {
                 );
                 setCategoryContentList(response.data);  // 받아온 데이터를 상태에 저장
                 const categoryContentData = response.data;
-
                 if (categoryContentData.length > 0) {
                     const secondResponse = await axios.post(
                         `${process.env.REACT_APP_FASTAPI_BASE_URL}/category/content/select/biz/category/list`,

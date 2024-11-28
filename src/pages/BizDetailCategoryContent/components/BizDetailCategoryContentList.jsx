@@ -7,7 +7,7 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
     const [categoryContent, setCategoryContent] = useState(categoryContentList);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedContent, setSelectedContent] = useState(null);
-    const [previewImage, setPreviewImage] = useState(null); // 미리보기 이미지 URL
+    const [previewImage, setPreviewImage] = useState(""); // 미리보기 이미지 URL
     const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 }); // 미리보기 위치
 
     // 날짜 형식 변환 함수
@@ -53,12 +53,19 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
     // 미리보기 이미지 설정
     const showPreview = (imageUrl, event) => {
         const { clientX, clientY } = event; // 마우스 위치
-        setPreviewImage(imageUrl);
         setPreviewPosition({ x: clientX + 10, y: clientY + 10 }); // 마우스 근처에 이미지 표시
+        console.log(imageUrl)
+        if (!imageUrl) {
+            setPreviewImage(""); // 이미지가 없는 경우 빈 문자열
+            return;
+        }
+        setPreviewImage(imageUrl);
     };
+
 
     const hidePreview = () => {
         setPreviewImage(null); // 미리보기 숨기기
+        setPreviewPosition({ x: 0, y: 0 }); // 위치 초기화
     };
 
     const openModal = (content, bizCategory) => {
@@ -114,6 +121,7 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
                                         src={require("../../../assets/adsList/ads_list.png")}
                                         alt="user-img"
                                         onMouseEnter={(e) =>
+                                            content.biz_detail_category_content_image_url &&
                                             showPreview(`${process.env.REACT_APP_FASTAPI_REPORT_URL}${content.biz_detail_category_content_image_url}`, e)
                                         }
                                         onMouseLeave={hidePreview}
@@ -165,21 +173,23 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
                     createdAt={selectedContent.content.created_at}
                 />
             )}
-            {previewImage && (
-                <div
-                    className="fixed z-50 pointer-events-none"
-                    style={{
-                        top: `${previewPosition.y}px`,
-                        left: `${previewPosition.x}px`,
-                    }}
-                >
+            <div
+                className="fixed z-50 pointer-events-none bg-white p-2 border border-gray-300 rounded shadow-md"
+                style={{
+                    top: `${previewPosition.y}px`,
+                    left: `${previewPosition.x}px`,
+                }}
+            >
+                {previewImage ? (
                     <img
                         src={previewImage}
                         alt="Preview"
-                        className="w-auto h-auto border border-gray-300 rounded shadow-md"
+                        className="w-80 h-80 border border-gray-300 rounded shadow-md"
                     />
-                </div>
-            )}
+                ) : (
+                    <p className="text-gray-500 text-center">미리보기 이미지가 없습니다.</p>
+                )}
+            </div>
         </div>
     );
 };
