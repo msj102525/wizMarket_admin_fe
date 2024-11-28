@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-const AdsContentList = ({ AdsList = []}) => {
+const AdsContentList = ({ AdsList = [] }) => {
     const [AdsListContent, setAdsListContent] = useState(AdsList);
     const [previewImage, setPreviewImage] = useState(null); // 미리보기 이미지 URL
     const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 }); // 미리보기 위치
@@ -12,7 +12,7 @@ const AdsContentList = ({ AdsList = []}) => {
     //     console.log("AdsList 데이터:", AdsList);
     // }, [AdsList]);
 
-       // 주제 용도
+    // 주제 용도
     useEffect(() => {
         setAdsListContent(AdsList);
     }, [AdsList]);
@@ -23,9 +23,9 @@ const AdsContentList = ({ AdsList = []}) => {
                 window.location.reload();
             }
         };
-    
+
         window.addEventListener("message", handleChildMessage);
-    
+
         return () => {
             window.removeEventListener("message", handleChildMessage);
         };
@@ -78,93 +78,125 @@ const AdsContentList = ({ AdsList = []}) => {
         const height = 800;
         const left = window.screenX + (window.innerWidth / 4) * 2 + (window.innerWidth / 4 - width) / 2;
         const top = window.screenY + (window.outerHeight - height) / 2;
-    
+
         window.open(
             ADS_URL,
             "_blank",
             `width=${width},height=${height},top=${top},left=${left}`
         );
     };
-    
-    
-    
+
+
+
 
     return (
         <>
-            {/* 테이블 */}
-            <div className="overflow-x-auto">
-                
-                <table className="table-fixed min-w-full bg-white border border-gray-300 text-left shadow-md rounded-lg">
-                    <thead>
-                        <tr>
-                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">id</th>
-                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold w-[90px]">미리보기</th>
-                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">매장명</th>
-                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">도로명 주소</th>
-                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">광고 채널</th>
-                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">주제</th>
-                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">세부 주제</th>
-                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">등록일</th>
-                            <th className="px-4 py-3 border-b bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 font-semibold">ADS 게시</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {AdsListContent.map((ads, index) => (
-                            <tr key={index} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-4 py-2 border-b text-gray-700">{ads.ads_id}</td>
-                                <td className="px-4 py-2 border-b text-gray-700 relative">
-                                    <img
-                                        className="block w-4 h-4"
-                                        src={require("../../../assets/adsList/ads_list.png")}
-                                        alt="user-img"
-                                        onMouseEnter={(e) =>
-                                            showPreview(`${process.env.REACT_APP_FASTAPI_ADS_URL}${ads.ads_final_image_url}`, e)
-                                        }
-                                        onMouseLeave={hidePreview}
-                                    />
-                                </td>
-                                <td className="px-4 py-2 border-b text-gray-700">{ads.store_name}</td>
-                                <td className="px-4 py-2 border-b text-gray-700">{ads.road_name}</td>
-                                <td className="px-4 py-2 border-b text-gray-700">{ads.use_option}</td>
-                                <td className="px-4 py-2 border-b text-blue-600 cursor-pointer" onClick={(e) => handleModalClick(e, ads)}>
-                                    {ads.title}
-                                </td>
-                                <td className="px-4 py-2 border-b text-gray-700">{ads.detail_title}</td>
-                                <td className="px-4 py-2 border-b text-gray-700">{formatDate(ads.created_at)}</td>
-                                <td className="px-4 py-2 border-b text-gray-700 text-center">
-                                    <div
-                                        onClick={() => toggleServiceStatus(index)}
-                                        className={`relative inline-flex items-center w-12 h-6 cursor-pointer rounded-full transition-colors ${ads.status === 'Y' ? 'bg-green-500' : 'bg-gray-300'
-                                            }`}
-                                    >
-                                        <span
-                                            className={`absolute left-1 h-5 w-5 rounded-full bg-white transition-transform transform ${ads.status === 'Y' ? 'translate-x-6' : ''
-                                                }`}
-                                        ></span>
-                                    </div>
-                                </td>
+            <div className="mt-4">
+                <div className="overflow-x-auto shadow-md rounded-lg">
+                    <table className="min-w-full table-auto bg-white border-collapse">
+                        <thead>
+                            <tr className="bg-gradient-to-r from-gray-100 to-gray-300">
+                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider border-b">
+                                    ID
+                                </th>
+                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider border-b">
+                                    미리보기
+                                </th>
+                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider border-b">
+                                    매장명
+                                </th>
+                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider border-b">
+                                    도로명 주소
+                                </th>
+                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider border-b">
+                                    광고 채널
+                                </th>
+                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider border-b">
+                                    주제
+                                </th>
+                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider border-b">
+                                    세부 주제
+                                </th>
+                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider border-b">
+                                    등록일
+                                </th>
+                                <th className="px-6 py-3 text-center text-sm font-medium text-gray-600 uppercase tracking-wider border-b">
+                                    게시 상태
+                                </th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {AdsListContent.map((ads, index) => (
+                                <tr
+                                    key={index}
+                                    className="hover:bg-gray-100 transition-colors border-b last:border-none"
+                                >
+                                    <td className="px-6 py-4 text-sm font-medium text-gray-800">
+                                        {ads.ads_id}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-800 relative">
+                                        <img
+                                            className="w-6 h-6 rounded-full"
+                                            src={require("../../../assets/adsList/ads_list.png")}
+                                            alt="user-img"
+                                            onMouseEnter={(e) =>
+                                                showPreview(
+                                                    `${process.env.REACT_APP_FASTAPI_ADS_URL}${ads.ads_final_image_url}`,
+                                                    e
+                                                )
+                                            }
+                                            onMouseLeave={hidePreview}
+                                        />
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-800">{ads.store_name}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-800">{ads.road_name}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-800">{ads.use_option}</td>
+                                    <td
+                                        className="px-6 py-4 text-sm text-blue-500 cursor-pointer hover:underline"
+                                        onClick={(e) => handleModalClick(e, ads)}
+                                    >
+                                        {ads.title}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-800">{ads.detail_title}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-800">
+                                        {formatDate(ads.created_at)}
+                                    </td>
+                                    <td className="px-6 py-4 text-center">
+                                        <div
+                                            onClick={() => toggleServiceStatus(index)}
+                                            className={`relative inline-flex items-center w-14 h-8 cursor-pointer rounded-full transition-colors ${ads.status === "Y" ? "bg-green-500" : "bg-gray-300"
+                                                }`}
+                                        >
+                                            <span
+                                                className={`absolute left-1 h-6 w-6 rounded-full bg-white transition-transform transform ${ads.status === "Y" ? "translate-x-6" : ""
+                                                    }`}
+                                            ></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* 이미지 미리보기 */}
+                {previewImage && (
+                    <div
+                        className="fixed z-50 pointer-events-none"
+                        style={{
+                            top: `${previewPosition.y}px`,
+                            left: `${previewPosition.x}px`,
+                        }}
+                    >
+                        <img
+                            src={previewImage}
+                            alt="Preview"
+                            className="w-auto h-auto border border-gray-300 rounded shadow-md"
+                        />
+                    </div>
+                )}
             </div>
 
-            {/* 이미지 미리보기 */}
-            {previewImage && (
-                <div
-                    className="fixed z-50 pointer-events-none"
-                    style={{
-                        top: `${previewPosition.y}px`,
-                        left: `${previewPosition.x}px`,
-                    }}
-                >
-                    <img
-                        src={previewImage}
-                        alt="Preview"
-                        className="w-auto h-auto border border-gray-300 rounded shadow-md"
-                    />
-                </div>
-            )}
         </>
     );
 };

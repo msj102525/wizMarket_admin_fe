@@ -114,7 +114,7 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
                                         src={require("../../../assets/adsList/ads_list.png")}
                                         alt="user-img"
                                         onMouseEnter={(e) =>
-                                            showPreview(`${process.env.REACT_APP_FASTAPI_BASE_URL}${content.biz_detail_category_content_image_url}`, e)
+                                            showPreview(`${process.env.REACT_APP_FASTAPI_REPORT_URL}${content.biz_detail_category_content_image_url}`, e)
                                         }
                                         onMouseLeave={hidePreview}
                                     />

@@ -65,6 +65,7 @@ const AdsContent = () => {
         setIsLikeSearch(false); // 체크박스는 false로 초기화
         setIsLikeSearch('');
         setTitle('');
+        setUseOption('');
     };
 
     return (

@@ -184,7 +184,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
 
             </div>
             <div className='p-2'>
-                <button onClick={toggleOpen} className="text-s mb:text-sm text-gray-500 px-2 py-1 mb-1 border border-gray-500 border-2 rounded">
+                <button onClick={toggleOpen} className="text-s mb:text-sm text-gray-500 px-2 py-1 mb-1 border-2 border-gray-500 rounded">
                     {isOpen ? '가이드 닫기' : '이상치 가이드'}
                 </button>
                 {isOpen && (
@@ -369,7 +369,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                                 )}
                                             </button>
                                         </td>
-                                        <td className="border border-gray-300 px-4 py-2 text-center">{index + 1}</td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">{index + 1 + (currentPage - 1) * pageSize}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.city_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.district_name}</td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">{item.sub_district_name}</td>
