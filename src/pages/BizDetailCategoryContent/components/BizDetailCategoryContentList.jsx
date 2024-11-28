@@ -54,7 +54,6 @@ const BizDetailCategoryContentList = ({ categoryContentList = [], categoryBizCat
     const showPreview = (imageUrl, event) => {
         const { clientX, clientY } = event; // 마우스 위치
         setPreviewPosition({ x: clientX + 10, y: clientY + 10 }); // 마우스 근처에 이미지 표시
-        console.log(imageUrl)
         if (!imageUrl) {
             setPreviewImage(""); // 이미지가 없는 경우 빈 문자열
             return;
