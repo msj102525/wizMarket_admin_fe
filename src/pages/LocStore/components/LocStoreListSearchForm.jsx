@@ -30,11 +30,10 @@ const LocStoreListSearchForm = ({
     };
 
     const handleSearchClick = () => {
-        if (isLikeSearch) { // 직접 검색 여부에 따라 실행
-            saveSearchTerm(storeName);
-        }
-        handleSearch(); // 검색은 항상 실행
+        saveSearchTerm(storeName); // 검색어를 무조건 저장
+        handleSearch(); // 검색 실행
     };
+    
 
     const handleDeleteSearchTerm = (term) => {
         const updatedSearches = recentSearches.filter((item) => item !== term);
