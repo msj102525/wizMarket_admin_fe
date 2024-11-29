@@ -14,6 +14,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
     const data = useMemo(() => {
         return data2.map((item, index) => ({
             ...item.commercial_district_data,
+            j_score_avg: item.statistics_data.j_score_avg,
             originalIndex: index + 1
         })) || [];
     }, [data2]);
@@ -76,6 +77,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
     const currentResults = sortedData.slice(indexOfFirstResult, indexOfLastResult);
 
     const headerMapping = {
+        // 기존 상권 분석 데이터 매핑
         commercial_district_id: '상권분석 아이디',
         city_name: '시/도 이름',
         district_name: '시/군/구 이름',
@@ -131,7 +133,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
         top_menu_5: '뜨는 메뉴 TOP5',
         created_at: '생성일시',
         updated_at: '수정일시',
-        y_m: '기준날짜'
+        y_m: '기준날짜',
     };
 
 
@@ -312,18 +314,18 @@ const CommercialDistrictList2 = ({ data2 }) => {
     return (
         <div className="flex flex-wrap justify-center">
             <div className="w-full">
-                <DataLengthDown data={data} headers={headers} filename="CommercialDistrict.xlsx" />
+                <DataLengthDown data={data2} headers={headers} filename="CommercialDistrict.xlsx" />
             </div>
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
                 <thead className="bg-[#EEEEEE]">
                     <tr>
                         {[
-                            { key: 'toggle', label: '펼치기' },
-                            { key: 'originalIndex', label: '번호' },
+                            { key: 'toggle', label: '매장보기' },
+                            // { key: 'originalIndex', label: '번호' },
                             { key: 'city_name', label: '시/도' },
                             { key: 'district_name', label: '시/군/구' },
                             { key: 'sub_district_name', label: '읍/면/동' },
-                            { key: 'copyright', label: '출처' },
+                            // { key: 'copyright', label: '출처' },
                             { key: 'biz_main_category_name', label: '대분류' },
                             { key: 'biz_sub_category_name', label: '중분류' },
                             { key: 'biz_detail_category_name', label: '소분류' },
@@ -338,6 +340,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                             { key: 'tax_cost', label: '세금' },
                             // { key: 'created_at', label: '생성일시' },
                             // { key: 'updated_at', label: '수정일시' },
+                            { key: 'j_score_avg', label: '평균JSCORE' },
                             { key: 'y_m', label: '기준날짜' },
                         ].map(({ key, label }) => (
                             <th
@@ -368,13 +371,13 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                         </div>
                                     </td>
                                     {/* <td className="text-center whitespace-nowrap text-md  text-gray-900 p-2">{indexOfFirstResult + idx + 1}</td> */}
-                                    <td className="text-center whitespace-nowrap text-md  text-gray-900 p-2">
+                                    {/* <td className="text-center whitespace-nowrap text-md  text-gray-900 p-2">
                                         {item.originalIndex}
-                                    </td>
+                                    </td> */}
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.city_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.district_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.sub_district_name}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{"나이스비즈맵"}</td>
+                                    {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{"나이스비즈맵"}</td> */}
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_main_category_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_sub_category_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_detail_category_name}</td>
@@ -391,8 +394,9 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.employee_cost)}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.rental_cost)}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.tax_cost)}</td>
+                                    {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.created_at).toLocaleDateString()}</td> */}
                                     {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td> */}
-                                    {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td> */}
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Number(item.j_score_avg).toFixed(2)}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.y_m).toLocaleDateString()}</td>
                                 </tr>
                                 {/* {expandedRows[idx] && renderExpandedRow(item, indexOfFirstResult + idx)} */}

@@ -15,7 +15,7 @@ const CommercialDistrict2SearchForm = ({
     rentalCostMax, rentalCostMin, setRentalCostMax, setRentalCostMin,
     avgProfitMax, avgProfitMin, setAvgProfitMax, setAvgProfitMin,
     handleSearch, handleReset,
-    dataDate, setRefDate
+    dataDate, refDate, setRefDate
 }) => {
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full">
@@ -160,10 +160,10 @@ const CommercialDistrict2SearchForm = ({
                     </div>
                 </div>
 
-                {/* 임차료 */}
+                {/* 임대료 */}
                 <div className="mb-4 flex gap-4">
                     <div className="w-1/6 text-center">
-                        <label className="block mb-1 font-extrabold">임차료</label>
+                        <label className="block mb-1 font-extrabold">임대료</label>
                     </div>
                     <div className="w-full flex gap-4">
                         <input
@@ -217,6 +217,7 @@ const CommercialDistrict2SearchForm = ({
                         <select
                             className='p-2 border border-[#DDDDDD] rounded w-1/6'
                             onChange={(e) => setRefDate(e.target.value)}
+                            value={refDate}
                         >
                             {dataDate && dataDate.length > 0 ? (
                                 dataDate.slice().reverse().map((item, index) => (

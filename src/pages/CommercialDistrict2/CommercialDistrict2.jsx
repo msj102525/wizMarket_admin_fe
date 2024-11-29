@@ -33,7 +33,7 @@ const CommercialDistrict2 = () => {
     const [rentalCostMin, setRentalCostMin] = useState("");
     const [avgProfitMax, setAvgProfitMax] = useState("");
     const [avgProfitMin, setAvgProfitMin] = useState("");
-    const [refDate, setRefDate] = useState([]);
+    const [refDate, setRefDate] = useState("");
 
     const { dataDate } = useCommercialDistrictDataDate();
 
