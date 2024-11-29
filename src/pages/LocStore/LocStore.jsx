@@ -412,7 +412,6 @@ const LocStore = () => {
                     {/* 갯수 및 엑셀 다운 */}
                     <section className="w-full mb-4">
                         <div className="flex justify-between items-center">
-                            {console.log(totalItemsCount)}
                             <div>
                                 총 <span className="text-red-500">{(totalItemsCount ?? 0).toLocaleString()}</span> 개
                             </div>
