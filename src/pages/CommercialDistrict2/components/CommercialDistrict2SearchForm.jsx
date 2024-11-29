@@ -9,7 +9,7 @@ const CommercialDistrict2SearchForm = ({
     city, district, subDistrict, cities, districts, subDistricts, setMainCategory, setSubCategory, setDetailCategory,
     setCity, setDistrict, setSubDistrict,
     marketSizeMax, marketSizeMin, setMarketSizeMax, setMarketSizeMin,
-    avgSalseMax, avgSalseMin, setAvgSalseMax, setAvgSalseMin,
+    avgSalseMax, avgSalseMin, setAvgSalesMax, setAvgSalesMin,
     foodCostMax, foodCostMin, setFoodCostMax, setFoodCostMin,
     empCostMax, empCostMin, setEmpCostMax, setEmpCostMin,
     rentalCostMax, rentalCostMin, setRentalCostMax, setRentalCostMin,
@@ -97,7 +97,7 @@ const CommercialDistrict2SearchForm = ({
                         <input
                             type="number"
                             value={avgSalseMin || ""}
-                            onChange={(e) => setAvgSalseMin(e.target.value)}
+                            onChange={(e) => setAvgSalesMin(e.target.value)}
                             placeholder="이상"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
                         />
@@ -105,7 +105,7 @@ const CommercialDistrict2SearchForm = ({
                         <input
                             type="number"
                             value={avgSalseMax || ""}
-                            onChange={(e) => setAvgSalseMax(e.target.value)}
+                            onChange={(e) => setAvgSalesMax(e.target.value)}
                             placeholder="이하"
                             className="p-2 border border-[#DDDDDD] rounded w-1/6"
                         />

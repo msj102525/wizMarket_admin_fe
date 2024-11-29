@@ -136,8 +136,8 @@ const CommercialDistrict2 = () => {
         setDistrict("");
         setSubDistrict("");
         setMarketSizeMax("");
-        setAvgSalesMax("");
         setMarketSizeMin("");
+        setAvgSalesMax("");
         setAvgSalesMin("");
         setFoodCostMax("");
         setFoodCostMin("");
