@@ -81,22 +81,6 @@ const PopulationSearchForm = ({ onSearch, isList, dataDate }) => {
                             />
                         </div>
                     </div>
-                    <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
-                            <label className="block mb-1 font-extrabold">성별</label>
-                        </div>
-                        <div className="w-full flex gap-4">
-                            <select
-                                value={gender}
-                                onChange={(e) => setGender(e.target.value)}
-                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
-                            >
-                                <option value="">전체</option>
-                                <option value="1">남성</option>
-                                <option value="2">여성</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
 
                 <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>

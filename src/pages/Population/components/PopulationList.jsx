@@ -11,11 +11,11 @@ const PopulationList = ({ data, ageFilter }) => {
     { key: 'male_population', label: '남자' },
     { key: 'female_population', label: '여자' },
     { key: 'age_under_10s', label: '10대 미만', filter: 'age_under_10s' },
-    { key: 'age_10s', label: '10대 이상', filter: 'age_10s' },
-    { key: 'age_20s', label: '20대 이상', filter: 'age_20s' },
-    { key: 'age_30s', label: '30대 이상', filter: 'age_30s' },
-    { key: 'age_40s', label: '40대 이상', filter: 'age_40s' },
-    { key: 'age_50s', label: '50대 이상', filter: 'age_50s' },
+    { key: 'age_10s', label: '10대', filter: 'age_10s' },
+    { key: 'age_20s', label: '20대', filter: 'age_20s' },
+    { key: 'age_30s', label: '30대', filter: 'age_30s' },
+    { key: 'age_40s', label: '40대', filter: 'age_40s' },
+    { key: 'age_50s', label: '50대', filter: 'age_50s' },
     { key: 'age_plus_60s', label: '60대 이상', filter: 'age_plus_60s' },
   ];
 

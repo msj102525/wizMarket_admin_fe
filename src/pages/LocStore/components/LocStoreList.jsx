@@ -21,13 +21,13 @@ const LocStoreList = ({ data }) => {
 
     const handleModalClick = (event, storeBusinessNumber) => {
         event.preventDefault();
-    
+
         const ADS_URL = `${process.env.REACT_APP_ADS}/ads/${storeBusinessNumber}`;
         const width = 500;
         const height = 800;
         const left = window.screenX + (window.innerWidth / 4) * 2 + (window.innerWidth / 4 - width) / 2;
         const top = window.screenY + (window.outerHeight - height) / 2;
-    
+
         window.open(
             ADS_URL,
             "_blank",
@@ -57,6 +57,7 @@ const LocStoreList = ({ data }) => {
 
     return (
         <div className="w-full overflow-x-auto">
+            <p className='mb-4'>기준 : {data[0]?.local_year || "정보 없음"}년 {data[0]?.local_quarter || "정보 없음"}분기</p>
             <table className="min-w-full border-collapse border border-gray-200 text-sm truncate px-4 py-2">
                 <thead className="bg-gray-200">
                     <tr>
@@ -98,24 +99,8 @@ const LocStoreList = ({ data }) => {
                             건물명
                         </th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
-                            도로명주소
+                            주소
                         </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
-                            우편주소
-                        </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
-                            동정보
-                        </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
-                            층정보
-                        </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
-                            호정보
-                        </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
-                            기준년분기
-                        </th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -148,7 +133,7 @@ const LocStoreList = ({ data }) => {
                                         onClick={(e) => handleModalClick(e, item.store_business_number)}
                                         className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
                                     >
-                                        wizAd
+                                        wizAD
                                     </button>
                                 </div>
                             </td>
@@ -162,15 +147,17 @@ const LocStoreList = ({ data }) => {
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 ">{item.small_category_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.industry_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.building_name}</td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.road_name_address}</td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.new_postal_code}</td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.dong_info}</td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden ">{item.floor_info}</td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.unit_info}</td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4">
-                                {item.local_year}년 {item.local_quarter}/4분기
+                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                {item.road_name_address && (
+                                    <>
+                                        {item.road_name_address}
+                                        {item.new_postal_code && ` (${item.new_postal_code})`}
+                                        {item.dong_info && ` ${item.dong_info}동`}
+                                        {item.floor_info && ` ${item.floor_info}층`}
+                                        {item.unit_info && ` ${item.unit_info}호`}
+                                    </>
+                                )}
                             </td>
-
                         </tr>
                     ))}
                 </tbody>
@@ -181,7 +168,7 @@ const LocStoreList = ({ data }) => {
                 onClose={closeModal}
                 storeBusinessNumber={selectedStoreBusinessNumber}
             />
-            
+
         </div>
     );
 };
