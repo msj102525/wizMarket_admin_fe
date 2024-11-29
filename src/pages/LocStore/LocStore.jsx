@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { useCategories } from '../../hooks/useCategories';
 import { useCities } from '../../hooks/useCities';
 import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
+import * as XLSX from 'xlsx';
 
 const LocStore = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +23,7 @@ const LocStore = () => {
     const [filters, setFilters] = useState({}); // 필터 값 상태
     const [storeName, setStoreName] = useState(null);
     const [isLikeSearch, setIsLikeSearch] = useState(null);
+    const [dataForExcel, setDataForExcel] = useState([]); // 엑셀 다운로드 위한 데이터
 
 
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
@@ -137,7 +139,8 @@ const LocStore = () => {
             );
             setSearchResults(response.data.filtered_data);  // 검색 결과를 상태로 저장
             if (!isPageChange) {
-                setTotalItemsCount(response.data.total_items);  // 총 데이터 수를 첫 검색 후에만 받아옴
+                setTotalItemsCount(response.data.total_items.length);  // 총 데이터 수를 첫 검색 후에만 받아옴
+                setDataForExcel(response.data.total_items)
             }
 
         } catch (err) {
@@ -259,6 +262,100 @@ const LocStore = () => {
     };
 
 
+    const handleExcelDownload = () => {
+        if (!dataForExcel || dataForExcel.length === 0) {
+            alert("다운로드할 데이터가 없습니다.");
+            return;
+        }
+    
+        // 제외할 헤더 설정
+        const excludeHeaders = [
+            "city.CITY_ID", "CITY_NAME", 
+            "district.DISTRICT_ID", "district.CITY_ID", "district.DISTRICT_NAME", 
+            "sub_district.SUB_DISTRICT_ID", "sub_district.CITY_ID", "sub_district.DISTRICT_ID", "SUB_DISTRICT_NAME"
+        ];
+    
+        // 헤더 매핑 (영문 -> 한글)
+        const headerMapping = {
+            "LOCAL_STORE_ID": "매장 ID",
+            "CITY_ID": "시/도코드-DB",
+            "DISTRICT_ID": "시/군/구코드-DB",
+            "SUB_DISTRICT_ID": "읍/면/동코드-DB",
+            "STORE_BUSINESS_NUMBER": "상가업소번호-코드정보",
+            "STORE_NAME": "상호명",
+            "BRANCH_NAME": "지점명",
+            "LARGE_CATEGORY_CODE": "상권업종대분류코드",
+            "LARGE_CATEGORY_NAME": "상권업종대분류명",
+            "MEDIUM_CATEGORY_CODE": "상권업종중분류코드",
+            "MEDIUM_CATEGORY_NAME": "상권업종중분류명",
+            "SMALL_CATEGORY_CODE": "상권업종소분류코드",
+            "SMALL_CATEGORY_NAME": "상권업종소분류명",
+            "INDUSTRY_CODE": "표준산업분류코드",
+            "INDUSTRY_NAME": "표준산업분류명",
+            "PROVINCE_CODE": "시/도코드-기록용",
+            "PROVINCE_NAME": "시/도명",
+            "DISTRICT_CODE": "시/군/구코드-기록용",
+            "DISTRICT_NAME": "시/군/구명",
+            "ADMINISTRATIVE_DONG_CODE": "행정동코드",
+            "ADMINISTRATIVE_DONG_NAME": "행정동명",
+            "LEGAL_DONG_CODE": "법정동코드",
+            "LEGAL_DONG_NAME": "법정동명",
+            "LOT_NUMBER_CODE": "지번코드",
+            "LAND_CATEGORY_CODE": "대지구분코드",
+            "LAND_CATEGORY_NAME": "대지구분명",
+            "LOT_MAIN_NUMBER": "지번본번지",
+            "LOT_SUB_NUMBER": "지번부번지",
+            "LOT_ADDRESS": "지번주소",
+            "ROAD_NAME_CODE": "도로명코드",
+            "ROAD_NAME": "도로명",
+            "BUILDING_MAIN_NUMBER": "건물본번지",
+            "BUILDING_SUB_NUMBER": "건물부번지",
+            "BUILDING_MANAGEMENT_NUMBER": "건물관리번호",
+            "BUILDING_NAME": "건물명",
+            "ROAD_NAME_ADDRESS": "도로명주소",
+            "OLD_POSTAL_CODE": "구우편주소",
+            "NEW_POSTAL_CODE": "신우편주소",
+            "DONG_INFO": "동정보",
+            "FLOOR_INFO": "층정보",
+            "UNIT_INFO": "호정보",
+            "LONGITUDE": "경도",
+            "LATITUDE": "위도",
+            "IS_EXIST": "존재여부",
+            "LOCAL_YEAR": "기준 년",
+            "LOCAL_QUARTER": "기준 분기",
+            "CREATED_AT": "생성일자",
+            "UPDATED_AT": "수정일자",
+            "REFERENCE_ID": "참조ID",
+        };
+    
+        // 헤더 제외 및 매핑 데이터 생성
+        const filteredData = dataForExcel.map(item => {
+            const filteredItem = {};
+            Object.keys(item).forEach(key => {
+                if (!excludeHeaders.includes(key)) {
+                    const mappedKey = headerMapping[key] || key; // 매핑된 키가 없으면 원래 키 사용
+                    filteredItem[mappedKey] = item[key];
+                }
+            });
+            return filteredItem;
+        });
+    
+        // 데이터 배열을 엑셀 워크시트로 변환
+        const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    
+        // 워크북 생성 및 워크시트 추가
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    
+        // 동적 파일 이름 생성 (예: 매장 데이터_20241129.xlsx)
+        const fileName = `매장 데이터_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.xlsx`;
+    
+        // 엑셀 파일 생성 및 다운로드
+        XLSX.writeFile(workbook, fileName);
+    };
+    
+
+
 
 
     return (
@@ -318,6 +415,12 @@ const LocStore = () => {
                             <div>
                                 총 <span className="text-red-500">{totalItemsCount.toLocaleString()}</span> 개
                             </div>
+                            <button
+                                className="px-4 py-2 bg-white text-black rounded border border-black"
+                                onClick={handleExcelDownload}
+                            >
+                                엑셀 다운로드
+                            </button>
 
                         </div>
                     </section>
