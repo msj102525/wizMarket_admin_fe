@@ -267,14 +267,14 @@ const LocStore = () => {
             alert("다운로드할 데이터가 없습니다.");
             return;
         }
-    
+
         // 제외할 헤더 설정
         const excludeHeaders = [
-            "city.CITY_ID", "CITY_NAME", 
-            "district.DISTRICT_ID", "district.CITY_ID", "district.DISTRICT_NAME", 
+            "city.CITY_ID", "CITY_NAME",
+            "district.DISTRICT_ID", "district.CITY_ID", "district.DISTRICT_NAME",
             "sub_district.SUB_DISTRICT_ID", "sub_district.CITY_ID", "sub_district.DISTRICT_ID", "SUB_DISTRICT_NAME"
         ];
-    
+
         // 헤더 매핑 (영문 -> 한글)
         const headerMapping = {
             "LOCAL_STORE_ID": "매장 ID",
@@ -327,7 +327,7 @@ const LocStore = () => {
             "UPDATED_AT": "수정일자",
             "REFERENCE_ID": "참조ID",
         };
-    
+
         // 헤더 제외 및 매핑 데이터 생성
         const filteredData = dataForExcel.map(item => {
             const filteredItem = {};
@@ -339,21 +339,21 @@ const LocStore = () => {
             });
             return filteredItem;
         });
-    
+
         // 데이터 배열을 엑셀 워크시트로 변환
         const worksheet = XLSX.utils.json_to_sheet(filteredData);
-    
+
         // 워크북 생성 및 워크시트 추가
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-    
+
         // 동적 파일 이름 생성 (예: 매장 데이터_20241129.xlsx)
         const fileName = `매장 데이터_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.xlsx`;
-    
+
         // 엑셀 파일 생성 및 다운로드
         XLSX.writeFile(workbook, fileName);
     };
-    
+
 
 
 
@@ -412,9 +412,11 @@ const LocStore = () => {
                     {/* 갯수 및 엑셀 다운 */}
                     <section className="w-full mb-4">
                         <div className="flex justify-between items-center">
+                            {console.log(totalItemsCount)}
                             <div>
-                                총 <span className="text-red-500">{totalItemsCount.toLocaleString()}</span> 개
+                                총 <span className="text-red-500">{(totalItemsCount ?? 0).toLocaleString()}</span> 개
                             </div>
+
                             <button
                                 className="px-4 py-2 bg-white text-black rounded border border-black"
                                 onClick={handleExcelDownload}
