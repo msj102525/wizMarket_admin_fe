@@ -12,7 +12,7 @@ const RisingSearchForm = ({
     increaseRateMin, increaseRateMax, rankMin, rankMax,
     setIncreaseRateMin, setIncreaseRateMax, setRankMin, setRankMax,
     handleSearch, handleReset,
-    dataDate, setRefDate
+    dataDate, refDate, setRefDate
 }) => {
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
@@ -136,6 +136,7 @@ const RisingSearchForm = ({
                         <select
                             className='p-2 border border-[#DDDDDD] rounded w-1/6'
                             onChange={(e) => setRefDate(e.target.value)}
+                            value={refDate}
                         >
                             {dataDate && dataDate.length > 0 ? (
                                 dataDate.slice().reverse().map((item, index) => (

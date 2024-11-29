@@ -341,7 +341,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                             // { key: 'created_at', label: '생성일시' },
                             // { key: 'updated_at', label: '수정일시' },
                             { key: 'j_score_avg', label: '평균JSCORE' },
-                            { key: 'y_m', label: '기준날짜' },
+                            // { key: 'y_m', label: '기준날짜' },
                         ].map(({ key, label }) => (
                             <th
                                 key={key}
@@ -397,7 +397,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                     {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.created_at).toLocaleDateString()}</td> */}
                                     {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td> */}
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Number(item.j_score_avg).toFixed(2)}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.y_m).toLocaleDateString()}</td>
+                                    {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.y_m).toLocaleDateString()}</td> */}
                                 </tr>
                                 {/* {expandedRows[idx] && renderExpandedRow(item, indexOfFirstResult + idx)} */}
                                 {expandedRows[idx] && renderExpandedRow(item, item.originalIndex - 1)}

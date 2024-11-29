@@ -72,7 +72,7 @@ const RisingBusinessList = ({ data }) => {
                 <thead className="bg-[#EEEEEE]">
                     <tr>
                         {[
-                            { key: 'rising_business_id', label: '코드' },
+                            // { key: 'rising_business_id', label: '코드' },
                             { key: 'city_name', label: '시/도' },
                             { key: 'district_name', label: '시/군/구' },
                             { key: 'sub_district_name', label: '읍/면/동' },
@@ -81,7 +81,7 @@ const RisingBusinessList = ({ data }) => {
                             { key: 'biz_detail_category_name', label: '소분류' },
                             { key: 'growth_rate', label: '증가율' },
                             { key: 'sub_district_rank', label: '지역순위' },
-                            { key: 'y_m', label: '기준날짜' },
+                            // { key: 'y_m', label: '기준날짜' },
                         ].map(({ key, label }) => (
                             <th
                                 key={key}
@@ -97,9 +97,9 @@ const RisingBusinessList = ({ data }) => {
                     {currentResults.length > 0 ? (
                         currentResults.map((item, index) => (
                             <tr key={item.rising_business_id}>
-                                <td className="text-center py-2 whitespace-nowrap text-md font-medium text-gray-900 overflow-hidden overflow-ellipsis">
+                                {/* <td className="text-center py-2 whitespace-nowrap text-md font-medium text-gray-900 overflow-hidden overflow-ellipsis">
                                     {sortConfig.direction === "descending" ? sortedData.length - indexOfFirstResult - index : indexOfFirstResult + index + 1}
-                                </td>
+                                </td> */}
                                 <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.city_name}</td>
                                 <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.district_name}</td>
                                 <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_name}</td>
@@ -108,7 +108,7 @@ const RisingBusinessList = ({ data }) => {
                                 <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.biz_detail_category_name}</td>
                                 <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 font-semibold overflow-hidden overflow-ellipsis">{item.growth_rate}%</td>
                                 <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{item.sub_district_rank}</td>
-                                <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.y_m).toLocaleDateString()}</td>
+                                {/* <td className="text-center py-2 whitespace-nowrap text-md text-gray-500 overflow-hidden overflow-ellipsis">{new Date(item.y_m).toLocaleDateString()}</td> */}
                             </tr>
                         ))
                     ) : (
