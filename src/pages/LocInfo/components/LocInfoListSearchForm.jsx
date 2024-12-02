@@ -10,9 +10,10 @@ const LocInfoListSearchForm = ({
     setshopMin, setmove_popMin, setsalesMin, setwork_popMin, setincomeMin, setspendMin, sethouseMin, setresidentMin, setJScoreMin,
     setshopMax, setmove_popMax, setsalesMax, setwork_popMax, setincomeMax, setspendMax, sethouseMax, setresidentMax, setJScoreMax,
     selectedOptions, setSelectedOptions, dataDate,
-    handleSearch, handleReset, isList
+    handleSearch, handleReset, isList,
+    isLikeSearch, setIsLikeSearch,
 }) => {
-    
+
 
     useEffect(() => {
         const handleEnterKeyPress = (e) => {
@@ -48,8 +49,22 @@ const LocInfoListSearchForm = ({
                                 setDistrict={setDistrict}
                                 setSubDistrict={setSubDistrict}
                             />
+                            <div className="flex items-center gap-2 mb:w-1/6">
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        type="checkbox"
+                                        id="includeSearch"
+                                        checked={isLikeSearch}
+                                        onChange={(e) => setIsLikeSearch(e.target.checked)}
+                                    />
+                                    <label htmlFor="includeSearch" className="text-sm whitespace-nowrap">
+                                        유사도(비활성)
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">
                             <label className="block mb-1 font-extrabold">기준 년월</label>
@@ -91,6 +106,7 @@ const LocInfoListSearchForm = ({
                             />
                         </div>
                     </div>
+
 
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">

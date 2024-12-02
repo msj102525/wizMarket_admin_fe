@@ -4,7 +4,7 @@ import ExpandedRow from './LocInfoListExpandedRow';
 import * as XLSX from 'xlsx';
 
 
-const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataByRegion, filterSet }) => {
+const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataByRegion, filterSet, baseData=[] }) => {
     const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
     const pageSize = 20;  // 한 페이지에 보여줄 리스트 개수
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });  // 정렬 상태 관리
@@ -190,7 +190,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                 {isOpen && (
                     <div className='mt-4 ml-4'>
                         <p className="text-s mb:text-sm text-gray-500">
-                            1. 각 동마다 항목 별 값 내림차순 정렬                                                                              
+                            1. 각 동마다 항목 별 값 내림차순 정렬
                         </p>
                         <p className="text-s mb:text-sm text-gray-500">2. 1번 값 - 2번 값이 항목의 표준편차 보다 클 경우 이상치로 판단 후 제거</p>
                         <p className="text-s mb:text-sm text-gray-500">3. 최대 3번까지 시행</p>
@@ -200,6 +200,19 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                     </div>
                 )}
             </div>
+
+            {baseData[0] && (
+                <div>
+                    <p className="mt-2 ml-4 text-lg text-gray-700">
+                        기준 : {baseData[0].city_name} {baseData[0].district_name} {baseData[0].sub_district_name} - {(baseData[0].j_score_non_outliers).toFixed(2)}점
+                    </p>
+                    <p className="mt-2 ml-4 text-lg text-black">
+                        범위 : 
+                        {(baseData[0].j_score_non_outliers * 0.9).toFixed(2)} ~ 
+                        {(baseData[0].j_score_non_outliers * 1.1).toFixed(2)} (±10%)
+                    </p>
+                </div>
+            )}
 
 
             {currentData.length === 0 ? (
@@ -460,8 +473,8 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                             {item.j_score_per === null || item.j_score_per === '-' ? '-' : `${item.j_score_per.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.j_score_per_non_outliers === null || item.j_score_per_non_outliers === '-' 
-                                                ? '-' 
+                                            {item.j_score_per_non_outliers === null || item.j_score_per_non_outliers === '-'
+                                                ? '-'
                                                 : <strong>{item.j_score_per_non_outliers.toFixed(2)}</strong>
                                             }
                                         </td>
@@ -469,8 +482,8 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                             {item.j_score === null || item.j_score === '-' ? '-' : `${item.j_score.toFixed(2)} `}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
-                                            {item.j_score_non_outliers === null || item.j_score_non_outliers === '-' 
-                                                ? '-' 
+                                            {item.j_score_non_outliers === null || item.j_score_non_outliers === '-'
+                                                ? '-'
                                                 : <strong>{item.j_score_non_outliers.toFixed(2)}</strong>
                                             }
                                         </td>

@@ -22,6 +22,7 @@ const LocInfo = () => {
     const [statDataByRegion, setStatDataByRegion] = useState([]);
     const [nationJScore, setNationJScore] = useState([]);
     const [filterSet, setFilterSet] = useState([]);
+    const [baseData, setBaseData] = useState([]);
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -50,6 +51,7 @@ const LocInfo = () => {
     const [jScoreMax, setJScoreMax] = useState('');
 
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [isLikeSearch, setIsLikeSearch] = useState(false);
 
     const handleToggle = () => {
         setIsList(!isList);
@@ -105,31 +107,43 @@ const LocInfo = () => {
 
         const convertToInt = (value) => value ? parseInt(value, 10) : null;
 
-        const filters = {
-            city: convertToInt(city),
-            district: convertToInt(district),
-            subDistrict: convertToInt(subDistrict),
-            shopMin: convertToInt(shopMin),
-            shopMax: convertToInt(shopMax),
-            move_popMin: convertToInt(move_popMin),
-            move_popMax: convertToInt(move_popMax),
-            salesMin: convertToInt(salesMin),
-            salesMax: convertToInt(salesMax),
-            work_popMin: convertToInt(work_popMin),
-            work_popMax: convertToInt(work_popMax),
-            incomeMin: convertToInt(incomeMin),
-            incomeMax: convertToInt(incomeMax),
-            spendMin: convertToInt(spendMin),
-            spendMax: convertToInt(spendMax),
-            houseMin: convertToInt(houseMin),
-            houseMax: convertToInt(houseMax),
-            residentMin: convertToInt(residentMin),
-            residentMax: convertToInt(residentMax),
-            jScoreMin: convertToInt(jScoreMin),
-            jScoreMax: convertToInt(jScoreMax),
-            selectedOptions: selectedOptions || [],
-        };
-        setFilterSet(filters)
+        // 조건에 따라 필터 생성
+        const filters = isLikeSearch
+            ? { // 지역 필터만 포함
+                city: convertToInt(city),
+                district: convertToInt(district),
+                subDistrict: convertToInt(subDistrict),
+                selectedOptions: selectedOptions || [],
+                isLikeSearch: isLikeSearch
+            }
+            : { // 모든 필터 포함
+                city: convertToInt(city),
+                district: convertToInt(district),
+                subDistrict: convertToInt(subDistrict),
+                shopMin: convertToInt(shopMin),
+                shopMax: convertToInt(shopMax),
+                move_popMin: convertToInt(move_popMin),
+                move_popMax: convertToInt(move_popMax),
+                salesMin: convertToInt(salesMin),
+                salesMax: convertToInt(salesMax),
+                work_popMin: convertToInt(work_popMin),
+                work_popMax: convertToInt(work_popMax),
+                incomeMin: convertToInt(incomeMin),
+                incomeMax: convertToInt(incomeMax),
+                spendMin: convertToInt(spendMin),
+                spendMax: convertToInt(spendMax),
+                houseMin: convertToInt(houseMin),
+                houseMax: convertToInt(houseMax),
+                residentMin: convertToInt(residentMin),
+                residentMax: convertToInt(residentMax),
+                jScoreMin: convertToInt(jScoreMin),
+                jScoreMax: convertToInt(jScoreMax),
+                selectedOptions: selectedOptions || [],
+                isLikeSearch: isLikeSearch
+            };
+
+        setFilterSet(filters); // 필터 상태 저장
+
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc/info/select/list`,
@@ -142,8 +156,9 @@ const LocInfo = () => {
             );
             setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
             setFilterCorrResults(response.data.filter_corr);
+            setBaseData(response.data.base_data)
             setStatDataByRegion(response.data.stat_by_region);
-            setNationJScore(response.data.nation_j_score)
+            setNationJScore(response.data.nation_j_score);
         } catch (err) {
             console.error('검색 오류:', err);
             setError('검색 중 오류가 발생했습니다.');
@@ -151,8 +166,6 @@ const LocInfo = () => {
             setLoading(false);
         }
     };
-
-
 
     const handleReset = () => {
         // 모든 필터 값을 초기화
@@ -181,6 +194,7 @@ const LocInfo = () => {
         setJScoreMax('');
 
         setSelectedOptions(dataDate);
+        setIsLikeSearch('');
     };
 
 
@@ -230,7 +244,7 @@ const LocInfo = () => {
                                 spendMax={spendMax}
                                 houseMax={houseMax}
                                 residentMax={residentMax}
-                                jScoreMax = {jScoreMax}
+                                jScoreMax={jScoreMax}
 
                                 setCity={setCity}
                                 setDistrict={setDistrict}
@@ -244,7 +258,7 @@ const LocInfo = () => {
                                 setspendMin={setspendMin}
                                 sethouseMin={sethouseMin}
                                 setresidentMin={setresidentMin}
-                                setJScoreMin = {setJScoreMin}
+                                setJScoreMin={setJScoreMin}
 
                                 setshopMax={setshopMax}
                                 setmove_popMax={setmove_popMax}
@@ -259,12 +273,14 @@ const LocInfo = () => {
                                 selectedOptions={selectedOptions}
                                 setSelectedOptions={setSelectedOptions}
 
-                                dataDate = {dataDate}
+                                dataDate={dataDate}
 
                                 handleSearch={handleSearch}
                                 handleReset={handleReset}
-                                isList={isList}                           
-                                />
+                                isList={isList}
+                                isLikeSearch={isLikeSearch}
+                                setIsLikeSearch={setIsLikeSearch}
+                            />
                         </div>
                     </section>
                     {/* 하단 리스트 */}
@@ -289,6 +305,7 @@ const LocInfo = () => {
                                 nationJScore={nationJScore}
                                 statDataByRegion={statDataByRegion}  // 검색 결과 지역의 통계 데이터
                                 filterCorrData={filterCorrResults}    // 검색 결과 지역의 상관 관계
+                                baseData={baseData}
                             />}
                     </section>
                 </main>
