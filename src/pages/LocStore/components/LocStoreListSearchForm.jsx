@@ -16,6 +16,8 @@ const LocStoreListSearchForm = ({
     const [recentSearches, setRecentSearches] = useState([]);
     const [showRecent, setShowRecent] = useState(false); // 최근 검색어 표시 상태
 
+    
+
     // Load recent searches from localStorage
     useEffect(() => {
         const savedSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
@@ -30,7 +32,9 @@ const LocStoreListSearchForm = ({
     };
 
     const handleSearchClick = () => {
-        saveSearchTerm(storeName); // 검색어를 무조건 저장
+        if (storeName && storeName.trim() !== "") {
+            saveSearchTerm(storeName); // 검색어가 비어있지 않을 때만 저장
+        }
         handleSearch(); // 검색 실행
     };
     

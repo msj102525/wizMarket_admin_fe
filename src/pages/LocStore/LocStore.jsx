@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 import { useCategories } from '../../hooks/useCategories';
 import { useCities } from '../../hooks/useCities';
 import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
-import * as XLSX from 'xlsx';
 
 const LocStore = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -23,7 +22,7 @@ const LocStore = () => {
     const [filters, setFilters] = useState({}); // 필터 값 상태
     const [storeName, setStoreName] = useState(null);
     const [isLikeSearch, setIsLikeSearch] = useState(null);
-    const [dataForExcel, setDataForExcel] = useState([]); // 엑셀 다운로드 위한 데이터
+    const [excelLoading, setExcelLoading] = useState(false);
 
 
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
@@ -73,8 +72,8 @@ const LocStore = () => {
     };
 
     useEffect(() => {
-        setReference(3);
-    })
+        setReference(3)
+    }, [setReference])
 
     const handleToggle = () => {
         setIsList(!isList);
@@ -97,29 +96,34 @@ const LocStore = () => {
             setCurrentPage(1);
         }
 
-        const convertToValue = (value, defaultValue = null, isNumeric = false) => {
+        const convertToValue = (value, defaultValue = null, isCategory = false) => {
             const defaultCategories = ['대분류', '중분류', '소분류'];
 
-            if (value === '0') return defaultValue;  // '0'인 경우는 기본값(null)으로 처리
-            if (value && isNumeric) {
-                const numValue = parseInt(value, 10);
-                return isNaN(numValue) ? defaultValue : numValue;
+            if (value === '0' || defaultCategories.includes(value)) {
+                return defaultValue; // 기본값(null)으로 처리
             }
+
+            // 카테고리 값은 문자열로 변환
+            if (isCategory) {
+                return value ? String(value) : defaultValue; // 값이 존재하면 문자열로 변환, 없으면 기본값
+            }
+
+            // 일반 숫자 필터는 기본값 유지
             return (value && !defaultCategories.includes(value)) ? value : defaultValue;
         };
 
         filters = {
-            city: convertToValue(city),
-            district: convertToValue(district),
-            subDistrict: convertToValue(subDistrict),
-            storeName: convertToValue(storeName),
-            mainCategory: convertToValue(mainCategory),
-            subCategory: convertToValue(subCategory),
-            detailCategory: convertToValue(detailCategory),
+            city: convertToValue(city, null), // 일반 필터 그대로 사용
+            district: convertToValue(district, null), // 일반 필터 그대로 사용
+            subDistrict: convertToValue(subDistrict, null), // 일반 필터 그대로 사용
+            reference: convertToValue(reference, null), // 일반 필터 그대로 사용
+            storeName: convertToValue(storeName), // 문자열 그대로 사용
+            mainCategory: convertToValue(mainCategory, null, true), // 문자열로 변환
+            subCategory: convertToValue(subCategory, null, true), // 문자열로 변환
+            detailCategory: convertToValue(detailCategory, null, true), // 문자열로 변환
         };
 
         const matchType = isLikeSearch ? '=' : 'LIKE';  // isIncludeMatch가 체크되었는지에 따라 결정
-
         setFilters(filters);  // 검색 시 필터 값을 상태에 저장
         const pagingInfo = {
             page,    // 현재 페이지, currentPage 대신 page 인자를 사용
@@ -137,10 +141,16 @@ const LocStore = () => {
                     signal: abortControllerRef.current.signal,   // 새로운 AbortController의 signal 전달
                 }
             );
-            setSearchResults(response.data.filtered_data);  // 검색 결과를 상태로 저장
+            const modifiedData = response.data.filtered_data.map(item => ({
+                ...item,
+                source: filters.reference, // reference 값에 따라 source 설정
+            }));
+        
+            setSearchResults(modifiedData);  // 검색 결과를 상태로 저장
+            console.log(modifiedData)
+            setReference(reference)
             if (!isPageChange) {
-                setTotalItemsCount(response.data.total_items.length);  // 총 데이터 수를 첫 검색 후에만 받아옴
-                setDataForExcel(response.data.total_items)
+                setTotalItemsCount(response.data.total_items.total);  // 총 데이터 수를 첫 검색 후에만 받아옴
             }
 
         } catch (err) {
@@ -262,96 +272,66 @@ const LocStore = () => {
     };
 
 
-    const handleExcelDownload = () => {
-        if (!dataForExcel || dataForExcel.length === 0) {
-            alert("다운로드할 데이터가 없습니다.");
-            return;
-        }
+    const handleExcelDownload = async (filters) => {
+        setExcelLoading(true)
+        const convertToValue = (value, defaultValue = null, isCategory = false) => {
+            const defaultCategories = ['대분류', '중분류', '소분류'];
 
-        // 제외할 헤더 설정
-        const excludeHeaders = [
-            "city.CITY_ID", "CITY_NAME",
-            "district.DISTRICT_ID", "district.CITY_ID", "district.DISTRICT_NAME",
-            "sub_district.SUB_DISTRICT_ID", "sub_district.CITY_ID", "sub_district.DISTRICT_ID", "SUB_DISTRICT_NAME"
-        ];
+            if (value === '0' || defaultCategories.includes(value)) {
+                return defaultValue; // 기본값(null)으로 처리
+            }
 
-        // 헤더 매핑 (영문 -> 한글)
-        const headerMapping = {
-            "LOCAL_STORE_ID": "매장 ID",
-            "CITY_ID": "시/도코드-DB",
-            "DISTRICT_ID": "시/군/구코드-DB",
-            "SUB_DISTRICT_ID": "읍/면/동코드-DB",
-            "STORE_BUSINESS_NUMBER": "상가업소번호-코드정보",
-            "STORE_NAME": "상호명",
-            "BRANCH_NAME": "지점명",
-            "LARGE_CATEGORY_CODE": "상권업종대분류코드",
-            "LARGE_CATEGORY_NAME": "상권업종대분류명",
-            "MEDIUM_CATEGORY_CODE": "상권업종중분류코드",
-            "MEDIUM_CATEGORY_NAME": "상권업종중분류명",
-            "SMALL_CATEGORY_CODE": "상권업종소분류코드",
-            "SMALL_CATEGORY_NAME": "상권업종소분류명",
-            "INDUSTRY_CODE": "표준산업분류코드",
-            "INDUSTRY_NAME": "표준산업분류명",
-            "PROVINCE_CODE": "시/도코드-기록용",
-            "PROVINCE_NAME": "시/도명",
-            "DISTRICT_CODE": "시/군/구코드-기록용",
-            "DISTRICT_NAME": "시/군/구명",
-            "ADMINISTRATIVE_DONG_CODE": "행정동코드",
-            "ADMINISTRATIVE_DONG_NAME": "행정동명",
-            "LEGAL_DONG_CODE": "법정동코드",
-            "LEGAL_DONG_NAME": "법정동명",
-            "LOT_NUMBER_CODE": "지번코드",
-            "LAND_CATEGORY_CODE": "대지구분코드",
-            "LAND_CATEGORY_NAME": "대지구분명",
-            "LOT_MAIN_NUMBER": "지번본번지",
-            "LOT_SUB_NUMBER": "지번부번지",
-            "LOT_ADDRESS": "지번주소",
-            "ROAD_NAME_CODE": "도로명코드",
-            "ROAD_NAME": "도로명",
-            "BUILDING_MAIN_NUMBER": "건물본번지",
-            "BUILDING_SUB_NUMBER": "건물부번지",
-            "BUILDING_MANAGEMENT_NUMBER": "건물관리번호",
-            "BUILDING_NAME": "건물명",
-            "ROAD_NAME_ADDRESS": "도로명주소",
-            "OLD_POSTAL_CODE": "구우편주소",
-            "NEW_POSTAL_CODE": "신우편주소",
-            "DONG_INFO": "동정보",
-            "FLOOR_INFO": "층정보",
-            "UNIT_INFO": "호정보",
-            "LONGITUDE": "경도",
-            "LATITUDE": "위도",
-            "IS_EXIST": "존재여부",
-            "LOCAL_YEAR": "기준 년",
-            "LOCAL_QUARTER": "기준 분기",
-            "CREATED_AT": "생성일자",
-            "UPDATED_AT": "수정일자",
-            "REFERENCE_ID": "참조ID",
+            // 카테고리 값은 문자열로 변환
+            if (isCategory) {
+                return value ? String(value) : defaultValue; // 값이 존재하면 문자열로 변환, 없으면 기본값
+            }
+
+            // 일반 숫자 필터는 기본값 유지
+            return (value && !defaultCategories.includes(value)) ? value : defaultValue;
         };
 
-        // 헤더 제외 및 매핑 데이터 생성
-        const filteredData = dataForExcel.map(item => {
-            const filteredItem = {};
-            Object.keys(item).forEach(key => {
-                if (!excludeHeaders.includes(key)) {
-                    const mappedKey = headerMapping[key] || key; // 매핑된 키가 없으면 원래 키 사용
-                    filteredItem[mappedKey] = item[key];
+        filters = {
+            city: convertToValue(city, null), // 일반 필터 그대로 사용
+            district: convertToValue(district, null), // 일반 필터 그대로 사용
+            subDistrict: convertToValue(subDistrict, null), // 일반 필터 그대로 사용
+            reference: convertToValue(reference, null), // 일반 필터 그대로 사용
+            storeName: convertToValue(storeName), // 문자열 그대로 사용
+            mainCategory: convertToValue(mainCategory, null, true), // 문자열로 변환
+            subCategory: convertToValue(subCategory, null, true), // 문자열로 변환
+            detailCategory: convertToValue(detailCategory, null, true), // 문자열로 변환
+        };
+
+        const matchType = isLikeSearch ? '=' : 'LIKE';  // isIncludeMatch가 체크되었는지에 따라 결정
+
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc/store/select/download/store/list`,
+                { ...filters, matchType },  // 필터
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    responseType: 'blob',
                 }
-            });
-            return filteredItem;
-        });
+            );
+            // 파일 다운로드 처리
+            const url = window.URL.createObjectURL(new Blob([response.data])); // Blob 생성
+            const link = document.createElement('a'); // 링크 생성
+            link.href = url;
+            link.setAttribute('download', `매장정보_${new Date().toISOString().split('T')[0]}.xlsx`); // 파일명 동적 설정
+            document.body.appendChild(link);
+            link.click(); // 다운로드 트리거
+            document.body.removeChild(link); // DOM에서 제거
 
-        // 데이터 배열을 엑셀 워크시트로 변환
-        const worksheet = XLSX.utils.json_to_sheet(filteredData);
-
-        // 워크북 생성 및 워크시트 추가
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
-        // 동적 파일 이름 생성 (예: 매장 데이터_20241129.xlsx)
-        const fileName = `매장 데이터_${new Date().toISOString().slice(0, 10).replace(/-/g, '')}.xlsx`;
-
-        // 엑셀 파일 생성 및 다운로드
-        XLSX.writeFile(workbook, fileName);
+        } catch (err) {
+            if (axios.isCancel(err)) {
+                console.log('Request canceled', err.message);
+            } else {
+                setError('검색 중 오류가 발생했습니다.');
+            }
+        } finally {
+            setExcelLoading(false);
+        }
     };
 
 
@@ -415,18 +395,24 @@ const LocStore = () => {
                             <div>
                                 총 <span className="text-red-500">{(totalItemsCount ?? 0).toLocaleString()}</span> 개
                             </div>
-
                             <button
-                                className="px-4 py-2 bg-white text-black rounded border border-black"
+                                className="px-4 py-2 bg-white text-black rounded border border-black flex items-center justify-center"
                                 onClick={handleExcelDownload}
+                                disabled={excelLoading} // 로딩 중에는 버튼 비활성화
+                                style={{ minWidth: "100px", minHeight: "40px" }} // 버튼 크기 고정
                             >
-                                엑셀 다운로드
+                                {excelLoading ? (
+                                    <div
+                                        className="w-5 h-5 border-2 border-blue-500 border-solid border-t-transparent rounded-full animate-spin"
+                                        style={{ display: "inline-block" }} // 스피너 크기 유지
+                                    ></div>
+                                ) : (
+                                    <span style={{ display: "inline-block" }}>엑셀 다운로드</span>
+                                )}
                             </button>
 
                         </div>
                     </section>
-
-
                     {/* 하단 리스트 */}
                     <section className="w-full">
                         {loading && (
@@ -440,7 +426,6 @@ const LocStore = () => {
                         <div className="w-full overflow-x-auto">
                             {!loading && !error && <LocStoreList data={searchResults} />}
                         </div>
-
                         {/* 페이징 처리 */}
                         <div className="w-full mb:pb-40">
                             {!loading && !error && renderPagination()}
