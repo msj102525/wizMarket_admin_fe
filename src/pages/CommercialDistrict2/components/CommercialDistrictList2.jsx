@@ -314,7 +314,7 @@ const CommercialDistrictList2 = ({ data2 }) => {
     return (
         <div className="flex flex-wrap justify-center">
             <div className="w-full">
-                <DataLengthDown data={data2} headers={headers} filename="CommercialDistrict.xlsx" />
+                <DataLengthDown data={data} headers={headers} filename="CommercialDistrict.xlsx" />
             </div>
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
                 <thead className="bg-[#EEEEEE]">
