@@ -144,9 +144,15 @@ const LocStoreList = ({ data}) => {
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
                                 {item.source === 1 ? "나이스 비즈맵" : "상권정보분류표"}
                             </td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.large_category_name}</td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.medium_category_name}</td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 ">{item.small_category_name}</td>
+                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                {item.source === 1? item.BIZ_MAIN_CATEGORY_NAME : item.large_category_name}
+                            </td>
+                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                {item.source === 1? item.BIZ_SUB_CATEGORY_NAME : item.medium_category_name}
+                            </td>
+                            <td className="border border-gray-300 px-4 py-2 mb:py-4 ">
+                                {item.source === 1? item.BIZ_DETAIL_CATEGORY_NAME : item.small_category_name}
+                            </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.industry_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.building_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">

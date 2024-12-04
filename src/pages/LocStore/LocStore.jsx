@@ -129,7 +129,7 @@ const LocStore = () => {
             page,    // 현재 페이지, currentPage 대신 page 인자를 사용
             page_size: pageSize,  // 페이지당 항목 수
         };
-
+        
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc/store/select/store/list`,
