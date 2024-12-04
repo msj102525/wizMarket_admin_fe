@@ -162,7 +162,10 @@ const LocStoreListSearchForm = ({
                     </div>
                 </div>
 
-                <p className="text-xs mb:text-sm text-gray-500">
+                <p className="text-s mb:text-sm text-gray-500">
+                    * 나이스 비즈맵의 경우 시간 소요가 더 오래 걸립니다.
+                </p>
+                <p className="text-s mb:text-sm text-gray-500">
                     * 데이터 양이 많아 원활한 검색을 위해 가능한 많은 조건, 좁은 조건을 추가해주세요.
                 </p>
             </div>
