@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import LocStoreContentModal from './LocStoreContentModal';
 
-const LocStoreList = ({ data}) => {
+const LocStoreList = ({ data }) => {
+
+    const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+    const [previewData, setPreviewData] = useState({});
+    const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 });
 
     const handleLinkClick = (event, store_business_id) => {
         event.preventDefault();
@@ -55,6 +59,23 @@ const LocStoreList = ({ data}) => {
     }
 
 
+
+    const handleMouseEnter = (menu_1, menu_1_price, event) => {
+        const { clientX, clientY } = event; // 마우스 위치 좌표
+        setPreviewData({
+            menu: menu_1,
+            price: menu_1_price,
+        });
+        setPreviewPosition({ x: clientX + 10, y: clientY + 10 }); // 마우스 근처에 위치
+        setIsPreviewVisible(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsPreviewVisible(false);
+    };
+
+
+
     return (
         <div className="w-full overflow-x-auto">
             <p className='mb-4'>기준 : {data[0]?.local_year || "정보 없음"}년 {data[0]?.local_quarter || "정보 없음"}분기</p>
@@ -94,6 +115,9 @@ const LocStoreList = ({ data}) => {
                         </th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             표준산업분류명
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            평점
                         </th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             건물명
@@ -145,15 +169,25 @@ const LocStoreList = ({ data}) => {
                                 {item.source === 1 ? "나이스 비즈맵" : "상권정보분류표"}
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
-                                {item.source === 1? item.BIZ_MAIN_CATEGORY_NAME : item.large_category_name}
+                                {item.source === 1 ? item.BIZ_MAIN_CATEGORY_NAME : item.large_category_name}
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
-                                {item.source === 1? item.BIZ_SUB_CATEGORY_NAME : item.medium_category_name}
+                                {item.source === 1 ? item.BIZ_SUB_CATEGORY_NAME : item.medium_category_name}
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 ">
-                                {item.source === 1? item.BIZ_DETAIL_CATEGORY_NAME : item.small_category_name}
+                                {item.source === 1 ? item.BIZ_DETAIL_CATEGORY_NAME : item.small_category_name}
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.industry_name}</td>
+                            <td
+                                onMouseEnter={(e) =>
+                                handleMouseEnter(item.menu_1, item.menu_1_price, e)
+                                }
+                                onMouseLeave={handleMouseLeave}
+                                className="border border-gray-300 px-4 py-2"
+                            >
+                                {item.kakao_review_score} ({item.kakao_review_count})
+                            </td>
+
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.building_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
                                 {item.road_name_address && (
@@ -176,7 +210,28 @@ const LocStoreList = ({ data}) => {
                 onClose={closeModal}
                 storeBusinessNumber={selectedStoreBusinessNumber}
             />
-
+            {isPreviewVisible && (
+                <div
+                    style={{
+                        position: "absolute",
+                        top: previewPosition.y,
+                        left: previewPosition.x,
+                        background: "white",
+                        border: "1px solid gray",
+                        borderRadius: "8px",
+                        padding: "8px",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                        zIndex: 1000,
+                    }}
+                >
+                    <p className="font-bold">Menu: {previewData.menu || "N/A"}</p>
+                    <p>Price: {previewData.price || "N/A"}</p>
+                    <p className="font-bold">Menu: {previewData.menu || "N/A"}</p>
+                    <p>Price: {previewData.price || "N/A"}</p>
+                    <p className="font-bold">Menu: {previewData.menu || "N/A"}</p>
+                    <p>Price: {previewData.price || "N/A"}</p>
+                </div>
+            )}
         </div>
     );
 };
