@@ -3,9 +3,9 @@ import LocStoreContentModal from './LocStoreContentModal';
 
 const LocStoreList = ({ data }) => {
 
-    const [isPreviewVisible, setIsPreviewVisible] = useState(false);
-    const [previewData, setPreviewData] = useState({});
-    const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 });
+    // const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+    // const [previewData, setPreviewData] = useState({});
+    // const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 });
 
     const handleLinkClick = (event, store_business_id) => {
         event.preventDefault();
@@ -60,19 +60,19 @@ const LocStoreList = ({ data }) => {
 
 
 
-    const handleMouseEnter = (menu_1, menu_1_price, event) => {
-        const { clientX, clientY } = event; // 마우스 위치 좌표
-        setPreviewData({
-            menu: menu_1,
-            price: menu_1_price,
-        });
-        setPreviewPosition({ x: clientX + 10, y: clientY + 10 }); // 마우스 근처에 위치
-        setIsPreviewVisible(true);
-    };
+    // const handleMouseEnter = (menu_1, menu_1_price, event) => {
+    //     const { clientX, clientY } = event; // 마우스 위치 좌표
+    //     setPreviewData({
+    //         menu: menu_1,
+    //         price: menu_1_price,
+    //     });
+    //     setPreviewPosition({ x: clientX + 10, y: clientY + 10 }); // 마우스 근처에 위치
+    //     setIsPreviewVisible(true);
+    // };
 
-    const handleMouseLeave = () => {
-        setIsPreviewVisible(false);
-    };
+    // const handleMouseLeave = () => {
+    //     setIsPreviewVisible(false);
+    // };
 
 
 
@@ -116,9 +116,9 @@ const LocStoreList = ({ data }) => {
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             표준산업분류명
                         </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                        {/* <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             평점
-                        </th>
+                        </th> */}
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             건물명
                         </th>
@@ -178,7 +178,7 @@ const LocStoreList = ({ data }) => {
                                 {item.source === 1 ? item.BIZ_DETAIL_CATEGORY_NAME : item.small_category_name}
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.industry_name}</td>
-                            <td
+                            {/* <td
                                 onMouseEnter={(e) =>
                                 handleMouseEnter(item.menu_1, item.menu_1_price, e)
                                 }
@@ -186,8 +186,7 @@ const LocStoreList = ({ data }) => {
                                 className="border border-gray-300 px-4 py-2"
                             >
                                 {item.kakao_review_score} ({item.kakao_review_count})
-                            </td>
-
+                            </td> */}
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.building_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
                                 {item.road_name_address && (
@@ -210,7 +209,7 @@ const LocStoreList = ({ data }) => {
                 onClose={closeModal}
                 storeBusinessNumber={selectedStoreBusinessNumber}
             />
-            {isPreviewVisible && (
+            {/* {isPreviewVisible && (
                 <div
                     style={{
                         position: "absolute",
@@ -231,7 +230,7 @@ const LocStoreList = ({ data }) => {
                     <p className="font-bold">Menu: {previewData.menu || "N/A"}</p>
                     <p>Price: {previewData.price || "N/A"}</p>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };
