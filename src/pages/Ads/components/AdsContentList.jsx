@@ -48,10 +48,24 @@ const AdsContentList = ({ AdsList = [] }) => {
 
     // 미리보기 이미지 설정
     const showPreview = (imageUrl, event) => {
-        const { clientX, clientY } = event; // 마우스 위치
+        const { clientX, clientY } = event;
+      
+        // 미리보기 이미지 크기 설정
+        const previewWidth = 240; // 미리보기 이미지의 너비
+        const previewHeight = 384; // 미리보기 이미지의 높이
+      
+        // 화면 가시 영역 확인
+        const maxX = window.innerWidth - previewWidth;
+        const maxY = window.innerHeight - previewHeight;
+      
+        // 마우스 위치를 기준으로 조정
+        const adjustedX = Math.min(clientX + 10, maxX);
+        const adjustedY = Math.min(clientY + 10, maxY);
+      
         setPreviewImage(imageUrl);
-        setPreviewPosition({ x: clientX + 10, y: clientY + 10 }); // 마우스 근처에 이미지 표시
-    };
+        setPreviewPosition({ x: adjustedX, y: adjustedY });
+      };
+      
 
     // 미리보기 숨기기
     const hidePreview = () => {
@@ -232,7 +246,7 @@ const AdsContentList = ({ AdsList = [] }) => {
                         <img
                             src={previewImage}
                             alt="Preview"
-                            className="w-auto h-auto border border-gray-300 rounded shadow-md"
+                            className="w-72 max-h-96 border border-gray-300 rounded shadow-md"
                         />
                     </div>
                 )}

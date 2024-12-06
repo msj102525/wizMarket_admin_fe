@@ -116,6 +116,12 @@ const LocStoreList = ({ data }) => {
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             표준산업분류명
                         </th>
+                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
+                            ktmyshop
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
+                            jsam
+                        </th>
                         {/* <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             평점
                         </th> */}
@@ -178,6 +184,12 @@ const LocStoreList = ({ data }) => {
                                 {item.source === 1 ? item.BIZ_DETAIL_CATEGORY_NAME : item.small_category_name}
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.industry_name}</td>
+                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                {item.ktmyshop === 1 ? "Y" : ""}
+                            </td>
+                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                {item.jsam === 1 ? "Y" : ""}
+                            </td>
                             {/* <td
                                 onMouseEnter={(e) =>
                                 handleMouseEnter(item.menu_1, item.menu_1_price, e)

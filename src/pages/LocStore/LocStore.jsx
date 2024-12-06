@@ -23,11 +23,9 @@ const LocStore = () => {
     const [storeName, setStoreName] = useState(null);
     const [isLikeSearch, setIsLikeSearch] = useState(null);
     const [excelLoading, setExcelLoading] = useState(false);
-
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
     const kakaoAddressResult = useSelector((state) => state.address.kakaoAddressResult);
-
-
 
     const {
         reference, setReference, references,
@@ -68,7 +66,7 @@ const LocStore = () => {
         setDistrict('');
         setSubDistrict('');
         setIsLikeSearch('');
-        setReference('');
+        setReference(3);
     };
 
     useEffect(() => {
@@ -121,6 +119,7 @@ const LocStore = () => {
             mainCategory: convertToValue(mainCategory, null, true), // 문자열로 변환
             subCategory: convertToValue(subCategory, null, true), // 문자열로 변환
             detailCategory: convertToValue(detailCategory, null, true), // 문자열로 변환
+            selectedOptions: selectedOptions || [],
         };
 
         const matchType = isLikeSearch ? '=' : 'LIKE';  // isIncludeMatch가 체크되었는지에 따라 결정
@@ -129,7 +128,7 @@ const LocStore = () => {
             page,    // 현재 페이지, currentPage 대신 page 인자를 사용
             page_size: pageSize,  // 페이지당 항목 수
         };
-
+        console.log(filters)
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc/store/select/store/list`,
@@ -385,6 +384,8 @@ const LocStore = () => {
                                 setIsLikeSearch={setIsLikeSearch}
                                 handleSearch={handleSearch}
                                 handleReset={handleReset}
+                                selectedOptions={selectedOptions}
+                                setSelectedOptions={setSelectedOptions}
                             />
                         </div>
                     </section>

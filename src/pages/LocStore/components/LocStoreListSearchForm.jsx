@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import CitySelect from '../../../components/CitySelect';
 import CategorySelect from '../../../components/CategorySelect';
+import LocStoreDropDown from './LocStoreDropDown'
 
 const LocStoreListSearchForm = ({
     city, district, subDistrict, cities, districts, subDistricts, setCity, setDistrict, setSubDistrict,
@@ -11,12 +12,13 @@ const LocStoreListSearchForm = ({
     reference, references, setReference,
     storeName, setStoreName,
     isLikeSearch, setIsLikeSearch,
-    handleSearch, handleReset
+    handleSearch, handleReset,
+    selectedOptions, setSelectedOptions,
 }) => {
     const [recentSearches, setRecentSearches] = useState([]);
     const [showRecent, setShowRecent] = useState(false); // 최근 검색어 표시 상태
 
-    
+    const options = ["JSAM", "KT_MYSHOP", "OTHER_OPTION"];
 
     // Load recent searches from localStorage
     useEffect(() => {
@@ -158,6 +160,19 @@ const LocStoreListSearchForm = ({
                             setCity={setCity}
                             setDistrict={setDistrict}
                             setSubDistrict={setSubDistrict}
+                        />
+                    </div>
+                </div>
+
+                <div className="mb-4 flex gap-4 mb:flex-row">
+                    <div className="w-1/6 text-center content-center">
+                        <label className="block mb-1 font-extrabold text-lg mb:text-4xl">제휴사 검색</label>
+                    </div>
+                    <div className="w-full flex gap-4">
+                        <LocStoreDropDown
+                            selectedOptions={selectedOptions}
+                            setSelectedOptions={setSelectedOptions}
+                            options={options}
                         />
                     </div>
                 </div>
