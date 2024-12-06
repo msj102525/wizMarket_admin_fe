@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Pagination from '../../../components/Pagination';
 
 
 const AdsContentList = ({ AdsList = [] }) => {
     const [AdsListContent, setAdsListContent] = useState(AdsList);
     const [previewImage, setPreviewImage] = useState(null); // 미리보기 이미지 URL
     const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 }); // 미리보기 위치
+    const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
+    const pageSize = 10;  // 한 페이지에 보여줄 리스트 개수
 
 
     // useEffect(() => {
@@ -50,10 +53,12 @@ const AdsContentList = ({ AdsList = [] }) => {
         setPreviewPosition({ x: clientX + 10, y: clientY + 10 }); // 마우스 근처에 이미지 표시
     };
 
+    // 미리보기 숨기기
     const hidePreview = () => {
-        setPreviewImage(null); // 미리보기 숨기기
+        setPreviewImage(null); 
     };
 
+    // 상태 업데이트
     const toggleServiceStatus = async (index) => {
         const updatedContent = [...AdsListContent];
         updatedContent[index].status = updatedContent[index].status === 'Y' ? 'S' : 'Y';
@@ -69,6 +74,7 @@ const AdsContentList = ({ AdsList = [] }) => {
         }
     };
 
+    // 수정 창 열기
     const handleModalClick = (event, ads) => {
         event.preventDefault();
 
@@ -84,6 +90,35 @@ const AdsContentList = ({ AdsList = [] }) => {
             "_blank",
             `width=${width},height=${height},top=${top},left=${left}`
         );
+    };
+
+    // 홍보용 창 열기
+    const promoteModalClick = (event, ads_id) => {
+        event.preventDefault();
+        console.log(ads_id)
+        const ADS_URL = `${process.env.REACT_APP_ADS}/ads/promote/${ads_id}`;
+        const width = 300;
+        const height = 400;
+        const left = window.screenX + (window.innerWidth / 4) * 2 + (window.innerWidth / 4 - width) / 2;
+        const top = window.screenY + (window.outerHeight - height) / 2;
+
+        window.open(
+            ADS_URL,
+            "_blank",
+            `width=${width},height=${height},top=${top},left=${left}`
+        );
+    };
+
+    // 페이징 처리
+    const indexOfLastItem = currentPage * pageSize;
+    const indexOfFirstItem = indexOfLastItem - pageSize;
+    const currentData = AdsListContent.slice(indexOfFirstItem, indexOfLastItem);  // 정렬된 데이터에서 페이징 적용
+
+    const totalPages = Math.ceil(AdsListContent.length / pageSize);  // 전체 페이지 수 계산
+
+    // 페이지 변경 함수
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
     };
 
 
@@ -126,12 +161,13 @@ const AdsContentList = ({ AdsList = [] }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {AdsListContent.map((ads, index) => (
+                            {currentData.map((ads, index) => (
                                 <tr
                                     key={index}
                                     className="hover:bg-gray-100 transition-colors border-b last:border-none"
                                 >
-                                    <td className="px-6 py-4 text-sm font-medium text-gray-800">
+                                    <td className="px-6 py-4 text-sm font-medium text-gray-800"
+                                        onClick={(e) => promoteModalClick(e, ads.ads_id)}>
                                         {ads.ads_id}
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-800 relative">
@@ -178,6 +214,11 @@ const AdsContentList = ({ AdsList = [] }) => {
                         </tbody>
                     </table>
                 </div>
+                <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
 
                 {/* 이미지 미리보기 */}
                 {previewImage && (
