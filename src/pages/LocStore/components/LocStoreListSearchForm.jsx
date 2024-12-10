@@ -18,7 +18,11 @@ const LocStoreListSearchForm = ({
     const [recentSearches, setRecentSearches] = useState([]);
     const [showRecent, setShowRecent] = useState(false); // 최근 검색어 표시 상태
 
-    const options = ["JSAM", "KT_MYSHOP", "OTHER_OPTION"];
+    const options = [
+        { label: "JSAM", value: "jsam" },
+        { label: "가게정보", value: "ktmyshop" },
+        { label: "기타옵션", value: "other_option" },
+      ];
 
     // Load recent searches from localStorage
     useEffect(() => {

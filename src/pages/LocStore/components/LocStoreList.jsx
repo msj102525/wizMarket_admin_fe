@@ -188,7 +188,7 @@ const LocStoreList = ({ data }) => {
                                         labels.push("JSAM");
                                     }
                                     if (item.ktmyshop === 1) {
-                                        labels.push("KT SHOP");
+                                        labels.push("가게정보");
                                     }
                                     return labels.length > 0 ? labels.join(", ") : ""; // 조건에 맞는 텍스트 표시
                                 })()}

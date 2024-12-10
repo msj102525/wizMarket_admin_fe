@@ -2,9 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 const DropdownWithCheckboxesString = ({ selectedOptions, setSelectedOptions, options }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null); // 드롭다운 영역 참조
-
-
+  const dropdownRef = useRef(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -16,7 +14,6 @@ const DropdownWithCheckboxesString = ({ selectedOptions, setSelectedOptions, opt
   };
 
   const handleClickOutside = (event) => {
-    // 드롭다운 영역 외부 클릭 시 닫기
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
     }
@@ -38,8 +35,11 @@ const DropdownWithCheckboxesString = ({ selectedOptions, setSelectedOptions, opt
         className="px-4 py-2 bg-white text-gray-400 p-2 border border-[#DDDDDD] rounded w-full text-left"
       >
         {selectedOptions.length > 0
-          ? selectedOptions[selectedOptions.length - 1] // 마지막 선택 옵션 표시
-          : "Select Option"}
+          ? options
+              .filter((option) => selectedOptions.includes(option.value))
+              .map((option) => option.label)
+              .join(", ")
+          : "제휴사를 선택하세요"}
       </button>
 
       {isOpen && (
@@ -48,12 +48,12 @@ const DropdownWithCheckboxesString = ({ selectedOptions, setSelectedOptions, opt
             <label key={index} className="flex items-center space-x-2">
               <input
                 type="checkbox"
-                value={option}
+                value={option.value}
                 onChange={handleCheckboxChange}
-                checked={selectedOptions.includes(option)}
+                checked={selectedOptions.includes(option.value)}
                 className="form-checkbox"
               />
-              <span>{option}</span>
+              <span>{option.label}</span>
             </label>
           ))}
         </div>
