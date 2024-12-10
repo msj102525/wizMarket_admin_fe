@@ -7,8 +7,10 @@ const LocInfoListSearchForm = ({
     city, district, subDistrict, cities, districts, subDistricts, setCity, setDistrict, setSubDistrict,
     shopMin, move_popMin, salesMin, work_popMin, incomeMin, spendMin, houseMin, residentMin, jScoreMin,
     shopMax, move_popMax, salesMax, work_popMax, incomeMax, spendMax, houseMax, residentMax, jScoreMax,
+    apartPriceMin, apartPriceMax,
     setshopMin, setmove_popMin, setsalesMin, setwork_popMin, setincomeMin, setspendMin, sethouseMin, setresidentMin, setJScoreMin,
     setshopMax, setmove_popMax, setsalesMax, setwork_popMax, setincomeMax, setspendMax, sethouseMax, setresidentMax, setJScoreMax,
+    setApartPriceMin, setApartPriceMax,
     selectedOptions, setSelectedOptions, dataDate,
     handleSearch, handleReset, isList,
     isLikeSearch, setIsLikeSearch,
@@ -242,7 +244,32 @@ const LocInfoListSearchForm = ({
                             />
                         </div>
                     </div>
-
+                    <div className="mb-4 flex gap-4">
+                        <div className="w-1/6 text-center content-center">
+                            <label className="block mb-1 font-extrabold">주거인구</label>
+                        </div>
+                        <div className="w-full flex gap-4">
+                            <input
+                                type="number"
+                                value={residentMin || ""}
+                                onChange={(e) => setresidentMin(e.target.value)}
+                                placeholder="이상"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                                max={9999}
+                                min={0}
+                            />
+                            <p className='content-center'>~</p>
+                            <input
+                                type="number"
+                                value={residentMax || ""}
+                                onChange={(e) => setresidentMax(e.target.value)}
+                                placeholder="이하"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                                max={9999}
+                                min={0}
+                            />
+                        </div>
+                    </div>
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">
                             <label className="block mb-1 font-extrabold">세대수</label>
@@ -270,15 +297,16 @@ const LocInfoListSearchForm = ({
                         </div>
                     </div>
 
+                    
                     <div className="mb-4 flex gap-4">
                         <div className="w-1/6 text-center content-center">
-                            <label className="block mb-1 font-extrabold">주거인구</label>
+                            <label className="block mb-1 font-extrabold">아파트 가격</label>
                         </div>
                         <div className="w-full flex gap-4">
                             <input
                                 type="number"
-                                value={residentMin || ""}
-                                onChange={(e) => setresidentMin(e.target.value)}
+                                value={apartPriceMin || ""}
+                                onChange={(e) => setApartPriceMin(e.target.value)}
                                 placeholder="이상"
                                 className="p-2 border border-[#DDDDDD] rounded w-1/6"
                                 max={9999}
@@ -287,8 +315,8 @@ const LocInfoListSearchForm = ({
                             <p className='content-center'>~</p>
                             <input
                                 type="number"
-                                value={residentMax || ""}
-                                onChange={(e) => setresidentMax(e.target.value)}
+                                value={apartPriceMax || ""}
+                                onChange={(e) => setApartPriceMax(e.target.value)}
                                 placeholder="이하"
                                 className="p-2 border border-[#DDDDDD] rounded w-1/6"
                                 max={9999}

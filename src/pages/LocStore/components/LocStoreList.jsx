@@ -117,10 +117,7 @@ const LocStoreList = ({ data }) => {
                             표준산업분류명
                         </th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
-                            ktmyshop
-                        </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
-                            jsam
+                            제휴사
                         </th>
                         {/* <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             평점
@@ -185,10 +182,16 @@ const LocStoreList = ({ data }) => {
                             </td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.industry_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
-                                {item.ktmyshop === 1 ? "Y" : ""}
-                            </td>
-                            <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
-                                {item.jsam === 1 ? "Y" : ""}
+                                {(() => {
+                                    const labels = [];
+                                    if (item.jsam === 1) {
+                                        labels.push("JSAM");
+                                    }
+                                    if (item.ktmyshop === 1) {
+                                        labels.push("KT SHOP");
+                                    }
+                                    return labels.length > 0 ? labels.join(", ") : ""; // 조건에 맞는 텍스트 표시
+                                })()}
                             </td>
                             {/* <td
                                 onMouseEnter={(e) =>

@@ -219,6 +219,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                 <p className='mt-4 ml-4'>검색 결과가 없습니다.</p>
             ) : (
                 <>
+                    <p className='mb-4'>기준 : {currentData[0]?.y_m || "정보 없음"}</p>
                     <table className="min-w-full mt-4">
                         <thead className="bg-gray-200">
                             <tr>
@@ -322,6 +323,15 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                 </th>
 
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
+                                    아파트 가격(평당)
+                                    <button onClick={() => handleSort('apart_price')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                        <span className="text-xs">▲</span>
+                                        <span className="text-xs">▼</span>
+                                    </button>
+                                </div>
+                                </th>
+
+                                <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
                                     Rank/Per J-Score
                                     <button onClick={() => handleSort('j_score_rank')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                         <span className="text-xs">▲</span>
@@ -348,15 +358,6 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
                                     J-Score(이상치 제거)
                                     <button onClick={() => handleSort('j_score_non_outliers')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
-                                        <span className="text-xs">▲</span>
-                                        <span className="text-xs">▼</span>
-                                    </button>
-                                </div>
-                                </th>
-
-                                <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
-                                    기준년월
-                                    <button onClick={() => handleSort('y_m')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>
                                     </button>
@@ -469,6 +470,16 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                             {findJScoreByRegion(item, 'house', statDataByRegion) ? ")" : ""}
                                         </td>
                                         <td className="border border-gray-300 px-4 py-2 text-center">
+                                            {item.apart_price === null || item.apart_price === '-' ? '-' : `${Math.floor(item.apart_price / 10000).toLocaleString()}만원 `}
+                                            {findJScoreByRegion(item, 'apart_price', statDataByRegion)
+                                                ? `(${findJScoreByRegion(item, 'apart_price', statDataByRegion)}/`
+                                                : ""}
+                                            {findJScoreByRegionNonOutliners(item, 'apart_price', statDataByRegion) && (
+                                                <strong>{findJScoreByRegionNonOutliners(item, 'apart_price', statDataByRegion)}</strong>
+                                            )}
+                                            {findJScoreByRegion(item, 'apart_price', statDataByRegion) ? ")" : ""}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2 text-center">
                                             {item.j_score_rank === null || item.j_score_rank === '-' ? '-' : `${item.j_score_rank.toFixed(2)} `}/
                                             {item.j_score_per === null || item.j_score_per === '-' ? '-' : `${item.j_score_per.toFixed(2)} `}
                                         </td>
@@ -487,7 +498,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                                 : <strong>{item.j_score_non_outliers.toFixed(2)}</strong>
                                             }
                                         </td>
-                                        <td className="border border-gray-300 px-4 py-2 text-center">{item.y_m}</td>
+                                        
                                     </tr>
 
                                     {/* 확장된 데이터 행 */}

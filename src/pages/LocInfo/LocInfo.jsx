@@ -38,6 +38,7 @@ const LocInfo = () => {
     const [spendMin, setspendMin] = useState('');
     const [houseMin, sethouseMin] = useState('');
     const [residentMin, setresidentMin] = useState('');
+    const [apartPriceMin, setApartPriceMin] = useState('');
     const [jScoreMin, setJScoreMin] = useState('');
 
     const [shopMax, setshopMax] = useState('');
@@ -48,8 +49,9 @@ const LocInfo = () => {
     const [spendMax, setspendMax] = useState('');
     const [houseMax, sethouseMax] = useState('');
     const [residentMax, setresidentMax] = useState('');
+    
     const [jScoreMax, setJScoreMax] = useState('');
-
+    const [apartPriceMax, setApartPriceMax] = useState('');
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [isLikeSearch, setIsLikeSearch] = useState(false);
 
@@ -136,6 +138,8 @@ const LocInfo = () => {
                 houseMax: convertToInt(houseMax),
                 residentMin: convertToInt(residentMin),
                 residentMax: convertToInt(residentMax),
+                apartPriceMin: convertToInt(apartPriceMin),
+                apartPriceMax: convertToInt(apartPriceMax),
                 jScoreMin: convertToInt(jScoreMin),
                 jScoreMax: convertToInt(jScoreMax),
                 selectedOptions: selectedOptions || [],
@@ -155,6 +159,7 @@ const LocInfo = () => {
                 }
             );
             setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
+            console.log(response.data.filtered_data)
             setFilterCorrResults(response.data.filter_corr);
             setBaseData(response.data.base_data)
             setStatDataByRegion(response.data.stat_by_region);
@@ -181,6 +186,7 @@ const LocInfo = () => {
         setspendMin('');
         sethouseMin('');
         setresidentMin('');
+        setApartPriceMin('')
         setJScoreMin('');
 
         setshopMax('');
@@ -191,6 +197,7 @@ const LocInfo = () => {
         setspendMax('');
         sethouseMax('');
         setresidentMax('');
+        setApartPriceMax('');
         setJScoreMax('');
 
         setSelectedOptions(dataDate);
@@ -234,6 +241,7 @@ const LocInfo = () => {
                                 spendMin={spendMin}
                                 houseMin={houseMin}
                                 residentMin={residentMin}
+                                apartPriceMin={apartPriceMin}
                                 jScoreMin={jScoreMin}
 
                                 shopMax={shopMax}
@@ -244,6 +252,7 @@ const LocInfo = () => {
                                 spendMax={spendMax}
                                 houseMax={houseMax}
                                 residentMax={residentMax}
+                                apartPriceMax={apartPriceMin}
                                 jScoreMax={jScoreMax}
 
                                 setCity={setCity}
@@ -258,6 +267,7 @@ const LocInfo = () => {
                                 setspendMin={setspendMin}
                                 sethouseMin={sethouseMin}
                                 setresidentMin={setresidentMin}
+                                setApartPriceMin={setApartPriceMin}
                                 setJScoreMin={setJScoreMin}
 
                                 setshopMax={setshopMax}
@@ -268,6 +278,7 @@ const LocInfo = () => {
                                 setspendMax={setspendMax}
                                 sethouseMax={sethouseMax}
                                 setresidentMax={setresidentMax}
+                                setApartPriceMax={setApartPriceMax}
                                 setJScoreMax={setJScoreMax}
 
                                 selectedOptions={selectedOptions}

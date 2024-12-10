@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchResetButtons from '../../../components/SearchResetButton';
 import CitySelect from '../../../components/CitySelect';
 import CategorySelect from '../../../components/CategorySelect';
-// import LocStoreDropDown from './LocStoreDropDown'
+import LocStoreDropDown from './LocStoreDropDown'
 
 const LocStoreListSearchForm = ({
     city, district, subDistrict, cities, districts, subDistricts, setCity, setDistrict, setSubDistrict,
@@ -18,7 +18,7 @@ const LocStoreListSearchForm = ({
     const [recentSearches, setRecentSearches] = useState([]);
     const [showRecent, setShowRecent] = useState(false); // 최근 검색어 표시 상태
 
-    // const options = ["JSAM", "KT_MYSHOP", "OTHER_OPTION"];
+    const options = ["JSAM", "KT_MYSHOP", "OTHER_OPTION"];
 
     // Load recent searches from localStorage
     useEffect(() => {
@@ -163,7 +163,7 @@ const LocStoreListSearchForm = ({
                         />
                     </div>
                 </div>
-                {/* 
+                
                 <div className="mb-4 flex gap-4 mb:flex-row">
                     <div className="w-1/6 text-center content-center">
                         <label className="block mb-1 font-extrabold text-lg mb:text-4xl">제휴사 검색</label>
@@ -176,7 +176,7 @@ const LocStoreListSearchForm = ({
                         />
                     </div>
                 </div> 
-                */}
+               
                 <p className="text-s mb:text-sm text-gray-500">
                     * 나이스 비즈맵의 경우 시간 소요가 더 오래 걸립니다.
                 </p>
