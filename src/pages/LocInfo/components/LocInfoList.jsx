@@ -323,7 +323,7 @@ const LocInfoList = ({ searchData = [], nationJScore, filterCorrData, statDataBy
                                 </th>
 
                                 <th className="border border-gray-300 px-4 py-2"><div className="flex justify-center items-center">
-                                    아파트 가격(평당)
+                                    아파트 가격(1㎡)
                                     <button onClick={() => handleSort('apart_price')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>

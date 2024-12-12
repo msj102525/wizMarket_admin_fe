@@ -159,7 +159,7 @@ const LocInfo = () => {
                 }
             );
             setSearchResults(response.data.filtered_data); // 검색 결과를 상태로 저장
-            console.log(response.data.filtered_data)
+            // console.log(response.data.filtered_data)
             setFilterCorrResults(response.data.filter_corr);
             setBaseData(response.data.base_data)
             setStatDataByRegion(response.data.stat_by_region);
