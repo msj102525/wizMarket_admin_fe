@@ -11,6 +11,9 @@ const TestNewGptModel = () => {
     const [newPrompt, setNewPrompt] = useState('');
     const [newResultLoding, setNewResultLoading] = useState(false)
     const [newResult, setNewResult] = useState('');
+    const [claudePrompt, setClaudePrompt] = useState('');
+    const [claudeResultLoding, setClaudeResultLoading] = useState(false)
+    const [claudeResult, setClaudeResult] = useState('');
 
     // 페이지 로드 시 초기값 설정
     useEffect(() => {
@@ -48,6 +51,23 @@ const TestNewGptModel = () => {
 매출이 가장 높은 남성 연령대 : 남자 40대
 매출이 가장 높은 여성 연령대 : 여자 30대
 주제 세부 정보 : `); 
+        setClaudePrompt(`다음과 같은 내용을 바탕으로 온라인 광고 콘텐츠를 제작하려고 합니다. 
+잘 어울리는 광고 문구를 생성해주세요.
+- 현재 날짜, 날씨, 시간, 계절 등의 상황에 어울릴 것
+- 40자 이상 작성할 것
+- 특수기호, 이모티콘은 제외할 것
+- 광고 채널 : 문자메시지 형태로 작성할 것
+- 주제 : 매장 소개 형태로 작성할 것
+    
+매장명 : 인더키친 몽뜨레셰프 청담본점
+주소 : 서울 강남구 도산대로 435
+업종 : 패밀리레스토랑
+날짜 : 2024-12-11 (수요일) 17:39
+날씨 : 맑음, 5.91℃
+매출이 가장 높은 시간대 : 21~24시
+매출이 가장 높은 남성 연령대 : 남자 40대
+매출이 가장 높은 여성 연령대 : 여자 30대
+주제 세부 정보 : `); 
     }, []); 
 
     const handleOldChange = (event) => {
@@ -56,6 +76,10 @@ const TestNewGptModel = () => {
 
     const handleNewChange = (event) => {
         setNewPrompt(event.target.value); // 상태 업데이트
+    };
+
+    const handleClaudeChange = (event) => {
+        setClaudePrompt(event.target.value); // 상태 업데이트
     };
 
     const onOldGenerate = async () => {
@@ -93,6 +117,25 @@ const TestNewGptModel = () => {
             console.error('저장 중 오류 발생:', err);
         } finally {
             setNewResultLoading(false)
+        }
+    }
+
+    const onClaudeGenerate = async () => {
+        setClaudeResultLoading(true)
+        const basicInfo = {
+            prompt: newPrompt,
+        };
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_FASTAPI_ADS_URL}/ads/generate/test/claude/content`,
+                basicInfo,
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+            setClaudeResult(response.data.content); // 성공 시 서버에서 받은 데이터를 상태에 저장
+        } catch (err) {
+            console.error('저장 중 오류 발생:', err);
+        } finally {
+            setClaudeResultLoading(false)
         }
     }
 
@@ -156,7 +199,7 @@ const TestNewGptModel = () => {
                             </section>
                         </div>
 
-                        {/* 오른쪽 영역 */}
+                        {/* 중앙 영역 */}
                         <div className="flex-1 flex flex-col gap-2">
                             <section>
                                 <h4>새 모델</h4>
@@ -193,6 +236,48 @@ const TestNewGptModel = () => {
                                 <div className="p-4 border rounded bg-gray-100">
                                     {newResult ? (
                                         <p>{newResult}</p>
+                                    ) : (
+                                        <p className="text-gray-500">결과가 없습니다. 내용을 입력하고 생성 버튼을 클릭하세요.</p>
+                                    )}
+                                </div>
+                            </section>
+                        </div>
+                        <div className="flex-1 flex flex-col gap-2">
+                            <section>
+                                <h4>클로드 모델</h4>
+                            </section>
+
+                            <section className="w-full items-center">
+                                <textarea
+                                    className="w-full p-2 border rounded"
+                                    placeholder="내용을 입력하세요"
+                                    rows="30"
+                                    cols="50"
+                                    value={claudePrompt} // 상태 값 연결
+                                    onChange={handleClaudeChange} // 입력 값 변경 처리
+                                ></textarea>
+                            </section>
+
+                            <section className="w-full items-center">
+                                <button
+                                    onClick={onClaudeGenerate}
+                                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                                    disabled={claudeResultLoding}
+                                >
+                                    {claudeResultLoding ? (
+                                        <div className="w-6 h-6 border-4 border-white border-solid border-t-transparent rounded-full animate-spin"></div>
+                                    ) : (
+                                        "생성"
+                                    )}
+                                </button>
+                            </section>
+
+                            {/* 생성된 답변 */}
+                            <section className="w-full items-center">
+                                <h4>생성된 결과</h4>
+                                <div className="p-4 border rounded bg-gray-100">
+                                    {claudeResult ? (
+                                        <p>{claudeResult}</p>
                                     ) : (
                                         <p className="text-gray-500">결과가 없습니다. 내용을 입력하고 생성 버튼을 클릭하세요.</p>
                                     )}
