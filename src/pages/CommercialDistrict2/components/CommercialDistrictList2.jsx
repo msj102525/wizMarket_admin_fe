@@ -382,24 +382,21 @@ const CommercialDistrictList2 = ({ data2 }) => {
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_sub_category_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{item.biz_detail_category_name}</td>
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">
-                                        {/* {Intl.NumberFormat().format(item.market_size / 10000)}만원 */}
-                                        {Intl.NumberFormat().format(item.market_size)}만원
+                                        {Intl.NumberFormat().format(item.market_size / 10000)}만원
                                     </td>
-                                    {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.average_sales / 10000)}만원</td> */}
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.average_sales)}만원</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.average_payment)}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.usage_count)}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.operating_cost)}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.food_cost)}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.employee_cost)}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.rental_cost)}</td>
-                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.tax_cost)}</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.average_sales / 10000)}만원</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.average_payment)}원</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.usage_count)}건</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.operating_cost)}만원</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.food_cost)}만원</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.employee_cost)}만원</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.rental_cost)}만원</td>
+                                    <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Intl.NumberFormat().format(item.tax_cost)}만원</td>
                                     {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.created_at).toLocaleDateString()}</td> */}
                                     {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.updated_at).toLocaleDateString()}</td> */}
                                     <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{Number(item.j_score_avg).toFixed(2)}</td>
                                     {/* <td className="text-center whitespace-nowrap text-md text-gray-500 py-4">{new Date(item.y_m).toLocaleDateString()}</td> */}
                                 </tr>
-                                {/* {expandedRows[idx] && renderExpandedRow(item, indexOfFirstResult + idx)} */}
                                 {expandedRows[idx] && renderExpandedRow(item, item.originalIndex - 1)}
                             </React.Fragment>
                         ))
