@@ -1,11 +1,65 @@
 import React, { useState } from 'react';
 import LocStoreContentModal from './LocStoreContentModal';
+import DataLengthDown from '../../../components/DataLengthDown';
+import Pagination from '../../../components/Pagination';
 
 const LocStoreList = ({ data }) => {
 
-    // const [isPreviewVisible, setIsPreviewVisible] = useState(false);
-    // const [previewData, setPreviewData] = useState({});
-    // const [previewPosition, setPreviewPosition] = useState({ x: 0, y: 0 });
+    const [currentPage, setCurrentPage] = useState(1);  // 현재 페이지
+    const pageSize = 20;  // 한 페이지에 보여줄 리스트 개수
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });  // 정렬 상태 관리
+
+    // 정렬 함수 (전체 데이터에 대해 적용)
+    const sortedData = [...data].sort((a, b) => {
+        if (sortConfig.key) {
+            const direction = sortConfig.direction === 'asc' ? 1 : -1;
+
+            const aValue = a[sortConfig.key];
+            const bValue = b[sortConfig.key];
+
+            if (sortConfig.direction === 'asc') {
+                // 오름차순: null -> 0 -> 값
+                if (aValue === null && bValue !== null) return -1;
+                if (aValue !== null && bValue === null) return 1;
+                if (aValue === 0 && bValue !== 0) return -1;
+                if (aValue !== 0 && bValue === 0) return 1;
+            } else {
+                // 내림차순: 값 -> 0 -> null
+                if (aValue !== null && bValue === null) return -1;
+                if (aValue === null && bValue !== null) return 1;
+                if (aValue !== 0 && bValue === 0) return -1;
+                if (aValue === 0 && bValue !== 0) return 1;
+            }
+
+            // 일반적인 값 비교
+            if (aValue < bValue) return -1 * direction;
+            if (aValue > bValue) return 1 * direction;
+            return 0;
+        }
+        return 0;
+    });
+
+
+    // 페이징 처리
+    const indexOfLastItem = currentPage * pageSize;
+    const indexOfFirstItem = indexOfLastItem - pageSize;
+    const currentData = sortedData.slice(indexOfFirstItem, indexOfLastItem);  // 정렬된 데이터에서 페이징 적용
+
+    const totalPages = Math.ceil(data.length / pageSize);  // 전체 페이지 수 계산
+
+    // 페이지 변경 함수
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    // 정렬 버튼 클릭 시 호출될 함수
+    const handleSort = (key) => {
+        let direction = 'asc';
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        setSortConfig({ key, direction });
+    };
 
     const handleLinkClick = (event, store_business_id) => {
         event.preventDefault();
@@ -58,26 +112,11 @@ const LocStoreList = ({ data }) => {
         return <p>데이터가 없습니다.</p>;
     }
 
-
-
-    // const handleMouseEnter = (menu_1, menu_1_price, event) => {
-    //     const { clientX, clientY } = event; // 마우스 위치 좌표
-    //     setPreviewData({
-    //         menu: menu_1,
-    //         price: menu_1_price,
-    //     });
-    //     setPreviewPosition({ x: clientX + 10, y: clientY + 10 }); // 마우스 근처에 위치
-    //     setIsPreviewVisible(true);
-    // };
-
-    // const handleMouseLeave = () => {
-    //     setIsPreviewVisible(false);
-    // };
-
-
-
     return (
         <div className="w-full overflow-x-auto">
+            <div className="w-full">
+                <DataLengthDown data={data} filename="loc_store.xlsx" />
+            </div>
             <p className='mb-4'>기준 : {data[0]?.local_year || "정보 없음"}년 {data[0]?.local_quarter || "정보 없음"}분기</p>
             <table className="min-w-full border-collapse border border-gray-200 text-sm truncate px-4 py-2">
                 <thead className="bg-gray-200">
@@ -86,7 +125,13 @@ const LocStoreList = ({ data }) => {
                             코드
                         </th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
-                            상호명
+                            <div className="flex justify-center items-center">
+                                지점명
+                                <button onClick={() => handleSort('store_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                    <span className="text-xs">▲</span>
+                                    <span className="text-xs">▼</span>
+                                </button>
+                            </div>
                         </th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             정보 등록
@@ -94,14 +139,32 @@ const LocStoreList = ({ data }) => {
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                             지점명
                         </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                        <th className="border border-gray-300 px-4 py-2">
+                            <div className="flex justify-center items-center">
                             시/도
+                            <button onClick={() => handleSort('city_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                <span className="text-xs">▲</span>
+                                <span className="text-xs">▼</span>
+                            </button>
+                        </div>
                         </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
+                        <th className="border border-gray-300 px-4 py-2">
+                            <div className="flex justify-center items-center">
                             시/군/구
+                            <button onClick={() => handleSort('district_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                <span className="text-xs">▲</span>
+                                <span className="text-xs">▼</span>
+                            </button>
+                        </div>
                         </th>
-                        <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
+                        <th className="border border-gray-300 px-4 py-2">
+                            <div className="flex justify-center items-center">
                             읍/면/동
+                            <button onClick={() => handleSort('sub_district_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                <span className="text-xs">▲</span>
+                                <span className="text-xs">▼</span>
+                            </button>
+                        </div>
                         </th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">출처</th>
                         <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
@@ -131,7 +194,7 @@ const LocStoreList = ({ data }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((item, index) => (
+                    {currentData.map((item, index) => (
                         <tr key={index} className="border-t ">
                             <td className="border border-gray-300 px-4 py-2 text-center mb:hidden">{item.store_business_number}</td>
                             <td className="border border-gray-300 px-4 py-2">
@@ -150,12 +213,6 @@ const LocStoreList = ({ data }) => {
                                     >
                                         정보 등록
                                     </button>
-                                    {/* <button
-                                        onClick={(e) => handleAdsClick(item.store_business_number)}
-                                        className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
-                                    >
-                                        wizAd
-                                    </button> */}
                                     <button
                                         onClick={(e) => handleModalClick(e, item.store_business_number)}
                                         className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
@@ -193,15 +250,6 @@ const LocStoreList = ({ data }) => {
                                     return labels.length > 0 ? labels.join(", ") : ""; // 조건에 맞는 텍스트 표시
                                 })()}
                             </td>
-                            {/* <td
-                                onMouseEnter={(e) =>
-                                handleMouseEnter(item.menu_1, item.menu_1_price, e)
-                                }
-                                onMouseLeave={handleMouseLeave}
-                                className="border border-gray-300 px-4 py-2"
-                            >
-                                {item.kakao_review_score} ({item.kakao_review_count})
-                            </td> */}
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.building_name}</td>
                             <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
                                 {item.road_name_address && (
@@ -224,28 +272,11 @@ const LocStoreList = ({ data }) => {
                 onClose={closeModal}
                 storeBusinessNumber={selectedStoreBusinessNumber}
             />
-            {/* {isPreviewVisible && (
-                <div
-                    style={{
-                        position: "absolute",
-                        top: previewPosition.y,
-                        left: previewPosition.x,
-                        background: "white",
-                        border: "1px solid gray",
-                        borderRadius: "8px",
-                        padding: "8px",
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                        zIndex: 1000,
-                    }}
-                >
-                    <p className="font-bold">Menu: {previewData.menu || "N/A"}</p>
-                    <p>Price: {previewData.price || "N/A"}</p>
-                    <p className="font-bold">Menu: {previewData.menu || "N/A"}</p>
-                    <p>Price: {previewData.price || "N/A"}</p>
-                    <p className="font-bold">Menu: {previewData.menu || "N/A"}</p>
-                    <p>Price: {previewData.price || "N/A"}</p>
-                </div>
-            )} */}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </div>
     );
 };
