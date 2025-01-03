@@ -158,7 +158,7 @@ const TestNewGptModel = () => {
                         {/* 왼쪽 영역 */}
                         <div className="flex-1 flex flex-col gap-2">
                             <section>
-                                <h4>기존 모델</h4>
+                                <h4>기존 모델(gpt-4o)</h4>
                             </section>
 
                             <section className="w-full items-center">
@@ -202,7 +202,7 @@ const TestNewGptModel = () => {
                         {/* 중앙 영역 */}
                         <div className="flex-1 flex flex-col gap-2">
                             <section>
-                                <h4>새 모델</h4>
+                                <h4>새 모델(o1-preview)</h4>
                             </section>
 
                             <section className="w-full items-center">
@@ -244,7 +244,7 @@ const TestNewGptModel = () => {
                         </div>
                         <div className="flex-1 flex flex-col gap-2">
                             <section>
-                                <h4>클로드 모델</h4>
+                                <h4>클로드 모델(claude-3-opus)</h4>
                             </section>
 
                             <section className="w-full items-center">
