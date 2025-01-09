@@ -12,7 +12,7 @@ import { useCities } from '../../hooks/useCities';
 import { useKakaoAddressUpdate } from '../../hooks/useKakaoAddressUpdate';
 
 const LocStore = () => {
-    
+
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -81,10 +81,8 @@ const LocStore = () => {
             abortControllerRef.current.abort();  // 이전 요청 취소
         }
         abortControllerRef.current = new AbortController();  // 새로운 AbortController 생성
-
         setLoading(true);
         setError(null);
-
 
         const convertToValue = (value, defaultValue = null, isCategory = false) => {
             const defaultCategories = ['대분류', '중분류', '소분류'];
@@ -92,12 +90,10 @@ const LocStore = () => {
             if (value === '0' || defaultCategories.includes(value)) {
                 return defaultValue; // 기본값(null)으로 처리
             }
-
             // 카테고리 값은 문자열로 변환
             if (isCategory) {
                 return value ? String(value) : defaultValue; // 값이 존재하면 문자열로 변환, 없으면 기본값
             }
-
             // 일반 숫자 필터는 기본값 유지
             return (value && !defaultCategories.includes(value)) ? value : defaultValue;
         };
@@ -114,8 +110,15 @@ const LocStore = () => {
             selectedOptions: selectedOptions || [],
         };
 
-        const matchType = isLikeSearch ? '=' : 'LIKE';  // isIncludeMatch가 체크되었는지에 따라 결정
+        // 조건 체크: storeName이 있고, mainCategory와 city가 null인 경우
+        if (filters.storeName && !filters.mainCategory && !filters.city) {
+            alert('지역 혹은 카테고리를 선택해주세요');
+            setLoading(false); // 로딩 상태 초기화
+            return; // 함수 종료
+        }
 
+        const matchType = isLikeSearch ? '=' : 'LIKE';  // isIncludeMatch가 체크되었는지에 따라 결정
+        console.log(filters)
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc/store/select/store/list`,
@@ -131,7 +134,7 @@ const LocStore = () => {
                 ...item,
                 source: filters.reference, // reference 값에 따라 source 설정
             }));
-        
+
             setSearchResults(modifiedData);  // 검색 결과를 상태로 저장
             setReference(reference)
 
@@ -154,7 +157,7 @@ const LocStore = () => {
         };
     }, []);  // 빈 의존성 배열
 
-    
+
 
     return (
         <div>
@@ -211,7 +214,7 @@ const LocStore = () => {
                     </section>
                     {/* 갯수 및 엑셀 다운 */}
                     <section className="w-full mb-4">
-                        
+
                     </section>
                     {/* 하단 리스트 */}
                     <section className="w-full">
@@ -226,7 +229,7 @@ const LocStore = () => {
                         <div className="w-full overflow-x-auto">
                             {!loading && !error && <LocStoreList data={searchResults} />}
                         </div>
-                        
+
                     </section>
                 </main>
             </div>
