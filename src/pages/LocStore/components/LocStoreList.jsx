@@ -65,16 +65,23 @@ const LocStoreList = ({ data }) => {
         event.preventDefault();
 
         const REPORT_URL = `${process.env.REACT_APP_REPORT}/wizmarket/report/${store_business_id}`;
-        const width = 394;
+        const width = 365;
         const height = 900;
         const left = window.screenX + (window.outerWidth - width) / 2;
         const top = window.screenY + (window.outerHeight - height) / 2;
 
+        // window.open(
+        //     REPORT_URL,
+        //     "_blank",
+        //     `width=${width},height=${height},top=${top},left=${left}`
+        // );
+
         window.open(
             REPORT_URL,
             "_blank",
-            `width=${width},height=${height},top=${top},left=${left}`
+            `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no`
         );
+
     };
 
     const handleModalClick = (event, storeBusinessNumber) => {
