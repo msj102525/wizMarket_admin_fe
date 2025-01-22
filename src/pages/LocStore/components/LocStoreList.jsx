@@ -81,9 +81,25 @@ const LocStoreList = ({ data }) => {
         event.preventDefault();
 
         const ADS_URL = `${process.env.REACT_APP_ADS}/ads/${storeBusinessNumber}`;
-        const width = 500;
+        const width = 400;
         const height = 800;
         const left = window.screenX + (window.innerWidth / 4) * 2 + (window.innerWidth / 4 - width) / 2;
+        const top = window.screenY + (window.outerHeight - height) / 2;
+
+        window.open(
+            ADS_URL,
+            "_blank",
+            `width=${width},height=${height},top=${top},left=${left}`
+        );
+    };
+
+    const handleLightClick = (event, storeBusinessNumber) => {
+        event.preventDefault();
+
+        const ADS_URL = `${process.env.REACT_APP_ADS}/ads/light/${storeBusinessNumber}`;
+        const width = 455;
+        const height = 800;
+        const left = window.screenX + (window.outerWidth - width) / 2;
         const top = window.screenY + (window.outerHeight - height) / 2;
 
         window.open(
@@ -136,6 +152,9 @@ const LocStoreList = ({ data }) => {
                             </th>
                             <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                                 정보 등록
+                            </th>
+                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                                임시
                             </th>
                             <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
                                 지점명
@@ -219,6 +238,16 @@ const LocStoreList = ({ data }) => {
                                             className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
                                         >
                                             wizAD
+                                        </button>
+                                    </div>
+                                </td>
+                                <td className="border border-gray-300 px-4 py-2 text-center">
+                                    <div className="flex justify-center space-x-3">
+                                        <button
+                                            onClick={(e) => handleLightClick(e, item.store_business_number)}
+                                            className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
+                                        >
+                                            임시
                                         </button>
                                     </div>
                                 </td>

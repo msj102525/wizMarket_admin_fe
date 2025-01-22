@@ -19,6 +19,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.8.1",
     "react-toastify": "^10.0.6",
+    "swiper": "^11.2.1",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },

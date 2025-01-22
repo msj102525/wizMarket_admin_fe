@@ -15,6 +15,7 @@ import LocStoreContent from "./pages/LocStoreContent/LocStoreContent";
 import BizDetailCategoryContent from "./pages/BizDetailCategoryContent/BizDetailCategoryContent";
 import Ads from "./pages/Ads/AdsContent"
 import TestNewGptModel from "./pages/TestNewGptModel/TestNewGptModel"
+import TestDrawImage from "./pages/TestDrawImage/TestDrawImage";
 
 
 const Router = () => {
@@ -36,6 +37,7 @@ const Router = () => {
         <Route path="/detail/category/content" element={<BizDetailCategoryContent />} />
         <Route path="/ads" element={<Ads />} />
         <Route path="/test/gpt/model" element={<TestNewGptModel />} />
+        <Route path="/test/draw/image" element={<TestDrawImage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -118,7 +118,7 @@ const LocStore = () => {
         }
 
         const matchType = isLikeSearch ? '=' : 'LIKE';  // isIncludeMatch가 체크되었는지에 따라 결정
-        console.log(filters)
+        // console.log(filters)
         try {
             const response = await axios.post(
                 `${process.env.REACT_APP_FASTAPI_BASE_URL}/loc/store/select/store/list`,
