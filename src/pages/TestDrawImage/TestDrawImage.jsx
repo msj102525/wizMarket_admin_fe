@@ -60,7 +60,7 @@ const TestDrawImage = () => {
         setMidLoading(true);
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_ADS_URL}/ads/generate/image/mid`, {
+                `${process.env.REACT_APP_FASTAPI_ADS_URL}/ads/generate/image/mid/test`, {
                 prompt: midPrompt, // stablePrompt 값을 전송
             }, {
                 headers: {
