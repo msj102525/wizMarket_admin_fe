@@ -65,7 +65,7 @@ const LocStoreList = ({ data }) => {
         event.preventDefault();
 
         const REPORT_URL = `${process.env.REACT_APP_REPORT}/wizmarket/report/${store_business_id}`;
-        const width = 365;
+        const width = 412;
         const height = 900;
         const left = window.screenX + (window.outerWidth - width) / 2;
         const top = window.screenY + (window.outerHeight - height) / 2;
