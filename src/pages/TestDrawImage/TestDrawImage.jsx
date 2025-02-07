@@ -18,6 +18,7 @@ const TestDrawImage = () => {
     const [midPrompt, setMidPrompt] = useState('');
     const [midImage, setMidImage] = useState([]);
     const [midLoading, setMidLoading] = useState(false);
+    const [midMessage, setMidMessage] = useState('')
 
     const generateStable = async () => {
         setStableLoading(true);
@@ -58,20 +59,29 @@ const TestDrawImage = () => {
 
     const generateMid = async () => {
         setMidLoading(true);
+        setMidMessage('')
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_ADS_URL}/ads/generate/image/mid/test`, {
-                prompt: midPrompt, // stablePrompt 값을 전송
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
+                `${process.env.REACT_APP_FASTAPI_ADS_URL}/ads/generate/image/mid/test`,
+                {
+                    prompt: midPrompt, // stablePrompt 값을 전송
                 },
-            }
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    timeout: 180000, // ⏳ 180초(180,000ms) 후 타임아웃 설정
+                }
             );
+    
             setMidLoading(false);
-            setMidImage(response.data.images)
+            setMidImage(response.data.images);
         } catch (err) {
-            console.error('Error generating image:', err);
+            if (err.code === "ECONNABORTED") {
+                setMidMessage('⏳ 요청 시간이 초과되었습니다 (180초 제한) 재 요청 해주세요')
+            } else {
+                console.error("Error generating image:", err);
+            }
             setMidLoading(false);
         }
     };
@@ -222,6 +232,7 @@ const TestDrawImage = () => {
                                     </button>
                                 )}
                             </section>
+                            
 
                             {/* 생성된 이미지 */}
                             <section className="w-full items-center">
@@ -261,6 +272,7 @@ const TestDrawImage = () => {
                                     </button>
                                 )}
                             </section>
+                            {midMessage}
 
                             {/* 이미지 영역 */}
                             <section className="items-center">
@@ -271,7 +283,7 @@ const TestDrawImage = () => {
                                         pagination={{ clickable: true }}
                                         spaceBetween={30}
                                         slidesPerView={1}
-                                        className="max-w-[600px] mt-4"
+                                        className="max-w-[500px] mt-4"
                                     >
                                         {midImage.map((image, index) => (
                                             <SwiperSlide key={index}>

@@ -59,6 +59,29 @@ const PopulationSearchForm = ({ onSearch, isList, dataDate }) => {
         setEndDate(dataDate?.[dataDate.length - 1]?.ref_date || '');
     };
 
+    const ageGroups = [
+        { value: "age_under_10s", label: "10대 미만" },
+        { value: "age_10s", label: "10대" },
+        { value: "age_20s", label: "20대" },
+        { value: "age_30s", label: "30대" },
+        { value: "age_40s", label: "40대" },
+        { value: "age_50s", label: "50대" },
+        { value: "age_plus_60s", label: "60대 이상" },
+    ];
+
+    // 연령대 인덱스 찾기 함수
+    const getAgeIndex = (value) => ageGroups.findIndex((age) => age.value === value);
+
+    const handleMinChange = (e) => {
+        const newMin = e.target.value;
+        setAgeGroupMin(newMin);
+
+        // 현재 선택된 최대값이 최소값보다 작다면 자동으로 최소값과 동일하게 설정
+        if (ageGroupMax && getAgeIndex(ageGroupMax) < getAgeIndex(newMin)) {
+            setAgeGroupMax(newMin);
+        }
+    };
+
     return (
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full ">
             <div className="p-4 bg-[#F3F5F7]">
@@ -89,33 +112,35 @@ const PopulationSearchForm = ({ onSearch, isList, dataDate }) => {
                             <label className="block mb-1 font-extrabold">연령대</label>
                         </div>
                         <div className="w-full flex gap-4">
+                            {/* 최소 연령 선택 */}
                             <select
                                 value={ageGroupMin}
-                                onChange={(e) => setAgeGroupMin(e.target.value)}
-                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                                onChange={handleMinChange}
+                                className="p-2 border border-[#DDDDDD] rounded w-1/5"
                             >
                                 <option value="">이상</option>
-                                <option value="age_under_10s">10대 미만</option>
-                                <option value="age_10s">10대</option>
-                                <option value="age_20s">20대</option>
-                                <option value="age_30s">30대</option>
-                                <option value="age_40s">40대</option>
-                                <option value="age_50s">50대</option>
-                                <option value="age_plus_60s">60대 이상</option>
-                            </select>~
+                                {ageGroups.map((age) => (
+                                    <option key={age.value} value={age.value}>
+                                        {age.label}
+                                    </option>
+                                ))}
+                            </select>
+                            ~
+                            {/* 최대 연령 선택 */}
                             <select
                                 value={ageGroupMax}
                                 onChange={(e) => setAgeGroupMax(e.target.value)}
-                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/5"
+
                             >
                                 <option value="">이하</option>
-                                <option value="age_under_10s">10대 미만</option>
-                                <option value="age_10s">10대</option>
-                                <option value="age_20s">20대</option>
-                                <option value="age_30s">30대</option>
-                                <option value="age_40s">40대</option>
-                                <option value="age_50s">50대</option>
-                                <option value="age_plus_60s">60대 이상</option>
+                                {ageGroups
+                                    .filter((age) => !ageGroupMin || getAgeIndex(age.value) >= getAgeIndex(ageGroupMin))
+                                    .map((age) => (
+                                        <option key={age.value} value={age.value}>
+                                            {age.label}
+                                        </option>
+                                    ))}
                             </select>
                         </div>
                     </div>
@@ -127,7 +152,7 @@ const PopulationSearchForm = ({ onSearch, isList, dataDate }) => {
                             <select
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/5"
                             >
                                 <option value="">이상</option>
                                 {dataDate?.map((date) => (
@@ -139,7 +164,7 @@ const PopulationSearchForm = ({ onSearch, isList, dataDate }) => {
                             <select
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
-                                className="p-2 border border-[#DDDDDD] rounded w-1/6"
+                                className="p-2 border border-[#DDDDDD] rounded w-1/5"
                             >
                                 <option value="">이하</option>
                                 {dataDate?.map((date) => (
