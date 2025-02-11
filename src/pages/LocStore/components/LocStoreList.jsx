@@ -119,6 +119,25 @@ const LocStoreList = ({ data }) => {
         );
     };
 
+    const handleTemplateClick = (event, storeBusinessNumber) => {
+        event.preventDefault();
+
+        const currentPort = window.location.port;
+        const ADS_PORT = currentPort === "3000" ? "3002" : "82";  
+
+        const ADS_URL = `${process.env.REACT_APP_BASE_URL}:${ADS_PORT}/ads/temp/${storeBusinessNumber}`;
+        const width = 455;
+        const height = 800;
+        const left = window.screenX + (window.outerWidth - width) / 2;
+        const top = window.screenY + (window.outerHeight - height) / 2;
+
+        window.open(
+            ADS_URL,
+            "_blank",
+            `width=${width},height=${height},top=${top},left=${left}`
+        );
+    };
+
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedStoreBusinessNumber, setSelectedStoreBusinessNumber] = useState(null);
@@ -290,7 +309,13 @@ const LocStoreList = ({ data }) => {
                                         return labels.length > 0 ? labels.join(", ") : ""; // 조건에 맞는 텍스트 표시
                                     })()}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.building_name}</td>
+                                <td 
+                                    className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden"
+                                    onClick={(e) => handleTemplateClick(e, item.store_business_number)}
+                                >
+                                    {item.building_name}
+                                    
+                                </td>
                                 <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
                                     {item.road_name_address && (
                                         <>

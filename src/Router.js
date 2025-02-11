@@ -16,6 +16,7 @@ import BizDetailCategoryContent from "./pages/BizDetailCategoryContent/BizDetail
 import Ads from "./pages/Ads/AdsContent"
 import TestNewGptModel from "./pages/TestNewGptModel/TestNewGptModel"
 import TestDrawImage from "./pages/TestDrawImage/TestDrawImage";
+import RemoveBackground from "./pages/RemoveBackground/RemoveBackground";
 
 
 const Router = () => {
@@ -38,6 +39,7 @@ const Router = () => {
         <Route path="/ads" element={<Ads />} />
         <Route path="/test/gpt/model" element={<TestNewGptModel />} />
         <Route path="/test/draw/image" element={<TestDrawImage />} />
+        <Route path="/test/remove/background" element={<RemoveBackground />} />
       </Routes>
     </BrowserRouter>
   );
