@@ -280,7 +280,11 @@ const LocStoreList = ({ data }) => {
                                         </button>
                                     </div>
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.branch_name}</td>
+                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden"
+                                    onClick={(e) => handleTemplateClick(e, item.store_business_number)}
+                                >
+                                    {item.branch_name}
+                                </td>
                                 <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.city_name}</td>
                                 <td className="border border-gray-300 px-4 py-2 mb:py-4 ">{item.district_name}</td>
                                 <td className="border border-gray-300 px-4 py-2 mb:py-4">{item.sub_district_name}</td>
@@ -311,7 +315,7 @@ const LocStoreList = ({ data }) => {
                                 </td>
                                 <td 
                                     className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden"
-                                    onClick={(e) => handleTemplateClick(e, item.store_business_number)}
+                                    
                                 >
                                     {item.building_name}
                                     
