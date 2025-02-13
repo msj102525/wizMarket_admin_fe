@@ -126,8 +126,8 @@ const LocStoreList = ({ data }) => {
         const ADS_PORT = currentPort === "3000" ? "3002" : "82";  
 
         const ADS_URL = `${process.env.REACT_APP_BASE_URL}:${ADS_PORT}/ads/temp/${storeBusinessNumber}`;
-        const width = 455;
-        const height = 800;
+        const width = 393;
+        const height = 900;
         const left = window.screenX + (window.outerWidth - width) / 2;
         const top = window.screenY + (window.outerHeight - height) / 2;
 
