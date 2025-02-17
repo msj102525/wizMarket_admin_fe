@@ -123,7 +123,8 @@ const LocStoreList = ({ data }) => {
         event.preventDefault();
 
         const currentPort = window.location.port;
-        const ADS_PORT = currentPort === "3000" ? "3002" : "82";  
+        // const ADS_PORT = currentPort === "3000" ? "3002" : "82";  
+        const ADS_PORT = currentPort === "3000" ? "3002" : "53002";  
 
         const ADS_URL = `${process.env.REACT_APP_BASE_URL}:${ADS_PORT}/ads/temp/${storeBusinessNumber}`;
         const width = 393;
