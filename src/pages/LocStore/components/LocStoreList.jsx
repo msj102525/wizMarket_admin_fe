@@ -104,7 +104,7 @@ const LocStoreList = ({ data }) => {
         event.preventDefault();
 
         const currentPort = window.location.port;
-        const ADS_PORT = currentPort === "3000" ? "3002" : "82";  
+        const ADS_PORT = currentPort === "3000" ? "3002" : "82";
 
         const ADS_URL = `${process.env.REACT_APP_BASE_URL}:${ADS_PORT}/ads/light/${storeBusinessNumber}`;
         const width = 455;
@@ -124,7 +124,7 @@ const LocStoreList = ({ data }) => {
 
         const currentPort = window.location.port;
         // const ADS_PORT = currentPort === "3000" ? "3002" : "82";  
-        const ADS_PORT = currentPort === "3000" ? "3002" : "53002";  
+        const ADS_PORT = currentPort === "3000" ? "3002" : "53002";
 
         const ADS_URL = `${process.env.REACT_APP_BASE_URL}:${ADS_PORT}/ads/temp/${storeBusinessNumber}`;
         const width = 393;
@@ -161,84 +161,84 @@ const LocStoreList = ({ data }) => {
     return (
         <div>
             <div className="w-full overflow-x-auto">
-                <div className="w-full">
+                <div className="w-full hidden sm:block">
                     <DataLengthDown data={data} filename="loc_store.xlsx" />
                 </div>
                 <p className='mb-4'>기준 : {data[0]?.local_year || "정보 없음"}년 {data[0]?.local_quarter || "정보 없음"}분기</p>
-                <table className="min-w-full border-collapse border border-gray-200 text-sm truncate px-4 py-2">
-                    <thead className="bg-gray-200">
+                <table className="min-w-full border-collapse border border-gray-200 text-sm truncate p-4">
+                    <thead className="sm:bg-gray-200">
                         <tr>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 코드
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
+                            <th className="border border-gray-300 p-4 ">
                                 <div className="flex justify-center items-center">
-                                    지점명
-                                    <button onClick={() => handleSort('store_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                    매장명 / 지점명
+                                    <button onClick={() => handleSort('store_name')} className="ml-2 flex flex-col items-center justify-center p-2">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>
                                     </button>
                                 </div>
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
-                                정보 등록
+                            <th className="border border-gray-300 p-4">
+                                wizAd
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 임시
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 지점명
                             </th>
-                            <th className="border border-gray-300 px-4 py-2">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 <div className="flex justify-center items-center">
                                     시/도
-                                    <button onClick={() => handleSort('city_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                    <button onClick={() => handleSort('city_name')} className="ml-2 flex flex-col items-center justify-center p-2">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>
                                     </button>
                                 </div>
                             </th>
-                            <th className="border border-gray-300 px-4 py-2">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 <div className="flex justify-center items-center">
                                     시/군/구
-                                    <button onClick={() => handleSort('district_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                    <button onClick={() => handleSort('district_name')} className="ml-2 flex flex-col items-center justify-center p-2">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>
                                     </button>
                                 </div>
                             </th>
-                            <th className="border border-gray-300 px-4 py-2">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 <div className="flex justify-center items-center">
                                     읍/면/동
-                                    <button onClick={() => handleSort('sub_district_name')} className="ml-2 flex flex-col items-center justify-center px-2 py-1">
+                                    <button onClick={() => handleSort('sub_district_name')} className="ml-2 flex flex-col items-center justify-center p-2">
                                         <span className="text-xs">▲</span>
                                         <span className="text-xs">▼</span>
                                     </button>
                                 </div>
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">출처</th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">출처</th>
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 대분류
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 중분류
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
+                            <th className="border border-gray-300 p-4 ">
                                 소분류
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 표준산업분류명
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell ">
                                 제휴사
                             </th>
-                            {/* <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            {/* <th className="border border-gray-300 p-4 hidden sm:table-cell">
                             평점
                         </th> */}
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 건물명
                             </th>
-                            <th className="border border-gray-300 px-4 py-2 mb:text-3xl mb:hidden">
+                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 주소
                             </th>
                         </tr>
@@ -246,8 +246,8 @@ const LocStoreList = ({ data }) => {
                     <tbody>
                         {currentData.map((item, index) => (
                             <tr key={index} className="border-t ">
-                                <td className="border border-gray-300 px-4 py-2 text-center mb:hidden">{item.store_business_number}</td>
-                                <td className="border border-gray-300 px-4 py-2">
+                                <td className="border border-gray-300 p-4 text-cente  hidden sm:table-cell">{item.store_business_number}</td>
+                                <td className="border border-gray-300 p-4">
                                     <p
                                         className="cursor-pointer hover:text-blue-600 inline-block"
                                         onClick={(e) => handleLinkClick(e, item.store_business_number)}
@@ -255,54 +255,54 @@ const LocStoreList = ({ data }) => {
                                         {item.store_name}
                                     </p>
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">
+                                <td className="border border-gray-300 p-4 text-center">
                                     <div className="flex justify-center space-x-3">
                                         <button
                                             onClick={() => handleClick(item.store_business_number)}
-                                            className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
+                                            className=" hidden sm:block bg-blue-300 text-white p-2 rounded border border-gray-300 hover:border-gray-400"
                                         >
                                             정보 등록
                                         </button>
                                         <button
                                             onClick={(e) => handleModalClick(e, item.store_business_number)}
-                                            className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
+                                            className="bg-blue-300 text-white p-2 rounded border border-gray-300 hover:border-gray-400"
                                         >
                                             wizAD
                                         </button>
                                     </div>
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">
+                                <td className="border border-gray-300 p-4 text-center  hidden sm:table-cell">
                                     <div className="flex justify-center space-x-3">
                                         <button
                                             onClick={(e) => handleLightClick(e, item.store_business_number)}
-                                            className="bg-blue-300 text-white px-2 py-1 rounded border border-gray-300 hover:border-gray-400"
+                                            className="bg-blue-300 text-white p-2 rounded border border-gray-300 hover:border-gray-400"
                                         >
                                             임시
                                         </button>
                                     </div>
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden"
+                                <td className="border border-gray-300 p-4 hidden sm:table-cell"
                                     onClick={(e) => handleTemplateClick(e, item.store_business_number)}
                                 >
                                     {item.branch_name}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.city_name}</td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 ">{item.district_name}</td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4">{item.sub_district_name}</td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                <td className="border border-gray-300 p-4 hidden sm:table-cell">{item.city_name}</td>
+                                <td className="border border-gray-300 p-4 hidden sm:table-cell">{item.district_name}</td>
+                                <td className="border border-gray-300 p-4 hidden sm:table-cell">{item.sub_district_name}</td>
+                                <td className="border border-gray-300 p-4 hidden sm:table-cell">
                                     {item.source === 1 ? "나이스 비즈맵" : "상권정보분류표"}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                <td className="border border-gray-300 p-4 hidden sm:table-cell">
                                     {item.source === 1 ? item.BIZ_MAIN_CATEGORY_NAME : item.large_category_name}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                <td className="border border-gray-300 p-4 hidden sm:table-cell">
                                     {item.source === 1 ? item.BIZ_SUB_CATEGORY_NAME : item.medium_category_name}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 ">
+                                <td className="border border-gray-300 p-4">
                                     {item.source === 1 ? item.BIZ_DETAIL_CATEGORY_NAME : item.small_category_name}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">{item.industry_name}</td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                <td className="border border-gray-300 p-4 hidden sm:table-cell">{item.industry_name}</td>
+                                <td className="border border-gray-300 p-4 hidden sm:table-cell">
                                     {(() => {
                                         const labels = [];
                                         if (item.jsam === 1) {
@@ -314,14 +314,14 @@ const LocStoreList = ({ data }) => {
                                         return labels.length > 0 ? labels.join(", ") : ""; // 조건에 맞는 텍스트 표시
                                     })()}
                                 </td>
-                                <td 
-                                    className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden"
-                                    
+                                <td
+                                    className="border border-gray-300 p-4 hidden sm:table-cell"
+
                                 >
                                     {item.building_name}
-                                    
+
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 mb:py-4 mb:hidden">
+                                <td className="border border-gray-300 p-4 hidden sm:table-cell">
                                     {item.road_name_address && (
                                         <>
                                             {item.road_name_address}

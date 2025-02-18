@@ -29,7 +29,7 @@ const DropdownWithCheckboxesString = ({ selectedOptions, setSelectedOptions, opt
   }, [isOpen]);
 
   return (
-    <div className="relative inline-block w-1/6" ref={dropdownRef}>
+    <div className="relative inline-block w-full" ref={dropdownRef}>
       <button
         onClick={toggleDropdown}
         className="px-4 py-2 bg-white text-gray-400 p-2 border border-[#DDDDDD] rounded w-full text-left"
@@ -43,7 +43,7 @@ const DropdownWithCheckboxesString = ({ selectedOptions, setSelectedOptions, opt
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10 p-3">
+        <div className="absolute left-0 mt-2  bg-white border border-gray-300 rounded-md shadow-lg z-10 p-3">
           {options.map((option, index) => (
             <label key={index} className="flex items-center space-x-2">
               <input

@@ -43,8 +43,14 @@
   }
 
   /* Mobile */
-  @media (max-width: 450px) {
+  @media (max-width: 640px) {
     html { 
       font-size : 6px; 
       }    
   }
+
+  /* 줄바꿈 시 단어 단위로 처리 */
+.no-widow {
+  white-space: nowrap;  
+  word-break: keep-all;
+}

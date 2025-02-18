@@ -36,7 +36,7 @@ const LocInfoListSearchForm = ({
             <div className="p-4 bg-[#F3F5F7]">
                 <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">지역 검색</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -68,7 +68,7 @@ const LocInfoListSearchForm = ({
                     </div>
 
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">기준 년월</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -83,7 +83,7 @@ const LocInfoListSearchForm = ({
 
                 <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">업소 (개)</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -111,7 +111,7 @@ const LocInfoListSearchForm = ({
 
 
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">유동인구</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -138,7 +138,7 @@ const LocInfoListSearchForm = ({
                     </div>
 
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">매출</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -165,7 +165,7 @@ const LocInfoListSearchForm = ({
                     </div>
 
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">직장인구</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -192,7 +192,7 @@ const LocInfoListSearchForm = ({
                     </div>
 
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">소득</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -219,7 +219,7 @@ const LocInfoListSearchForm = ({
                     </div>
 
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">소비</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -245,7 +245,7 @@ const LocInfoListSearchForm = ({
                         </div>
                     </div>
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">주거인구</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -271,7 +271,7 @@ const LocInfoListSearchForm = ({
                         </div>
                     </div>
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">세대수</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -299,7 +299,7 @@ const LocInfoListSearchForm = ({
 
                     
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">아파트 가격</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -325,7 +325,7 @@ const LocInfoListSearchForm = ({
                         </div>
                     </div>
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">J-Score</label>
                         </div>
                         <div className="w-full flex gap-4">

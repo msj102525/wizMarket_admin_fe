@@ -46,7 +46,7 @@ const AdsSearchFrom = ({
             <div className="p-4 bg-[#F3F5F7]">
                 {/* 상호 검색 */}
                 <div className="mb-4 flex gap-4 mb:flex-row">
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/5 text-center content-center">
                         <label className="block mb-1 font-extrabold text-lg mb:text-4xl">매장명 검색</label>
                     </div>
                     <div className="relative w-full">
@@ -107,7 +107,7 @@ const AdsSearchFrom = ({
                             </div>
                         )}
                     </div>
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/5 text-center content-center">
                         <label className="block mb-1 font-extrabold">광고 채널</label>
                     </div>
                     <select
@@ -123,7 +123,7 @@ const AdsSearchFrom = ({
                         <option value="네이버 블로그">네이버 블로그</option>
                         <option value="배너">배너 (377x377)</option>
                     </select>
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/5 text-center content-center">
                         <label className="block mb-1 font-extrabold">주제</label>
                     </div>
                     <select

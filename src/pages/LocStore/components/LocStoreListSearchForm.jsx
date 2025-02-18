@@ -58,10 +58,10 @@ const LocStoreListSearchForm = ({
 
     return (
         <div className="relative border border-[#DDDDDD] rounded-lg shadow-md w-full">
-            <div className="p-4 bg-[#F3F5F7]">
+            <div className="p-4 sm:bg-[#F3F5F7]">
                 {/* 상호 검색 */}
                 <div className="mb-4 flex gap-4 mb:flex-row">
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/5 text-center content-center">
                         <label className="block mb-1 font-extrabold text-lg mb:text-4xl">상호 검색</label>
                     </div>
                     <div className="relative w-full">
@@ -75,7 +75,7 @@ const LocStoreListSearchForm = ({
                                 placeholder="상호명을 입력하세요"
                                 className="p-2 border border-[#DDDDDD] rounded w-full"
                             />
-                            <div className="flex items-center gap-2 w-full mb:w-1/6">
+                            <div className="items-center gap-2 w-full mb:w-1/6  hidden sm:flex">
                                 <input
                                     type="checkbox"
                                     id="includeSearch"
@@ -126,8 +126,8 @@ const LocStoreListSearchForm = ({
 
                 {/* 카테고리 검색 */}
                 <div className="mb-4 flex gap-4 mb:flex-row">
-                    <div className="w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold text-lg mb:text-4xl">카테고리 검색</label>
+                    <div className="w-1/5 text-center content-center">
+                        <label className="block mb-1 font-extrabold text-lg mb:text-4xl">업종 검색</label>
                     </div>
                     <div className="w-full flex gap-4">
                         <CategorySelect
@@ -149,7 +149,7 @@ const LocStoreListSearchForm = ({
 
                 {/* 지역 검색 */}
                 <div className="mb-4 flex gap-4 mb:flex-row">
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/5 text-center content-center">
                         <label className="block mb-1 font-extrabold text-lg mb:text-4xl">지역 검색</label>
                     </div>
                     <div className="w-full flex gap-4">
@@ -169,8 +169,8 @@ const LocStoreListSearchForm = ({
                 </div>
                 
                 <div className="mb-4 flex gap-4 mb:flex-row">
-                    <div className="w-1/6 text-center content-center">
-                        <label className="block mb-1 font-extrabold text-lg mb:text-4xl">제휴사 검색</label>
+                    <div className="w-1/5 text-center content-center">
+                        <label className="block mb-1 font-extrabold text-lg mb:text-4xl">제휴 검색</label>
                     </div>
                     <div className="w-full flex gap-4">
                         <LocStoreDropDown
@@ -181,10 +181,10 @@ const LocStoreListSearchForm = ({
                     </div>
                 </div> 
                
-                <p className="text-s mb:text-sm text-gray-500">
+                <p className="text-xl sm:text-sm text-gray-500">
                     * 나이스 비즈맵의 경우 시간 소요가 더 오래 걸립니다.
                 </p>
-                <p className="text-s mb:text-sm text-gray-500">
+                <p className="text-xl sm:text-sm text-gray-500">
                     * 데이터 양이 많아 원활한 검색을 위해 가능한 많은 조건, 좁은 조건을 추가해주세요.
                 </p>
             </div>

@@ -145,7 +145,7 @@ const BizDeatilCategoryContentInsertModal = ({
                 <div>
                     {/* 카테고리 검색 */}
                     <div className="mb-4 flex gap-4 mb:flex-row">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold text-lg mb:text-4xl">카테고리 선택</label>
                         </div>
                         <div className="w-full flex gap-4">

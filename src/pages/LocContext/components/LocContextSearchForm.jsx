@@ -14,7 +14,7 @@ const LocContextSearchForm = ({
         <div className="border border-[#DDDDDD] rounded-lg shadow-md w-full h-full ">
             <div className="pt-4 bg-[#F3F5F7] h-full flex flex-col justify-between">
                 <div className="mb-4 flex gap-4">
-                    <div className="w-1/6 text-center content-center">
+                    <div className="w-1/5 text-center content-center">
                         <label className="block mb-1 font-extrabold">지역 검색</label>
                     </div>
                     <div className="w-full">

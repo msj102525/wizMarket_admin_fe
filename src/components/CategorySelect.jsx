@@ -90,36 +90,41 @@ const CategorySelect = ({
     ];
 
     return (
-        <div className="flex gap-4 w-full flex-wrap mb:text-4xl">
-            <CustomSelect
-                options={refOption}
-                value={reference}
-                onChange={handleReferenceChange}
-                placeholder="출처"
-            />
-            <CustomSelect
-                options={mainOptions}
-                value={mainCategory}
-                onChange={handleMainCategoryChange}
-                placeholder="대분류"
-                disabled={reference === '0' || reference === '출처'}
-            />
-            <CustomSelect
-                options={subOptions}
-                value={subCategory}
-                onChange={handleSubCategoryChange}
-                placeholder="중분류"
-                disabled={mainCategory === '0' || reference === '출처'}
-            />
-            <CustomSelect
-                options={detailOptions}
-                value={detailCategory}
-                onChange={setDetailCategory}
-                placeholder="소분류"
-                disabled={subCategory === '0' || reference === '출처'}
-            />
+        <div className="flex flex-wrap gap-4 w-full mb:text-4xl">
+            <div className="flex w-full sm:w-auto gap-4">
+                <CustomSelect
+                    options={refOption}
+                    value={reference}
+                    onChange={handleReferenceChange}
+                    placeholder="출처"
+                />
+                <CustomSelect
+                    options={mainOptions}
+                    value={mainCategory}
+                    onChange={handleMainCategoryChange}
+                    placeholder="대분류"
+                    disabled={reference === '0' || reference === '출처'}
+                />
+            </div>
+            <div className="flex w-full sm:w-auto gap-4">
+                <CustomSelect
+                    options={subOptions}
+                    value={subCategory}
+                    onChange={handleSubCategoryChange}
+                    placeholder="중분류"
+                    disabled={mainCategory === '0' || reference === '출처'}
+                />
+                <CustomSelect
+                    options={detailOptions}
+                    value={detailCategory}
+                    onChange={setDetailCategory}
+                    placeholder="소분류"
+                    disabled={subCategory === '0' || reference === '출처'}
+                />
+            </div>
         </div>
     );
+
 };
 
 export default CategorySelect;

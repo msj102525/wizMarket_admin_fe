@@ -12,14 +12,14 @@ const SectionHeader = ({ title, isList, handleToggle, mapDisable }) => {
                     <button
                         onClick={handleToggle}
                         className={`flex px-6 justify-center items-center gap-2 flex-shrink-0 
-                        ${!isList ? 'rounded-l-full bg-white text-black' : 'rounded-l-full bg-black text-white'}`}
+                        ${!isList ? 'rounded-l-xl bg-[#f0f0f0] text-black' : 'rounded-l-xl bg-[#0095FE] text-white'}`}
                     >
                         List
                     </button>
                     <button
                         onClick={handleToggle}
                         className={`flex px-6 justify-center items-center gap-2 flex-shrink-0 
-                        ${isList ? 'rounded-r-full bg-white text-black' : 'rounded-r-full bg-black text-white'}`}
+                        ${isList ? 'rounded-r-xl bg-[#f0f0f0] text-black' : 'rounded-r-rounded-l-xl bg-[#0095FE] text-white'}`}
                     >
                         Map
                     </button>

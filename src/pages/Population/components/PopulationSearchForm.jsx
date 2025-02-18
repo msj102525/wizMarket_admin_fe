@@ -87,7 +87,7 @@ const PopulationSearchForm = ({ onSearch, isList, dataDate }) => {
             <div className="p-4 bg-[#F3F5F7]">
                 <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">지역 검색</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -108,7 +108,7 @@ const PopulationSearchForm = ({ onSearch, isList, dataDate }) => {
 
                 <div className={`gap-4 ${isList ? 'grid grid-cols-2' : ''}`}>
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">연령대</label>
                         </div>
                         <div className="w-full flex gap-4">
@@ -145,7 +145,7 @@ const PopulationSearchForm = ({ onSearch, isList, dataDate }) => {
                         </div>
                     </div>
                     <div className="mb-4 flex gap-4">
-                        <div className="w-1/6 text-center content-center">
+                        <div className="w-1/5 text-center content-center">
                             <label className="block mb-1 font-extrabold">기준 년월</label>
                         </div>
                         <div className="w-full flex gap-4">
