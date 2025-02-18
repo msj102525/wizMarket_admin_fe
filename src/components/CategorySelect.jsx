@@ -10,7 +10,7 @@ const CustomSelect = ({ options, value, onChange, placeholder, disabled }) => {
                 onClick={() => !disabled && setIsOpen(!isOpen)}
             >
                 <div className="flex justify-between items-center">
-                    <span>{value === '0' ? placeholder : options.find(opt => opt.value === value)?.label || placeholder}</span>
+                    <span className='no-widow'>{value === '0' ? placeholder : options.find(opt => opt.value === value)?.label || placeholder}</span>
                     <div className="w-[11px]">
                         <img className="block w-full h-auto" src={require("../assets/form/dropdownArrow.png")} alt="Dropdown Arrow" />
                     </div>
