@@ -265,10 +265,16 @@ const LocStoreList = ({ data }) => {
                                         </button>
                                         <button
                                             onClick={(e) => handleModalClick(e, item.store_business_number)}
-                                            className="bg-blue-300 text-white p-2 rounded border border-gray-300 hover:border-gray-400"
+                                            className="hidden sm:block bg-blue-300 text-white p-2 rounded border border-gray-300 hover:border-gray-400"
                                         >
                                             wizAD
                                         </button>
+                                        <td className="block sm:hidden bg-blue-300 text-white p-2 rounded border border-gray-300 hover:border-gray-400"
+                                            onClick={(e) => handleTemplateClick(e, item.store_business_number)}
+                                        >
+                                            wizAD
+                                            {item.branch_name}
+                                        </td>
                                     </div>
                                 </td>
                                 <td className="border border-gray-300 p-4 text-center  hidden sm:table-cell">

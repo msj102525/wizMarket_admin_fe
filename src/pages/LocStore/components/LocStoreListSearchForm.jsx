@@ -91,7 +91,7 @@ const LocStoreListSearchForm = ({
                                 <div className="flex justify-between p-2">
                                     <span className="font-bold text-gray-700">최근 검색어</span>
                                     <button
-                                        className="text-sm text-red-500"
+                                        className="text-2xl sm:text-sm text-red-500"
                                         onClick={handleDeleteAll}
                                     >
                                         전체 삭제
@@ -108,7 +108,7 @@ const LocStoreListSearchForm = ({
                                         >
                                             <span>{term}</span>
                                             <button
-                                                className="text-sm text-red-500"
+                                                className="text-2xl sm:text-sm text-red-500"
                                                 onClick={(e) => {
                                                     e.stopPropagation(); // 부모 클릭 이벤트 차단
                                                     handleDeleteSearchTerm(term);

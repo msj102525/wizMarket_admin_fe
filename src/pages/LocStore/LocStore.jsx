@@ -226,7 +226,7 @@ const LocStore = () => {
                         {error && <p className="text-red-500">오류가 발생했습니다: {error}</p>}  {/* 오류 상태 처리 */}
 
                         {/* 데이터가 있으면 리스트 출력 */}
-                        <div className="w-full overflow-x-auto">
+                        <div className="w-full overflow-x-auto pt-32 sm:pt-0">
                             {!loading && !error && <LocStoreList data={searchResults} />}
                         </div>
 
