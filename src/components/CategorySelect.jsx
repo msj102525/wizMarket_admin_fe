@@ -4,7 +4,7 @@ const CustomSelect = ({ options, value, onChange, placeholder, disabled }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="relative flex-1">
+        <div className="relative flex-1 min-w-28">
             <div
                 className={`p-2 border rounded cursor-pointer ${disabled ? 'bg-[#EDEDED] border-[#DDDDDD]' : 'bg-[#FFFFFF] border-[#DDDDDD]'}`}
                 onClick={() => !disabled && setIsOpen(!isOpen)}
