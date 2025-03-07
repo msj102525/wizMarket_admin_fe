@@ -126,7 +126,7 @@ const LocStoreList = ({ data }) => {
         // const ADS_PORT = currentPort === "3000" ? "3002" : "82";  
         const ADS_PORT = currentPort === "3000" ? "3002" : "53002";
 
-        const ADS_URL = `${process.env.REACT_APP_BASE_URL}:${ADS_PORT}/ads/temp/${storeBusinessNumber}`;
+        const ADS_URL = `${process.env.REACT_APP_BASE_URL}:${ADS_PORT}/ads/temp2/${storeBusinessNumber}`;
         const width = 393;
         const height = 900;
         const left = window.screenX + (window.outerWidth - width) / 2;
@@ -183,9 +183,9 @@ const LocStoreList = ({ data }) => {
                             <th className="border border-gray-300 p-4">
                                 wizAd
                             </th>
-                            <th className="border border-gray-300 p-4 hidden sm:table-cell">
+                            {/* <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 임시
-                            </th>
+                            </th> */}
                             <th className="border border-gray-300 p-4 hidden sm:table-cell">
                                 지점명
                             </th>
@@ -277,7 +277,7 @@ const LocStoreList = ({ data }) => {
                                         </td>
                                     </div>
                                 </td>
-                                <td className="border border-gray-300 p-4 text-center  hidden sm:table-cell">
+                                {/* <td className="border border-gray-300 p-4 text-center  hidden sm:table-cell">
                                     <div className="flex justify-center space-x-3">
                                         <button
                                             onClick={(e) => handleLightClick(e, item.store_business_number)}
@@ -286,7 +286,7 @@ const LocStoreList = ({ data }) => {
                                             임시
                                         </button>
                                     </div>
-                                </td>
+                                </td> */}
                                 <td className="border border-gray-300 p-4 hidden sm:table-cell"
                                     onClick={(e) => handleTemplateClick(e, item.store_business_number)}
                                 >
