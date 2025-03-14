@@ -18,6 +18,12 @@ const TestGenerateVideo = () => {
     const [music, setMusic] = useState(null);
     const [musicLoading, setMusicLoading] = useState(false)
 
+
+    const [sunoPrompt, setSunoPrompt] = useState(''); // bgm 내용
+    const [suno, setSuno] = useState(null);
+    const [sunoLoading, setSunoLoading] = useState(false)
+
+
     // 파일 선택 시 미리보기 및 파일 저장
     const previewImage = (e) => {
         const file = e.target.files[0];
@@ -34,6 +40,10 @@ const TestGenerateVideo = () => {
 
     const MusicEditChange = (event) => {
         setMusicPrompt(event.target.value); // 상태 업데이트
+    };
+
+    const SunoEditChange = (event) => {
+        setSunoPrompt(event.target.value); // 상태 업데이트
     };
 
 
@@ -89,6 +99,30 @@ const TestGenerateVideo = () => {
             console.error("저장 중 오류 발생:", err);
         } finally {
             setMusicLoading(false);
+        }
+    };
+
+    const generateSuno = async () => {
+        setSunoLoading(true);
+        const basicInfo = {
+            prompt: sunoPrompt,
+        };
+
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_FASTAPI_ADS_URL}/ads/test/generate/suno`,
+                basicInfo,
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+            if (response.data.music) {
+                setSuno(response.data.music); // 🖼️ 변환된 비디오 URL을 저장
+            } else {
+                console.error("음악 생성 실패:", response.data);
+            }
+        } catch (err) {
+            console.error("저장 중 오류 발생:", err);
+        } finally {
+            setSunoLoading(false);
         }
     };
 
@@ -160,7 +194,7 @@ const TestGenerateVideo = () => {
 
                         {/* 음악 생성 */}
                         <div className='w-full flex flex-row gap-4'>
-                            
+                            {/* 무료 */}
                             <section className="items-center justify-center flex flex-col">
                                 <textarea
                                     className="p-2 border rounded"
@@ -187,6 +221,39 @@ const TestGenerateVideo = () => {
                                     <div className="items-center mt-4">
                                         <audio controls>
                                             <source src={`data:audio/mp3;base64,${music}`} type="audio/mp3" />
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    </div>
+                                )}
+                            </section>
+
+                            {/* suno 생성 */}
+                            <section className="items-center justify-center flex flex-col">
+                                <textarea
+                                    className="p-2 border rounded"
+                                    placeholder="내용을 입력하세요"
+                                    rows="17"
+                                    cols="50"
+                                    value={sunoPrompt} // 상태 값 연결
+                                    onChange={SunoEditChange} // 입력 값 변경 처리
+                                ></textarea>
+                                <button
+                                    className="py-2 w-1/3 m-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all flex items-center justify-center"
+                                    onClick={generateSuno}
+                                    disabled={sunoLoading}
+                                >
+                                    {sunoLoading ? (
+                                        <div className="w-6 h-6 border-4 border-white border-solid border-t-transparent rounded-full animate-spin"></div>
+                                    ) : (
+                                        "suno 생성"
+                                    )}
+                                </button>
+                            </section>
+                            <section>
+                                {suno && (
+                                    <div className="items-center mt-4">
+                                        <audio controls>
+                                            <source src={`data:audio/mp3;base64,${suno}`} type="audio/mp3" />
                                             Your browser does not support the audio element.
                                         </audio>
                                     </div>

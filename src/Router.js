@@ -18,7 +18,7 @@ import TestNewGptModel from "./pages/TestNewGptModel/TestNewGptModel"
 import TestDrawImage from "./pages/TestDrawImage/TestDrawImage";
 import RemoveBackground from "./pages/RemoveBackground/RemoveBackground";
 import TestGenerateVideo from "./pages/TestGenerateVideo/TestGenerateVideo";
-import TestEditImage from "./pages/TestEditImage/TestEditImage";
+
 
 const Router = () => {
   return (
@@ -42,7 +42,6 @@ const Router = () => {
         <Route path="/test/draw/image" element={<TestDrawImage />} />
         <Route path="/test/remove/background" element={<RemoveBackground />} />
         <Route path="/test/generate/video" element={<TestGenerateVideo />} />
-        <Route path="/test/edit/image" element={<TestEditImage />} />
       </Routes>
     </BrowserRouter>
   );

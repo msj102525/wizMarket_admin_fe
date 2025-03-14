@@ -100,25 +100,6 @@ const LocStoreList = ({ data }) => {
         );
     };
 
-    const handleLightClick = (event, storeBusinessNumber) => {
-        event.preventDefault();
-
-        const currentPort = window.location.port;
-        const ADS_PORT = currentPort === "3000" ? "3002" : "82";
-
-        const ADS_URL = `${process.env.REACT_APP_BASE_URL}:${ADS_PORT}/ads/light/${storeBusinessNumber}`;
-        const width = 455;
-        const height = 800;
-        const left = window.screenX + (window.outerWidth - width) / 2;
-        const top = window.screenY + (window.outerHeight - height) / 2;
-
-        window.open(
-            ADS_URL,
-            "_blank",
-            `width=${width},height=${height},top=${top},left=${left}`
-        );
-    };
-
     const handleTemplateClick = (event, storeBusinessNumber) => {
         event.preventDefault();
 
