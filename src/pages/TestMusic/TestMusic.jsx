@@ -75,7 +75,7 @@ const TestMusic = () => {
 
             if (taskId) {
                 // 3. 일정 시간 대기 후 생성된 음악을 확인하는 POST 요청 보내기
-                const waitTime = 5000; // 5초 대기 (조정 가능)
+                const waitTime = 10000; // 10초 대기 (조정 가능)
                 console.log(`taskId: ${taskId} 확인을 위해 ${waitTime / 1000}초 대기 중...`);
 
                 const taskInfo = {

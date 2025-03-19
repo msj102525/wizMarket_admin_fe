@@ -161,7 +161,7 @@ const TestGenerateVideo = () => {
         const basicInfo = {
             prompt: url,
             gpt_role: type,
-            ratio: ratio
+            detail_content: ratio
         };
 
         try {
