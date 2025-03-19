@@ -71,17 +71,21 @@ const TestMusic = () => {
             console.log(response.data);
 
             // 2. taskId 반환 (음악 생성 요청 후 taskId를 받아옴)
-            const parsedResponse = JSON.parse(response.data.task_id);
-            const taskId = parsedResponse.data.task_id;
+            const taskId = response.data.task_id;
 
             if (taskId) {
                 // 3. 일정 시간 대기 후 생성된 음악을 확인하는 POST 요청 보내기
                 const waitTime = 5000; // 5초 대기 (조정 가능)
                 console.log(`taskId: ${taskId} 확인을 위해 ${waitTime / 1000}초 대기 중...`);
+
+                const taskInfo = {
+                    prompt: taskId,
+                };
+
                 setTimeout(async () => {
                     const resultResponse = await axios.post(
                         `${process.env.REACT_APP_PUBLIC_URL}/ads/test/check/music`,
-                        { taskId } // taskId를 POST 바디에 전달
+                        taskInfo
                     );
                     console.log(resultResponse.data);
 
