@@ -79,7 +79,7 @@ const TestMusic = () => {
                 console.log(`taskId: ${taskId} 확인을 위해 ${waitTime / 1000}초 대기 중...`);
 
                 const taskInfo = {
-                    prompt: taskId,
+                    taskId: taskId,
                 };
 
                 setTimeout(async () => {
