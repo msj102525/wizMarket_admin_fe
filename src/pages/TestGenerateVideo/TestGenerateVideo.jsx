@@ -195,6 +195,8 @@ const TestGenerateVideo = () => {
                     {/* 좌우 영역 컨테이너 */}
 
                     <div className='flex flex-col pt-2'>
+                        <p className="pb-8 font-bold text-2xl">영상 생성</p>
+
                         {/* 비디오 생성 테스트 */}
                         <div className='w-full flex flex-row gap-4'>
                             <div className='flex flex-col'>
@@ -251,8 +253,11 @@ const TestGenerateVideo = () => {
                         </div>
 
                         {/* 배경 생성 */}
-                        <div className='w-full flex flex-row gap-4'>
+                        <div className='w-full flex flex-row gap-4 pt-10'>
+                            
                             <div className='flex flex-col'>
+                            <p className="pb-8 font-bold text-2xl">배경 생성</p>
+
                                 <section className='flex'>
                                     <input type="file" accept="image/*" onChange={bgviewImage} />
                                 </section>
