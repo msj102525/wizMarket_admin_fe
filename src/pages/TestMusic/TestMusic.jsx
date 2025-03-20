@@ -41,7 +41,7 @@ const TestMusic = () => {
         };
         try {
             const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_ADS_URL}/ads/test/generate/lyrics`,
+                `${process.env.REACT_APP_PUBLIC_URL}/ads/test/generate/lyrics`,
                 basicInfo
             );
             setLyricsPrompt(response.data.lyrics)
@@ -55,56 +55,56 @@ const TestMusic = () => {
 
     // 음악 생성
     const generateMusic = async () => {
+       
         setMusicLoading(true);
+
         const basicInfo = {
             prompt: lyricsPrompt,
             gpt_role: stylePrompt,
-            detail_content: titlePrompt
+            detail_content: titlePrompt,
         };
-        console.log(basicInfo)
+        console.log("음악 생성 요청 중:", basicInfo);
+
         try {
             // 1. 음악 생성 요청
             const response = await axios.post(
-                `${process.env.REACT_APP_FASTAPI_ADS_URL}/ads/test/generate/music`,
+                `${process.env.REACT_APP_PUBLIC_URL}/ads/test/generate/music`,
                 basicInfo
             );
-            console.log(response.data);
+            console.log("음악 생성 응답:", response.data);
 
-            // 2. taskId 반환 (음악 생성 요청 후 taskId를 받아옴)
+            // 2. taskId 반환
             const taskId = response.data.task_id;
 
             if (taskId) {
-                // 3. 일정 시간 대기 후 생성된 음악을 확인하는 POST 요청 보내기
-                const waitTime = 10000; // 10초 대기 (조정 가능)
+                const waitTime = 180000; // 3분 대기 (충분한 시간으로 조정)
                 console.log(`taskId: ${taskId} 확인을 위해 ${waitTime / 1000}초 대기 중...`);
 
-                const taskInfo = {
-                    taskId: taskId,
-                };
+                // 3. 일정 시간 대기 (음악 생성 대기)
+                await new Promise((resolve) => setTimeout(resolve, waitTime));
 
-                setTimeout(async () => {
-                    const resultResponse = await axios.post(
-                        `${process.env.REACT_APP_PUBLIC_URL}/ads/test/check/music`,
-                        taskInfo
-                    );
-                    console.log(resultResponse.data);
+                // 4. 생성된 음악 확인 요청
+                const resultResponse = await axios.post(
+                    `${process.env.REACT_APP_PUBLIC_URL}/ads/test/check/music`,
+                    { taskId }
+                );
+                console.log("음악 생성 결과:", resultResponse.data);
 
-                    // 4. 결과 처리
-                    if (resultResponse.data && resultResponse.data.music) {
-                        setMusic(resultResponse.data.music); // 생성된 음악 URL 저장
-                    } else {
-                        console.error("음악 생성 실패:", resultResponse.data);
-                    }
-                }, waitTime); // 지정된 시간 후에 결과 확인 요청
+                if (resultResponse.data && resultResponse.data.music) {
+                    setMusic(resultResponse.data.music); // 생성된 음악 URL 저장
+                } else {
+                    console.error("음악 생성 실패:", resultResponse.data);
+                }
             } else {
                 console.error("음악 생성 실패: taskId 없음");
             }
         } catch (err) {
             console.error("저장 중 오류 발생:", err);
         } finally {
-            setMusicLoading(false);
+            setMusicLoading(false); // 로딩 상태 해제 위치 조정
         }
     };
+
 
 
 
@@ -122,6 +122,7 @@ const TestMusic = () => {
                         {/* 음악 생성 테스트 */}
                         <div className='w-full flex flex-row gap-4'>
                             <section className="items-center justify-center flex flex-col gap-6">
+                                <p>테스트 코드 - 생성시간 3분으로 설정, 최적화 필요</p>
                                 <textarea
                                     className="p-2 border rounded"
                                     placeholder="제목 프롬프트(80자)"
@@ -173,19 +174,20 @@ const TestMusic = () => {
                             </section>
                             <section>
                                 {music && music.length > 0 && (
-                                    <div className="items-center mt-4">
+                                    <div className="flex flex-col items-center mt-4 gap-4"> {/* Flexbox와 gap 적용 */}
                                         {music.map((audioUrl, index) => (
                                             <audio
                                                 key={index}
                                                 src={audioUrl}
                                                 alt={`생성된 오디오 ${index + 1}`}
-                                                className="max-h-96 rounded-md shadow-md"
+                                                className="max-h-96 mb-4"  // 각 오디오 간 간격을 위해 margin-bottom 추가
                                                 controls
                                             />
                                         ))}
                                     </div>
                                 )}
                             </section>
+
                         </div>
                     </div>
                 </main>
