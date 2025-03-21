@@ -142,6 +142,26 @@ const Aside = () => {
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                                 <Link to="/ads">wizAD</Link>
                             </li>
+                        </div>
+                    </ul>
+                    <ul className='border'>
+                        <li
+                            className="text-xl p-2 flex justify-between items-center cursor-pointer leading-10"
+                            onClick={() => toggleSection('section4')}
+                        >
+                            <div className="flex items-center">
+                                <div className="w-7 h-7">
+                                    <img className='block w-full h-auto' src={require("../assets/aside/aside_api_img.png")} alt="user-img" />
+                                </div>
+                                <p className='ml-2'>API 기능 테스트</p>
+                            </div>
+                            <p className='text-4xl'>
+                                {isOpen.section4 ? '-' : '+'}
+                            </p>
+                        </li>
+                        <div
+                            className={`transition-[max-height] duration-300 ease-in-out overflow-hidden ${isOpen.section4 ? 'max-h-[500px]' : 'max-h-0'}`}
+                        >
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                                 <Link to="/test/gpt/model">gpt 새 모델 테스트</Link>
                             </li>

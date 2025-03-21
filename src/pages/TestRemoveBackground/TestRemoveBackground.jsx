@@ -3,7 +3,7 @@ import Header from '../../components/Header';
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const RemoveBackground = () => {
+const TestRemoveBackground = () => {
 
 
     // 배경 제거 관련 상태값
@@ -164,4 +164,4 @@ const RemoveBackground = () => {
     );
 }
 
-export default RemoveBackground;
+export default TestRemoveBackground;
