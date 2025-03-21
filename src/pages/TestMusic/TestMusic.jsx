@@ -63,7 +63,7 @@ const TestMusic = () => {
             gpt_role: stylePrompt,
             detail_content: titlePrompt,
         };
-        console.log("음악 생성 요청 중:", basicInfo);
+        // console.log("음악 생성 요청 중:", basicInfo);
 
         try {
             // 1. 음악 생성 요청
@@ -71,14 +71,14 @@ const TestMusic = () => {
                 `${process.env.REACT_APP_PUBLIC_URL}/ads/test/generate/music`,
                 basicInfo
             );
-            console.log("음악 생성 응답:", response.data);
+            // console.log("음악 생성 응답:", response.data);
 
             // 2. taskId 반환
             const taskId = response.data.task_id;
 
             if (taskId) {
                 const waitTime = 180000; // 3분 대기 (충분한 시간으로 조정)
-                console.log(`taskId: ${taskId} 확인을 위해 ${waitTime / 1000}초 대기 중...`);
+                // console.log(`taskId: ${taskId} 확인을 위해 ${waitTime / 1000}초 대기 중...`);
 
                 // 3. 일정 시간 대기 (음악 생성 대기)
                 await new Promise((resolve) => setTimeout(resolve, waitTime));
@@ -88,7 +88,7 @@ const TestMusic = () => {
                     `${process.env.REACT_APP_PUBLIC_URL}/ads/test/check/music`,
                     { taskId }
                 );
-                console.log("음악 생성 결과:", resultResponse.data);
+                // console.log("음악 생성 결과:", resultResponse.data);
 
                 if (resultResponse.data && resultResponse.data.music) {
                     setMusic(resultResponse.data.music); // 생성된 음악 URL 저장
