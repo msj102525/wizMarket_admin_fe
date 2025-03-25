@@ -7,6 +7,7 @@ const Aside = () => {
         section2: true,
         section3: true,
         section4: true,
+        section5: true
     });
 
     const toggleSection = (section) => {
@@ -147,7 +148,7 @@ const Aside = () => {
                     <ul className='border'>
                         <li
                             className="text-xl p-2 flex justify-between items-center cursor-pointer leading-10"
-                            onClick={() => toggleSection('section4')}
+                            onClick={() => toggleSection('section5')}
                         >
                             <div className="flex items-center">
                                 <div className="w-7 h-7">
@@ -156,11 +157,11 @@ const Aside = () => {
                                 <p className='ml-2'>API 기능 테스트</p>
                             </div>
                             <p className='text-4xl'>
-                                {isOpen.section4 ? '-' : '+'}
+                                {isOpen.section5 ? '-' : '+'}
                             </p>
                         </li>
                         <div
-                            className={`transition-[max-height] duration-300 ease-in-out overflow-hidden ${isOpen.section4 ? 'max-h-[500px]' : 'max-h-0'}`}
+                            className={`transition-[max-height] duration-300 ease-in-out overflow-hidden ${isOpen.section5 ? 'max-h-[500px]' : 'max-h-0'}`}
                         >
                             <li className='p-4 hover:bg-gray-200 text-slate-700 text-lg'>
                                 <Link to="/test/gpt/model">gpt 새 모델 테스트</Link>
